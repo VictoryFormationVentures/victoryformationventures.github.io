@@ -4452,13 +4452,14 @@
 
   <script>
   // ============================================================
-  // Land Activity Finder (Austin). Texas does not disclose sale prices, so this
-  // shows what is public: recent LLC land transfers (WCAD, Hays CAD) with the
+  // Land Comp Generator (Austin). Texas does not disclose sale prices, so this
+  // shows what is public: recent LLC land transfers (TCAD, WCAD, Hays CAD) with the
   // appraisal district's land value, and City of Austin new-residential permits
   // (builder, phone, sqft). Real sold prices come from Unlock MLS.
   // ============================================================
   (function () {
     const LA_META = {"austin": {"label": "Austin", "county": "travis", "zip": "78702"}, "west-lake-hills": {"label": "West Lake Hills", "county": "travis", "zip": "78746"}, "lakeway": {"label": "Lakeway", "county": "travis", "zip": "78734"}, "bee-cave": {"label": "Bee Cave", "county": "travis", "zip": "78738"}, "pflugerville": {"label": "Pflugerville", "county": "travis", "zip": "78660"}, "manor": {"label": "Manor", "county": "travis", "zip": "78653"}, "round-rock": {"label": "Round Rock", "county": "williamson", "zip": "78664"}, "cedar-park": {"label": "Cedar Park", "county": "williamson", "zip": "78613"}, "leander": {"label": "Leander", "county": "williamson", "zip": "78641"}, "georgetown": {"label": "Georgetown", "county": "williamson", "zip": "78628"}, "hutto": {"label": "Hutto", "county": "williamson", "zip": "78634"}, "kyle": {"label": "Kyle", "county": "hays", "zip": "78640"}, "buda": {"label": "Buda", "county": "hays", "zip": "78610"}, "san-marcos": {"label": "San Marcos", "county": "hays", "zip": "78666"}, "dripping-springs": {"label": "Dripping Springs", "county": "hays", "zip": "78620"}};
+    const TCAD_URL = 'https://gis.traviscountytx.gov/server1/rest/services/Boundaries_and_Jurisdictions/TCAD/MapServer/0/query';
     const WCAD_URL = 'https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0/query';
     const HAYS_URL = 'https://services6.arcgis.com/j94FvPaik4etwHFk/arcgis/rest/services/HaysCADWebService1/FeatureServer/0/query';
     const PERMITS_URL = 'https://data.austintexas.gov/resource/3syk-w9eu.json';
@@ -4477,12 +4478,36 @@
       return d;
     }
 
+    const ENTITY = f => '(' + ['%LLC%','%L L C%','%LP','%LTD%','%INC%','%HOMES%','%PARTNERS%','%BUILDERS%','%DEVELOPMENT%','%CAPITAL%','%HOLDINGS%','%INVESTMENTS%','%PROPERTIES%','%TRUST%'].map(k => f + " LIKE '" + k + "'").join(' OR ') + ')';
+
+    // Travis County: TCAD layer with owner, deed instrument number (year-prefixed), land + improvement values.
+    async function findTcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand }) {
+      const yrs = yearsBack(months).map(y => "deed_num LIKE '" + y + "%'").join(' OR ');
+      const where = ["situs_zip='" + zip + "'", '(' + yrs + ')', 'tcad_acres >= ' + minAc, 'tcad_acres <= ' + maxAc];
+      if (llcOnly) where.push(ENTITY('py_owner_name'));
+      if (vacantOnly) where.push("((imprv_homesite_val IS NULL OR imprv_homesite_val < 5000) AND (imprv_non_homesite_val IS NULL OR imprv_non_homesite_val < 5000))");
+      if (maxLand) where.push('market_value <= ' + maxLand);
+      const u = TCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
+        outFields: 'PROP_ID,situs_address,py_owner_name,deed_num,tcad_acres,market_value,land_homesite_val,land_non_homesite_val,imprv_homesite_val,imprv_non_homesite_val,land_state_cd,land_type_desc,legal_desc',
+        orderByFields: 'deed_num DESC', resultRecordCount: '400' });
+      const d = await getJSON(u);
+      return (d.features || []).map(f => f.attributes).map(a => {
+        const inst = String(a.deed_num || '');
+        const land = (+a.land_homesite_val || 0) + (+a.land_non_homesite_val || 0);
+        const imp = (+a.imprv_homesite_val || 0) + (+a.imprv_non_homesite_val || 0);
+        return { src: 'TCAD', owner: a.py_owner_name || '', date: /^\d{4}/.test(inst) ? new Date(+inst.slice(0, 4), 0, 1) : null, dateLabel: /^\d{4}/.test(inst) ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—', inst,
+          acres: a.tcad_acres != null ? +a.tcad_acres : null, landVal: land || a.market_value || null, impVal: imp, use: a.land_type_desc || '',
+          address: (a.situs_address || a.legal_desc || '').replace(/\s+\d{5}$/, ''), link: a.PROP_ID ? 'https://travis.prodigycad.com/property-detail/' + a.PROP_ID : '', linkLabel: 'TCAD' };
+      });
+    }
+
     // Williamson County: deed instrument numbers start with the recording year.
-    async function findWcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly }) {
+    async function findWcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand }) {
       const yrs = yearsBack(months).map(y => "InstrumentNumber LIKE '" + y + "%'").join(' OR ');
       const where = ["Szip='" + zip + "'", '(' + yrs + ')'];
-      if (llcOnly) where.push("(OWNERNME1 LIKE '%LLC%' OR OWNERNME1 LIKE '%L L C%' OR OWNERNME1 LIKE '%LP' OR OWNERNME1 LIKE '%LTD%' OR OWNERNME1 LIKE '%INC%' OR OWNERNME1 LIKE '%HOMES%' OR OWNERNME1 LIKE '%PARTNERS%')");
+      if (llcOnly) where.push(ENTITY('OWNERNME1'));
       if (vacantOnly) where.push('(TotalImpMktValue IS NULL OR TotalImpMktValue < 5000)');
+      if (maxLand) where.push('TotalLandMktValue <= ' + maxLand);
       const u = WCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
         outFields: 'OWNERNME1,InstrumentNumber,Acres,AssessedAc,StatedAc,USEDSCRP,TotalLandMktValue,TotalImpMktValue,SitusAddress,LegalDesc,PARCELID,DateLastChanged',
         orderByFields: 'InstrumentNumber DESC', resultRecordCount: '300' });
@@ -4497,11 +4522,12 @@
     }
 
     // Hays CAD: Deed_Date is a MM/DD/YYYY string; filter by year server-side, sort client-side.
-    async function findHays({ zip, minAc, maxAc, months, llcOnly, vacantOnly }) {
+    async function findHays({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand }) {
       const yrs = yearsBack(months).map(y => "Deed_Date LIKE '%/" + y + "'").join(' OR ');
       const where = ["situs_zip LIKE '" + zip + "%'", '(' + yrs + ')', 'legal_acreage >= ' + minAc, 'legal_acreage <= ' + maxAc];
-      if (llcOnly) where.push("(file_as_name LIKE '%LLC%' OR file_as_name LIKE '%L L C%' OR file_as_name LIKE '%LP' OR file_as_name LIKE '%LTD%' OR file_as_name LIKE '%INC%' OR file_as_name LIKE '%HOMES%' OR file_as_name LIKE '%PARTNERS%')");
+      if (llcOnly) where.push(ENTITY('file_as_name'));
       if (vacantOnly) where.push('(imprv_val IS NULL OR imprv_val < 5000)');
+      if (maxLand) where.push('land_val <= ' + maxLand);
       const u = HAYS_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
         outFields: 'file_as_name,Deed_Date,legal_acreage,land_val,imprv_val,situs_num,situs_street,situs_city,situs_zip,prop_id,legal_desc', resultRecordCount: '300' });
       const d = await getJSON(u);
@@ -4541,7 +4567,7 @@
       const builders = topN(permits, 'builder', 6);
       let h = '';
       h += '<div class="la-tiles">' +
-        tile('LLC land transfers', transfers.length, ctx.months + ' mo') +
+        tile('LLC land buys', transfers.length, 'last ' + ctx.months + ' mo') +
         tile('Median appraised $/ac', medPerAc ? fmtUSD(medPerAc) : '—', 'land value') +
         tile('Avg appraised $/ac', avgPerAc ? fmtUSD(avgPerAc) : '—', withVal.length + ' with values') +
         tile('New-build permits', permits.length, 'City of Austin') +
@@ -4555,7 +4581,7 @@
           '</div></div>';
       }
 
-      h += '<div class="la-sec"><h4><span>Recent LLC land transfers · ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac</span>' + (meta.county === 'travis' && ctx.city !== 'austin' ? '' : '') + '</h4>';
+      h += '<div class="la-sec"><h4><span>Recent LLC land buys · ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac · ZIP ' + esc(ctx.zip) + '</span></h4>';
       if (transfers.length) {
         h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">Appraised land</th><th class="num">$/ac</th><th>Record</th></tr></thead><tbody>';
         transfers.slice(0, 40).forEach(r => {
@@ -4564,8 +4590,6 @@
             '<td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.linkLabel) + '</a>' : '') + '</td></tr>';
         });
         h += '</tbody></table></div>';
-      } else if (meta.county === 'travis') {
-        h += '<div class="la-empty">TCAD does not publish owner names or deed dates in its public map layer, so transfer history for Travis County parcels has to be pulled per property: open the parcel in the Property Lookup above and use the <b>TCAD property record</b> link (Deed History tab). Williamson and Hays results still show here for ZIPs that cross county lines.</div>';
       } else {
         h += '<div class="la-empty">No LLC land transfers found in ' + esc(ctx.zip) + ' for the last ' + esc(ctx.months) + ' months at ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac. Widen the acreage or look-back, or turn off "vacant only".</div>';
       }
@@ -4595,13 +4619,14 @@
       const city = el.getAttribute('data-city');
       const meta = LA_META[city] || { label: city, zip: '' };
       el.innerHTML = '<div class="la-wrap">' +
-        '<h3>Land Activity Finder · ' + esc(meta.label) + '</h3>' +
-        '<p class="la-sub">Who is buying and building in a ZIP: recent LLC land transfers from the appraisal district (owner, recorded year, acres, appraised land value) plus new-residential permits with the builder’s name and phone. Austin’s answer to sale comps in a state that does not publish sale prices.</p>' +
+        '<h3>Land Comp Generator · ' + esc(meta.label) + '</h3>' +
+        '<p class="la-sub">Recent LLC-purchased lots in a ZIP within a target acreage range, straight from the appraisal district (TCAD, WCAD or Hays CAD by ZIP): buyer, recording year, acres, appraised land value and $/acre, plus new-build permits with the builder’s name and phone. Texas does not publish sale prices, so use this to find the buyers and rank the lots, then confirm price on Unlock MLS.</p>' +
         '<form class="la-form">' +
         '<div><label>ZIP code</label><input type="text" name="zip" required pattern="[0-9]{5}" maxlength="5" value="' + esc(meta.zip) + '"></div>' +
         '<div><label>Min acres</label><input type="number" name="minAc" step="0.01" min="0" value="0.15"></div>' +
         '<div><label>Max acres</label><input type="number" name="maxAc" step="0.01" min="0" value="2"></div>' +
         '<div><label>Look back (mo)</label><input type="number" name="months" min="1" max="60" value="12"></div>' +
+        '<div><label>Max land value</label><input type="number" name="maxLand" min="0" step="10000" placeholder="no cap"></div>' +
         '<label class="la-check"><input type="checkbox" name="llcOnly" checked> LLC / builder buyers only</label>' +
         '<label class="la-check"><input type="checkbox" name="vacantOnly" checked> Vacant land only</label>' +
         '<div><button type="submit">Find activity</button></div>' +
@@ -4610,15 +4635,16 @@
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const f = new FormData(form);
-        const ctx = { city, zip: String(f.get('zip')).trim(), minAc: +f.get('minAc') || 0, maxAc: +f.get('maxAc') || 999, months: Math.max(1, +f.get('months') || 12), llcOnly: !!f.get('llcOnly'), vacantOnly: !!f.get('vacantOnly') };
+        const ctx = { city, zip: String(f.get('zip')).trim(), minAc: +f.get('minAc') || 0, maxAc: +f.get('maxAc') || 999, months: Math.max(1, +f.get('months') || 12), llcOnly: !!f.get('llcOnly'), vacantOnly: !!f.get('vacantOnly'), maxLand: +f.get('maxLand') || 0 };
         if (ctx.maxAc < ctx.minAc) ctx.maxAc = ctx.minAc;
-        const btn = form.querySelector('button'); btn.disabled = true; status.textContent = 'Querying WCAD, Hays CAD and City of Austin permits…'; results.innerHTML = '';
+        const btn = form.querySelector('button'); btn.disabled = true; status.textContent = 'Querying TCAD, WCAD, Hays CAD and City of Austin permits…'; results.innerHTML = '';
         const errors = []; let transfers = [], permits = [];
-        const [w, hy, pm] = await Promise.allSettled([findWcad(ctx), findHays(ctx), findPermits(ctx)]);
+        const [t, w, hy, pm] = await Promise.allSettled([findTcad(ctx), findWcad(ctx), findHays(ctx), findPermits(ctx)]);
+        if (t.status === 'fulfilled') transfers = transfers.concat(t.value); else errors.push('TCAD (' + t.reason.message + ')');
         if (w.status === 'fulfilled') transfers = transfers.concat(w.value); else errors.push('WCAD (' + w.reason.message + ')');
         if (hy.status === 'fulfilled') transfers = transfers.concat(hy.value); else errors.push('Hays CAD (' + hy.reason.message + ')');
         if (pm.status === 'fulfilled') permits = pm.value; else errors.push('Austin permits (' + pm.reason.message + ')');
-        transfers.sort((a, b) => (b.date ? b.date.getTime() : 0) - (a.date ? a.date.getTime() : 0));
+        transfers.sort((a, b) => ((b.date ? b.date.getTime() : 0) - (a.date ? a.date.getTime() : 0)) || String(b.inst || '').localeCompare(String(a.inst || '')));
         status.textContent = transfers.length + ' transfer' + (transfers.length === 1 ? '' : 's') + ' and ' + permits.length + ' permit' + (permits.length === 1 ? '' : 's') + ' found.';
         render(results, { transfers, permits, errors, ctx });
         btn.disabled = false;
