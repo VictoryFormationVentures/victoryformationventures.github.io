@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Market Intel · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#f6f2ea" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f6f2ea; --bg-elev: #fbf9f4; --panel: #fbf9f4; --panel-edge: #d9d0bf;
+      --rule: #d9d0bf; --rule-strong: #c9bfab; --text: #111111; --text-muted: #5a564e;
+      --text-dim: #8a8579; --accent: #8a7a4b; --soft: #f1ece2; --soft2: #ede7da;
+      --good: #3f7a3f; --bad: #b03030;
+      --font-body: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+    body { font-family: var(--font-body); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ==================== Top bar (matches land.html) ==================== */
+    .topbar { position: sticky; top: 0; z-index: 50; background: #f6f2ea; border-bottom: 1px solid var(--panel-edge); display: flex; align-items: center; gap: 22px; padding: 20px 28px; }
+    .topbar .brand { display: flex; align-items: center; gap: 20px; }
+    .topbar .brand img.arch { width: 60px; height: 60px; object-fit: contain; background: transparent; }
+    .topbar .brand .name { font-family: var(--font-display); font-size: 22px; letter-spacing: .32em; text-transform: uppercase; color: #111111; }
+    .topbar .brand .name small { display: block; font-family: var(--font-body); font-size: 9px; letter-spacing: .28em; color: var(--text-dim); font-weight: 600; margin-top: 4px; }
+    .topbar .spacer { flex: 1; }
+    .topbar .parent-link { font-family: var(--font-body); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted); padding: 6px 12px; border: 1px solid var(--panel-edge); background: transparent; cursor: pointer; }
+    .topbar .parent-link:hover { color: #111111; border-color: #111111; }
+
+    /* ==================== Layout ==================== */
+    .shell { display: grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 100px); }
+    .sidenav { background: #fbf9f4; border-right: 1px solid var(--panel-edge); padding: 22px 18px; position: sticky; top: 100px; height: calc(100vh - 100px); overflow-y: auto; }
+    .sidenav .section-label { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin: 4px 0 10px; }
+    .sidenav .nav-item { display: block; width: 100%; text-align: left; background: transparent; border: 0; color: var(--text-muted); font-family: var(--font-body); font-size: 12px; letter-spacing: .16em; text-transform: uppercase; padding: 10px 12px; margin: 2px 0; cursor: pointer; }
+    .sidenav .nav-item:hover { color: #111111; background: var(--soft); }
+    .sidenav .nav-item.is-active { color: #111111; background: var(--soft); border-left: 2px solid var(--accent); padding-left: 10px; }
+    .sidenav .nav-item small { float: right; color: var(--text-dim); letter-spacing: 0; font-variant-numeric: tabular-nums; }
+    .sidenav .nav-group { margin: 12px 0 4px; }
+    .sidenav .nav-group > summary { list-style: none; cursor: pointer; display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; font-size: 12px; letter-spacing: .16em; text-transform: uppercase; font-weight: 500; color: var(--text-muted); user-select: none; }
+    .sidenav .nav-group > summary::-webkit-details-marker { display: none; }
+    .sidenav .nav-group > summary::after { content: '＋'; color: var(--text-dim); font-size: 12px; }
+    .sidenav .nav-group[open] > summary::after { content: '−'; }
+    .sidenav .nav-group > .nav-item { padding-left: 26px; }
+    .sidenav .nav-group > .nav-item.is-active { padding-left: 24px; }
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidenav { position: static; height: auto; border-right: 0; border-bottom: 1px solid var(--panel-edge); display: flex; flex-wrap: wrap; gap: 2px; padding: 12px; }
+      .sidenav .section-label { width: 100%; }
+      .sidenav .nav-item { width: auto; padding: 8px 10px; font-size: 11px; }
+      .sidenav .nav-item small { display: none; }
+      .sidenav .nav-group { display: contents; }
+      .sidenav .nav-group > summary { display: none; }
+      .topbar { padding: 14px 16px; gap: 12px; }
+      .topbar .brand .name { font-size: 15px; letter-spacing: .2em; }
+      .topbar .brand img.arch { width: 42px; height: 42px; }
+    }
+
+    /* ==================== Content ==================== */
+    .content { padding: 40px 48px 80px; max-width: 1500px; }
+    @media (max-width: 860px) { .content { padding: 24px 16px 60px; } }
+    .division-eyebrow { font-size: 10px; letter-spacing: .32em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; margin-bottom: 10px; }
+    h1.division-title { font-family: var(--font-display); font-size: 52px; letter-spacing: .12em; text-transform: uppercase; color: #111111; margin: 0 0 14px; font-weight: 400; line-height: 1; }
+    h1.division-title small { display: block; font-family: var(--font-body); font-size: 12px; letter-spacing: .3em; color: var(--text-muted); font-weight: 500; margin-top: 14px; text-transform: uppercase; }
+    @media (max-width: 860px) { h1.division-title { font-size: 32px; } }
+    .panel { display: none; margin-top: 8px; }
+    .panel.is-active { display: block; }
+    .panel-intro { font-size: 13px; line-height: 1.6; color: var(--text-muted); max-width: 720px; margin: 0 0 22px; }
+    .toolrow { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 0 0 20px; }
+    .search { flex: 1 1 260px; max-width: 420px; font-family: var(--font-body); font-size: 13px; padding: 10px 12px; background: var(--panel); color: #111111; border: 1px solid var(--rule-strong); }
+    .search:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
+    .btn { font-family: var(--font-body); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; padding: 10px 22px; cursor: pointer; background: var(--accent); color: #f6f2ea; border: 1px solid var(--accent); transition: opacity .15s; }
+    .btn:hover { opacity: .85; }
+    .btn.ghost { background: transparent; color: #111111; border-color: var(--panel-edge); }
+    .btn.ghost:hover { border-color: #111111; }
+    .btn.on { background: #111111; border-color: #111111; color: #f6f2ea; }
+    .btn.sm { padding: 6px 12px; font-size: 9.5px; letter-spacing: .16em; }
+
+    /* Stat tiles (matches land overview tiles) */
+    .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; margin-bottom: 28px; }
+    .pl-tile { padding: 20px 22px; background: var(--panel); border: 1px solid var(--rule); }
+    .pl-tile .k { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; }
+    .pl-tile .v { font-family: var(--font-display); font-size: 30px; color: #111111; margin-top: 6px; font-variant-numeric: tabular-nums; }
+    .pl-tile .s { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+
+    /* Research cards */
+    .research-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; margin-bottom: 20px; }
+    @media (max-width: 480px) { .research-grid { grid-template-columns: 1fr; } }
+    .research-card { background: var(--panel); border: 1px solid var(--rule); padding: 18px 20px; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+    .research-card.pri { border-left: 3px solid var(--accent); }
+    .research-card h3 { font-family: var(--font-display); font-size: 12.5px; letter-spacing: .18em; text-transform: uppercase; color: #111111; font-weight: 400; margin: 0; line-height: 1.4; }
+    .research-card.pri h3 { color: var(--accent); }
+    .who { font-size: 12px; color: var(--text-muted); }
+    .why { font-size: 12.5px; line-height: 1.6; color: var(--text); margin: 0; }
+    .meta { font-size: 11.5px; line-height: 1.55; color: var(--text-muted); margin: 0; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tag { font-size: 9px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--text-dim); padding: 3px 8px; background: var(--soft); border: 1px solid var(--rule); }
+    .tag.spec { color: var(--accent); border-color: var(--accent); background: transparent; }
+    .tag.pri { color: #f6f2ea; background: var(--accent); border-color: var(--accent); }
+    .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+    .lnk { font-family: var(--font-body); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; font-weight: 600; padding: 6px 10px; border: 1px solid var(--panel-edge); color: #111111; background: transparent; }
+    .lnk:hover { border-color: #111111; }
+    .lnk.ig { background: #111111; color: #f6f2ea; border-color: #111111; }
+    .lnk.ig:hover { opacity: .8; }
+    .lnk.ig.unv { background: transparent; color: #111111; border-style: dashed; }
+    .empty { color: var(--text-dim); padding: 24px 0; text-align: center; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; }
+
+    /* Pricing bands */
+    .band { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    @media (max-width: 480px) { .band { grid-template-columns: 1fr; } }
+    .band > div { background: var(--soft); padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; min-width: 0; border: 1px solid var(--rule); }
+    .band .lbl { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; }
+    .band b { font-family: var(--font-display); font-size: 17px; color: #111111; font-weight: 400; font-variant-numeric: tabular-nums; }
+    .band .sub { font-size: 11px; color: var(--text-muted); line-height: 1.4; }
+
+    /* Events */
+    .ev { display: grid; grid-template-columns: 96px 1fr; gap: 14px; background: var(--panel); border: 1px solid var(--rule); padding: 14px 16px; margin-bottom: 8px; }
+    .ev.star { border-left: 3px solid var(--accent); }
+    .ev .d { font-family: var(--font-display); font-size: 13px; line-height: 1.3; color: var(--accent); }
+    .ev .d small { display: block; font-family: var(--font-body); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; margin-top: 2px; }
+    .ev h3 { font-family: var(--font-body); font-size: 13px; font-weight: 700; margin: 0 0 3px; color: #111111; }
+    .ev p { margin: 0; font-size: 12px; color: var(--text-muted); line-height: 1.55; }
+
+    /* Tables */
+    .tblh { font-family: var(--font-display); font-size: 14px; letter-spacing: .2em; text-transform: uppercase; margin: 26px 0 10px; font-weight: 400; }
+    .tblwrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--panel); }
+    .research-table { width: 100%; border-collapse: collapse; font-size: 12px; min-width: 860px; }
+    .research-table th { text-align: left; padding: 8px 10px; font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; border-bottom: 1px solid var(--rule); background: var(--soft); }
+    .research-table td { padding: 7px 10px; border-bottom: 1px solid var(--soft2); color: var(--text-muted); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .research-table td:first-child { color: #111111; font-weight: 600; }
+    .research-table td:nth-child(2) { white-space: normal; min-width: 220px; }
+    .research-table a { color: var(--accent); }
+
+    /* Follow list */
+    .follow { background: var(--panel); border: 1px solid var(--rule); padding: 16px 18px; margin-bottom: 12px; }
+    .follow h3 { font-family: var(--font-display); font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 400; margin: 0 0 4px; }
+    .follow p { margin: 0 0 12px; font-size: 11.5px; color: var(--text-muted); }
+    .handles { display: flex; flex-wrap: wrap; gap: 6px; }
+
+    /* Playbook blurbs */
+    .research-blurb { font-size: 12.5px; line-height: 1.65; color: var(--text-muted); max-width: 760px; }
+    .research-blurb p { margin: 0 0 12px; }
+    .research-blurb b { color: var(--text); font-weight: 600; }
+    .blurb-card { background: var(--panel); border: 1px solid var(--rule); padding: 20px 22px; margin-bottom: 14px; }
+    .blurb-card h2 { font-family: var(--font-display); font-size: 12.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 400; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
+
+    /* Proforma */
+    .pfwrap { display: grid; grid-template-columns: 1fr; gap: 14px; }
+    @media (min-width: 900px) { .pfwrap { grid-template-columns: 360px 1fr; } }
+    .pfin { background: var(--panel); border: 1px solid var(--rule); padding: 18px; display: flex; flex-direction: column; gap: 10px; align-self: start; }
+    .fld { display: grid; grid-template-columns: 1fr 110px 44px; align-items: center; gap: 8px; font-size: 12px; }
+    .fld span { color: var(--text-muted); }
+    .fld input, .fld select { font-family: var(--font-body); font-size: 13px; padding: 7px 9px; background: #f6f2ea; color: #111111; border: 1px solid var(--rule-strong); width: 100%; font-variant-numeric: tabular-nums; text-align: right; }
+    .fld select { grid-column: 2 / 4; text-align: left; }
+    .fld input:focus, .fld select:focus { outline: 1px solid var(--accent); outline-offset: -1px; }
+    .fld em { font-style: normal; font-size: 10px; color: var(--text-dim); }
+    .pfout { background: var(--panel); border: 1px solid var(--rule); padding: 18px; }
+    .big { padding: 16px 18px; margin-bottom: 14px; border-left: 3px solid var(--text-dim); background: var(--soft); }
+    .big.good { border-color: var(--good); } .big.ok { border-color: var(--accent); } .big.bad { border-color: var(--bad); }
+    .big span { font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; display: block; }
+    .big b { font-family: var(--font-display); font-size: 30px; font-weight: 400; line-height: 1.1; display: block; margin: 4px 0; font-variant-numeric: tabular-nums; color: #111111; }
+    .big small { font-size: 12px; color: var(--text-muted); }
+    .pft { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+    .pft td { padding: 7px 0; border-bottom: 1px solid var(--soft2); color: var(--text-muted); }
+    .pft td:last-child { text-align: right; font-variant-numeric: tabular-nums; color: #111111; }
+    .pft tr.sub td { font-weight: 700; color: #111111; border-bottom: 2px solid var(--rule-strong); }
+    .research-note { font-size: 10.5px; color: var(--text-dim); font-style: italic; line-height: 1.5; margin: 12px 0 0; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html?hub=1" class="brand" title="Back to hub">
+      <img class="arch" src="assets/icon-arch-transparent.png" alt="" />
+      <div class="name">Market Intel<small>Victory Formation Ventures</small></div>
+    </a>
+    <div class="spacer"></div>
+    <button type="button" class="parent-link" id="btn-refresh" title="Fetch the latest version (bust cache)" style="margin-right:10px;">↻ Refresh</button>
+    <a href="index.html?hub=1" class="parent-link">◫ Switch Division</a>
+  </div>
+  <script>
+    document.getElementById('btn-refresh').addEventListener('click', () => { const u = new URL(location.href); u.searchParams.set('v', Date.now()); location.replace(u.toString()); });
+    // Gate: same pattern as Land. Codes 0000 / 5555 / 7777 unlock for 24h (set by index.html hub).
+    (function(){ try { const raw = localStorage.getItem('vfv.marketIntelUnlock'); const t = raw && JSON.parse(raw); if (!(t && t.ok && (Date.now() - t.ts) < 86400000)) { location.replace('index.html?hub=1'); } } catch (_) { location.replace('index.html?hub=1'); } })();
+  </script>
+
+  <div class="shell">
+    <aside class="sidenav" role="tablist" aria-label="Market Intel sections">
+      <div class="section-label">Market Intel</div>
+      <button type="button" class="nav-item is-active" data-panel="overview">Overview</button>
+      <details class="nav-group" open>
+        <summary>Who's building</summary>
+        <button type="button" class="nav-item" data-panel="builders">Builders <small id="n-builders"></small></button>
+        <button type="button" class="nav-item" data-panel="zspec">Zillow Spec <small id="n-zspec"></small></button>
+        <button type="button" class="nav-item" data-panel="developers">Developers <small id="n-developers"></small></button>
+        <button type="button" class="nav-item" data-panel="architects">Architects <small id="n-architects"></small></button>
+      </details>
+      <details class="nav-group" open>
+        <summary>Numbers</summary>
+        <button type="button" class="nav-item" data-panel="pricing">Spec Pricing <small id="n-pricing"></small></button>
+        <button type="button" class="nav-item" data-panel="proforma">Proforma</button>
+      </details>
+      <details class="nav-group" open>
+        <summary>Deal flow</summary>
+        <button type="button" class="nav-item" data-panel="lots">Lots &amp; Wholesalers <small id="n-lots"></small></button>
+        <button type="button" class="nav-item" data-panel="capital">Capital <small id="n-capital"></small></button>
+        <button type="button" class="nav-item" data-panel="agents">Agents <small id="n-agents"></small></button>
+      </details>
+      <details class="nav-group" open>
+        <summary>Network</summary>
+        <button type="button" class="nav-item" data-panel="events">Events <small id="n-events"></small></button>
+        <button type="button" class="nav-item" data-panel="follow">Follow List</button>
+        <button type="button" class="nav-item" data-panel="play">Playbook</button>
+      </details>
+    </aside>
+
+    <main class="content">
+      <div class="division-eyebrow">Division · Market Intel</div>
+      <h1 class="division-title">Market Intel<small>Builders · pricing · deal flow · Austin metro</small></h1>
+      <div style="height:20px;"></div>
+      <div class="toolrow">
+        <input class="search" id="q" type="search" placeholder="Search names, streets, zips, handles…" aria-label="Search">
+        <span id="updated" style="font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim);">Data as of Sept 16, 2026</span>
+      </div>
+      <section class="panel is-active" id="panel-overview" role="tabpanel"></section>
+      <section class="panel" id="panel-builders" role="tabpanel"></section>
+      <section class="panel" id="panel-zspec" role="tabpanel"></section>
+      <section class="panel" id="panel-developers" role="tabpanel"></section>
+      <section class="panel" id="panel-architects" role="tabpanel"></section>
+      <section class="panel" id="panel-pricing" role="tabpanel"></section>
+      <section class="panel" id="panel-proforma" role="tabpanel"></section>
+      <section class="panel" id="panel-lots" role="tabpanel"></section>
+      <section class="panel" id="panel-capital" role="tabpanel"></section>
+      <section class="panel" id="panel-agents" role="tabpanel"></section>
+      <section class="panel" id="panel-events" role="tabpanel"></section>
+      <section class="panel" id="panel-follow" role="tabpanel"></section>
+      <section class="panel" id="panel-play" role="tabpanel"></section>
+    </main>
+  </div>
+
+  <script>
+const D = {
+builders: [
+{n:"Paradisa Homes",who:"Luis Zaragoza (partner), Diego Conti (RE & finance); sales: Keith",t:["spec","custom","pri"],hood:"Barton Hills, Westlake, Tarrytown, Allandale",why:"Biggest visible luxury spec pipeline in the core: 13 under contract, 16 coming soon, 13 land positions, next spec release Q3 2026, and an explicit investor-build product line. Your closest match to 2K Development.",meta:"(512) 910-4505 · keith@paradisahomes.com · 7427 N Lamar Blvd Ste 101",ig:"paradisahomes",web:"paradisahomes.com"},
+{n:"Urban ATX Development",who:"Leonard Bullard (founder); Tim Withers, Gavin Gallihugh, Jordan Berlin",t:["spec","custom","pri"],hood:"Central Austin, Barton Hills, South Austin, Lake Austin",why:"Highest-ticket spec operator in town: an $18.5M Lake Austin spec, $5M+ Barton Hills specs, pipeline of 55 homes over $2M trimmed to about 25. Holding inventory, so open to conversations.",meta:"Contact via site form",ig:"urban_atx",web:"urban-atx.com"},
+{n:"Gossett & Co.",who:"Jared Gossett (founder)",t:["spec","custom","cap","pri"],hood:"Tarrytown, Zilker, Westlake streets",why:"Ready-Build spec plus Curated Build custom, and a gated investor page raising outside capital for $5M to $8M builds. Jared is personally active on IG and in local press. The most direct door into investing alongside a builder.",meta:"512-842-9904 · hello@gossettco.com · 824 W 10th St Ste 100",ig:"gossettco",ig2:"jaredgossettx",web:"gossettco.com"},
+{n:"Heyl Homes",who:"Pat, Danny and Mike Heyl (Danny runs sales)",t:["spec","pri"],hood:"Barton Creek, Amarra, Central Austin",why:"Tagline is literally Luxury Spec Homes. Their $3.5M Amarra spec was Austin's priciest sale in a week of Oct 2025 with no price cut. In-house architecture, proven $1,000/sf exits.",meta:"512-740-1839 (sales) · 512-343-8457 · danny@heylhomes.com",ig:"heylhomestexas",web:"heylhomes.com"},
+{n:"Greater Austin Builders",who:"Keith Howard, Chester Wilson, Macon Foster",t:["spec","custom"],hood:"Zilker, Bouldin Creek",why:"Roughly 50-home spec pipeline in 78704 at $3.3M to $3.85M. Stopped buying land in the downturn, so a potential lot seller and JV partner.",meta:"Contact via site",web:"greateraustinbuilders.com"},
+{n:"Ames Design Build",who:"Brett Ames (founder), Grant Ames, Caroline Ames",t:["spec","custom","dev","pri"],hood:"Madrone Canyon (Bee Cave), Spanish Oaks, Lake Austin, Westlake",why:"Developer-builder controlling 45 lots in Madrone Canyon ($3M to $6M homes) and owner of the $50M Legacy of Lake Austin spec compound, the highest listing in the metro. The builder-as-speculator archetype.",meta:"(512) 688-7565 · info@amesdesignbuild.com",ig:"amesdesignbuild",web:"amesdesignbuild.com"},
+{n:"Otto Design + Build",who:"Andrew and Peter Pevoto (co-founders)",t:["spec","custom"],hood:"Tarrytown, Central Austin",why:"Modern Tarrytown specs (2006 Mountain View, 3411 Bridle Path) and they say outright they build for investors and home buyers. Featured on the Austin Modern Home Tour.",meta:"Contact via site",ig:"ottodesignandbuild",web:"ottodesignandbuild.com"},
+{n:"Cedar & Oak",who:"Holt and Lauren Williamson",t:["spec","custom"],hood:"Central Austin",why:"Young design-build shop selling custom-finished homes to the open market. Austin Home Rising Star 2024, Best Builders 2026. Rising fast and approachable.",meta:"Contact via site",ig:"cedarandoakhomes",web:"cedarandoakhomes.com"},
+{n:"Revent Builds",who:"John Gioffre (founder, investor since 2012), Melissa Gioffre",t:["spec","custom"],hood:"Tarrytown, Westlake Hills, 78704",why:"Started in flips, now publishes a lot-to-listing spec process and openly courts spec capital. Investor-minded and easy to talk to.",meta:"(512) 888-3865 · 2506 S Lamar Blvd Ste 2",ig:"revent_builds",web:"reventbuilds.com"},
+{n:"Rivendale Homes",who:"Principal not confirmed",t:["spec"],hood:"Zilker",why:"Built 1001 Bluebonnet Ln, a $3.4M Zilker new build that was Austin's top deal the week it closed in Sept 2025 on roughly $790K dirt. Proof of the 78704 spec math.",meta:"Listing agent: Benjamin Goudy, Texas Crossway Realty",web:"rivendalehomestexas.com"},
+{n:"Abode Modern Homes",who:"Principals not confirmed",t:["spec"],hood:"Central Austin",why:"Modern spec builder on the Austin Home Best Builders list 2025 and 2026. Realtor sites tag their central Austin modern specs.",meta:"512-401-3030 · info@abodemodernhomes.com · 3702 Balcones Dr",ig:"abodehomes",web:"abodemodernhomes.com"},
+{n:"Eppright Homes",who:"Russell Eppright (family-owned since 1998)",t:["spec","custom","dev"],hood:"Westlake, Lake Travis, Spanish Oaks, Bee Cave",why:"32 lots in Madrone Canyon and an Available Homes inventory page. Bee Cave corridor player.",meta:"(512) 347-9956 · 14425 Falcon Head Blvd Bldg C Ste 100",ig:"epprighthomesaustin",web:"epprighthomes.com"},
+{n:"Sendero Homes",who:"Cosmo Palmieri (founder, chairman)",t:["custom","dev"],hood:"Madrone Canyon, Thomas Ranch, Driftwood, Travis Club",why:"Custom and community builder with 33 Madrone Canyon lots. The Hill Country community circuit.",meta:"Contact via site form",ig:"senderohomes",web:"senderohomes.com"},
+{n:"Shoberg Homes",who:"Matt Shoberg (president), Paige Shoberg (CFO)",t:["custom","pri"],hood:"Tarrytown, Rollingwood, Clarksville, Pickwick, Driftwood",why:"$7M to $20M per project, 7 to 10 active at a time, in-house millwork shop. The builder Austin's top architects call first. Your Craftsman Residential equivalent at the very top.",meta:"512-358-4892 · info@shoberghomes.com",ig:"shoberg_homes",web:"shoberghomes.com"},
+{n:"Olson Defendorf Custom Homes",who:"Eric Olson (president, HBA board), Troy Defendorf",t:["custom","pri"],hood:"Tarrytown, Central and West Austin",why:"ABJ Custom Builder of the Year 2024 and deeply wired into HBA leadership. Tarrytown teardown-rebuild specialists. Great event connector.",meta:"512-243-6508 · info@ODcustomhomes.com",ig:"odcustomhomes",web:"odcustomhomes.com"},
+{n:"Jenkins Design Build",who:"Shan and Bethany Jenkins",t:["custom"],hood:"Westlake, Lakeway, Rough Hollow, Loraloma, Dripping Springs",why:"Four-time Custom Builder of the Year, 2025 Best Architectural Design in the $8M to $9M category, approved builder at Loraloma. Bridges infill and Hill Country club lots.",meta:"(512) 402-9222 · info@newhousebuilder.com",ig:"jenkinsdbatx",web:"newhousebuilder.com"},
+{n:"Risher Martin Fine Homes",who:"Chris Risher, Jeremy Martin",t:["custom"],hood:"Tarrytown, Westlake, Central Austin",why:"Texas Custom Builder of the Year 2018, six AIA Homes Tour appearances, 2025 Longhorn 100. Architect-community favorite.",meta:"512-495-9090 · chris@rishermartin.com",ig:"rishermartin",web:"rishermartin.com"},
+{n:"Next Custom Homes",who:"Mike Drew, Vanessa Myers",t:["custom","spec"],hood:"West Lake Hills",why:"Built 1740 Camp Craft, the $11.25M 2025 Parade of Homes showcase, and is a 2026 Parade builder again. Biggest new-build listing in Westlake this cycle.",meta:"Listed by Eric Moreland Group",ig:"nextcustomhomes",web:"nextcustomhomes.com"},
+{n:"Sterling Custom Homes",who:"Duke McDowell (founder 1989); sales: Chris Renowden",t:["custom"],hood:"Lakeway, Travis Club, Rough Hollow, Hill Country",why:"2026 Parade of Homes builder (Hilltop Haven, Lakeway), 180+ awards. Very active on IG.",meta:"(512) 845-3555",ig:"sterlingcustomhomes",web:"sterlingcustomhomes.com"},
+{n:"Zbranek & Holt Custom Homes",who:"Steve Zbranek, Tony Holt",t:["custom"],hood:"Westlake, Lakeway, Bee Cave, Spicewood, Lake Travis",why:"Elder statesmen of the Lake Travis luxury market, Austin Builder Hall of Fame, multiple Custom Builder of the Year wins.",meta:"512-261-0444 · steve@zhcustomhomes.com · tony@zhcustomhomes.com",ig:"zhcustomhomes",web:"zhcustomhomes.com"},
+{n:"Dalgleish Construction",who:"David Dalgleish (president, CEO)",t:["custom"],hood:"Lake Austin, Westlake, Central Austin",why:"Builder of record on multiple $10M+ waterfront homes, including 3208 Stratford Hills (now $16.95M). 40+ years.",meta:"(512) 346-8554 · info@dalgleish.net",ig:"dalgleish_construction",web:"dalgleish.net"},
+{n:"Koch McIntyre Construction",who:"Jon Koch, Matt McIntyre",t:["custom"],hood:"Central and West Austin",why:"High-end builder of architect-designed homes, AIA Austin allied member, Best Builders 2025.",meta:"Jon 512-743-6767 · Matt 512-653-2252 · jon@kochbuild.com",ig:"kochmcintyre",web:"km.build"},
+{n:"Foursquare Builders",who:"Wes Wigginton (managing director)",t:["custom"],hood:"Clarksville, Old West Austin, Tarrytown",why:"Frequent partner of Austin's top modern architects, Best Builders 2026.",meta:"(512) 912-7533 · wes@foursquarebuilders.com",ig:"foursquarebuilders",web:"foursquarebuilders.com"},
+{n:"Highline Homes",who:"Jake Friedman (founder), Shelly Roark (co-founder)",t:["custom"],hood:"Zilker, Bouldin, Tarrytown, Rollingwood, Spanish Oaks",why:"Most social-media-forward modern builder in 78704 and 78703, with a YouTube channel too. Easy to engage on IG.",meta:"(512) 771-4244 · 1820 Ashby Ave",ig:"highlinehomesatx",web:"highlinehomes.com"},
+{n:"Skelly Build",who:"Alex Skelly (owner)",t:["custom"],hood:"Old West Austin, Tarrytown, Travis Heights, Lakeway",why:"Six HBA MAX Awards in the 2025 cycle, NARI Contractor of the Year, in-house cabinetry, fixed-price model.",meta:"(512) 810-5400 · alex@skellybuild.com",ig:"skellybuild",web:"skellybuild.com"},
+{n:"Texas Construction Company",who:"Royce Flournoy (per LinkedIn, unconfirmed)",t:["custom"],hood:"Central and East Austin, Bouldin",why:"Modern custom and renovation, MAX Award 2025, AIA Homes Tour regular 2011 to 2019.",meta:"512-451-8050 · info@txconstruct.com",ig:"txconstruct",web:"txconstruct.com"},
+{n:"David Wilkes Builders",who:"David Wilkes",t:["custom"],hood:"Westlake, Rollingwood, Tarrytown",why:"Austin Home 2025 Builder of the Year per their site, Best Builders 2025 and 2026.",meta:"(512) 328-9888 · info@davidwilkesbuilders.com",ig:"davidwilkesbuilders",web:"davidwilkesbuilders.com"},
+{n:"CG&S Design-Build",who:"Guest family",t:["custom"],hood:"Tarrytown, Central Austin",why:"Design-build with custom homes starting in the low seven figures; ASID Austin chair comes from this firm.",meta:"512-444-1580 · db@cgsdb.com",ig:"cgsdesignbuild",web:"cgsdb.com"},
+{n:"Jauregui Architecture Interiors Construction",who:"Luis Jauregui FAIA, Susan Jauregui",t:["custom","arch"],hood:"Westlake, Austin, statewide",why:"Architect-led turnkey estate builder, NAHB Builder 20.",meta:"512-328-7706 · angelam@jaureguiarchitect.com",ig:"jaureguiarchitect",web:"jaureguiarchitect.com"},
+{n:"Seven Custom Homes",who:"David Lyne (founded 2007)",t:["custom"],hood:"Westlake, Rollingwood, Lakeway, Dripping Springs, Spicewood",why:"$500M+ built, volume Westlake custom and build-on-your-lot. Two IG handles exist; @vii.customhomes appears current.",meta:"512-662-1349 · info@viihomes.com",ig:"vii.customhomes",web:"sevencustomhomes.com"},
+{n:"Silverton Custom Homes",who:"Mike Grimm (founder), Jason Grimm, Chris Willeford",t:["custom"],hood:"Lake Travis, Jonestown, Hill Country",why:"Southern Living Custom Builder member, multi-price-point custom since 1993.",meta:"512-267-3777",ig:"silvertoncustomhomes",web:"silvertoncustomhomes.com"},
+{n:"Bijou Builds",who:"Brandon (brandon@bijoubuilds.com)",t:["custom"],hood:"Westlake, Lake Travis",why:"Publishes the quarterly State of Austin Luxury Construction permit report. Best public data source on who is pulling 5,000+ sf permits. Follow for intel.",meta:"(512) 590-2181 · 330 King Arthur Ct",ig:"bijou_builds",web:"bijoubuilds.com"},
+{n:"Risinger Build",who:"Matt Risinger (The Build Show)",t:["custom"],hood:"Austin",why:"More media than volume, but the most-followed builder voice in the country is based here. Build Show LIVE 2027 is Oct 21 to 23 in Houston.",meta:"",ig:"risingerbuild",web:"risingerbuild.com"},
+{n:"Also on the radar",who:"Verde Builders (Daniel Reeves, @verdebuilders) · Urban Home Builders (Gary Zygmont, @urbanhomebuilders) · Joseph Design Build (@josephdesignbuild) · Hayes Builders (@hayesbuilderstx) · Crowell Builders (@crowellbuilders) · Rauser Construction (@rauserconstruction) · Davenport Builders (@davenportbuild) · RedOven Builds (2026 Parade, @redovenps) · Dowbuilt Austin (@dowbuilt) · Arbogast + Smith (@arbogastsmithhomes) · Wilde Custom Homes · Camelot and Bella Vita Custom Homes (Spanish Oaks)",t:["custom"],hood:"Various",why:"Second-tier list from the Austin Home Best Builders 2025 and 2026 roster and the 2026 Parade builders. Worth a follow, lower priority for outreach.",meta:""}
+],
+developers: [
+{n:"Four Seasons Private Residences Lake Austin",who:"Austin Capital Partners (Jonathan Coon, Jason Subotky, Eduardo Margain; Jon Meir head of development) with Lincoln Property Co.",t:["dev","pri"],hood:"6507 Bridge Point Pkwy, Lake Austin",why:"$870M construction loan closed June 2026, 229 residences plus 28 freestanding villa lots at $4.1M to $35M, deliveries from 2029. The villa lots are a direct opening for spec and custom builders. Sales: Eric Moreland Group.",meta:"",web:"lakeaustinresidences.com"},
+{n:"Pearlstone Partners",who:"Bill Knauss (CEO)",t:["dev"],hood:"Downtown, Rainey, Clarksville",why:"Most active branded-condo developer: Vesper, Natiivo, and now Viceroy Residences Austin (146 units, penthouses $6M+, sales launched Aug 2026). Their buyers also want lake and Westlake houses.",meta:"",web:"pearlstonepartners.com"},
+{n:"MileStone Community Builders (The Overlook at Westlake)",who:"Lily Otis (sales exec)",t:["dev"],hood:"1300 Lost Creek Blvd, Eanes ISD",why:"Only new gated subdivision inside Westlake: 48 homesites at $2.85M to $5M, move-ins late 2026. Sets the new-construction comp for 78746.",meta:"",web:"theoverlookatwestlake.com"},
+{n:"Areté Collective (Loraloma at Thomas Ranch)",who:"Utah-based; sales (801) 333-8156",t:["dev"],hood:"Spicewood, Pedernales",why:"Members-only golf community above the 2,200-acre Thomas Ranch, homes $2M to $10M+. Premier new Hill Country lot supply; Jenkins Design Build is an approved builder.",meta:"",web:"loralomaclub.com"},
+{n:"Canyon Ranch Austin",who:"Fort Worth-based ownership",t:["dev"],hood:"Spicewood",why:"600-acre wellness resort opening Sept 2026 with up to 150 homes over five years, Lake Flato architecture, homes cited at $3.4M+. Builders being selected now.",meta:"",web:"canyonranch.com"},
+{n:"Discovery Land Co. (Driftwood Golf & Ranch Club)",who:"",t:["dev"],hood:"Driftwood, Hays County",why:"800-acre Fazio golf community, 1 to 4 acre lots, estates $2M to $8M+. Approved-builder list controls who builds there (Shoberg and Sendero are in).",meta:"",web:"discoverylandco.com"},
+{n:"Southern Land Co. (Lunaroya) and Mirasol",who:"",t:["dev"],hood:"Dripping Springs, Hamilton Pool Rd",why:"Newest $2M+ acreage lot programs west of Austin: 66 Barton Creek homesites at Lunaroya, 55 conservation homesites plus 30 cottages at Mirasol.",meta:"",web:"southernland.com"},
+{n:"Stratus Properties (Barton Creek, Amarra, Holden Hills)",who:"William H. Armstrong III (chairman, CEO)",t:["dev","cap"],hood:"Barton Creek",why:"Announced a plan of liquidation in March 2026, so Barton Creek lots and Amarra villas are being sold off. A rare bulk-lot opportunity for a builder or investor group.",meta:"(512) 478-5788",web:"stratusproperties.com"},
+{n:"Legend Communities (Rough Hollow)",who:"Haythem Dawlett",t:["dev"],hood:"Lakeway, Lake Travis",why:"Master developer of Rough Hollow; Peninsula waterfront sites. More mid-luxury than $3M+, but a lot source.",meta:"",web:"legendcommunities.com"},
+{n:"Intracorp / Related Texas / Northland Living",who:"Intracorp investors: Tom Gaglardi, Brian Hill, Leifer Properties",t:["dev"],hood:"South Congress, downtown",why:"Condo developers (Leland, One Lady Bird Lake, Luminary). Comps and buyer pool only; not spec-house players.",meta:"",web:"intracorphomes.com"}
+],
+capital: [
+{n:"Gossett & Co. investor program",who:"Jared Gossett",t:["cap","pri"],hood:"Central and West Austin",why:"Gated investment deck (Papermark) for LPs in $3M+ builds. The most direct invest-with-a-builder route found.",meta:"hello@gossettco.com",ig:"gossettco",web:"gossettco.com/investments"},
+{n:"Loan Ranger Capital",who:"Austin-based",t:["cap"],hood:"2235 E 6th St",why:"Most-cited local hard money shop, up to 75% LTV, 24-hour pre-approval. Relationship-driven.",meta:"512-220-9916",web:"loanrangercapital.com"},
+{n:"HouseMax Funding",who:"Austin-based",t:["cap"],hood:"Austin",why:"Construction loans in-house, up to 75% ARV, funds in 10 days or less.",meta:"512-379-6917",web:"housemaxfunding.com"},
+{n:"Park Place Finance",who:"Austin HQ, national",t:["cap"],hood:"Austin",why:"Ground-up construction lending, $1B+ funded since 2006.",meta:"866-407-1599",web:"parkplacefinance.com"},
+{n:"Longhorn Investments",who:"Dallas-based, lends in Austin",t:["cap"],hood:"Texas",why:"Up to 75% ARV and 100% of cost, new-construction program, closes in 3 to 5 days.",meta:"(877) 420-7346",web:"longhorninvestments.com"},
+{n:"Easy Street Capital, Sherman Bridge, Capstone Lending, Capital Fund 1",who:"",t:["cap"],hood:"Texas",why:"Rest of the hard-money field. Most cap well below a $3M to $8M spec loan; true luxury spec money in Austin is private HNW and family-office capital sourced through builders and agents, not funds.",meta:""},
+{n:"TYKO Capital",who:"New York",t:["cap"],hood:"Lake Austin",why:"Wrote the $870M Four Seasons construction loan (JLL arranged). Institutional benchmark, not a spec-house lender.",meta:""},
+{n:"Notable individual money (2025 to 2026)",who:"Jonathan Coon (1-800-CONTACTS) · Joe Aragona (Austin Ventures, sold $8M) · Kalan Wagner (bought $13M Bunny Run) · Alex Davis (listed $27M) · Brett and Caroline Ames ($50M listing) · Emma Stone (sold Tarrytown $23.5M) · Glen Powell (Barton Creek)",t:["cap"],hood:"Lake Austin, Westlake, Tarrytown",why:"Compass data says $10M+ buyers are tech founders, entertainment and investors, mostly out of state. Austin's millionaire count grew about 90% from 2014 to 2024.",meta:""}
+],
+agents: [
+{n:"Eric Moreland Group",who:"Eric Moreland; Amy Deane, Greg Walling, Trey Phillips, Cord Shiflet at Moreland Properties",t:["agent","pri"],hood:"Lake Austin, Westlake, Tarrytown",why:"The builder-facing brokerage: exclusive sales for Four Seasons Lake Austin, lists Next Custom Homes' $11.25M Parade home, publishes builder-market commentary. Elite 25.",meta:"(512) 480-0844 · 3825 Lake Austin Blvd Ste 501",ig:"ericmorelandgroup",web:"ericmorelandgroup.com"},
+{n:"Bridget Ramey",who:"Kuper Sotheby's",t:["agent","pri"],hood:"Lake Austin",why:"More $20M+ sales than any Austin agent; listed the top sale of 2025 ($16.9M) and the $50M Ames compound. Off-market deal flow at the very top.",meta:"",ig:"bridgetramey",web:"bridgetramey.com"},
+{n:"Kumara Wilcoxon",who:"Kuper Sotheby's",t:["agent","pri"],hood:"Lake Austin, Old West Austin, Bouldin",why:"$327M in 2025, ABJ's number one agent six straight years, holds the most $10M+ listings. Very active on IG.",meta:"512-423-5035 · 524 N Lamar Ste 204",ig:"kumarawilcoxon",web:"kumarawilcoxon.com"},
+{n:"Cord Shiflet",who:"Moreland Properties",t:["agent"],hood:"Westlake",why:"Sold 907 Terrace Mountain ($9.6M) and 2001 Cueva De Oro ($8M) in 2025; Elite 25; heavy social presence.",meta:"",ig:"cordshiflet",web:"cordshomes.com"},
+{n:"Gottesman Residential",who:"Laura Gottesman",t:["agent"],hood:"Tarrytown, Westlake, downtown",why:"Old-Austin relationships since 2000; regularly lists Gossett-built homes.",meta:"512-451-2422",ig:"gottesmanresidential",web:"gottesmanresidential.com"},
+{n:"The Keenan Group",who:"Joe and Cara Keenan (Compass)",t:["agent"],hood:"All luxury communities",why:"Number one team in Austin 2024; publishes the best public guides to new luxury communities and country clubs.",meta:"",web:"thekeenangroup.com"},
+{n:"Jenny Walker",who:"Compass",t:["agent","spec"],hood:"West Lake Hills",why:"Broker associate and home builder, sold $10.05M in West Lake Hills. Rare agent-builder hybrid worth comparing notes with.",meta:"",web:"luxaustinrealestate.com"},
+{n:"Dara Allen",who:"Christie's International / @properties Lone Star",t:["agent"],hood:"Downtown, Clarksville",why:"Christie's Austin lead and sales brokerage for Viceroy Residences.",meta:"",web:"daraallen.com"},
+{n:"Michael Reisor, Saira Ukani and Ross Speed, Beth Drewett, Wade Giles",who:"Compass",t:["agent"],hood:"Westlake, Lake Austin",why:"Compass luxury bench: Ukani and Speed listed the $13M Bunny Run sale (2025's number two).",meta:""},
+{n:"Peyton Tomson",who:"The Agency Austin",t:["agent"],hood:"Spanish Oaks",why:"Listed 5009 Spanish Oaks Club Blvd, $9M sale in 2025.",meta:""},
+{n:"Kuper Sotheby's bench",who:"Joseph Longton, Kirk Lewis, Darin Walker, Brian Langlois, Andy Allen",t:["agent"],hood:"Westlake, Lake Austin",why:"Longton and Lewis sold 5217 S Scout Island ($8.5M); Langlois lists Sunset Point ($17M); Lewis and Walker are Elite 25.",meta:""},
+{n:"Michele Turnquist",who:"Engel & Völkers Austin",t:["agent"],hood:"Westlake, Lake Austin",why:"E&V's Austin franchise lead, 30+ years in the corridor.",meta:""},
+{n:"Elite 25 Austin",who:"Tony Trungale (managing director)",t:["agent"],hood:"Invitation-only",why:"$15M+ volume and 8+ sales over $1M to qualify. Monthly luncheons third Tuesday, 11:30 to 1, hosted at members' $1M+ listings. Follow the members; their listings are the luxury tour circuit.",meta:"",ig:"elite25austin",web:"elite25austin.com"},
+{n:"Luxury League Austin",who:"Hand-selected agent network",t:["agent"],hood:"Austin",why:"2025 members closed 240+ deals above $2M, $2B volume. Follow for listing launches and broker events.",meta:"",ig:"luxuryleagueatx",web:"luxuryleague.com"}
+],
+architects: [
+{n:"Ryan Street Architects",who:"Ryan Street",t:["arch","pri"],hood:"Westlake, Lake Austin",why:"The go-to for $10M+ estates (3208 Stratford Hills, West Rim retreat). Knows every top-tier builder.",meta:"",ig:"ryanstreetarchitects",web:"ryanstreet.com"},
+{n:"Cornerstone Architects",who:"",t:["arch"],hood:"Spanish Oaks, Bee Cave",why:"Dominant designer in the Spanish Oaks estate market. Several similarly named IG accounts exist; confirm before tagging.",meta:"",ig:"cornerstone.architects",igu:1,web:"cornerstonearchitects.com"},
+{n:"Alterstudio Architecture",who:"Kevin Alter, Ernesto Cragnolino, Tim Whitehill",t:["arch"],hood:"Central infill",why:"Highest design cachet in central Austin; multiple AIA national awards; ranked number two residential firm in 2026.",meta:"",ig:"alterstudio",web:"alterstudio.net"},
+{n:"Jobe Corral Architects",who:"Camille Jobe, Ada Corral",t:["arch"],hood:"Tarrytown, Westlake",why:"Austin Home Best Architects, high-end residential.",meta:"",ig:"jobe_corral_architects",web:"jobecorral.com"},
+{n:"Lake Flato (Austin office)",who:"David Lake, Ted Flato",t:["arch"],hood:"Hill Country, Canyon Ranch",why:"AIA Gold Medal firm designing Canyon Ranch Austin; brand-driven community work.",meta:"",web:"lakeflato.com"},
+{n:"Michael Hsu Office of Architecture",who:"Michael Hsu",t:["arch"],hood:"South Congress, infill",why:"Developer favorite for condos and infill (Leland).",meta:"",web:"hsuoffice.com"},
+{n:"Clayton Korte",who:"Brian Korte, Paul Clayton",t:["arch"],hood:"Ranch and Hill Country",why:"2026 AIA Austin award; estate and acreage design.",meta:"",web:"claytonkorte.com"},
+{n:"Dick Clark + Associates",who:"Firm continues after Clark's passing",t:["arch"],hood:"Westlake",why:"907 Terrace Mountain ($9.6M, 2025). Modernist pedigree that sells at the top.",meta:"",web:"dcarch.com"},
+{n:"Vanguard Studio",who:"John G. Hathaway",t:["arch"],hood:"Austin",why:"Volume luxury residential plans.",meta:"",web:"vanguardstudio.com"},
+{n:"More to follow",who:"Matt Fajkus · Miró Rivera · Furman + Keil · Baldridge · Murray Legge · Mell Lawrence · Cuppett Kilpatrick · LaRue Architects · Hugh Jefferson Randolph · Andersson/Wise · Specht Novak · Webber + Studio · Shiflet Richardson",t:["arch"],hood:"Austin Home Best Architects 2024 to 2026",why:"Interior designers who finish the $3M+ specs: Mark Ashby Design, Fern Santini / ABODE, Joel Mozersky, Britt Design Group, Shannon Eddings (@shannoneddingsinteriors), Claire Zinnecker, Kim Lewis Designs, Blair Burton Interiors.",meta:""}
+],
+lots: [
+{n:"How $1M+ teardown lots really trade here",who:"Read this first",t:["lots","pri"],hood:"Tarrytown, Westlake, Pemberton, Zilker, Bouldin, Barton Hills",why:"None of the verifiable Austin wholesalers advertise Tarrytown or Westlake teardowns. Their inventory is sub-$600K distressed houses in South and East Austin and the suburbs. Luxury lots move through agent pocket listings (Austin Luxury Network carried about 400 properties at $1.5M+, roughly 30% as many as the MLS), builders' own acquisition teams, direct mail to long-tenure owners, probate, and demolition-permit watching. Spend 70% of your time on agents and your own mail program, 20% on probate and permit data, 10% on wholesaler lists.",meta:"Texas Property Code 5.086 requires wholesalers to disclose they are assigning a contract, not conveying title. Insist on it and on a title company that handles assignments."},
+{n:"Austin Luxury Network (ALN)",who:"Agent-only private listing platform since 2011",t:["lots","pri"],hood:"$1.5M+ pocket listings citywide",why:"Where Tarrytown, Westlake and Pemberton pocket listings, including teardowns, actually circulate. You can't join as a buyer; you get in through a member agent, or your own Texas license.",meta:"",web:"austinluxurynetwork.com"},
+{n:"Commission.co The Clubhouse",who:"Justin and Alissa Shapiro (co-founders)",t:["lots","pri"],hood:"Austin, agent-only",why:"Agents post buyer needs here. A partner agent can broadcast 'builder client seeking 78703 or 78746 teardown, 0.25+ acre, cash, 21-day close' to every top agent in town.",meta:"Requires an active Texas license",web:"commission.co/the-clubhouse"},
+{n:"Moreland Properties private listings",who:"Eric Moreland Group",t:["lots","agent","pri"],hood:"Lake Austin, Westlake, Lake Travis",why:"The one luxury brokerage whose private-listing page visibly carries land parcels (Bruton Springs Rd lots, for example) plus a Westlake land search page.",meta:"(512) 480-0848 · Lake Travis office (512) 263-3282",ig:"ericmorelandgroup",web:"moreland.com/exclusive-listings"},
+{n:"Kumara Wilcoxon",who:"Kuper Sotheby's",t:["lots","agent"],hood:"Tarrytown, Westlake",why:"Runs a dedicated Tarrytown lots page and sells the estates whose next step is usually a teardown.",meta:"512-423-5035",ig:"kumarawilcoxon",web:"kumarawilcoxon.com/neighborhoods/tarrytown"},
+{n:"Michael Reisor",who:"Tarrytown pocket-listing specialist (Compass per his site, Douglas Elliman per The Real Deal)",t:["lots","agent"],hood:"Tarrytown",why:"Wrote the guide on how Tarrytown pocket listings work: NDA, proof of funds, controlled showings. Good first call.",meta:"(512) 712-2128 · 1717 W 6th St Ste 190",web:"michaelreisor.com"},
+{n:"The Keenan Group",who:"Joe and Cara Keenan (Compass)",t:["lots","agent"],hood:"Northwest Hills, Westlake, Tarrytown, Rollingwood, Lake Austin, Spanish Oaks, Barton Creek",why:"Number one ABoR team 2024, sources through Compass Private Exclusives and agent networks in exactly your target footprint.",meta:"(512) 415-7653 · keenan@compass.com",web:"thekeenangroup.com/private-austin-listings"},
+{n:"Homesville (Paul Reddam) and Kelsey Easton",who:"Compass agents with private-listing email lists",t:["lots","agent"],hood:"Westlake, West Lake Hills",why:"Both run weekly off-market bulletins and say plainly that off-market is most common in the higher price brackets. Cheap way to see the flow.",meta:"Reddam (512) 789-0869 · Easton (512) 699-6091",web:"homesville.com/austin-off-market-listings"},
+{n:"Mogavero Group",who:"Mike Mogavero (Compass)",t:["lots","agent"],hood:"Tarrytown, Westlake, Bouldin",why:"Works directly with Otto Design + Build on Tarrytown new construction. An agent who already speaks builder.",meta:"",web:"mogaverogroup.com"},
+{n:"Land Advisors Organization, Austin",who:"Hal Guggolz, Josh Cameron, Brett Greene, Michael Zarola",t:["lots"],hood:"West Lake Hills office; Lake Travis, Spicewood, Bee Cave acreage",why:"Institutional land brokerage that handles infill and Lake Travis waterfront acreage. Not single Tarrytown lots, but the right call for Hill Country and lake land.",meta:"(512) 327-3010 · 307 Camp Craft Rd Ste 100",web:"landadvisors.com/austin"},
+{n:"Builders Land Source",who:"Bhaskar Pandey",t:["lots"],hood:"Houston, DFW, Austin infill",why:"Licensed agent who sources off-market infill lots for builders through CAD and GIS mining, mail and door-knocking. Right model; Austin depth unverified. Ask if they'll run a targeted 78703 and 78746 campaign.",meta:"",ig:"builderslandsource",web:"builderslandsource.com"},
+{n:"Power Land Group",who:"San Antonio-based, active in Austin",t:["lots"],hood:"Distressed and off-market land, infill",why:"Principal buyer and advisory with a builder criteria intake form. Principals not named on the site.",meta:"(817) 406-3645 · rb@powerlandgroup.com",web:"powerlandgroup.com"},
+{n:"Austin Silent Market",who:"George Sears McGee (broker, 40 years in Austin)",t:["lots"],hood:"Central Austin, $295K to $1.2M+",why:"Off-market matching program with a monthly newsletter. Price band tops out where your lots start, but a 40-year central Austin broker gets estate calls.",meta:"(512) 789-0900 · gmcgee@austinsilentmarket.com",web:"austinsilentmarket.com"},
+{n:"Hill Country acreage brokers",who:"Capitol Ranch Real Estate · Republic Ranches · Legacy Broker Group · Texas Alliance of Land Brokers directory",t:["lots"],hood:"Dripping Springs, Bee Cave, Spicewood, Lake Travis",why:"For 1 to 10 acre estate lots west of town. Capitol Ranch has an Austin office (855-968-1200). The TALB member search is the fastest way to find a Dripping Springs specialist.",meta:"",web:"texaslandbrokers.org/members/search-members"},
+{n:"Direct-to-seller mail program",who:"Your own pipeline",t:["lots","pri"],hood:"78703, 78746, 78704, 78731, 78756",why:"Pull TCAD for pre-1970 homes on 0.25+ acre lots with 20+ year tenure, no homestead exemption, or out-of-state mailing address. Tools: PropStream, DealMachine or Privy for skip tracing. Builders Land Source says it outright: most prime Texas land never hits the MLS.",meta:""},
+{n:"Probate and estate leads",who:"Travis County Probate Court dockets (free) · US Probate Leads · USLeadList · SuccessorsData",t:["lots"],hood:"Tarrytown, Pemberton, Northwest Hills",why:"Legacy owners die in place. Records are public. Note that West Austin families increasingly use living trusts, which shrinks this channel.",meta:"",web:"robbinsestatelaw.com/blog/travis-county-probate-court-records"},
+{n:"Demolition permit watch",who:"City of Austin Development Tracker · data.austintexas.gov · US Tech Automations monthly digest",t:["lots"],hood:"Citywide by zip",why:"Sign up for demolition-permit email alerts by area. A lagging signal (lot already sold) but it tells you which builders are active and which blocks are turning. Structures 45+ years old trigger Historic Preservation review on nearly every Tarrytown lot.",meta:"operations@ustechautomations.com for the daily zip feed",web:"austintexas.gov/demolition"},
+{n:"New Western (Austin)",who:"James Austin, Zack Oberlies (agents)",t:["lots","whole"],hood:"2201 Donley Dr Ste 150; discounted fixers metro-wide",why:"Largest wholesale-style disposition shop in Austin. Volume flipper inventory, but free to join. Tell your agent explicitly to flag 78703, 78746 and 78704 teardowns.",meta:"(512) 692-4738",web:"newwestern.com/office/austin-tx"},
+{n:"NetWorth Realty of Austin",who:"Jeremy Coburn, Mark Bloom, Scott McClellan (owners)",t:["lots","whole"],hood:"7703 N Lamar Blvd Ste 200; five counties",why:"Licensed wholesale brokerage, BBB A+ since 2008. Sign up and set a filter; expect mostly flip product.",meta:"(888) 998-9688",web:"networthrealtyusa.com/cities/5/Austin"},
+{n:"KeyGlee Austin",who:"Franchise of the Arizona wholesaler",t:["lots","whole"],hood:"Entry-level SFR",why:"Claims a 140,000-investor network and an app-based buyers list. Volume only.",meta:"(480) 579-3913 · Help@KeyGlee.com",web:"keyglee.com"},
+{n:"Austin House Buyer / Castle Hill Investments",who:"Robert Grunnah (broker-owner, since 2004)",t:["lots","whole"],hood:"Central Austin and beyond, 1,200+ homes bought",why:"Longest-running high-volume local direct buyer. Operators like this occasionally get central Austin estate calls. Ask if they'll assign or JV on lots they won't develop.",meta:"(512) 777-0287",web:"austinhousebuyer.com"},
+{n:"Austin All Cash Home Buyers",who:"Dominic and Claudine Gauchat (since 2014)",t:["lots","whole"],hood:"South Austin",why:"Family-run end buyer, BBB A+. Relationship for passing along lots they won't build on.",meta:"(512) 580-7557 · 7007 W Gate Blvd",web:"austinallcash.com"},
+{n:"Other local cash buyers",who:"Want to Sell Now (512-710-2509) · I Buy Austin Houses (512-960-2130, inheritance focus) · Smooth Closing (512-368-9979) · Turner & Partners · 512.Investments · Martillo Capital · Double E Homebuyers · The Arscott Group",t:["lots","whole"],hood:"Distressed SFR metro-wide",why:"The rest of the field from HouseCashin and RealEstateBees directories. Self-reported volumes. Join the lists, expect little at $1M+.",meta:""},
+{n:"WholesaleRealEstateTX",who:"Investor-run statewide buyers list",t:["lots","whole"],hood:"Austin, DFW, Houston, San Antonio",why:"Claims 1,500+ Texas wholesale investors on a weekly email. Free to join.",meta:"info@wholesalerealestatetx.com",web:"wholesalerealestatetx.com"},
+{n:"Investor Underground",who:"Dan Castro (CEO)",t:["lots","whole"],hood:"Casa Chapala, 9041 Research Blvd",why:"Largest deal-trading room in Austin by headcount (2,400+ on Meetup, claims a 95,000-member Facebook group), explicitly for buying and selling off-market. Mostly sub-$500K.",meta:"(512) 732-0111 · next meeting Sept 17, 2026",web:"meetup.com/investor-underground"},
+{n:"Austin RENC and REIA Austin",who:"Shenoah and Phill Grove (owners since 2003)",t:["lots","whole"],hood:"Arboretum and Domain; Round Rock",why:"Monthly Tuesday meetings, $100 lifetime membership, first meeting free. Networking room, not a lot source.",meta:"(512) 580-8138 · info@AustinRENC.com",web:"austinrenc.com"},
+{n:"Facebook groups",who:"Austin Wholesale Property Investors Group · Real Estate Investors Austin Texas · Austin Real Estate Investor Group · RE Investor & Wholesale Club SA/Austin",t:["lots","whole"],hood:"Online",why:"Where the smaller wholesalers blast deals. Instagram is not a meaningful Austin wholesale channel; searches turned up liquor and vape wholesalers.",meta:""},
+{n:"Names that did not check out",who:"Property Wholesale Austin · Hilltop Homebuyers · Watson Buys · Kingdom Wholesale · Texas Property Investors · Investor Loft · Nexus Wholesale",t:["lots"],hood:"",why:"None could be verified as real Austin wholesalers. Also a caution: ProPublica documented a Dallas HomeVestors franchisee running a Ponzi scheme on private lenders in 2025, so vet any We Buy Ugly Houses franchisee individually.",meta:""}
+],
+zspec: [{"b": "Next Custom Homes", "n": 1, "lo": 11250000, "hi": 11250000, "zips": "78746", "ex": "1740 Camp Craft Rd", "ppsf": 1601}, {"b": "BRF Homes, Inc.", "n": 1, "lo": 9925000, "hi": 9925000, "zips": "78731", "ex": "3501 Mount Bonnell Rd", "ppsf": 1696}, {"b": "Risinger Build", "n": 1, "lo": 6495000, "hi": 6495000, "zips": "78703", "ex": "1012 Gaston Ave", "ppsf": 1397}, {"b": "M Signature", "n": 4, "lo": 1749990, "hi": 5279109, "zips": "78730, 78746", "ex": "1117 Eternity Ter, 6205 Marshall Ranch Rd", "ppsf": 762}, {"b": "Gossett & Co.", "n": 2, "lo": 4600000, "hi": 5200000, "zips": "78703", "ex": "2000 Forest Trl, 2902 Cherry Ln", "ppsf": 1145}, {"b": "Milestone Community Builders", "n": 6, "lo": 2599999, "hi": 5152958, "zips": "78730, 78746", "ex": "1113 Eternity Ter, 1216 Eternity Ter", "ppsf": 793}, {"b": "Drew Homes", "n": 2, "lo": 2899000, "hi": 4999990, "zips": "78703, 78746", "ex": "4603 Charles Ave, 2705 Warren St", "ppsf": 902}, {"b": "Madera Custom Homes", "n": 1, "lo": 4995000, "hi": 4995000, "zips": "78731", "ex": "4514 Spanish Oak Trl", "ppsf": 1000}, {"b": "Monte Jannsen", "n": 1, "lo": 4383000, "hi": 4383000, "zips": "78746", "ex": "434 Brady Ln", "ppsf": 989}, {"b": "Sterling Custom Homes", "n": 1, "lo": 4349000, "hi": 4349000, "zips": "78738", "ex": "108 Montana Del Oro Way", "ppsf": 811}, {"b": "Laurel Haven Homes", "n": 1, "lo": 4299900, "hi": 4299900, "zips": "78738", "ex": "114 Montana Del Oro Way", "ppsf": 888}, {"b": "Adam Patterson, Mark Richardson Architects", "n": 1, "lo": 4209268, "hi": 4209268, "zips": "78669", "ex": "151 Creek Hollow Way", "ppsf": 733}, {"b": "Kenny Therrien Custom Homes LLC", "n": 1, "lo": 3700000, "hi": 3700000, "zips": "78676", "ex": "202 Hub Dr", "ppsf": 774}, {"b": "Patterson Custom Homes", "n": 2, "lo": 2150000, "hi": 3700000, "zips": "78669", "ex": "27031 Haynie Flat Rd, 185 Landings Way", "ppsf": 593}, {"b": "Vinson Radke Homes", "n": 2, "lo": 2999000, "hi": 3650000, "zips": "78703", "ex": "1104 Maufrais St, 1315 W 9th St #B", "ppsf": 999}, {"b": "AUS-SAN CONSTRUCTION", "n": 1, "lo": 3559000, "hi": 3559000, "zips": "78704", "ex": "2013 Holland Ave", "ppsf": 883}, {"b": "Nalle Custom Homes", "n": 1, "lo": 3547990, "hi": 3547990, "zips": "78703", "ex": "2114 W 11th St", "ppsf": 999}, {"b": "Summitview Premier Builders", "n": 1, "lo": 3500000, "hi": 3500000, "zips": "78734", "ex": "110 Bella Montagna Cir", "ppsf": 658}, {"b": "Countyline Custom Homes", "n": 1, "lo": 3480000, "hi": 3480000, "zips": "78669", "ex": "19559 Sandcastle Dr", "ppsf": 756}, {"b": "Immo Development", "n": 1, "lo": 3450000, "hi": 3450000, "zips": "78731", "ex": "3805 Rockledge Dr", "ppsf": 793}, {"b": "Terra Builders LLC", "n": 1, "lo": 3449000, "hi": 3449000, "zips": "78737", "ex": "244 Zonetail Cv", "ppsf": 745}, {"b": "Cary Paul Studios", "n": 3, "lo": 2200000, "hi": 3199000, "zips": "78703, 78731, 78757", "ex": "1102 Charlotte St, 2806 Geraghty Ave", "ppsf": 810}, {"b": "Kyngdom remodeling", "n": 1, "lo": 3175000, "hi": 3175000, "zips": "78731", "ex": "5403 Ridge Oak Dr", "ppsf": 751}, {"b": "Lohr Homes", "n": 1, "lo": 2999990, "hi": 2999990, "zips": "78731", "ex": "4216 Deepwoods Dr", "ppsf": 747}, {"b": "Paradisa Homes LLC", "n": 1, "lo": 2999000, "hi": 2999000, "zips": "78704", "ex": "2301 Westworth Cir", "ppsf": 824}, {"b": "N&Y Real Estates LLC", "n": 2, "lo": 2200000, "hi": 2950000, "zips": "78645, 78734", "ex": "106 Bella Montagna Cir, 17013 Northlake Hills Dr", "ppsf": 505}, {"b": "PURE MODERN HOMES", "n": 1, "lo": 2950000, "hi": 2950000, "zips": "78757", "ex": "6411 Cary Dr", "ppsf": 737}, {"b": "Whitworth Homes", "n": 1, "lo": 2599000, "hi": 2599000, "zips": "78703", "ex": "1900 Matthews Dr", "ppsf": 902}, {"b": "LBF Homes", "n": 1, "lo": 2545000, "hi": 2545000, "zips": "78704", "ex": "2208 Montclaire St", "ppsf": 801}, {"b": "Thomas Ranch Builders", "n": 1, "lo": 2500000, "hi": 2500000, "zips": "78669", "ex": "_ Gulch Valley Dr", "ppsf": 931}, {"b": "Toll Brothers", "n": 7, "lo": 1503000, "hi": 2450000, "zips": "78613, 78641", "ex": "2307 Spanish Cedar Dr, 3637 Torcello Cv", "ppsf": 353}, {"b": "Jaehne Construction llc", "n": 1, "lo": 2399990, "hi": 2399990, "zips": "78731", "ex": "4801 W Frances Pl", "ppsf": 659}, {"b": "Drees Custom Homes", "n": 4, "lo": 1599900, "hi": 2399900, "zips": "78620, 78738", "ex": "953 Flagtop Ct, 122 Crosswater Ln #Vkmuhm", "ppsf": 431}, {"b": "Muskin Company", "n": 1, "lo": 2385000, "hi": 2385000, "zips": "78723", "ex": "3604 Tom Miller St", "ppsf": 603}, {"b": "J. Angelo Design Build", "n": 1, "lo": 2199000, "hi": 2199000, "zips": "78733", "ex": "1500 Lipan Trl", "ppsf": 516}, {"b": "Mono ATX", "n": 1, "lo": 2195000, "hi": 2195000, "zips": "78704", "ex": "1005 W Johanna St", "ppsf": 685}, {"b": "Brandon Custom Homes", "n": 1, "lo": 2150000, "hi": 2150000, "zips": "78676", "ex": "312 Rancho Grande Dr", "ppsf": 870}, {"b": "Inabnet Contracting", "n": 3, "lo": 1675000, "hi": 2050000, "zips": "78704", "ex": "1403 Barton Hills Dr #1, 1403 Barton Hills Dr Unit 2", "ppsf": 656}, {"b": "Buildcorp RE & Construction LLC Aus-San Const", "n": 1, "lo": 1995000, "hi": 1995000, "zips": "78741", "ex": "1102 Summit St", "ppsf": 573}, {"b": "Texas Pie Development LLC", "n": 1, "lo": 1985000, "hi": 1985000, "zips": "78756", "ex": "4304 Shoalwood Ave", "ppsf": 762}, {"b": "Trident Homes", "n": 1, "lo": 1980000, "hi": 1980000, "zips": "78702", "ex": "3100 Garwood St", "ppsf": 693}, {"b": "Prince Development LLC", "n": 1, "lo": 1978240, "hi": 1978240, "zips": "78642", "ex": "508 Kasen Cir", "ppsf": 450}, {"b": "Kiligray LLC", "n": 1, "lo": 1950000, "hi": 1950000, "zips": "78751", "ex": "4603 Avenue C", "ppsf": 555}, {"b": "Big Castle LLC", "n": 1, "lo": 1770000, "hi": 1770000, "zips": "78731", "ex": "3007 Village Dr", "ppsf": 662}, {"b": "Owner Managed Homes, Jeff Walling", "n": 1, "lo": 1709500, "hi": 1709500, "zips": "78641", "ex": "15424 Fm 2769 Rd", "ppsf": 345}, {"b": "EVOK HOMES LLC", "n": 1, "lo": 1699000, "hi": 1699000, "zips": "78704", "ex": "3007 Locke Ln", "ppsf": 555}, {"b": "TREO SIGNATURE HOMES", "n": 2, "lo": 1595000, "hi": 1695000, "zips": "78734", "ex": "1301 O'Reilly Dr, 2203 Pyramid Dr", "ppsf": 292}, {"b": "TruHome", "n": 1, "lo": 1665000, "hi": 1665000, "zips": "78745", "ex": "4700 Banister Ln", "ppsf": 540}, {"b": "Spyglass Homes", "n": 1, "lo": 1654900, "hi": 1654900, "zips": "78746", "ex": "1719 Spyglass Dr #17", "ppsf": 526}, {"b": "Essential Elements Texas LLC", "n": 1, "lo": 1650000, "hi": 1650000, "zips": "78756", "ex": "1201 Georgian St", "ppsf": 547}, {"b": "Knox Street Land Investment, LLC", "n": 1, "lo": 1650000, "hi": 1650000, "zips": "78641", "ex": "713 San Gabriel Ranch Rd", "ppsf": 399}, {"b": "Kikani Housing Inc", "n": 1, "lo": 1599000, "hi": 1599000, "zips": "78641", "ex": "1508 Chalk Bluff Ct", "ppsf": 403}, {"b": "Schovajsa", "n": 1, "lo": 1599000, "hi": 1599000, "zips": "78132", "ex": "1472 Stahlman Way", "ppsf": 412}, {"b": "LECASA Homes", "n": 1, "lo": 1595000, "hi": 1595000, "zips": "78757", "ex": "8512 Rockwood Ln", "ppsf": 559}, {"b": "Aced Custom Homes", "n": 1, "lo": 1575000, "hi": 1575000, "zips": "78620", "ex": "205 Waters View Ct", "ppsf": 357}],
+listings: [[11250000, "1740 Camp Craft Rd", "Austin", "78746", 7024, "Next Custom Homes", "Moreland Properties", 26, 125805390], [9925000, "3501 Mount Bonnell Rd", "Austin", "78731", 5851, "BRF Homes, Inc.", "Compass RE Texas, LLC", 7, 29341109], [6495000, "1012 Gaston Ave", "Austin", "78703", 4647, "Risinger Build", "Kuper Sotheby's Int'l Realty", 67, 29397148], [5279109, "1117 Eternity Ter", "Austin", "78746", 5025, "M Signature", "Outlaw Realty", 299, 457172258], [5200000, "2000 Forest Trl", "Austin", "78703", 4400, "Gossett & Co.", "", 1, 29335214], [5152958, "1113 Eternity Ter", "Austin", "78746", 5256, "Milestone Community Builders", "", 2, 465240059], [4999990, "4603 Charles Ave", "Austin", "78746", 5213, "Drew Homes", "United Real Estate", 13, 29348406], [4995000, "4514 Spanish Oak Trl", "Austin", "78731", 4993, "Madera Custom Homes", "Kuper Sotheby's Int'l Realty", 7, 29343193], [4761642, "6205 Marshall Ranch Rd", "Austin", "78746", 4937, "M Signature", "Outlaw Realty", 175, 461289444], [4717046, "1216 Eternity Ter", "Austin", "78746", 4937, "Milestone Community Builders", "Outlaw Realty", 115, 462650921], [4639481, "1209 Eternity Ter", "Austin", "78746", 5266, "Milestone Community Builders", "Outlaw Realty", 115, 462650489], [4600000, "2902 Cherry Ln", "Austin", "78703", 4150, "Gossett & Co.", "", 224, 29333870], [4580000, "1304 Dusky Thrush Trl", "Austin", "78746", 5253, "", "Compass RE Texas, LLC", 103, 29326920], [4383000, "434 Brady Ln", "West Lake Hills", "78746", 4429, "Monte Jannsen", "Compass RE Texas, LLC", 194, 29328131], [4349000, "108 Montana Del Oro Way", "Austin", "78738", 5362, "Sterling Custom Homes", "Compass RE Texas, LLC", 298, 440980795], [4299900, "114 Montana Del Oro Way", "Lakeway", "78738", 4837, "Laurel Haven Homes", "Next Door Realty LLC", 8, 2058947273], [4209268, "151 Creek Hollow Way", "Spicewood", "78669", 5738, "Adam Patterson, Mark Richardson Architects", "XL Legacy International Resort", 253, 455571663], [3700000, "202 Hub Dr", "Wimberley", "78676", 4776, "Kenny Therrien Custom Homes LLC", "Keller Williams Realty Austin", 250, 28609052], [3700000, "27031 Haynie Flat Rd", "Spicewood", "78669", 5360, "Patterson Custom Homes", "Compass RE Texas, LLC", 139, 89552017], [3650000, "1104 Maufrais St", "Austin", "78703", 3651, "Vinson Radke Homes", "LPT Realty LLC - Ascend Group", 19, 29329152], [3559000, "2013 Holland Ave", "Austin", "78704", 4027, "AUS-SAN CONSTRUCTION", "Kuper Sotheby's Int'l Realty", 4, 29322528], [3547990, "2114 W 11th St", "Austin", "78703", 3548, "Nalle Custom Homes", "Rose & Associates Properties", 26, 29331697], [3500000, "110 Bella Montagna Cir", "Austin", "78734", 5318, "Summitview Premier Builders", "Kuper Sotheby's Int'l Realty", 186, 70331896], [3480000, "19559 Sandcastle Dr", "Spicewood", "78669", 4600, "Countyline Custom Homes", "Christies Intl Real Estate Lone Star", 74, 125744516], [3450000, "3805 Rockledge Dr", "Austin", "78731", 4350, "Immo Development", "Moreland Properties", 63, 29351181], [3449000, "244 Zonetail Cv", "Austin", "78737", 4626, "Terra Builders LLC", "Compass RE Texas, LLC", 90, 462437763], [3274990, "5903 Silent Nova Vw", "Austin", "78730", 4644, "Milestone Community Builders", "Outlaw Realty", 107, 462744186], [3199000, "1102 Charlotte St", "Austin", "78703", 3090, "Cary Paul Studios", "All City Real Estate Ltd. Co", 15, 464100874], [3175000, "5403 Ridge Oak Dr", "Austin", "78731", 4224, "Kyngdom remodeling", "Kuper Sotheby's Int'l Realty", 89, 29344292], [2999995, "2806 Geraghty Ave", "Austin", "78757", 3702, "Cary Paul Studios", "All City Real Estate Ltd. Co", 98, 29418709], [2999990, "4216 Deepwoods Dr", "Austin", "78731", 4015, "Lohr Homes", "Rose & Associates Properties", 48, 29356473], [2999990, "10202 Epsilon Way", "Austin", "78730", 4595, "Milestone Community Builders", "Outlaw Realty", 216, 458405062], [2999000, "1315 W 9th St #B", "Austin", "78703", 3003, "Vinson Radke Homes", "LPT Realty LLC - Ascend Group", 19, 29327424], [2999000, "2301 Westworth Cir", "Austin", "78704", 3636, "Paradisa Homes LLC", "LPT Realty LLC - Ascend Group", 27, 29473670], [2950000, "6411 Cary Dr", "Austin", "78757", 3999, "PURE MODERN HOMES", "Moreland Properties", 34, 29416806], [2950000, "106 Bella Montagna Cir", "Austin", "78734", 6084, "N&Y Real Estates LLC", "Kuper Sotheby's Int'l Realty", 126, 70331894], [2899000, "2705 Warren St", "Austin", "78703", 3426, "Drew Homes", "United Real Estate", 13, 29338926], [2800000, "6101 Adhara Pass", "Austin", "78730", 4987, "M Signature", "Outlaw Realty", 412, 440151508], [2670000, "19833 Lakehurst Loop", "Spicewood", "78669", 1580, "", "Christies Intl Real Estate Lone Star", 214, 29358289], [2599999, "6000 Moondust Ln", "Austin", "78730", 4323, "Milestone Community Builders", "", 69, 463745387], [2599000, "1900 Matthews Dr", "Austin", "78703", 2880, "Whitworth Homes", "Presidio Group, REALTORS", 83, 463466134], [2545000, "2208 Montclaire St", "Austin", "78704", 3176, "LBF Homes", "Beycome Brokerage Realty LLC", 99, 338245066], [2500000, "_ Gulch Valley Dr", "Spicewood", "78669", 2685, "Thomas Ranch Builders", "Compass RE Texas, LLC", 362, 456829057], [2450000, "2307 Spanish Cedar Dr", "Leander", "78641", 4671, "Toll Brothers", "HomesUSA.com", 63, 453428556], [2399990, "4801 W Frances Pl", "Austin", "78731", 3638, "Jaehne Construction llc", "Rose & Associates Properties", 12, 29342747], [2399900, "953 Flagtop Ct", "Lakeway", "78738", 5170, "Drees Custom Homes", "HomesUSA.com", 111, 462656446], [2385000, "3604 Tom Miller St", "Austin", "78723", 3954, "Muskin Company", "Compass RE Texas, LLC", 95, 331621134], [2299900, "122 Crosswater Ln #Vkmuhm", "Dripping Springs", "78620", 4960, "Drees Custom Homes", "HomesUSA.com", 271, 353677146], [2200000, "4504 Chiappero Trl", "Austin", "78731", 2938, "Cary Paul Studios", "All City Real Estate Ltd. Co", 118, 29410486], [2200000, "17013 Northlake Hills Dr", "Leander", "78645", 4185, "N&Y Real Estates LLC", "Kuper Sotheby's Int'l Realty", 19, 70353320], [2200000, "8109 Kuhn Dr", "Austin", "78736", 4113, "", "Real Broker, LLC", 184, 441726250], [2199000, "1500 Lipan Trl", "Austin", "78733", 4261, "J. Angelo Design Build", "SOAR Investment Group", 47, 58298149], [2195000, "1005 W Johanna St", "Austin", "78704", 3200, "Mono ATX", "Jerry Fullerton Realty, Inc.", 7, 29472084], [2195000, "9207 Zyle Rd", "Austin", "78737", 4182, "", "Compass RE Texas, LLC", 40, 125802804], [2150000, "104 High View Trl", "Austin", "78738", 5371, "Drees Custom Homes", "eXp Realty, LLC", 55, 441615683], [2150000, "312 Rancho Grande Dr", "Wimberley", "78676", 2471, "Brandon Custom Homes", "Hills Of Texas Sky Realty", 195, 460849801], [2150000, "185 Landings Way", "Spicewood", "78669", 4328, "Patterson Custom Homes", "Pure Realty", 27, 464701161], [2050000, "1403 Barton Hills Dr #1", "Austin", "78704", 3130, "Inabnet Contracting", "eXp Realty, LLC", 168, 459359879], [1999000, "3309 Stardust Dr", "Austin", "78757", 2804, "", "Compass RE Texas, LLC", 78, 29420996], [1998500, "1521 Madison Ave", "Austin", "78757", 3281, "", "Compass RE Texas, LLC", 92, 29418163], [1995000, "1102 Summit St", "Austin", "78741", 3476, "Buildcorp RE & Construction LLC Aus-San Const", "Kuper Sotheby's Int'l Realty", 68, 29459626], [1985000, "4304 Shoalwood Ave", "Austin", "78756", 2604, "Texas Pie Development LLC", "Creekview Realty", 75, 29406062], [1980000, "3100 Garwood St", "Austin", "78702", 2856, "Trident Homes", "Compass RE Texas, LLC", 202, 29384626], [1978240, "508 Kasen Cir", "Liberty Hill", "78642", 4391, "Prince Development LLC", "Life Around Austin Realty, LLC", 5, 453426314], [1950000, "4603 Avenue C", "Austin", "78751", 3508, "Kiligray LLC", "Vox Real Estate, LLC", 6, 29405095], [1889000, "2007 Canterbury #1", "Austin", "78702", 3000, "", "Compass RE Texas, LLC", 90, 463327061], [1849000, "1609 Canterbury St Unit 1", "Austin", "78702", 3210, "", "Compass RE Texas, LLC", 33, 464557412], [1770000, "3007 Village Dr", "Austin", "78731", 2671, "Big Castle LLC", "Compass RE Texas, LLC", 71, 29342644], [1750000, "25623 Singleton Drive", "Marble Falls", "78654", 2314, "", "Kuper Sotheby's Int'l Realty", 135, 29519965], [1750000, "1710 S 5th 1 Austin #1", "Austin", "78704", 2732, "", "Compass RE Texas, LLC", 36, 464439570], [1749990, "10103 Milky Way Dr", "Austin", "78730", 3895, "M Signature", "Outlaw Realty", 407, 449122884], [1749000, "3637 Torcello Cv", "Leander", "78641", 5339, "Toll Brothers", "HomesUSA.com", 22, 458173486], [1709500, "15424 Fm 2769 Rd", "Leander", "78641", 4955, "Owner Managed Homes, Jeff Walling", "Compass RE Texas, LLC", 117, 2062491776], [1700000, "1403 Barton Hills Dr Unit 2", "Austin", "78704", 2591, "Inabnet Contracting", "eXp Realty, LLC", 168, 459360184], [1699000, "3007 Locke Ln", "Austin", "78704", 3056, "EVOK HOMES LLC", "Moreland Properties", 32, 29476725], [1695000, "1301 O'Reilly Dr", "Austin", "78734", 5004, "TREO SIGNATURE HOMES", "Ruzicka Real Estate", 221, 70324714], [1675000, "1403 Barton Hills Dr #3", "Austin", "78704", 2500, "Inabnet Contracting", "eXp Realty, LLC", 168, 459360185], [1665000, "4700 Banister Ln", "Austin", "78745", 3078, "TruHome", "Kuper Sotheby's Int'l Realty", 25, 29482703], [1654900, "1719 Spyglass Dr #17", "Austin", "78746", 3146, "Spyglass Homes", "eXp Realty, LLC", 130, 338244983], [1650000, "1201 Georgian St", "Austin", "78756", 3011, "Essential Elements Texas LLC", "MINDSET REALTY LLC", 1, 29410672], [1650000, "4513 Hank Ave", "Austin", "78745", 3086, "", "Kuper Sotheby's Int'l Realty", 83, 29480446], [1650000, "713 San Gabriel Ranch Rd", "Liberty Hill", "78641", 4134, "Knox Street Land Investment, LLC", "Christies Intl Real Estate Lone Star", 59, 447941850], [1599900, "3733 Salento Cv", "Leander", "78641", 4574, "Toll Brothers", "CB&A, Realtors", 30, 458234419], [1599900, "366 Crosswater Ln", "Dripping Springs", "78620", 4960, "Drees Custom Homes", "HomesUSA.com", 247, 459684487], [1599000, "1508 Chalk Bluff Ct", "Leander", "78641", 3962, "Kikani Housing Inc", "Compass RE Texas, LLC", 15, 251028308], [1599000, "3725 Salento Cv", "Leander", "78641", 4017, "Toll Brothers", "HomesUSA.com", 63, 458235670], [1599000, "1472 Stahlman Way", "New Braunfels", "78132", 3872, "Schovajsa", "Keller Williams Heritage", 62, 2058449929], [1595000, "8512 Rockwood Ln", "Austin", "78757", 2853, "LECASA Homes", "AustinHaus Realty", 47, 29429759], [1595000, "2203 Pyramid Dr", "Austin", "78734", 6500, "TREO SIGNATURE HOMES", "Ruzicka Real Estate", 167, 144196839], [1575000, "205 Waters View Ct", "Dripping Springs", "78620", 4405, "Aced Custom Homes", "eXp Realty, LLC", 50, 202190435], [1562000, "4600 Ol Brushy Creek Ln", "Cedar Park", "78613", 4901, "Toll Brothers", "HomesUSA.com", 48, 463889185], [1525982, "2305 Fawn Crk", "Cedar Park", "78641", 3876, "Toll Brothers", "", 68, 463779519], [1525000, "6210 Camino Real St", "Austin", "78757", 2937, "", "Compass RE Texas, LLC", 13, 457257819], [1503000, "516 Listowel Dr", "Cedar Park", "78613", 4247, "Toll Brothers", "HomesUSA.com", 48, 463889172], [1500000, "1801 W Saint Johns St", "Austin", "78757", 2534, "", "Compass RE Texas, LLC", 28, 464681422]],
+tiers: [
+{area:"Tarrytown / Old West Austin (78703)",county:"Travis",core:"Bridle Path, Windsor Rd, Pecos, Forest Trail, Gaston, Mountain View, Meadowbrook, Cherry Ln, Greenlee, Murillo",coreBand:"$4.5M to $9M+",coreNote:"Gossett $4.6M and $5.2M, Risinger $6.5M on Gaston, Drew $2.9M on Warren. Two 9,500 to 10,500 sf specs on Greenlee and Murillo closed in late 2025 and mid 2026 (Zestimates $8M to $9M). Emma Stone's $23.5M is the outlier, not the market.",edge:"Clarksville, West 9th and 10th, Deep Eddy, Maufrais, Charlotte, Matthews",edgeBand:"$2.6M to $3.7M",edgeNote:"Vinson Radke $3.0M and $3.65M, Nalle $3.55M, Cary Paul $3.2M, Whitworth $2.6M. Lots are 4,000 to 8,500 sf so homes cap around 3,600 sf.",ppsf:"$900 to $1,400 ask",dom:"19 days median on active new builds, the fastest in the metro",read:"This is your Gun Club Road. Inner streets clear $1,000/sf; edges are a $1,000/sf ask on smaller houses."},
+{area:"Westlake / Rollingwood / West Lake Hills (78746)",county:"Travis",core:"Lake Austin waterfront, Westlake Dr, Rollingwood, Camp Craft, Terrace Mountain, Bunny Run, Stratford Hills",coreBand:"$8M to $20M+",coreNote:"Next Custom Homes $11.25M on Camp Craft (7,024 sf, $1,600/sf). Closed 2025: 907 Terrace Mountain $9.6M, 3500 Bunny Run $13M, 1401 N Weston $9M. Stratford Hills asking $16.95M.",edge:"The Overlook at Westlake (Eternity Ter), Lost Creek, Marshall Ranch, Dusky Thrush, Brady Ln, Charles Ave",edgeBand:"$2.9M to $5.3M",edgeNote:"Milestone/M Signature $2.9M to $5.3M at The Overlook, Drew $5M on Charles, Brady Ln $4.4M, Dusky Thrush $4.6M. Spyglass townhome-style specs $1.65M.",ppsf:"$800 to $1,000 ask ($1,600 waterfront)",dom:"115 days median; Overlook homes sitting 100 to 300 days",read:"Eanes ISD is the moat. Interior lots are a $4M to $5M product; the water and Westlake Dr are a different market entirely."},
+{area:"Zilker / Bouldin / Barton Hills / Travis Heights (78704)",county:"Travis",core:"Zilker (Bluebonnet, Kinney, Holland), Bouldin (S 5th, Johanna), Travis Heights east of Congress",coreBand:"$3.0M to $3.6M",coreNote:"AUS-SAN $3.56M on Holland (4,027 sf). Rivendale's 1001 Bluebonnet closed $3.4M in Sept 2025 on ~$790K dirt. 711 Kinney closed Dec 2025 (Zestimate $2.8M).",edge:"Barton Hills, South Lamar side streets, Galindo, Westworth",edgeBand:"$1.7M to $3.0M",edgeNote:"Paradisa $3.0M on Westworth, LBF $2.5M Montclaire, Mono ATX $2.2M Johanna, Inabnet $1.7M to $2.05M on Barton Hills Dr (three-unit site), EVOK $1.7M Locke.",ppsf:"$550 to $900 ask",dom:"36 days median",read:"Smaller lots, smaller houses, faster velocity. The $3M to $3.5M Zilker spec is the proven trade; above $3.6M there are no new-build comps."},
+{area:"Northwest Hills / Mt Bonnell / Cat Mountain (78731)",county:"Travis",core:"Mount Bonnell Rd, Spanish Oak Trl, Cat Mountain view lots, Balcones",coreBand:"$5M to $10M",coreNote:"BRF Homes $9.9M on Mount Bonnell (5,851 sf, $1,700/sf, 7 days on market), Madera $5M on Spanish Oak Trl. View lots price like Westlake.",edge:"Interior NW Hills (Deepwoods, Ridge Oak, Rockledge, W Frances, Village Dr)",edgeBand:"$1.8M to $3.5M",edgeNote:"Immo $3.45M Rockledge, Kyngdom $3.2M Ridge Oak, Lohr $3.0M Deepwoods, Jaehne $2.4M W Frances, Big Castle $1.8M Village. 4107 N Hills Dr closed Dec 2025 (Zestimate $3.3M).",ppsf:"$650 to $800 interior, $1,000+ on views",dom:"55 days median",read:"The sleeper. Interior lots are cheaper than Tarrytown with $3M to $3.5M exits, and the hill lots go to $10M."},
+{area:"Allandale / Crestview / Rosedale / Brentwood (78757, 78756)",county:"Travis",core:"Allandale (Cary, Geraghty, Stardust, Madison), Rosedale (Shoalwood)",coreBand:"$2.0M to $3.0M",coreNote:"Cary Paul $3.0M Geraghty, Pure Modern $2.95M Cary Dr, Compass-listed specs $2.0M on Stardust and Madison, Texas Pie $2.0M Shoalwood. 1209 Romeria closed Mar 2026 (Zestimate $1.75M).",edge:"Crestview, Brentwood, north of Anderson",edgeBand:"$1.5M to $1.8M",edgeNote:"LECASA $1.6M Rockwood, Essential Elements $1.65M Georgian, Saint Johns $1.5M.",ppsf:"$550 to $750 ask",dom:"47 days median",read:"Volume spec territory. Paradisa's Allandale land positions are here. Thin margins above $2.5M."},
+{area:"East Austin / Mueller / Hyde Park (78702, 78723, 78751)",county:"Travis",core:"Mueller edge (Tom Miller), Hyde Park (Avenue C)",coreBand:"$1.9M to $2.4M",coreNote:"Muskin $2.4M Tom Miller, Kiligray $1.95M Avenue C.",edge:"East Austin (Canterbury, Garwood)",edgeBand:"$1.85M to $2.0M",edgeNote:"Trident $1.98M Garwood, Compass-listed Canterbury specs $1.85M to $1.9M, often two units per lot.",ppsf:"$550 to $700 ask",dom:"90 days median",read:"Ceiling is about $2M. Not a luxury spec market; skip unless the lot is a two-unit play."},
+{area:"River Place / Lake Austin north shore (78730)",county:"Travis",core:"Milky Way at River Place (Milestone), Lake Austin waterfront",coreBand:"$2.6M to $3.3M (waterfront $15M to $50M)",coreNote:"Milestone $2.6M to $3.3M on Silent Nova, Moondust, Epsilon. Lake Austin waterfront is its own market: Shore Vista $16.9M closed 2025, Ames $50M listing.",edge:"River Place interior",edgeBand:"$1.75M to $2.5M",edgeNote:"M Signature $1.75M Milky Way Dr, sitting 400+ days.",ppsf:"$600 ask",dom:"216 days median, slowest in the core",read:"Gated production-luxury. Long days on market means buyers here negotiate."},
+{area:"Bee Cave / Spanish Oaks / Rough Hollow / Lakeway (78738, 78734)",county:"Travis",core:"Spanish Oaks, Montana Del Oro (Travis Club), Bella Montagna",coreBand:"$3.5M to $4.4M (Spanish Oaks resale to $9M)",coreNote:"Sterling $4.35M and Laurel Haven $4.3M on Montana Del Oro (2026 Parade), Summitview $3.5M and N&Y $2.95M on Bella Montagna. 5009 Spanish Oaks Club Blvd closed $9M in 2025. Madrone Canyon homes planned at $3M to $6M.",edge:"Rough Hollow, Las Brisas, Hudson Bend, Lakeway interior",edgeBand:"$1.6M to $2.4M",edgeNote:"Drees $2.15M to $2.4M (Flagtop, High View), TREO $1.6M to $1.7M Hudson Bend. 969 Tomichi closed Nov 2025 (Zestimate $2.25M).",ppsf:"$400 to $900 ask",dom:"83 to 176 days",read:"Gated golf product. Custom builders win at $3.5M+; Drees owns $1.5M to $2.4M."},
+{area:"Spicewood / Lake Travis west / Thomas Ranch (78669)",county:"Travis / Burnet",core:"Lake Travis waterfront, Loraloma at Thomas Ranch, Creek Hollow",coreBand:"$3.5M to $4.2M (waterfront $5M+)",coreNote:"Patterson $3.7M Haynie Flat, Countyline $3.5M Sandcastle, Creek Hollow $4.2M on 5.5 acres. Loraloma homes planned $2M to $10M.",edge:"Thomas Ranch first phase, Lakehurst",edgeBand:"$2.15M to $2.7M",edgeNote:"Thomas Ranch Builders $2.5M Gulch Valley (362 days), Patterson $2.15M Landings Way, Breven plans $2.2M to $2.65M.",ppsf:"$600 to $930 ask",dom:"176 days median",read:"Acreage and views. Slow absorption; Canyon Ranch and Loraloma will reset this in 2027 to 2028."},
+{area:"Dripping Springs / Belterra / Driftwood (78620, 78737, 78619)",county:"Hays",core:"Acreage estates off Fitzhugh and Hamilton Pool (Zonetail, Zyle), Driftwood Golf & Ranch Club",coreBand:"$2.2M to $3.5M (Driftwood club $2M to $8M)",coreNote:"Terra Builders $3.45M Zonetail Cv on 1.4 acres, Zyle Rd $2.2M on 1.5 acres.",edge:"Caliterra, Crosswater, Headwaters, Belterra, Driftwood production",edgeBand:"$1.3M to $2.3M",edgeNote:"Drees $1.6M to $2.3M Crosswater, Aced $1.6M Waters View, Highland $1.3M Belterra, Perry $1.3M to $1.4M Driftwood. 288 Crosswater closed Jan 2026 (Zestimate $1.76M).",ppsf:"$360 to $750 ask",dom:"65 to 247 days",read:"Lunaroya and Mirasol lots start at $2M, so a $4M+ acreage spec is coming but has no comps yet."},
+{area:"Wimberley / Canyon Lake (78676, 78133)",county:"Hays / Comal",core:"Acreage with views or Blanco River frontage",coreBand:"$2.2M to $3.7M",coreNote:"Kenny Therrien $3.7M Hub Dr (4,776 sf, 250 days), Brandon Custom $2.15M Rancho Grande. Canyon Lake Country Pike closed Oct 2025 (Zestimate $2.4M).",edge:"Everything else",edgeBand:"under $1.5M",edgeNote:"",ppsf:"$770 to $870 ask on the two new builds",dom:"195 to 250 days",read:"Thin market, long holds. Second-home buyers."},
+{area:"Leander / Travisso / Cedar Park / Liberty Hill (78641, 78613, 78642)",county:"Williamson",core:"Travisso (Toll Brothers), Northlake Hills, San Gabriel acreage",coreBand:"$1.6M to $2.45M",coreNote:"Toll $1.5M to $2.45M (Spanish Cedar, Torcello, Salento), N&Y $2.2M Northlake Hills, Prince Development $2.0M Liberty Hill on 2.7 acres.",edge:"Cedar Park, Georgetown, Hutto",edgeBand:"$1.3M to $1.6M",edgeNote:"Toll $1.5M Cedar Park, Drees $1.5M Georgetown, Sitterle and GNZ $1.4M Liberty Hill.",ppsf:"$340 to $450 ask",dom:"48 to 63 days",read:"Production luxury, not custom spec. Toll, Drees, Perry and Highland own it. Only Northlake Hills and acreage lots offer a custom-spec angle."}
+],
+events: [
+{d:"Sept 23",y:"2026",n:"HBA Business Exchange + ULI Austin breakfast",p:"HBA reverse tradeshow (builders sit, you rotate) and the ULI monthly breakfast the same day. ULI breakfasts are open to non-members, about $75.",star:1},
+{d:"Sept 29",y:"2026",n:"Austin RENC monthly meetup",p:"Free investor networking, Tuesdays 6pm. Not luxury, but where flippers and infill developers start. austinrenc.com"},
+{d:"Oct 9",y:"2026",n:"Austin Home & Design Awards submissions close",p:"Finalists Jan 2027, red-carpet ceremony spring 2027 (2026 was at The LINE). Architects, builders and designers all in one room."},
+{d:"Oct 11 to 12",y:"2026",n:"Leaders in Luxury (Institute for Luxury Home Marketing)",p:"Hotel ZaZa Austin, $895 to $945, CLHMS/GUILD members only, 75 seats. National luxury agents."},
+{d:"Oct 16",y:"2026",n:"HBA Golf Classic",p:"Sponsorship-heavy, builders and trades."},
+{d:"Oct 21",y:"2026",n:"ULI Austin breakfast",p:"Life sciences theme; developers, land brokers, capital."},
+{d:"Oct 24 to 25",y:"2026",n:"AIA Austin Homes Tour (40th)",p:"9 homes, 10am to 6pm. Architects and their builders stand in each house. The best single weekend to meet the architect-driven crowd. aiaaustin.org",star:1},
+{d:"Nov 5",y:"2026",n:"HBA Chili Fest",p:"Most social HBA event of the fall, hundreds of builders and trades, live music."},
+{d:"Nov 18",y:"2026",n:"ULI Austin breakfast",p:"Eastern Crescent theme."},
+{d:"Dec 9",y:"2026",n:"ULI Emerging Trends breakfast",p:"Biggest ULI breakfast of the year."},
+{d:"Dec 11",y:"2026",n:"HBA President's Awards and Board Installation",p:"Leadership and board crowd."},
+{d:"Dec 17",y:"2026",n:"Platinum Top 50 Austin awards",p:"Open ticket via Eventbrite; top agents plus lender and title sponsors. pt50.com/austin"},
+{d:"Jan 23 to 24",y:"2027",n:"Tribeza Interiors Tour",p:"Early-bird pricing through Dec 31, elevated VIP party downtown. Design-build firms and interior designers. tribeza.com/interiorstour",star:1},
+{d:"Feb 16",y:"2027",n:"HBA Annual Housing Forecast",p:"Renaissance Austin, 650+ attendees. The biggest single room of builders, developers and lenders in the region.",star:1},
+{d:"Late Feb",y:"2027",n:"Austin Modern Home Tour (dates TBA)",p:"2026 was Feb 28 with a VIP kickoff Feb 25. Otto Design + Build, Moontower and other modern design-build firms."},
+{d:"Late Feb",y:"2027",n:"HBA Sporting Clay Shootout",p:"About 250, very builder and trade heavy."},
+{d:"Late Mar",y:"2027",n:"ABJ Residential Real Estate Awards (TBA)",p:"Luncheon ranking the top 50 agents and teams plus custom builder awards."},
+{d:"Apr 8",y:"2027",n:"HBA MAX Awards",p:"Custom Builder, Developer and Community of the Year. The custom builder awards night; Olson Defendorf, Skelly and Texas Construction Co. are regulars.",star:1},
+{d:"April",y:"2027",n:"Tribeza Luxury Home Tour (TBA)",p:"2026 was April 11: seven on-market homes at $3.3M to $14.9M with the listing agents inside. Best public event to meet luxury listing agents.",star:1},
+{d:"April",y:"2027",n:"Preservation Austin Homes Tour",p:"Old West Austin and Tarrytown owners and renovators."},
+{d:"May 6",y:"2027",n:"HBA Builders Bash & Boil",p:"Crawfish boil at Haute Spot, 300+, casual."},
+{d:"June",y:"2027",n:"Austin Parade of Homes (HBA) and ASID CHROMATIC awards",p:"2026 Parade was June 13 to 14 with Next Custom Homes, Sterling, RedOven and others standing in their own homes; VIP reception exists. paradeofhomesaustin.com",star:1},
+{d:"Oct 21 to 23",y:"2027",n:"Build Show LIVE (Matt Risinger), Houston",p:"Not Austin, but the builder-nerd crowd from Austin goes."}
+]
+};
+
+
+const CHIP={spec:"Spec",custom:"Custom",dev:"Developer",cap:"Capital",agent:"Agent",arch:"Architect",pri:"Priority",lots:"Lot source",whole:"Wholesaler"};
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const hit=(o,q)=>!q||JSON.stringify(o).toLowerCase().includes(q);
+const money=n=>n>=1e6?"$"+(n/1e6).toFixed(n%1e6===0?0:2).replace(/\.?0+$/,"")+"M":"$"+Math.round(n/1e3)+"K";
+const fmt=n=>"$"+Math.round(n).toLocaleString("en-US");
+let panel="overview", q="", specOnly=false;
+try{ const s=localStorage.getItem("vfv.mi.panel"); if(s&&document.getElementById("panel-"+s)) panel=s; specOnly=localStorage.getItem("vfv.mi.spec")==="1"; }catch(e){}
+
+function card(o){
+  const chips=(o.t||[]).map(k=>`<span class="tag ${k}">${CHIP[k]||k}</span>`).join("");
+  const links=[];
+  if(o.ig) links.push(`<a class="lnk ig${o.igu?' unv':''}" href="https://www.instagram.com/${esc(o.ig)}/" target="_blank" rel="noopener">@${esc(o.ig)}</a>`);
+  if(o.ig2) links.push(`<a class="lnk ig" href="https://www.instagram.com/${esc(o.ig2)}/" target="_blank" rel="noopener">@${esc(o.ig2)}</a>`);
+  if(o.web) links.push(`<a class="lnk" href="https://${esc(o.web)}" target="_blank" rel="noopener">${esc(o.web)}</a>`);
+  return `<article class="research-card${(o.t||[]).includes("pri")?" pri":""}">
+    <div class="tags">${chips}</div>
+    <h3>${esc(o.n)}</h3>
+    ${o.who?`<div class="who">${esc(o.who)}</div>`:""}
+    ${o.hood?`<p class="meta">${esc(o.hood)}</p>`:""}
+    <p class="why">${esc(o.why)}</p>
+    ${o.meta?`<p class="meta">${esc(o.meta)}</p>`:""}
+    ${links.length?`<div class="links">${links.join("")}</div>`:""}
+  </article>`;
+}
+const NOTES={builders:"Ordered by spec activity, then custom pedigree. Gold-edged cards are the builders whose model overlaps most with an outside investor.",lots:"Who moves dirt. Gold-edged cards are the channels that actually touch $1M+ infill. Wholesaler cards are the volume shops: cheap to join, low odds of a Tarrytown lot.",developers:"Who controls the lots. Community developers decide which builders get approved, so they matter even if we never build in their subdivision.",capital:"Where the money comes from. Most of it is private, so the people on the Agents panel are also the capital introductions.",agents:"The agents who hold the $3M+ listings and the builder relationships, plus the two networks that gate the luxury circuit.",architects:"Architects set the tone and pick the builder on most $5M+ customs. Interior designers listed at the bottom stage the specs that photograph well."};
+
+function listView(k){
+  const ql=q.trim().toLowerCase();
+  let list=D[k].filter(o=>hit(o,ql)); let toggle="";
+  if(k==="builders"){
+    if(specOnly) list=list.filter(o=>o.t.includes("spec")); else list=[...list].sort((a,b)=>(b.t.includes("spec")?1:0)-(a.t.includes("spec")?1:0));
+    toggle=`<div class="toolrow"><button type="button" class="btn ghost sm${specOnly?" on":""}" id="specToggle">Spec builders only · ${D.builders.filter(o=>o.t.includes("spec")).length}</button></div>`;
+  }
+  return `<p class="panel-intro">${NOTES[k]||""}</p>${toggle}<div class="research-grid">${list.map(card).join("")||'<div class="empty">Nothing matches</div>'}</div>`;
+}
+function eventsView(){
+  const ql=q.trim().toLowerCase();
+  const rows=D.events.filter(e=>hit(e,ql)).map(e=>`<div class="ev${e.star?" star":""}"><div class="d">${esc(e.d)}<small>${esc(e.y)}</small></div><div><h3>${esc(e.n)}</h3><p>${esc(e.p)}</p></div></div>`).join("");
+  return `<p class="panel-intro">Gold-edged events are the ones worth flying in for. 2027 dates marked TBA follow the 2026 pattern. The weekly deal calendar on the Land Acquisition side covers the smaller meetups.</p>${rows||'<div class="empty">Nothing matches</div>'}`;
+}
+function followView(){
+  const ql=q.trim().toLowerCase();
+  const groups=[["Builders to ping first",D.builders.filter(b=>b.ig&&b.t.includes("pri"))],["Rest of the builders",D.builders.filter(b=>b.ig&&!b.t.includes("pri"))],["Agents and networks",D.agents.filter(a=>a.ig)],["Lot sources",D.lots.filter(a=>a.ig)],["Architects",D.architects.filter(a=>a.ig)],["Organizations and curators",[{n:"HBA Austin",ig:"hba_austin"},{n:"AIA Austin",ig:"aiaaustin"},{n:"Tribeza",ig:"tribeza"},{n:"Austin Home",ig:"austin_home"},{n:"RECA",ig:"reca_austin"},{n:"Platinum Top 50",ig:"pt50austin"},{n:"ASID Texas",ig:"asid_tx"},{n:"Dream Homes of Austin",ig:"dreamhomesofaustin"},{n:"Amir Lancaster",ig:"_amirlancaster_"},{n:"Sunbelt Builders Show",ig:"sunbeltbuildersshow"},{n:"Build Show LIVE",ig:"buildshowlive"}]]];
+  const all=[];
+  const html=groups.map(([t,arr])=>{const items=arr.filter(o=>hit(o,ql)); if(!items.length) return ""; items.forEach(o=>{all.push("@"+o.ig); if(o.ig2) all.push("@"+o.ig2);});
+    return `<div class="follow"><h3>${esc(t)}</h3><p>${items.length} accounts</p><div class="handles">${items.map(o=>`<a class="lnk ig${o.igu?' unv':''}" href="https://www.instagram.com/${esc(o.ig)}/" target="_blank" rel="noopener" title="${esc(o.n)}">@${esc(o.ig)}</a>${o.ig2?`<a class="lnk ig" href="https://www.instagram.com/${esc(o.ig2)}/" target="_blank" rel="noopener">@${esc(o.ig2)}</a>`:""}`).join("")}</div></div>`;}).join("");
+  return `<p class="panel-intro">Every handle was seen in an Instagram search result or on the company's own site. Dashed buttons need a look before tagging.</p>${html||'<div class="empty">Nothing matches</div>'}<button type="button" class="btn ghost sm" id="copyAll" data-list="${esc(all.join(" "))}">Copy all handles</button>`;
+}
+function pricingView(){
+  const ql=q.trim().toLowerCase();
+  const rows=D.tiers.filter(t=>hit(t,ql)).map(t=>`<article class="research-card">
+    <div class="tags"><span class="tag">${esc(t.county)}</span></div><h3>${esc(t.area)}</h3>
+    <div class="band"><div><span class="lbl">Inner streets</span><b>${esc(t.coreBand)}</b><span class="sub">${esc(t.core)}</span></div><div><span class="lbl">Edges</span><b>${esc(t.edgeBand)}</b><span class="sub">${esc(t.edge)}</span></div></div>
+    <p class="why">${esc(t.read)}</p><p class="meta"><b>Evidence:</b> ${esc(t.coreNote)} ${esc(t.edgeNote)}</p><p class="meta">Ask $/sf: ${esc(t.ppsf)} · Days on market: ${esc(t.dom)}</p></article>`).join("");
+  return `<p class="panel-intro">West Meade logic applied to Austin. "Inner streets" is where the top new-build asks and closed sales sit; "edges" is where the same zip drops a tier. Bands are September 2026 asking prices for new construction on Zillow, cross-checked against closed sales reported in the press. Texas is non-disclosure, so pull the MLS before underwriting.</p>
+  <div class="tiles"><div class="pl-tile"><div class="k">Active specs $1.5M+</div><div class="v">95</div><div class="s">Travis, Williamson, Hays</div></div><div class="pl-tile"><div class="k">Tarrytown</div><div class="v">$1,000</div><div class="s">median ask per sf</div></div><div class="pl-tile"><div class="k">Westlake</div><div class="v">$962</div><div class="s">median ask per sf</div></div><div class="pl-tile"><div class="k">78704</div><div class="v">$670</div><div class="s">median ask per sf</div></div><div class="pl-tile"><div class="k">Leander / Travisso</div><div class="v">$396</div><div class="s">median ask per sf</div></div></div>
+  <div class="research-grid">${rows||'<div class="empty">Nothing matches</div>'}</div>`;
+}
+function zspecView(){
+  const ql=q.trim().toLowerCase();
+  const dirNames=D.builders.map(b=>b.n.toLowerCase().split(" ")[0]).filter(w=>w.length>4);
+  const rows=D.zspec.filter(z=>hit(z,ql)).map(z=>{const known=dirNames.some(w=>z.b.toLowerCase().startsWith(w));return `<article class="research-card"><div class="tags"><span class="tag spec">Spec on Zillow</span>${known?'<span class="tag pri">In directory</span>':'<span class="tag">New name</span>'}</div><h3>${esc(z.b)}</h3><p class="meta">${z.n} active · ${money(z.lo)}${z.n>1?" to "+money(z.hi):""} · ~$${z.ppsf}/sf · zips ${esc(z.zips)}</p><p class="why">${esc(z.ex)}</p></article>`}).join("");
+  const list=D.listings.filter(l=>hit(l,ql)).map(l=>`<tr><td>${money(l[0])}</td><td>${esc(l[1])}, ${esc(l[2])} ${esc(l[3])}</td><td>${l[4]?l[4].toLocaleString():""}</td><td>${l[4]?"$"+Math.round(l[0]/l[4]):""}</td><td>${esc(l[5])}</td><td>${esc(l[6])}</td><td>${l[7]}</td><td><a href="https://www.zillow.com/homedetails/${l[8]}_zpid/" target="_blank" rel="noopener">Zillow</a></td></tr>`).join("");
+  return `<p class="panel-intro">Every builder with an active $1.5M+ new-construction listing on Zillow across Travis, Williamson and Hays as of September 16, 2026 (floor-plan placeholders removed). "New name" means they were not in the research directory: the small spec shops the press never covers.</p>
+  <div class="research-grid">${rows}</div><h2 class="tblh">All ${D.listings.length} active listings</h2><div class="tblwrap"><table class="research-table"><thead><tr><th>Ask</th><th>Address</th><th>Sq ft</th><th>$/sf</th><th>Builder</th><th>Listed by</th><th>DOM</th><th></th></tr></thead><tbody>${list}</tbody></table></div>
+  <p class="research-note">Refresh: search Zillow for new construction, $1.5M+, single family, in the three counties, and replace the listings block in this file. A scheduled task can do this weekly the same way the deal calendar refreshes.</p>`;
+}
+const PRESETS={
+ tarry_edge:{name:"Tarrytown edge (Clarksville, W 9th)",lot:1200000,sqft:3600,hard:425,site:90000,soft:10,months:14,ltc:70,rate:10,sale:1000},
+ tarry_core:{name:"Tarrytown inner street",lot:2000000,sqft:4400,hard:475,site:120000,soft:10,months:16,ltc:70,rate:10,sale:1175},
+ westlake_int:{name:"Westlake interior (Eanes)",lot:1300000,sqft:5000,hard:425,site:150000,soft:10,months:15,ltc:70,rate:10,sale:925},
+ zilker:{name:"Zilker / Bouldin core",lot:850000,sqft:4000,hard:375,site:70000,soft:10,months:13,ltc:70,rate:10,sale:850},
+ nwhills:{name:"Northwest Hills interior",lot:750000,sqft:4200,hard:375,site:110000,soft:10,months:14,ltc:70,rate:10,sale:760},
+ allandale:{name:"Allandale",lot:550000,sqft:3700,hard:340,site:60000,soft:10,months:12,ltc:70,rate:10,sale:650},
+ beecave:{name:"Spanish Oaks / Travis Club lot",lot:1000000,sqft:5300,hard:400,site:180000,soft:10,months:16,ltc:70,rate:10,sale:820},
+ dripping:{name:"Dripping Springs acreage",lot:550000,sqft:4600,hard:325,site:200000,soft:10,months:15,ltc:70,rate:10,sale:720}
+};
+let pf=Object.assign({},PRESETS.zilker); try{const s=JSON.parse(localStorage.getItem("vfv.mi.pf")||"null"); if(s) pf=Object.assign(pf,s);}catch(e){}
+function pfCalc(p){
+  const hardT=p.sqft*p.hard, softT=(hardT+p.site)*p.soft/100, cost0=p.lot+hardT+p.site+softT;
+  const loan=cost0*p.ltc/100, interest=loan*(p.rate/100)*(p.months/12)*0.6, loanFees=loan*0.01;
+  const gross=p.sqft*p.sale, selling=gross*0.06, closing=gross*0.01, taxIns=p.lot*0.02*(p.months/12)+15000;
+  const total=cost0+interest+loanFees+taxIns, net=gross-selling-closing, profit=net-total, equity=total-loan;
+  return {hardT,softT,cost0,loan,interest,loanFees,gross,selling,closing,taxIns,total,net,profit,equity,margin:profit/gross,roe:profit/equity,annROE:profit/equity*(12/p.months),breakeven:(total+closing)/(0.94*p.sqft)};
+}
+function proformaView(){
+  const r=pfCalc(pf);
+  const f=(id,l,step,suf)=>`<label class="fld"><span>${l}</span><input id="pf_${id}" type="number" step="${step||1}" value="${pf[id]}"><em>${suf||""}</em></label>`;
+  const good=r.margin>=0.18, ok=r.margin>=0.12;
+  return `<p class="panel-intro">Quick spec underwriting. Pick a preset that matches the tier, then change any number. Costs are September 2026 Austin ranges (luxury hard costs $450 to $600+/sf, semi-custom $325 to $450); every field is an assumption to replace with real bids. Interest assumes an average 60% draw. Selling costs 6%, closing 1%, 1% loan fee, taxes and insurance during the hold.</p>
+  <div class="pfwrap"><div class="pfin">
+    <label class="fld"><span>Preset</span><select id="pf_preset">${Object.entries(PRESETS).map(([k,v])=>`<option value="${k}">${v.name}</option>`).join("")}</select></label>
+    ${f("lot","Lot price",10000,"$")}${f("sqft","Finished sq ft",50,"sf")}${f("hard","Hard cost per sf",5,"$/sf")}${f("site","Site work, demo, utilities",5000,"$")}${f("soft","Soft costs",1,"% hard")}${f("months","Months lot to close",1,"mo")}${f("ltc","Loan to cost",5,"%")}${f("rate","Interest rate",0.25,"%")}${f("sale","Sale price per sf",10,"$/sf")}
+   </div><div class="pfout">
+    <div class="big ${good?"good":ok?"ok":"bad"}"><span>Projected profit</span><b>${fmt(r.profit)}</b><small>${(r.margin*100).toFixed(1)}% margin on sale · ${(r.roe*100).toFixed(0)}% on equity (${(r.annROE*100).toFixed(0)}% annualized)</small></div>
+    <table class="pft">
+     <tr><td>Sale price</td><td>${fmt(r.gross)}</td></tr><tr><td>Less commissions and closing (7%)</td><td>(${fmt(r.selling+r.closing)})</td></tr><tr class="sub"><td>Net proceeds</td><td>${fmt(r.net)}</td></tr>
+     <tr><td>Lot</td><td>${fmt(pf.lot)}</td></tr><tr><td>Hard construction</td><td>${fmt(r.hardT)}</td></tr><tr><td>Site work</td><td>${fmt(pf.site)}</td></tr><tr><td>Soft costs</td><td>${fmt(r.softT)}</td></tr><tr><td>Interest and loan fee</td><td>${fmt(r.interest+r.loanFees)}</td></tr><tr><td>Taxes, insurance, misc carry</td><td>${fmt(r.taxIns)}</td></tr><tr class="sub"><td>All-in cost</td><td>${fmt(r.total)}</td></tr>
+     <tr><td>Cash equity needed (${100-pf.ltc}% of cost)</td><td>${fmt(r.equity)}</td></tr><tr><td>All-in cost per sf</td><td>${fmt(r.total/pf.sqft)}</td></tr><tr><td>Breakeven sale price per sf</td><td>${fmt(r.breakeven)}</td></tr><tr><td>Lot as % of sale</td><td>${(pf.lot/r.gross*100).toFixed(0)}%</td></tr>
+    </table>
+    <p class="research-note">Nashville rule still holds: if the lot is more than 35% of the exit, or breakeven $/sf is within 10% of the tier's ask, walk. For a full model use the Underwriting Model in Admin.</p>
+   </div></div>`;
+}
+function bindProforma(root){
+  const sel=root.querySelector("#pf_preset"); if(!sel) return;
+  const cur=Object.keys(PRESETS).find(k=>PRESETS[k].name===pf.name); if(cur) sel.value=cur;
+  const save=()=>{try{localStorage.setItem("vfv.mi.pf",JSON.stringify(pf));}catch(e){}};
+  sel.onchange=()=>{pf=Object.assign({},PRESETS[sel.value]); save(); render();};
+  ["lot","sqft","hard","site","soft","months","ltc","rate","sale"].forEach(id=>{const el=root.querySelector("#pf_"+id); el.oninput=()=>{pf[id]=parseFloat(el.value)||0; save(); const tmp=document.createElement("div"); tmp.innerHTML=proformaView(); root.querySelector(".pfout").replaceWith(tmp.querySelector(".pfout"));};});
+}
+function overviewView(){
+  const specN=D.builders.filter(b=>b.t.includes("spec")).length, pri=D.builders.filter(b=>b.t.includes("pri"));
+  return `<p class="panel-intro">What we know about the Austin luxury custom and spec market, who the players are, what new builds ask by street, and where the lots and money come from. Built from Austin press, HBA and AIA records, and a Zillow pull of every $1.5M+ new build in Travis, Williamson and Hays.</p>
+  <div class="tiles">
+    <div class="pl-tile"><div class="k">Builders profiled</div><div class="v">${D.builders.length}</div><div class="s">${specN} running spec product</div></div>
+    <div class="pl-tile"><div class="k">Spec builders on Zillow</div><div class="v">${D.zspec.length}</div><div class="s">${D.listings.length} active listings $1.5M+</div></div>
+    <div class="pl-tile"><div class="k">Neighborhood tiers</div><div class="v">${D.tiers.length}</div><div class="s">inner streets vs edges</div></div>
+    <div class="pl-tile"><div class="k">Lot sources</div><div class="v">${D.lots.length}</div><div class="s">agents, brokers, wholesalers, data</div></div>
+    <div class="pl-tile"><div class="k">Events</div><div class="v">${D.events.length}</div><div class="s">Sept 2026 to Oct 2027</div></div>
+  </div>
+  <div class="blurb-card"><h2>Read this first</h2><div class="research-blurb">
+    <p><b>The spec lane.</b> Paradisa, Urban ATX, Gossett, Heyl and Greater Austin Builders are Austin's 2K Development and Build Nashville: developer-builders running $3M to $5M spec in Zilker, Bouldin, Barton Hills, Tarrytown and Westlake. Shoberg, Olson Defendorf, Jenkins, Risher Martin and Dalgleish are the Craftsman and Liebo tier at $7M to $20M custom.</p>
+    <p><b>Pricing.</b> Tarrytown inner streets clear $1,000/sf and $4.5M to $9M; the edges are $2.6M to $3.7M. Westlake interior is a $3M to $5M product and the water is $8M to $20M. Zilker tops out at $3.6M. Everything west of Bee Cave and north of 183 drops a tier and is mostly Toll, Drees, Perry and Highland.</p>
+    <p><b>Dirt.</b> Wholesalers don't touch $1M+ teardowns here. Lots move through agent pocket listings (Austin Luxury Network, Commission.co Clubhouse), builders' own acquisition teams, direct mail, probate and demolition-permit alerts. The Land Acquisition division's tools plug straight into that.</p>
+    <p><b>Money.</b> Luxury spec capital in Austin is private: founders, family offices and builders raising LPs directly. Hard money caps out well under a $3M spec loan.</p>
+  </div></div>
+  <div class="blurb-card"><h2>Priority contacts</h2><div class="research-grid">${pri.map(card).join("")}</div></div>`;
+}
+function playView(){
+  return `<div class="blurb-card"><h2>How this market maps to Nashville</h2><div class="research-blurb">
+  <p>Paradisa, Urban ATX, Greater Austin Builders, Gossett and Heyl are our 2K Development and Build Nashville: developer-builders running spec pipelines in Zilker, Bouldin, Barton Hills, Tarrytown and Westlake at $3M to $5M, with Lake Austin specs reaching $18M and up. Shoberg, Olson Defendorf, Jenkins, Risher Martin and Dalgleish are the Craftsman Residential and Liebo tier: architect-driven custom at $7M to $20M. Drees, Highland and Perry exist here too but they are production, not the luxury infill scene.</p>
+  <p>The dirt is moving west. Westlake (78746) pulls the most 5,000+ sf permits, and the new lot supply is Madrone Canyon, The Overlook at Westlake, Loraloma, Canyon Ranch, Driftwood, Lunaroya and the Four Seasons villa lots. Stratus liquidating Barton Creek is the one-off opportunity to watch.</p>
+  <p>Luxury money in Austin is mostly private: tech founders, family offices and builders raising LPs directly (Gossett's investor deck is the visible example). Hard money shops cap out well under a $3M spec, so the real capital conversations happen at Elite 25 luncheons, Moreland's office and HBA events, not at lender booths.</p></div></div>
+  <div class="blurb-card"><h2>First moves</h2><div class="research-blurb">
+  <p>Get the $145 HBA Affiliate membership (available to ABoR members) so we can attend the Business Exchange, Chili Fest, Housing Forecast and MAX Awards as insiders. Block Oct 24 to 25 for the AIA Homes Tour and Jan 23 to 24 for the Tribeza Interiors Tour.</p>
+  <p>On Instagram, follow the priority list first and comment on project posts with something specific about the build, not the listing. Jared Gossett, Highline, Skelly, Sterling and Kumara Wilcoxon post the most and answer the most.</p>
+  <p>For dirt, recruit two or three agents with Austin Luxury Network and Clubhouse access (Reisor, Keenan, Moreland, Wilcoxon), have one post our buy box as a buyer need, and run a TCAD mail program on pre-1970 homes on quarter-acre-plus lots in 78703, 78746 and 78704. Join New Western and NetWorth anyway; it costs nothing.</p>
+  <p>Lead with what we bring: Nashville spec comps, a Texas realtor's license, an Austin rental already owned, and investor capital that can close on a lot. That is a real conversation with Paradisa, Revent, Otto and Gossett, all of whom build with outside capital.</p></div></div>`;
+}
+function render(){
+  const el=document.getElementById("panel-"+panel);
+  if(panel==="overview") el.innerHTML=overviewView();
+  else if(panel==="events") el.innerHTML=eventsView();
+  else if(panel==="follow"){ el.innerHTML=followView(); const b=el.querySelector("#copyAll"); if(b) b.onclick=()=>{const t=b.dataset.list; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy all handles",1500);}).catch(()=>{const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); b.textContent="Copied";}catch(e){} document.body.removeChild(ta); setTimeout(()=>b.textContent="Copy all handles",1500);});}; }
+  else if(panel==="pricing") el.innerHTML=pricingView();
+  else if(panel==="zspec") el.innerHTML=zspecView();
+  else if(panel==="proforma"){ el.innerHTML=proformaView(); bindProforma(el); }
+  else if(panel==="play") el.innerHTML=playView();
+  else { el.innerHTML=listView(panel); const tg=el.querySelector("#specToggle"); if(tg) tg.onclick=()=>{specOnly=!specOnly; try{localStorage.setItem("vfv.mi.spec",specOnly?"1":"0");}catch(e){} render();}; }
+  document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("is-active",p.id==="panel-"+panel));
+  document.querySelectorAll(".nav-item").forEach(b=>b.classList.toggle("is-active",b.dataset.panel===panel));
+}
+document.querySelectorAll(".nav-item").forEach(b=>b.addEventListener("click",()=>{panel=b.dataset.panel; try{localStorage.setItem("vfv.mi.panel",panel);}catch(e){} render(); window.scrollTo({top:0});}));
+document.getElementById("q").addEventListener("input",e=>{q=e.target.value; render();});
+(function(){ const c={builders:D.builders.length,zspec:D.zspec.length,developers:D.developers.length,architects:D.architects.length,pricing:D.tiers.length,lots:D.lots.length,capital:D.capital.length,agents:D.agents.length,events:D.events.length}; Object.entries(c).forEach(([k,v])=>{const el=document.getElementById("n-"+k); if(el) el.textContent=v;}); })();
+render();
+  </script>
+</body>
+</html>
