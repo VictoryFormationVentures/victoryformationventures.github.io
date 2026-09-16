@@ -435,7 +435,6 @@
     .mp td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .mp .new { display: inline-block; font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; padding: 2px 6px; margin-left: 6px; background: #f5e9c9; color: #6b5a1e; }
     .mp .mp-status { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
-    @media print { body * { visibility: hidden; } }
   </style>
 </head>
 <body>
@@ -4830,7 +4829,7 @@
           b { font-weight: 600; }
           @media print { body { background: #111111; } .bar { display: none; } .page { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0.6in 0.75in; } }
         </style></head><body>
-        <div class="bar"><button onclick="window.print()">Print / Save PDF</button><button onclick="navigator.clipboard.writeText(document.querySelector('.body').innerText).then(()=>{this.textContent='Copied'})">Copy text</button><span>Edit any line before printing: click into the letter and type.</span></div>
+        <div class="bar" style="${o.embedded ? 'display:none' : ''}"><button onclick="window.print()">Print / Save PDF</button><button onclick="navigator.clipboard.writeText(document.querySelector('.body').innerText).then(()=>{this.textContent='Copied'})">Copy text</button><span>Edit any line before printing: click into the letter and type.</span></div>
         <div class="page" contenteditable="true">
           <div class="head"><div class="brand">Victory<br>Formation<br>Ventures<small>Land · Development · Custom Homes · Brokerage</small></div>
             <div class="addr">${FIRM.legal}<br>${FIRM.addr1}<br>${FIRM.addr2}<br>${FIRM.phone}<br>${FIRM.site}</div></div>
@@ -4839,9 +4838,22 @@
         </div></body></html>`;
     }
     function openLetter(o) {
-      const w = window.open('', '_blank');
-      if (!w) { alert('Allow pop-ups for this site to open the letter.'); return; }
-      w.document.open(); w.document.write(letterHTML(o)); w.document.close();
+      let ov = document.getElementById('vfv-letter-overlay');
+      if (!ov) {
+        ov = document.createElement('div'); ov.id = 'vfv-letter-overlay';
+        ov.style.cssText = 'position:fixed; inset:0; z-index:9999; background:rgba(17,17,17,.72); display:flex; flex-direction:column;';
+        ov.innerHTML = '<div style="display:flex; gap:10px; align-items:center; padding:12px 18px; background:#f1ece2; color:#111111; font-size:11px; letter-spacing:.2em; text-transform:uppercase;"><span>Owner outreach letter</span><span style="margin-left:auto; color:#bdb5a4; text-transform:none; letter-spacing:0; font-size:11.5px;">Click into the letter to edit any line, then Print / Save PDF.</span><button type="button" data-x="print" style="font:inherit; padding:8px 14px; background:#f6f2ea; color:#f1ece2; border:0; cursor:pointer;">Print / Save PDF</button><button type="button" data-x="tab" style="font:inherit; padding:8px 14px; background:transparent; color:#111111; border:1px solid #8a8579; cursor:pointer;">Open in new tab</button><button type="button" data-x="close" style="font:inherit; padding:8px 14px; background:transparent; color:#111111; border:1px solid #8a8579; cursor:pointer;">Close</button></div><iframe style="flex:1; border:0; background:#e9e4da;"></iframe>';
+        document.body.appendChild(ov);
+        ov.addEventListener('click', e => {
+          const b = e.target.closest('button'); if (!b) return;
+          const fr = ov.querySelector('iframe');
+          if (b.dataset.x === 'close') ov.remove();
+          else if (b.dataset.x === 'print') { try { fr.contentWindow.focus(); fr.contentWindow.print(); } catch (_) { window.print(); } }
+          else if (b.dataset.x === 'tab') { const w = window.open('', '_blank'); if (w) { w.document.open(); w.document.write(ov._html); w.document.close(); } }
+        });
+      }
+      o.embedded = true; ov._html = letterHTML(o);
+      ov.querySelector('iframe').srcdoc = ov._html;
     }
     function ownerLetterFromLookup(L) {
       L = L || window._plLast; if (!L) return; const p = L.parcel || {};
