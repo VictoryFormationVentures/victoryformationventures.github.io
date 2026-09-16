@@ -1,0 +1,35 @@
+name: Refresh Zillow spec listings
+
+on:
+  schedule:
+    - cron: "0 11 * * *"   # 6:00 AM Central (5:00 AM CST)
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Pull listings from Zillow
+        id: pull
+        continue-on-error: true
+        run: node .github/scripts/zillow-spec.mjs
+      - name: Commit if changed
+        if: steps.pull.outcome == 'success'
+        run: |
+          git config user.name "vfv-bot"
+          git config user.email "gabe@victoryformationventures.com"
+          if git diff --quiet -- assets/market-intel/zillow-spec.json; then
+            echo "no changes"; exit 0; fi
+          git add assets/market-intel/zillow-spec.json
+          git commit -m "Market Intel: refresh Zillow spec listings $(date -u +%Y-%m-%d)"
+          git push
+      - name: Note if Zillow blocked the run
+        if: steps.pull.outcome != 'success'
+        run: echo "::warning::Zillow did not return data this run; previous feed kept."
