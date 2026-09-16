@@ -1745,7 +1745,7 @@
 
     /* ==== Agent tabs (inside Hot Leads panel) + per-agent lock ==== */
     window.CURRENT_LAND_AGENT = 'Gabe Jeudy-Lally';
-    const TEAM_ROSTER_SHEET_ID = '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8';
+    const TEAM_ROSTER_SHEET_ID = '14wQ2gCNFu99WC2IbE2as7FiTA9G0EkBLmdSFbLnVzjo';
     const HL_UNLOCK_KEY = 'vfv.landHotLeadsUnlock';
     const HL_UNLOCK_HOURS = 24;
     // Passcode fallbacks — used if the Team Roster sheet doesn't have a
@@ -2352,7 +2352,7 @@
     async function _populateBuilderDatalist() {
       const combined = new Map();     // name(lower) → { name, type, sub }
       try {
-        const url = 'https://docs.google.com/spreadsheets/d/17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8' +
+        const url = 'https://docs.google.com/spreadsheets/d/1i8veSdGlPFxbiOgif3UxYSEcrdXAQRqd33gpdkI9gZE' +
           '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
         const res = await fetch(url, { cache: 'no-store' });
         if (res.ok) {
@@ -2480,8 +2480,8 @@
        ========================================================= */
     const SHEETS = {
       LAND_INTAKE: '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8',
-      BUYBOX:      '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8',
-      HOTLEAD:     '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8'
+      BUYBOX:      '1vsgZUCuzMYBGfkKAXZNZChpFfEqwzwAXF0-qzAG5U5k',
+      HOTLEAD:     '18t02xJh_ZwsKJhI6dhJ5ys_sHEudZvBfiWy3z4SPrwI'
     };
 
     const esc = (s) => String(s == null ? '' : s)
