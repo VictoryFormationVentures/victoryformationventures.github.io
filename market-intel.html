@@ -175,6 +175,14 @@
     .pft td:last-child { text-align: right; font-variant-numeric: tabular-nums; color: #111111; }
     .pft tr.sub td { font-weight: 700; color: #111111; border-bottom: 2px solid var(--rule-strong); }
     .research-note { font-size: 10.5px; color: var(--text-dim); font-style: italic; line-height: 1.5; margin: 12px 0 0; }
+    details.area { background: var(--panel); border: 1px solid var(--rule); padding: 14px 18px; margin-bottom: 10px; }
+    details.area > summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: baseline; }
+    details.area > summary::-webkit-details-marker { display: none; }
+    details.area > summary::before { content: '＋'; color: var(--text-dim); font-size: 12px; margin-right: 4px; }
+    details.area[open] > summary::before { content: '−'; }
+    .area-name { font-family: var(--font-display); font-size: 13px; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); }
+    .area-stats { font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    .area-stats b { color: #111111; font-weight: 700; }
   </style>
 </head>
 <body>
@@ -467,14 +475,41 @@ function pricingView(){
   <div class="tiles"><div class="pl-tile"><div class="k">Active specs $1.5M+</div><div class="v">95</div><div class="s">Travis, Williamson, Hays</div></div><div class="pl-tile"><div class="k">Tarrytown</div><div class="v">$1,000</div><div class="s">median ask per sf</div></div><div class="pl-tile"><div class="k">Westlake</div><div class="v">$962</div><div class="s">median ask per sf</div></div><div class="pl-tile"><div class="k">78704</div><div class="v">$670</div><div class="s">median ask per sf</div></div><div class="pl-tile"><div class="k">Leander / Travisso</div><div class="v">$396</div><div class="s">median ask per sf</div></div></div>
   <div class="research-grid">${rows||'<div class="empty">Nothing matches</div>'}</div>`;
 }
+const AREA={"78703":"Tarrytown / Old West Austin","78746":"Westlake / Rollingwood","78704":"Zilker / Bouldin / Barton Hills","78731":"Northwest Hills / Mt Bonnell","78730":"River Place / Lake Austin","78757":"Allandale / Crestview","78756":"Rosedale / Brentwood","78751":"Hyde Park","78702":"East Austin","78723":"Mueller / Windsor Park","78741":"East Riverside","78745":"South Austin","78736":"Oak Hill","78733":"Westlake (Cuernavaca)","78734":"Lakeway / Hudson Bend","78738":"Bee Cave / Spanish Oaks / Rough Hollow","78669":"Spicewood / Lake Travis west","78737":"Dripping Springs east / Belterra","78620":"Dripping Springs","78619":"Driftwood","78676":"Wimberley","78641":"Leander / Travisso","78613":"Cedar Park","78645":"Jonestown / Lago Vista","78642":"Liberty Hill","78628":"Georgetown","78633":"Georgetown","78634":"Hutto","78664":"Round Rock","78681":"Round Rock","78654":"Marble Falls","78132":"New Braunfels","78133":"Canyon Lake","78070":"Spring Branch","78610":"Buda","78640":"Kyle","78666":"San Marcos","78735":"Barton Creek / Southwest Austin","78739":"Circle C / Southwest Austin","78732":"Steiner Ranch","78726":"Four Points","78750":"Anderson Mill","78759":"Great Hills","78701":"Downtown","78705":"West Campus"};
+const areaOf=z=>AREA[String(z)]||("Zip "+z);
+const med=a=>{if(!a.length) return 0; const s=[...a].sort((x,y)=>x-y); const m=Math.floor(s.length/2); return s.length%2?s[m]:(s[m-1]+s[m])/2;};
 function zspecView(){
   const ql=q.trim().toLowerCase();
+  const L=D.listings.filter(l=>hit(l,ql)||hit(areaOf(l[3]),ql));
+  const groups={};
+  L.forEach(l=>{const a=areaOf(l[3]); (groups[a]=groups[a]||[]).push(l);});
+  const names=Object.keys(groups).sort((a,b)=>med(groups[b].map(l=>l[0]))-med(groups[a].map(l=>l[0])));
+  const row=l=>`<tr><td>${money(l[0])}</td><td>${esc(l[1])}, ${esc(l[2])} ${esc(l[3])}</td><td>${l[4]?l[4].toLocaleString():""}</td><td>${l[4]?"$"+Math.round(l[0]/l[4]):""}</td><td>${esc(l[5])}</td><td>${esc(l[6])}</td><td>${l[7]}</td><td><a href="https://www.zillow.com/homedetails/${l[8]}_zpid/" target="_blank" rel="noopener">Zillow</a></td></tr>`;
+  const sections=names.map(a=>{const g=groups[a]; const prices=g.map(l=>l[0]); const ppsf=g.filter(l=>l[4]).map(l=>l[0]/l[4]); const dom=g.map(l=>l[7]);
+    const builders={}; g.forEach(l=>{if(l[5]) builders[l[5]]=(builders[l[5]]||0)+1;});
+    const bl=Object.entries(builders).sort((x,y)=>y[1]-x[1]).map(([b,n])=>`<span class="tag">${esc(b)}${n>1?" · "+n:""}</span>`).join("");
+    return `<details class="area" open><summary><span class="area-name">${esc(a)}</span><span class="area-stats"><b>${g.length}</b> active · median <b>${money(med(prices))}</b> · <b>$${Math.round(med(ppsf))}</b>/sf · <b>${Math.round(med(dom))}</b> days · ${money(Math.min(...prices))} to ${money(Math.max(...prices))}</span></summary>
+      <div class="tags" style="margin:10px 0 12px">${bl||'<span class="tag">builder not disclosed</span>'}</div>
+      <div class="tblwrap"><table class="research-table"><thead><tr><th>Ask</th><th>Address</th><th>Sq ft</th><th>$/sf</th><th>Builder</th><th>Listed by</th><th>DOM</th><th></th></tr></thead><tbody>${g.sort((x,y)=>y[0]-x[0]).map(row).join("")}</tbody></table></div>
+    </details>`;}).join("");
   const dirNames=D.builders.map(b=>b.n.toLowerCase().split(" ")[0]).filter(w=>w.length>4);
-  const rows=D.zspec.filter(z=>hit(z,ql)).map(z=>{const known=dirNames.some(w=>z.b.toLowerCase().startsWith(w));return `<article class="research-card"><div class="tags"><span class="tag spec">Spec on Zillow</span>${known?'<span class="tag pri">In directory</span>':'<span class="tag">New name</span>'}</div><h3>${esc(z.b)}</h3><p class="meta">${z.n} active · ${money(z.lo)}${z.n>1?" to "+money(z.hi):""} · ~$${z.ppsf}/sf · zips ${esc(z.zips)}</p><p class="why">${esc(z.ex)}</p></article>`}).join("");
-  const list=D.listings.filter(l=>hit(l,ql)).map(l=>`<tr><td>${money(l[0])}</td><td>${esc(l[1])}, ${esc(l[2])} ${esc(l[3])}</td><td>${l[4]?l[4].toLocaleString():""}</td><td>${l[4]?"$"+Math.round(l[0]/l[4]):""}</td><td>${esc(l[5])}</td><td>${esc(l[6])}</td><td>${l[7]}</td><td><a href="https://www.zillow.com/homedetails/${l[8]}_zpid/" target="_blank" rel="noopener">Zillow</a></td></tr>`).join("");
-  return `<p class="panel-intro">Every builder with an active $1.5M+ new-construction listing on Zillow across Travis, Williamson and Hays as of September 16, 2026 (floor-plan placeholders removed). "New name" means they were not in the research directory: the small spec shops the press never covers.</p>
-  <div class="research-grid">${rows}</div><h2 class="tblh">All ${D.listings.length} active listings</h2><div class="tblwrap"><table class="research-table"><thead><tr><th>Ask</th><th>Address</th><th>Sq ft</th><th>$/sf</th><th>Builder</th><th>Listed by</th><th>DOM</th><th></th></tr></thead><tbody>${list}</tbody></table></div>
-  <p class="research-note">Refresh: search Zillow for new construction, $1.5M+, single family, in the three counties, and replace the listings block in this file. A scheduled task can do this weekly the same way the deal calendar refreshes.</p>`;
+  const cards=D.zspec.filter(z=>hit(z,ql)).map(z=>{const known=dirNames.some(w=>z.b.toLowerCase().startsWith(w));return `<article class="research-card"><div class="tags"><span class="tag spec">Spec on Zillow</span>${known?'<span class="tag pri">In directory</span>':'<span class="tag">New name</span>'}</div><h3>${esc(z.b)}</h3><p class="meta">${z.n} active · ${money(z.lo)}${z.n>1?" to "+money(z.hi):""} · ~$${z.ppsf}/sf · zips ${esc(z.zips)}</p><p class="why">${esc(z.ex)}</p></article>`}).join("");
+  const allP=D.listings.map(l=>l[0]), allD=D.listings.map(l=>l[7]);
+  return `<p class="panel-intro">Every active $1.5M+ new-construction single-family listing on Zillow across Travis, Williamson and Hays, grouped by neighborhood so you can read each area's price band, $/sf and how long product is sitting. Builder-plan placeholders are removed. Data refreshes daily; the date is at the top of the page.</p>
+  <div class="tiles"><div class="pl-tile"><div class="k">Active listings</div><div class="v">${D.listings.length}</div><div class="s">${names.length} neighborhoods</div></div><div class="pl-tile"><div class="k">Median ask</div><div class="v">${money(med(allP))}</div><div class="s">all areas</div></div><div class="pl-tile"><div class="k">Median days on Zillow</div><div class="v">${Math.round(med(allD))}</div><div class="s">all areas</div></div><div class="pl-tile"><div class="k">Builders with product</div><div class="v">${D.zspec.length}</div><div class="s">named on listings</div></div></div>
+  <div class="toolrow"><button type="button" class="btn ghost sm" id="areaToggle">Collapse all</button></div>
+  ${sections||'<div class="empty">Nothing matches</div>'}
+  <h2 class="tblh">Builders with active spec</h2><div class="research-grid">${cards}</div>
+  <p class="research-note">Source: Zillow search, new construction, single family, $1.5M+, map bounds covering the three counties. Refreshed by the daily "Refresh Zillow spec listings" task, which rewrites assets/market-intel/zillow-spec.json.</p>`;
+}
+function bindZspec(root){const b=root.querySelector("#areaToggle"); if(!b) return; b.onclick=()=>{const ds=[...root.querySelectorAll("details.area")]; const anyOpen=ds.some(d=>d.open); ds.forEach(d=>d.open=!anyOpen); b.textContent=anyOpen?"Expand all":"Collapse all";};}
+async function loadZillow(){
+  try{ const r=await fetch("assets/market-intel/zillow-spec.json?t="+Date.now(),{cache:"no-store"}); if(!r.ok) return; const j=await r.json(); if(!Array.isArray(j.listings)||!j.listings.length) return;
+    D.listings=j.listings; if(Array.isArray(j.zspec)&&j.zspec.length) D.zspec=j.zspec;
+    const u=document.getElementById("updated"); if(u&&j.updatedAt){ const d=new Date(j.updatedAt); u.textContent="Zillow data as of "+d.toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}); }
+    const n=document.getElementById("n-zspec"); if(n) n.textContent=D.zspec.length;
+    if(panel==="zspec"||panel==="overview") render();
+  }catch(e){}
 }
 const PRESETS={
  tarry_edge:{name:"Tarrytown edge (Clarksville, W 9th)",lot:1200000,sqft:3600,hard:425,site:90000,soft:10,months:14,ltc:70,rate:10,sale:1000},
@@ -554,7 +589,7 @@ function render(){
   else if(panel==="events") el.innerHTML=eventsView();
   else if(panel==="follow"){ el.innerHTML=followView(); const b=el.querySelector("#copyAll"); if(b) b.onclick=()=>{const t=b.dataset.list; (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>{b.textContent="Copied";setTimeout(()=>b.textContent="Copy all handles",1500);}).catch(()=>{const ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy"); b.textContent="Copied";}catch(e){} document.body.removeChild(ta); setTimeout(()=>b.textContent="Copy all handles",1500);});}; }
   else if(panel==="pricing") el.innerHTML=pricingView();
-  else if(panel==="zspec") el.innerHTML=zspecView();
+  else if(panel==="zspec"){ el.innerHTML=zspecView(); bindZspec(el); }
   else if(panel==="proforma"){ el.innerHTML=proformaView(); bindProforma(el); }
   else if(panel==="play") el.innerHTML=playView();
   else { el.innerHTML=listView(panel); const tg=el.querySelector("#specToggle"); if(tg) tg.onclick=()=>{specOnly=!specOnly; try{localStorage.setItem("vfv.mi.spec",specOnly?"1":"0");}catch(e){} render();}; }
@@ -565,6 +600,7 @@ document.querySelectorAll(".nav-item").forEach(b=>b.addEventListener("click",()=
 document.getElementById("q").addEventListener("input",e=>{q=e.target.value; render();});
 (function(){ const c={builders:D.builders.length,zspec:D.zspec.length,developers:D.developers.length,architects:D.architects.length,pricing:D.tiers.length,lots:D.lots.length,capital:D.capital.length,agents:D.agents.length,events:D.events.length}; Object.entries(c).forEach(([k,v])=>{const el=document.getElementById("n-"+k); if(el) el.textContent=v;}); })();
 render();
+loadZillow();
   </script>
 </body>
 </html>
