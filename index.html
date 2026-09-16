@@ -3314,11 +3314,14 @@
       object-fit: contain;
     }
     .hub-avatar[data-slug="admin"] img,
-    .hub-avatar[data-slug="land"] img {
-      padding: 46px;
-    }
+    .hub-avatar[data-slug="land"] img,
     .hub-avatar[data-slug="devproject"] img {
       padding: 14px;
+    }
+    @media (max-width: 640px) {
+      .hub-avatar[data-slug="admin"] img,
+      .hub-avatar[data-slug="land"] img,
+      .hub-avatar[data-slug="devproject"] img { padding: 8px; }
     }
     .hub-avatar[data-slug="admin"] .hub-initial,
     .hub-avatar[data-slug="devproject"] .hub-initial,
