@@ -712,13 +712,13 @@
         <!-- Agent tabs — moved here from top of page -->
         <div class="agent-tabs" role="tablist" aria-label="Select your agent">
           <button type="button" class="agent-tab is-active" data-agent="Gabe Jeudy-Lally">
-            <span class="initial">R</span>Gabe Jeudy-Lally
+            <span class="initial">G</span>Gabe Jeudy-Lally
           </button>
-          <button type="button" class="agent-tab" data-agent="Gabe Jeudy">
-            <span class="initial">G</span>Gabe Jeudy
+          <button type="button" class="agent-tab" data-agent="Partner 2">
+            <span class="initial">2</span>Partner 2
           </button>
-          <button type="button" class="agent-tab" data-agent="Partner Hibbett">
-            <span class="initial">K</span>Partner Hibbett
+          <button type="button" class="agent-tab" data-agent="Partner 3">
+            <span class="initial">3</span>Partner 3
           </button>
         </div>
 
@@ -873,72 +873,110 @@
       <section class="panel" id="panel-research-austin" role="tabpanel">
         <div class="division-eyebrow">Research · Travis County</div>
         <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Austin</h2>
-        <p class="panel-intro">Zoning framework, standard residential setbacks, and parcel lookup for Austin. Verify current values with the city and county before contracting — this is a working reference, not legal advice.</p>
+        <p class="panel-intro">Property lookup for Austin: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
-        <div class="placeholder">
-          <div class="mark">— Placeholder —</div>
-          <h2>Austin research coming soon</h2>
-          <p>Drop your working notes for Austin here. Suggested structure (mirrors what the Austin version carried):</p>
-          <ul style="margin-top:14px; font-size:13px; line-height:1.7; color:var(--text-muted);">
-            <li>Common residential zoning districts with minimum lot sizes and typical uses</li>
-            <li>Standard setbacks (front / side / rear) and max height or impervious cover</li>
-            <li>Links: city planning department, zoning code (Municode), county appraisal district parcel viewer</li>
-            <li>Who to email at the city for a zoning verification letter</li>
-          </ul>
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="austin"></div>
+
+        <div class="research-grid">
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.austintexas.gov/development-services/zoning-verification" target="_blank" rel="noopener">Austin DSD Zoning Verification</a></li>
+              <li><a href="https://www.austintexas.gov/planning/zoning-resources-site-regulations" target="_blank" rel="noopener">Austin Planning: Zoning Resources & Site Regulations</a></li>
+              <li><a href="https://traviscad.org/property-search" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
+              <li><a href="https://maps.austintexas.gov/PropertyProfile/" target="_blank" rel="noopener">City of Austin Property Profile (zoning, floodplain, overlays)</a></li>
+              <li><a href="https://library.municode.com/tx/austin/codes/land_development_code" target="_blank" rel="noopener">Austin Land Development Code (Municode)</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Drop your Austin zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+          </div>
         </div>
       </section>
 
       <section class="panel" id="panel-research-west-lake-hills" role="tabpanel">
         <div class="division-eyebrow">Research · Travis County</div>
         <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">West Lake Hills</h2>
-        <p class="panel-intro">Zoning framework, standard residential setbacks, and parcel lookup for West Lake Hills. Verify current values with the city and county before contracting — this is a working reference, not legal advice.</p>
+        <p class="panel-intro">Property lookup for West Lake Hills: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
-        <div class="placeholder">
-          <div class="mark">— Placeholder —</div>
-          <h2>West Lake Hills research coming soon</h2>
-          <p>Drop your working notes for West Lake Hills here. Suggested structure (mirrors what the Austin version carried):</p>
-          <ul style="margin-top:14px; font-size:13px; line-height:1.7; color:var(--text-muted);">
-            <li>Common residential zoning districts with minimum lot sizes and typical uses</li>
-            <li>Standard setbacks (front / side / rear) and max height or impervious cover</li>
-            <li>Links: city planning department, zoning code (Municode), county appraisal district parcel viewer</li>
-            <li>Who to email at the city for a zoning verification letter</li>
-          </ul>
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="west-lake-hills"></div>
+
+        <div class="research-grid">
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.westlakehills.org/95/Building-Development" target="_blank" rel="noopener">West Lake Hills Building & Development</a></li>
+              <li><a href="https://www.westlakehills.org/DocumentCenter/View/36/West-Lake-Hills-Zoning-Map-PDF" target="_blank" rel="noopener">West Lake Hills Zoning Map (PDF)</a></li>
+              <li><a href="https://traviscad.org/property-search" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
+              <li><a href="https://maps.austintexas.gov/PropertyProfile/" target="_blank" rel="noopener">City of Austin Property Profile (zoning, floodplain, overlays)</a></li>
+              <li><a href="https://library.municode.com/tx/austin/codes/land_development_code" target="_blank" rel="noopener">Austin Land Development Code (Municode)</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Drop your West Lake Hills zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+          </div>
         </div>
       </section>
 
       <section class="panel" id="panel-research-round-rock" role="tabpanel">
         <div class="division-eyebrow">Research · Williamson County</div>
         <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Round Rock</h2>
-        <p class="panel-intro">Zoning framework, standard residential setbacks, and parcel lookup for Round Rock. Verify current values with the city and county before contracting — this is a working reference, not legal advice.</p>
+        <p class="panel-intro">Property lookup for Round Rock: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
-        <div class="placeholder">
-          <div class="mark">— Placeholder —</div>
-          <h2>Round Rock research coming soon</h2>
-          <p>Drop your working notes for Round Rock here. Suggested structure (mirrors what the Austin version carried):</p>
-          <ul style="margin-top:14px; font-size:13px; line-height:1.7; color:var(--text-muted);">
-            <li>Common residential zoning districts with minimum lot sizes and typical uses</li>
-            <li>Standard setbacks (front / side / rear) and max height or impervious cover</li>
-            <li>Links: city planning department, zoning code (Municode), county appraisal district parcel viewer</li>
-            <li>Who to email at the city for a zoning verification letter</li>
-          </ul>
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="round-rock"></div>
+
+        <div class="research-grid">
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.roundrocktexas.gov/city-departments/planning-and-development-services/" target="_blank" rel="noopener">Round Rock Planning & Development Services</a></li>
+              <li><a href="https://geohub.roundrocktexas.gov/" target="_blank" rel="noopener">Round Rock GeoHub (zoning, ETJ, city limits)</a></li>
+              <li><a href="https://library.municode.com/tx/round_rock/codes/code_of_ordinances?nodeId=PTIIIZODECO" target="_blank" rel="noopener">Round Rock Zoning & Development Code</a></li>
+              <li><a href="https://search.wcad.org/" target="_blank" rel="noopener">WCAD Property Search</a></li>
+              <li><a href="https://gis.wilco.org/" target="_blank" rel="noopener">Williamson County GIS Maps</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Drop your Round Rock zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+          </div>
         </div>
       </section>
 
       <section class="panel" id="panel-research-georgetown" role="tabpanel">
         <div class="division-eyebrow">Research · Williamson County</div>
         <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Georgetown</h2>
-        <p class="panel-intro">Zoning framework, standard residential setbacks, and parcel lookup for Georgetown. Verify current values with the city and county before contracting — this is a working reference, not legal advice.</p>
+        <p class="panel-intro">Property lookup for Georgetown: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
-        <div class="placeholder">
-          <div class="mark">— Placeholder —</div>
-          <h2>Georgetown research coming soon</h2>
-          <p>Drop your working notes for Georgetown here. Suggested structure (mirrors what the Austin version carried):</p>
-          <ul style="margin-top:14px; font-size:13px; line-height:1.7; color:var(--text-muted);">
-            <li>Common residential zoning districts with minimum lot sizes and typical uses</li>
-            <li>Standard setbacks (front / side / rear) and max height or impervious cover</li>
-            <li>Links: city planning department, zoning code (Municode), county appraisal district parcel viewer</li>
-            <li>Who to email at the city for a zoning verification letter</li>
-          </ul>
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="georgetown"></div>
+
+        <div class="research-grid">
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://georgetowntexas.gov/development_services/planning/" target="_blank" rel="noopener">Georgetown Planning Department</a></li>
+              <li><a href="https://experience.arcgis.com/experience/fa729743d97047579f348d68f9643ba1" target="_blank" rel="noopener">Georgetown One Map (zoning, ETJ, utilities)</a></li>
+              <li><a href="https://library.municode.com/tx/georgetown/codes/unified_development_code" target="_blank" rel="noopener">Georgetown Unified Development Code</a></li>
+              <li><a href="https://search.wcad.org/" target="_blank" rel="noopener">WCAD Property Search</a></li>
+              <li><a href="https://gis.wilco.org/" target="_blank" rel="noopener">Williamson County GIS Maps</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Drop your Georgetown zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+          </div>
         </div>
       </section>
       <section class="panel" id="panel-research-large-land" role="tabpanel">
@@ -979,12 +1017,13 @@
                 <select id="ez-agent" required>
                   <option value="" disabled selected>Select…</option>
                   <option value="Gabe Jeudy-Lally">Gabe Jeudy-Lally</option>
-                  <option value="Gabe Jeudy">Gabe Jeudy</option>
-                  <option value="Partner Hibbett">Partner Hibbett</option>
+                  <option value="Partner 2">Partner 2</option>
+                  <option value="Partner 3">Partner 3</option>
                 </select>
               </label>
               <label class="mm-field"><span>To (zoning contact) *</span>
                 <input id="ez-to" type="email" required />
+                <small id="ez-city-note" style="display:block; margin-top:4px; font-size:10.5px; color:var(--text-dim); line-height:1.4;"></small>
               </label>
               <label class="mm-field full"><span>Property Address *</span>
                 <input id="ez-address" type="text" required />
@@ -997,7 +1036,7 @@
               </label>
             </div>
             <div style="font-size:11px; color:var(--text-dim); margin-top:6px; line-height:1.5;">
-              Opens Gmail's web composer in a new tab with everything pre-filled — sends from whichever Google account you're currently signed into. Make sure you're logged into your <b>@victoryformationventures.com</b> Google account, then just hit Send in Gmail. (If you want your OS mail app instead, use the "mailto:" fallback.) Double-check the recipient — West Lake Hills / Round Rock contacts are best-guess and may need updating.
+              Opens Gmail's web composer in a new tab with everything pre-filled — sends from whichever Google account you're currently signed into. Make sure you're logged into the Google account you send business email from, then just hit Send in Gmail. (If you want your OS mail app instead, use the "mailto:" fallback.) Recipients are the cities' published planning/zoning inboxes (Austin DSD, West Lake Hills Building &amp; Development, Round Rock PDS intake, Georgetown Planning). Edit the To field if you have a direct contact.
             </div>
             <div class="mini-modal-foot">
               <div style="flex:1;"></div>
@@ -1226,9 +1265,9 @@
     // passcode column populated for that agent. Sheet always wins if it
     // has a value.
     let _teamPasscodes = {
-      'Gabe Jeudy-Lally':  '0000',
-      'Gabe Jeudy':       '5555',
-      'Partner Hibbett': '0101'
+      'Gabe Jeudy-Lally': '5555',
+      'Partner 2':        '0101',
+      'Partner 3':        '0202'
     };
 
     async function _loadPasscodes() {
@@ -2599,25 +2638,22 @@
     // Standard setbacks by Metro zone code (working reference — verify with
     // jurisdiction; overlays adjust). Gabe edits this table as needed.
     const AUSTIN_SETBACKS = {
-      'RS40':  { front: 40, rear: 20, side: 20, minLot: '40,000 sf', maxHeight: 45 },
-      'RS30':  { front: 40, rear: 20, side: 20, minLot: '30,000 sf', maxHeight: 45 },
-      'RS20':  { front: 30, rear: 20, side: 15, minLot: '20,000 sf', maxHeight: 45 },
-      'RS15':  { front: 30, rear: 20, side: 10, minLot: '15,000 sf', maxHeight: 45 },
-      'RS10':  { front: 25, rear: 20, side: 10, minLot: '10,000 sf', maxHeight: 45 },
-      'RS7.5': { front: 20, rear: 20, side:  5, minLot: '7,500 sf',  maxHeight: 45 },
-      'RS5':   { front: 20, rear: 20, side:  5, minLot: '5,000 sf',  maxHeight: 45 },
-      'R6':    { front: 20, rear: 20, side:  5, minLot: '6,000 sf',  maxHeight: 45 },
-      'R8':    { front: 20, rear: 20, side:  5, minLot: '8,000 sf',  maxHeight: 45 },
-      'R10':   { front: 25, rear: 20, side: 10, minLot: '10,000 sf', maxHeight: 45 },
-      'R15':   { front: 30, rear: 20, side: 10, minLot: '15,000 sf', maxHeight: 45 },
-      'R20':   { front: 30, rear: 20, side: 15, minLot: '20,000 sf', maxHeight: 45 },
-      'R40':   { front: 40, rear: 20, side: 20, minLot: '40,000 sf', maxHeight: 45 }
+      // City of Austin base residential districts (LDC 25-2 Subchapter C) — working
+      // reference only. HOME amendments changed SF-1/2/3 rules in 2024; overlays
+      // (NP, NCCD, waterfront, Hill Country Roadway) adjust. Verify with DSD.
+      'LA':    { front: 40, rear: 10, side: 10, minLot: '1 acre',    maxHeight: 35 },
+      'RR':    { front: 40, rear: 10, side: 10, minLot: '1 acre',    maxHeight: 35 },
+      'SF-1':  { front: 25, rear: 10, side: 10, minLot: '10,000 sf', maxHeight: 35 },
+      'SF-2':  { front: 25, rear: 10, side:  5, minLot: '5,750 sf',  maxHeight: 35 },
+      'SF-3':  { front: 25, rear: 10, side:  5, minLot: '5,750 sf',  maxHeight: 35 },
+      'SF-4A': { front: 15, rear:  5, side:  5, minLot: '3,600 sf',  maxHeight: 35 },
+      'SF-5':  { front: 25, rear: 10, side:  5, minLot: '5,750 sf',  maxHeight: 35 },
+      'SF-6':  { front: 25, rear: 10, side:  5, minLot: '5,750 sf',  maxHeight: 35 }
     };
 
+    // ArcGIS World Geocoder — returns the rooftop/parcel point plus a street-side
+    // point (used to figure out which parcel edge is the road frontage).
     async function _plGeocode(address) {
-      // Try City of Austin geocoder first (LocNashComp — the Austin-
-      // specific composite locator). Fall back to ArcGIS World Geocoder
-      // if Metro returns nothing (handles addresses outside Metro's list).
       async function tryLocator(url) {
         try {
           const res = await fetch(url);
@@ -2627,20 +2663,18 @@
           return candidates[0] || null;
         } catch (_) { return null; }
       }
-      const metroUrl = 'https://maps.austin.gov/arcgis/rest/services/Locators/LocNashComp/GeocodeServer/findAddressCandidates'
+      const base = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates'
         + '?SingleLine=' + encodeURIComponent(address)
-        + '&outSR=4326&maxLocations=3&f=json';
-      let hit = await tryLocator(metroUrl);
-      if (hit) return hit;
-      const worldUrl = 'https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates'
-        + '?SingleLine=' + encodeURIComponent(address)
-        + '&outFields=StAddr,City,Region,Postal&outSR=4326&maxLocations=3&f=json';
-      hit = await tryLocator(worldUrl);
+        + '&outFields=StAddr,City,Region,Postal,Subregion&outSR=4326&maxLocations=3&f=json';
+      const hit = await tryLocator(base);
+      if (!hit) return null;
+      const street = await tryLocator(base + '&locationType=street');
+      if (street && street.location) hit.streetLocation = street.location;
       return hit;
     }
 
     async function _plQueryLayer(baseUrl, layerId, geom, outFields) {
-      const url = baseUrl + '/' + layerId + '/query'
+      const url = baseUrl + (layerId === '' ? '' : '/' + layerId) + '/query'
         + '?geometry=' + encodeURIComponent(JSON.stringify(geom))
         + '&geometryType=esriGeometryPoint&inSR=4326&outSR=4326'
         + '&spatialRel=esriSpatialRelIntersects'
@@ -2658,7 +2692,7 @@
       if (!rings || !rings[0]) return [];
       const outer = rings[0];
       const FT_PER_DEG_LAT = 364000;                       // ≈ 111,120 m
-      const FT_PER_DEG_LNG = 288200;                       // ≈ cos(36°) × 111,120 m
+      const FT_PER_DEG_LNG = 314200;                       // ≈ cos(30.3°) × 111,120 m
       const lengths = [];
       for (let i = 0; i < outer.length - 1; i++) {
         const [x1, y1] = outer[i];
@@ -2671,45 +2705,91 @@
     }
 
     // City metadata used by mounts + render caveats
-    const CITY_META = {
-      'austin': {
-        label: 'Austin',
-        placeholder: 'e.g. 1600 West End Ave, Austin, TX',
-        zipHint: '37215',
-        zoningEmail: 'gvjbusiness@yahoo.com'
+    const PARCEL_SERVICES = {
+      travis: {
+        label: 'Travis County (TCAD)',
+        url: 'https://gis.traviscountytx.gov/server1/rest/services/Boundaries_and_Jurisdictions/TCAD_public/MapServer/0',
+        fields: 'PROP_ID,geo_id,situs_address,tcad_acres,legal_desc,sub_dec,hyperlink,LOTS',
+        parse: a => ({
+          id: a.PROP_ID != null ? String(a.PROP_ID) : '', geoId: a.geo_id || '',
+          situs: a.situs_address || '', owner: '',                 // TCAD public layer omits owner
+          acres: a.tcad_acres != null ? Number(a.tcad_acres) : null,
+          legal: a.legal_desc || a.sub_dec || '', link: a.hyperlink || '',
+          linkLabel: 'TCAD property record'
+        })
       },
-      'lakeway': {
-        label: 'Lakeway',
-        placeholder: 'e.g. 5540 Georgetown Rd, Austin, TX 78701',
-        zipHint: '37220',
-        zoningCaveat: 'Metro zoning shown for reference only — Lakeway uses its own code (R-40, R-30). See the Lakeway Zoning Map PDF above for the actual district and setbacks. Email gvjbusiness@yahoo.com to confirm.',
-        zoningEmail: 'gvjbusiness@yahoo.com'
-      },
-      'west-lake-hills': {
-        label: 'West Lake Hills',
-        placeholder: 'e.g. 6300 Hillsboro Pike, Austin, TX 78701',
-        zipHint: '37215',
-        zoningCaveat: 'Metro zoning shown for reference only — West Lake Hills uses its own code. Contact the West Lake Hills Building Official to verify actual zoning and setbacks.',
-        // Best guess — update in the modal if wrong. City site: cityofforesthills.com
-        zoningEmail: 'admin@cityofforesthills.com'
+      williamson: {
+        label: 'Williamson County (WCAD)',
+        url: 'https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0',
+        fields: 'PARCELID,PropertyNumber,SitusAddress,Acres,LegalDesc,OWNERNME1,TotalLandMktValue,TotalPropMktValue,PropertyID,USEDSCRP',
+        parse: a => ({
+          id: a.PARCELID || '', geoId: a.PropertyNumber || '',
+          situs: a.SitusAddress || '', owner: a.OWNERNME1 || '',
+          acres: a.Acres ? Number(a.Acres) : null,
+          legal: a.LegalDesc || '', landValue: a.TotalLandMktValue, mktValue: a.TotalPropMktValue,
+          link: a.PropertyID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID || '') : '',
+          linkLabel: 'WCAD property record'
+        })
+      }
+    };
+
+    // Zoning layers per city. `field` is the district code, `nameField` the long name.
+    const ZONING_SERVICES = {
+      austin: {
+        url: 'https://services.arcgis.com/0L95CJ0VTaxqcmED/ArcGIS/rest/services/PLANNINGCADASTRE_zoning_small_map_scale/FeatureServer/0',
+        fields: 'ZONING_ZTYPE,ZONING_BASE', field: 'ZONING_ZTYPE', baseField: 'ZONING_BASE',
+        codeUrl: 'https://library.municode.com/tx/austin/codes/land_development_code'
       },
       'round-rock': {
-        label: 'Round Rock',
-        placeholder: 'e.g. 5301 Virginia Way, Round Rock, TX 78701',
-        zipHint: '37027',
-        // Round Rock is in Williamson County — Metro's parcel service doesn't cover it.
-        // We skip the parcel + zoning cards and just show address + slope + FEMA flood.
-        skipMetro: true,
-        // Best guess — update in the modal if wrong. City site: round-rocktn.gov/departments/planning
-        zoningEmail: 'gvjbusiness@yahoo.com'
+        url: 'https://maps.roundrocktexas.gov/arcgis/rest/services/Planning/Planning_Multi/MapServer/12',
+        fields: 'BASE_ZONIN,NAME,PUD_LABEL,ORD_NO,URL', field: 'BASE_ZONIN', nameField: 'NAME', linkField: 'URL'
+      },
+      georgetown: {
+        url: 'https://gis.georgetowntexas.gov/arcgis/rest/services/Planning/PlanningDevelopmentNew_WebMap/MapServer/20',
+        fields: 'ZONE,FULLZONE,Doc_Link', field: 'ZONE', nameField: 'FULLZONE', linkField: 'Doc_Link'
+      }
+    };
+
+    // City of Austin environmental layers (Travis-side lookups only).
+    const AUSTIN_FDF_URL       = 'https://maps.austintexas.gov/gis/rest/Shared/Floodplain/MapServer/0';  // Fully Developed 100-yr floodplain
+    const AUSTIN_WATERSHED_URL = 'https://services.arcgis.com/0L95CJ0VTaxqcmED/ArcGIS/rest/services/BOUNDARIES_watershed_regulation_areas/FeatureServer/0';
+
+    // City metadata used by mounts + render caveats
+    const CITY_META = {
+      'austin': {
+        label: 'Austin', county: 'travis', zoning: 'austin',
+        placeholder: 'e.g. 2500 Exposition Blvd, Austin, TX 78703',
+        zipHint: '78703',
+        zoningEmail: 'DSDZoningSitePlan@austintexas.gov',
+        zoningNote: 'Austin Development Services (DSD) zoning verification inbox. 311 for general questions.'
+      },
+      'west-lake-hills': {
+        label: 'West Lake Hills', county: 'travis', zoning: 'austin',
+        placeholder: 'e.g. 4010 Bee Cave Rd, West Lake Hills, TX 78746',
+        zipHint: '78746',
+        zoningCaveat: 'City of Austin zoning shown for reference only — West Lake Hills has its own zoning ordinance (R-1, R-2, etc.) and is not in Austin\'s zoning layer. Use the city\'s Zoning Map PDF and email Building & Development to confirm.',
+        zoningEmail: 'jsherrouse@westlakehills.gov',
+        zoningNote: 'Joel Sherrouse, Development Coordinator, City of West Lake Hills (512) 610-6826. Director: jbills@westlakehills.gov.'
+      },
+      'round-rock': {
+        label: 'Round Rock', county: 'williamson', zoning: 'round-rock',
+        placeholder: 'e.g. 221 E Main St, Round Rock, TX 78664',
+        zipHint: '78664',
+        zoningEmail: 'pdsintake@roundrocktexas.gov',
+        zoningNote: 'Round Rock Planning & Development Services intake, (512) 218-5428. Zoning/PUD planner: aguajardo@roundrocktexas.gov.'
+      },
+      'georgetown': {
+        label: 'Georgetown', county: 'williamson', zoning: 'georgetown',
+        placeholder: 'e.g. 808 Martin Luther King Jr St, Georgetown, TX 78626',
+        zipHint: '78626',
+        zoningEmail: 'planning@georgetowntexas.gov',
+        zoningNote: 'Georgetown Planning Department, (512) 930-3575.'
       }
     };
 
     // Agent name → email (used to sign the outgoing zoning email).
     const LAND_AGENT_EMAILS = {
-      'Gabe Jeudy-Lally':  'gvjbusiness@yahoo.com',
-      'Gabe Jeudy':       'gvjbusiness@yahoo.com',
-      'Partner Hibbett': 'gvjbusiness@yahoo.com'
+      'Gabe Jeudy-Lally': 'gvjbusiness@yahoo.com'
     };
 
     // Compose the zoning-verification email body from the modal fields.
@@ -2817,44 +2897,59 @@
       return           { label: 'Very Steep',   color: '#d64545', note: 'Geotech required. Expensive foundation + drainage.' };
     }
 
+    // Frontage estimate: the parcel edge nearest the street-side geocode point.
+    function _plFrontage(rings, streetPt) {
+      if (!rings || !rings[0] || !streetPt) return null;
+      const outer = rings[0];
+      const FT_LAT = 364000, FT_LNG = 314200;
+      let best = null;
+      for (let i = 0; i < outer.length - 1; i++) {
+        const [x1, y1] = outer[i], [x2, y2] = outer[i + 1];
+        const ax = (x1 - streetPt.x) * FT_LNG, ay = (y1 - streetPt.y) * FT_LAT;
+        const bx = (x2 - streetPt.x) * FT_LNG, by = (y2 - streetPt.y) * FT_LAT;
+        const dx = bx - ax, dy = by - ay;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        if (len < 5) continue;                       // skip slivers
+        let t = -(ax * dx + ay * dy) / (len * len); t = Math.max(0, Math.min(1, t));
+        const px = ax + t * dx, py = ay + t * dy;
+        const dist = Math.sqrt(px * px + py * py);
+        if (!best || dist < best.dist) best = { dist, len };
+      }
+      return best;
+    }
+
     async function _plLookup(container, address) {
       const statusEl  = container.querySelector('.plookup-status');
       const resultsEl = container.querySelector('.plookup-results');
       const city      = container.dataset.city || 'austin';
       const meta      = CITY_META[city] || CITY_META['austin'];
+      const psvc      = PARCEL_SERVICES[meta.county];
+      const zsvc      = ZONING_SERVICES[meta.zoning];
       resultsEl.hidden = true;
       statusEl.textContent = 'Geocoding address…';
 
       const geo = await _plGeocode(address);
       if (!geo) throw new Error('Address not found — try a fuller form (with city + state).');
       const point = { x: geo.location.x, y: geo.location.y, spatialReference: { wkid: 4326 } };
-      statusEl.textContent = 'Loading parcel, flood zone, slope…';
+      statusEl.textContent = 'Loading parcel, zoning, flood zone, slope…';
 
-      // Metro's Parcels layer covers all of Travis County (Austin, Lakeway,
-      // West Lake Hills). Round Rock is in Williamson County so we skip that query.
-      // FEMA + slope work anywhere in the US.
-      const parcelPromise = meta.skipMetro
-        ? Promise.resolve(null)
-        : _plQueryLayer('https://maps.austin.gov/arcgis/rest/services/Cadastral/Parcels/MapServer', 0, point, '*')
-            .catch(err => { console.warn('Parcel query failed:', err); return null; });
-      const [parcel, flood] = await Promise.all([
-        parcelPromise,
-        // FEMA moved the NFHL service URL — the old /gis/nfhl/services/ path
-        // returns 404 (IBM WebSEAL "Not Found"). Current path is /arcgis/rest/.
-        // Layer 28 is still "Flood Hazard Zones" with FLD_ZONE / ZONE_SUBTY / STATIC_BFE.
-        _plQueryLayer('https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer', 28, point, 'FLD_ZONE,ZONE_SUBTY,STATIC_BFE')
-          .catch(err => { console.warn('FEMA query failed:', err); return null; })
+      const swallow = (label) => (err) => { console.warn(label + ' query failed:', err); return null; };
+      const [parcel, zoning, flood, fdf, watershed] = await Promise.all([
+        _plQueryLayer(psvc.url, '', point, psvc.fields).catch(swallow('Parcel')),
+        zsvc ? _plQueryLayer(zsvc.url, '', point, zsvc.fields).catch(swallow('Zoning')) : Promise.resolve(null),
+        _plQueryLayer('https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer', 28, point, 'FLD_ZONE,ZONE_SUBTY,STATIC_BFE').catch(swallow('FEMA')),
+        meta.county === 'travis' ? _plQueryLayer(AUSTIN_FDF_URL, '', point, 'FLOOD_ZONE').catch(swallow('Austin FDF')) : Promise.resolve(null),
+        meta.county === 'travis' ? _plQueryLayer(AUSTIN_WATERSHED_URL, '', point, 'WATERSHED_DEVELOPMENT_TYPE,DESIRED_DEVELOPMENT_ZONE').catch(swallow('Watershed')) : Promise.resolve(null)
       ]);
 
-      // Slope analysis — sizes its sample box off parcel acres if available.
-      const acres = (parcel && parcel.attributes && parcel.attributes.Acres != null)
-        ? Number(parcel.attributes.Acres) : null;
-      const slope = await _plComputeSlope(geo.location.x, geo.location.y, acres)
+      const parsed = parcel ? psvc.parse(parcel.attributes || {}) : null;
+      const acres  = parsed && parsed.acres != null ? parsed.acres : null;
+      const slope  = await _plComputeSlope(geo.location.x, geo.location.y, acres)
         .catch(err => { console.warn('Slope analysis failed:', err); return null; });
 
       statusEl.style.color = '#9ec39e';
       statusEl.textContent = '✓ Loaded — ' + (geo.address || address);
-      resultsEl.innerHTML = _plRenderHTML(geo, parcel, flood, slope, city);
+      resultsEl.innerHTML = _plRenderHTML(geo, { raw: parcel, parsed, svc: psvc }, flood, slope, city, { zoning, fdf, watershed });
       resultsEl.hidden = false;
     }
 
@@ -2872,54 +2967,65 @@
               <div style="color:#fff;">${val}</div>`;
     }
 
-    function _plRenderHTML(geo, parcel, flood, slope, city) {
+    function _plRenderHTML(geo, parcelBundle, flood, slope, city, extra) {
       const meta = CITY_META[city] || CITY_META['austin'];
       const cards = [];
       const fullAddress = (geo && geo.address) ? geo.address : '';
+      const parcel = parcelBundle && parcelBundle.raw;
+      const p      = parcelBundle && parcelBundle.parsed;
+      const svc    = parcelBundle && parcelBundle.svc;
+      extra = extra || {};
 
-      // === PARCEL — only if we're inside Travis County (Metro has data) ===
-      if (parcel) {
-        const a = parcel.attributes || {};
-        const parcelId = a.APN || '';
-        const address  = a.PropAddr || '';
-        const owner    = a.Owner || '';
-        const acres    = a.Acres != null ? Number(a.Acres) : null;
-        const front    = a.Front != null && a.Front > 0 ? a.Front : null;
-        const side     = a.Side  != null && a.Side  > 0 ? a.Side  : null;
-        const zoneCode = (a.Zoning || '').trim();
-        cards.push(_plCard('Parcel',
-          _plRow('Parcel ID', parcelId) +
-          _plRow('Situs', address) +
+      // === PARCEL — county appraisal district layer (TCAD or WCAD) ===
+      if (parcel && p) {
+        const sides = _plSideLengths(parcel.geometry && parcel.geometry.rings);
+        const front = _plFrontage(parcel.geometry && parcel.geometry.rings, geo.streetLocation);
+        const sqft  = p.acres != null ? p.acres * 43560 : null;
+        const depth = front && sqft ? sqft / front.len : null;
+        const longest = sides.length ? Math.max.apply(null, sides) : null;
+        cards.push(_plCard('Parcel · ' + esc(svc.label),
+          _plRow('Parcel ID', p.id) +
+          (p.geoId ? _plRow('Geo / Property #', p.geoId) : '') +
+          _plRow('Situs', p.situs) +
           _plRow('Full Address', fullAddress) +
-          _plRow('Owner', owner) +
-          _plRow('Acres', acres != null ? acres.toFixed(3) : '') +
-          _plRow('Frontage', front != null ? front + ' ft' : '—') +
-          _plRow('Side', side != null ? side + ' ft' : '—')
+          (p.owner ? _plRow('Owner', p.owner) : '') +
+          _plRow('Acres', p.acres != null ? p.acres.toFixed(3) + (sqft ? ' (' + Math.round(sqft).toLocaleString() + ' sf)' : '') : '—') +
+          _plRow('Frontage (est.)', front ? Math.round(front.len) + ' ft' : '—') +
+          _plRow('Depth (est.)', depth ? Math.round(depth) + ' ft' : (longest ? '~' + Math.round(longest) + ' ft longest side' : '—')) +
+          (p.legal ? _plRow('Legal', p.legal) : '') +
+          (p.landValue != null ? _plRow('Land Mkt Value', '$' + Math.round(p.landValue).toLocaleString()) : '') +
+          (p.mktValue != null ? _plRow('Total Mkt Value', '$' + Math.round(p.mktValue).toLocaleString()) : '') +
+          (p.link ? `<div style="grid-column:1/-1; font-size:11px; padding-top:6px;"><a href="${esc(p.link)}" target="_blank" rel="noopener" style="color:var(--accent);">${esc(p.linkLabel)} ↗</a></div>` : '') +
+          `<div style="grid-column:1/-1; font-size:10.5px; line-height:1.5; color:var(--text-dim); padding-top:6px;">Frontage = parcel edge nearest the street-side geocode; depth = area ÷ frontage. Estimates from GIS geometry — confirm with survey/plat.</div>`
         ));
+      } else {
+        cards.push(_plCard('Parcel',
+          _plRow('Status', 'No parcel found at this location in the ' + esc(svc ? svc.label : 'county') + ' layer. Check the address or county.')
+        ));
+      }
 
-        // === ZONING — city-aware. Show only the zoning code; agent verifies
-        // setbacks / min lot / max height with the city (via the Email Zoning
-        // button below the results). ===
-        if (city === 'austin') {
-          cards.push(_plCard('Zoning',
-            _plRow('Zone', zoneCode || '—') +
-            `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:var(--text-muted); padding:6px 0 0;">Verify setbacks + max height with Metro Codes — use the <b>Email Zoning</b> button below.</div>`
-          ));
-        } else if (city === 'lakeway' || city === 'west-lake-hills') {
-          cards.push(_plCard('Zoning (' + esc(meta.label) + ')',
-            _plRow('Metro Zone (ref)', zoneCode || '—') +
-            `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:#e0c98d; padding:8px 10px; margin-top:6px; background:rgba(224,201,141,0.08); border-left:2px solid #e0c98d;">⚠ ${esc(meta.zoningCaveat || '')}</div>`
-          ));
+      // === ZONING — from the city's own zoning layer ===
+      const z = extra.zoning && extra.zoning.attributes;
+      const zsvc = ZONING_SERVICES[meta.zoning];
+      if (z && zsvc) {
+        const code = (z[zsvc.field] || '').trim();
+        const base = zsvc.baseField ? (z[zsvc.baseField] || '') : '';
+        const name = zsvc.nameField ? (z[zsvc.nameField] || '') : '';
+        const link = zsvc.linkField ? (z[zsvc.linkField] || '') : (zsvc.codeUrl || '');
+        const ref  = AUSTIN_SETBACKS[base] || AUSTIN_SETBACKS[code];
+        let rows = _plRow('Zone', code || '—') + (name ? _plRow('District', name) : '') + (base && base !== code ? _plRow('Base', base) : '');
+        if (meta.zoning === 'austin' && ref) {
+          rows += _plRow('Min Lot (ref)', ref.minLot) + _plRow('Setbacks (ref)', 'F ' + ref.front + ' / S ' + ref.side + ' / R ' + ref.rear + ' ft') + _plRow('Max Height (ref)', ref.maxHeight + ' ft');
         }
-      } else if (!meta.skipMetro) {
-        cards.push(_plCard('Parcel',
-          _plRow('Status', 'No parcel found at this location. Address may be outside Travis County.')
-        ));
-      } else if (fullAddress) {
-        // Round Rock / non-Metro city — no parcel data, but show the geocoded address
-        cards.push(_plCard('Address',
-          _plRow('Full Address', fullAddress) +
-          _plRow('City', meta.label)
+        if (link) rows += `<div style="grid-column:1/-1; font-size:11px; padding-top:6px;"><a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--accent);">Code section ↗</a></div>`;
+        rows += meta.zoningCaveat
+          ? `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:#e0c98d; padding:8px 10px; margin-top:6px; background:rgba(224,201,141,0.08); border-left:2px solid #e0c98d;">⚠ ${esc(meta.zoningCaveat)}</div>`
+          : `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:var(--text-muted); padding:6px 0 0;">Verify setbacks, overlays, and max height with the city — use the <b>Email Zoning</b> button below.</div>`;
+        cards.push(_plCard('Zoning (' + esc(meta.label) + ')', rows));
+      } else {
+        cards.push(_plCard('Zoning (' + esc(meta.label) + ')',
+          _plRow('Zone', '—') +
+          `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:var(--text-muted); padding:6px 0 0;">${esc(meta.zoningCaveat || 'No zoning polygon at this point — the address may be in the ETJ or outside city limits (county land has no zoning in Texas). Email the city to confirm.')}</div>`
         ));
       }
 
@@ -2969,8 +3075,19 @@
         ));
       }
 
+      // === CITY OF AUSTIN — Fully Developed Floodplain + Watershed Regulation Area (Travis side) ===
+      if (meta.county === 'travis') {
+        const fdfIn = !!(extra.fdf && extra.fdf.attributes);
+        const ws = extra.watershed && extra.watershed.attributes;
+        cards.push(_plCard('City of Austin Environmental',
+          _plRow('Fully Developed 100-yr Floodplain', fdfIn ? '⚠ Yes — in Atlas 14 fully developed floodplain (stricter than FEMA)' : '✓ No — outside COA fully developed floodplain') +
+          (ws ? _plRow('Watershed Class', ws.WATERSHED_DEVELOPMENT_TYPE || '—') + _plRow('Regulation Zone', ws.DESIRED_DEVELOPMENT_ZONE || '—') : _plRow('Watershed', 'Not in COA watershed regulation layer')) +
+          `<div style="grid-column:1/-1; font-size:10.5px; line-height:1.5; color:var(--text-dim); padding-top:6px;">Drinking Water Protection Zone and Water Supply watersheds carry lower impervious cover caps and critical environmental feature buffers. Confirm on the COA Property Profile.</div>`
+        ));
+      }
+
       // Cache the current lookup for the Client Report button (built below)
-      window._plLastLookup = { geo, parcel, flood, slope, city, meta };
+      window._plLastLookup = { geo, parcel: parcelBundle, zoning: extra.zoning, fdf: extra.fdf, watershed: extra.watershed, flood, slope, city, meta };
 
       // Bottom action row — Email Zoning + Generate Client Report
       const fullAddrForEmail = (geo && geo.address) ? geo.address : '';
@@ -3004,7 +3121,7 @@
         mount.innerHTML = `
           <div class="plookup-tool" data-city="${city}" style="background:var(--panel); border:1px solid var(--accent); padding:20px 22px; margin-bottom:24px;">
             <h3 style="font-family:var(--font-display); font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin:0 0 6px;">Property Lookup · ${esc(meta.label)}</h3>
-            <p style="font-size:12px; color:var(--text-muted); margin:0 0 14px; line-height:1.5;">Enter a ${esc(meta.label)} address to pull parcel, lot dimensions, zoning, and FEMA flood zone in one query. Parcel data from City of Austin Assessor (covers all of Travis County).</p>
+            <p style="font-size:12px; color:var(--text-muted); margin:0 0 14px; line-height:1.5;">Enter a ${esc(meta.label)} address to pull parcel, lot dimensions, zoning, and FEMA flood zone in one query. Parcel data from ${esc((PARCEL_SERVICES[meta.county] || {}).label || 'the county appraisal district')}; zoning from the city's GIS; flood from FEMA NFHL${meta.county === 'travis' ? ' plus City of Austin floodplain and watershed layers' : ''}; slope from USGS 3DEP.</p>
             <form class="plookup-form" style="display:flex; gap:10px;">
               <input class="plookup-address" type="text" required autocomplete="off"
                      placeholder="${esc(meta.placeholder)}"
@@ -3053,6 +3170,7 @@
       const cityLabel = document.getElementById('ez-city-label');
       if (cityLabel) cityLabel.textContent = meta.label;
       document.getElementById('ez-to').value = meta.zoningEmail || '';
+      const noteEl = document.getElementById('ez-city-note'); if (noteEl) noteEl.textContent = meta.zoningNote || '';
       document.getElementById('ez-address').value = addr;
       // Default agent = current land agent if we know it
       const agentSel = document.getElementById('ez-agent');
@@ -3121,14 +3239,20 @@
       const { geo, parcel, flood, slope, city, meta } = data;
       const addr = (geo && geo.address) ? geo.address : '';
       const today = new Date().toLocaleDateString('en-US', { month:'long', day:'numeric', year:'numeric' });
-      const p = (parcel && parcel.attributes) || {};
-      const parcelId = p.APN || '';
-      const situs    = p.PropAddr || '';
-      const owner    = p.Owner || '';
-      const acres    = p.Acres != null ? Number(p.Acres).toFixed(3) : '';
-      const front    = (p.Front != null && p.Front > 0) ? p.Front + ' ft' : '—';
-      const side     = (p.Side  != null && p.Side  > 0) ? p.Side  + ' ft' : '—';
-      const zoneCode = (p.Zoning || '').trim() || '—';
+      const bundle = parcel || {};
+      const p = bundle.parsed || {};
+      const raw = bundle.raw;
+      const parcelId = p.id || '';
+      const situs    = p.situs || '';
+      const owner    = p.owner || '';
+      const acres    = p.acres != null ? Number(p.acres).toFixed(3) : '';
+      const fr       = raw ? _plFrontage(raw.geometry && raw.geometry.rings, geo && geo.streetLocation) : null;
+      const front    = fr ? Math.round(fr.len) + ' ft (est.)' : '—';
+      const side     = (fr && p.acres) ? Math.round(p.acres * 43560 / fr.len) + ' ft (est. depth)' : '—';
+      const zsvc     = ZONING_SERVICES[meta.zoning];
+      const zattr    = (data.zoning && data.zoning.attributes) || {};
+      const zoneCode = (zsvc && zattr[zsvc.field]) ? String(zattr[zsvc.field]).trim() : '—';
+      const zoneName = (zsvc && zsvc.nameField && zattr[zsvc.nameField]) ? zattr[zsvc.nameField] : '';
       const f = (flood && flood.attributes) || {};
       const fzone   = f.FLD_ZONE || 'X';
       const fsub    = f.ZONE_SUBTY || '';
@@ -3159,16 +3283,18 @@
           <div style="font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:#8a8579;">${meta.label}</div>
           <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.06em; color:#fff; margin-top:6px; line-height:1.2;">${addr || '—'}</div>
         </div>
-        ${parcel ? section('Parcel',
+        ${raw ? section('Parcel · ' + (bundle.svc ? bundle.svc.label : ''),
           row('Parcel ID',  parcelId) +
           row('Owner',      owner) +
           row('Situs',      situs) +
           row('Acres',      acres) +
           row('Frontage',   front) +
-          row('Side',       side)
+          row('Depth',      side)
         ) : ''}
         ${section('Zoning',
           row('Zoning Code', zoneCode) +
+          (zoneName ? row('District', zoneName) : '') +
+          (meta.zoningCaveat ? row('Note', meta.zoningCaveat) : '') +
           `<div style="font-size:11px; color:#8a8579; padding-top:6px; line-height:1.5;">Setbacks and max-height regulations vary by district. Verify with the city before contracting.</div>`
         )}
         ${s ? section('Slope Analysis',
