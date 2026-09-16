@@ -341,7 +341,8 @@
     .la-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; align-items: end; }
     .la-form label { display: block; font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; font-weight: 600; }
     .la-form input[type=text], .la-form input[type=number], .la-form select { width: 100%; padding: 10px 12px; font: inherit; font-size: 13px; color: var(--text); background: var(--bg, #111111); border: 1px solid var(--rule-strong, var(--rule)); }
-    .la-form .la-check { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); padding-bottom: 10px; white-space: nowrap; }
+    .la-form .la-check { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); padding-bottom: 10px; white-space: nowrap; grid-column: span 2; }
+    .la-form .la-go { grid-column: span 2; }
     .la-form button { padding: 12px 18px; font: inherit; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; background: #f1ece2; color: #111111; border: 0; cursor: pointer; }
     .la-form button:disabled { opacity: .5; cursor: wait; }
     .la-status { font-size: 11.5px; color: var(--text-dim); margin: 12px 0 0; min-height: 16px; }
@@ -4481,12 +4482,13 @@
     const ENTITY = f => '(' + ['%LLC%','%L L C%','%LP','%LTD%','%INC%','%HOMES%','%PARTNERS%','%BUILDERS%','%DEVELOPMENT%','%CAPITAL%','%HOLDINGS%','%INVESTMENTS%','%PROPERTIES%','%TRUST%'].map(k => f + " LIKE '" + k + "'").join(' OR ') + ')';
 
     // Travis County: TCAD layer with owner, deed instrument number (year-prefixed), land + improvement values.
-    async function findTcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand }) {
+    async function findTcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand, resOnly }) {
       const yrs = yearsBack(months).map(y => "deed_num LIKE '" + y + "%'").join(' OR ');
       const where = ["situs_zip='" + zip + "'", '(' + yrs + ')', 'tcad_acres >= ' + minAc, 'tcad_acres <= ' + maxAc];
       if (llcOnly) where.push(ENTITY('py_owner_name'));
       if (vacantOnly) where.push("((imprv_homesite_val IS NULL OR imprv_homesite_val < 5000) AND (imprv_non_homesite_val IS NULL OR imprv_non_homesite_val < 5000))");
       if (maxLand) where.push('market_value <= ' + maxLand);
+      if (resOnly) where.push("(land_type_desc IS NULL OR (land_type_desc NOT LIKE '%COMMERCIAL%' AND land_type_desc NOT LIKE '%INDUSTRIAL%'))");
       const u = TCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
         outFields: 'PROP_ID,situs_address,py_owner_name,deed_num,tcad_acres,market_value,land_homesite_val,land_non_homesite_val,imprv_homesite_val,imprv_non_homesite_val,land_state_cd,land_type_desc,legal_desc',
         orderByFields: 'deed_num DESC', resultRecordCount: '400' });
@@ -4502,12 +4504,13 @@
     }
 
     // Williamson County: deed instrument numbers start with the recording year.
-    async function findWcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand }) {
+    async function findWcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly, maxLand, resOnly }) {
       const yrs = yearsBack(months).map(y => "InstrumentNumber LIKE '" + y + "%'").join(' OR ');
       const where = ["Szip='" + zip + "'", '(' + yrs + ')'];
       if (llcOnly) where.push(ENTITY('OWNERNME1'));
       if (vacantOnly) where.push('(TotalImpMktValue IS NULL OR TotalImpMktValue < 5000)');
       if (maxLand) where.push('TotalLandMktValue <= ' + maxLand);
+      if (resOnly) where.push("(USEDSCRP IS NULL OR (USEDSCRP NOT LIKE 'F%' AND USEDSCRP NOT LIKE 'Commercial%' AND USEDSCRP NOT LIKE 'Industrial%'))");
       const u = WCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
         outFields: 'OWNERNME1,InstrumentNumber,Acres,AssessedAc,StatedAc,USEDSCRP,TotalLandMktValue,TotalImpMktValue,SitusAddress,LegalDesc,PARCELID,DateLastChanged',
         orderByFields: 'InstrumentNumber DESC', resultRecordCount: '300' });
@@ -4571,7 +4574,7 @@
         tile('Median appraised $/ac', medPerAc ? fmtUSD(medPerAc) : '—', 'land value') +
         tile('Avg appraised $/ac', avgPerAc ? fmtUSD(avgPerAc) : '—', withVal.length + ' with values') +
         tile('New-build permits', permits.length, 'City of Austin') +
-        tile('Most active', builders[0] ? builders[0].name : (buyers[0] ? titleCase(buyers[0].name) : '—'), builders[0] ? builders[0].n + ' permits' : (buyers[0] ? buyers[0].n + ' parcels' : '')) +
+        tile('Most active', builders[0] ? titleCase(builders[0].name).replace(/\*+/g, ' ').trim().slice(0, 26) : (buyers[0] ? titleCase(buyers[0].name).slice(0, 26) : '—'), builders[0] ? builders[0].n + ' permits' : (buyers[0] ? buyers[0].n + ' parcels' : '')) +
         '</div>';
 
       if (buyers.length || builders.length) {
@@ -4629,13 +4632,14 @@
         '<div><label>Max land value</label><input type="number" name="maxLand" min="0" step="10000" placeholder="no cap"></div>' +
         '<label class="la-check"><input type="checkbox" name="llcOnly" checked> LLC / builder buyers only</label>' +
         '<label class="la-check"><input type="checkbox" name="vacantOnly" checked> Vacant land only</label>' +
-        '<div><button type="submit">Find activity</button></div>' +
+        '<label class="la-check"><input type="checkbox" name="resOnly" checked> Skip commercial / industrial</label>' +
+        '<div class="la-go"><button type="submit">Find comps</button></div>' +
         '</form><div class="la-status"></div><div class="la-results"></div></div>';
       const form = el.querySelector('form'), status = el.querySelector('.la-status'), results = el.querySelector('.la-results');
       form.addEventListener('submit', async e => {
         e.preventDefault();
         const f = new FormData(form);
-        const ctx = { city, zip: String(f.get('zip')).trim(), minAc: +f.get('minAc') || 0, maxAc: +f.get('maxAc') || 999, months: Math.max(1, +f.get('months') || 12), llcOnly: !!f.get('llcOnly'), vacantOnly: !!f.get('vacantOnly'), maxLand: +f.get('maxLand') || 0 };
+        const ctx = { city, zip: String(f.get('zip')).trim(), minAc: +f.get('minAc') || 0, maxAc: +f.get('maxAc') || 999, months: Math.max(1, +f.get('months') || 12), llcOnly: !!f.get('llcOnly'), vacantOnly: !!f.get('vacantOnly'), resOnly: !!f.get('resOnly'), maxLand: +f.get('maxLand') || 0 };
         if (ctx.maxAc < ctx.minAc) ctx.maxAc = ctx.minAc;
         const btn = form.querySelector('button'); btn.disabled = true; status.textContent = 'Querying TCAD, WCAD, Hays CAD and City of Austin permits…'; results.innerHTML = '';
         const errors = []; let transfers = [], permits = [];
