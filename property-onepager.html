@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1000" />
+  <title>Generate One-Pager · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --bg-elev-2:       #141414;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --tracking-wide:   0.18em;
+      --tracking-x-wide: 0.22em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell { max-width: 760px; margin: 0 auto; padding: 20px 28px 60px; }
+    .page-toolbar {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .page-toolbar .brand {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .page-toolbar .spacer { flex: 1; }
+    .page-toolbar a.back {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+
+    .modal-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 22px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .modal-title-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-eyebrow {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: 0.08em;
+      text-transform: uppercase; line-height: 1;
+      margin: 0; font-weight: 400;
+    }
+    .modal-body { padding: 0; }
+    .modal-foot {
+      padding: 22px 0 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 22px;
+      display: flex; align-items: center; gap: 14px; justify-content: flex-end;
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 28px; }
+    legend {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 16px; padding: 0;
+    }
+    .form-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    label {
+      display: block; font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-bottom: 6px;
+    }
+    label .req { color: var(--text); margin-left: 2px; }
+    input[type=text], input[type=email], input[type=date],
+    input[type=number], input[type=tel], input[type=url],
+    input[type=file], select, textarea {
+      width: 100%; font: inherit; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--bg);
+      border: 1px solid var(--rule-strong); padding: 11px 12px;
+      transition: border-color .15s, background .15s;
+      -webkit-appearance: none; appearance: none; border-radius: 0;
+    }
+    input[type=file] { padding: 9px 12px; }
+    select {
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+        linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      padding-right: 32px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--text); background: var(--bg-elev-2);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    .btn {
+      font: inherit; padding: 13px 26px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      border: 1px solid var(--text); background: var(--text); color: var(--bg);
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .btn:hover { background: transparent; color: var(--text); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent; color: var(--text-muted);
+      border-color: var(--rule-strong);
+    }
+    .btn.ghost:hover { color: var(--text); border-color: var(--text); background: transparent; }
+    .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    .form-status {
+      margin: 18px 0;
+      padding: 12px 14px;
+      font-size: 12px;
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      color: var(--text-muted);
+      display: none;
+    }
+    .form-status.show { display: block; }
+    .form-status.ok  { color: #b6e3c5; border-color: #1f3a2a; }
+    .form-status.err { color: #f4b9b9; border-color: #4a1f1f; }
+    .form-status.warn { color: #e8d49a; border-color: #4a3a1f; }
+
+    @media print { .page-toolbar, .modal-foot { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div id="land-onepager-modal-overlay" aria-hidden="false">
+  <div class="page-shell" id="land-onepager-modal">
+    <div class="page-toolbar">
+      <a href="land.html" class="brand">
+        <img src="assets/icon-arch-transparent.png" alt="" />
+        Victory Formation Ventures · Generate One-Pager
+      </a>
+      <div class="spacer"></div>
+      <a href="land.html" class="back">← Land Acquisition</a>
+    </div>
+
+    <header class="modal-head">
+      <div class="modal-title-group">
+        <span class="modal-eyebrow">Land Acquisition</span>
+        <h2 class="modal-title" id="land-onepager-title">Generate One-Pager</h2>
+      </div>
+    </header>
+
+    <form class="modal-body" id="land-onepager-form" autocomplete="off" novalidate>
+      <fieldset>
+        <legend>Property Lookup</legend>
+        <p style="font-size:11px; color:var(--text-muted); margin:0 0 16px; letter-spacing:.02em; line-height:1.5;">
+          Pick a property below. The one-pager auto-populates from the Land Acquisition Intake sheet.
+        </p>
+        <div class="form-grid">
+          <div class="full">
+            <label for="lop-address">Property Address <span class="req">*</span></label>
+            <select id="lop-address" name="address" required>
+              <option value="" disabled selected>Loading properties…</option>
+            </select>
+          </div>
+          <div class="full">
+            <label for="lop-photo">Lot Photo (optional)</label>
+            <input id="lop-photo" name="photo" type="file" accept="image/*" />
+          </div>
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="form-status" id="land-onepager-status"></div>
+
+    <footer class="modal-foot">
+      <button class="btn" type="button" id="generate-land-onepager">Generate One-Pager</button>
+    </footer>
+
+  </div><!-- /.page-shell -->
+  </div><!-- /overlay wrapper -->
+
+  <script>
+    (function () {
+      const LAND_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
+      const LAND_SHEET_TAB = "Form Responses 1";
+      const STATS_URL =
+        "https://docs.google.com/spreadsheets/d/" + LAND_SHEET_ID +
+        "/gviz/tq?tqx=out:json&headers=1&sheet=" + encodeURIComponent(LAND_SHEET_TAB);
+
+      const overlay   = document.getElementById('land-onepager-modal-overlay');
+      const modal     = document.getElementById('land-onepager-modal');
+      const form      = document.getElementById('land-onepager-form');
+      const statusEl  = document.getElementById('land-onepager-status');
+      const openBtn   = document.getElementById('open-land-onepager-modal') || document.querySelector('[data-launches="open-land-onepager-modal"]');
+      const closeBtn  = document.getElementById('close-land-onepager-modal');
+      const cancelBtn = document.getElementById('cancel-land-onepager');
+      const generateBtn = document.getElementById('generate-land-onepager');
+      const addressInput = document.getElementById('lop-address');
+      const photoInput   = document.getElementById('lop-photo');
+
+      if (!overlay || !form) return;
+
+      let lastFocus = null;
+      let sheetRows = null;
+
+      // Shared IDB helpers — must match the version + stores in index.html
+      // so opening order doesn't trigger a VersionError.
+      function idbOpen() {
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open('vfv-dashboard', 4);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+            if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+            if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+            if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      }
+      async function idbPut(key, value) {
+        const db = await idbOpen();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction('onepager', 'readwrite');
+          tx.objectStore('onepager').put(value, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      function focusables() {
+        return modal.querySelectorAll(
+          'a[href], input:not([disabled]):not([type=hidden]), select:not([disabled]), ' +
+          'textarea:not([disabled]), button:not([disabled])'
+        );
+      }
+
+      function clearStatus() {
+        statusEl.classList.remove('show', 'ok', 'err', 'warn');
+        statusEl.textContent = '';
+      }
+      function setStatus(level, msg) {
+        statusEl.classList.add('show');
+        statusEl.classList.remove('ok', 'err', 'warn');
+        if (level && level !== 'info') statusEl.classList.add(level);
+        statusEl.textContent = msg;
+      }
+
+      function openModal() {
+        lastFocus = document.activeElement;
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        clearStatus();
+        loadProperties();
+        requestAnimationFrame(() => addressInput && addressInput.focus());
+      }
+      function closeModal() {
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      function parseGvizDate(cell) {
+        if (!cell || cell.v == null) return null;
+        if (typeof cell.v === 'string') {
+          const m = cell.v.match(/^Date\((\d+),(\d+),(\d+)(?:,(\d+),(\d+),(\d+))?\)$/);
+          if (m) return new Date(+m[1], +m[2], +m[3]);
+        }
+        if (cell.f) { const p = new Date(cell.f); if (!isNaN(p)) return p; }
+        return null;
+      }
+      function parseGvizString(cell) {
+        if (!cell) return '';
+        if (cell.f != null) return String(cell.f);
+        if (cell.v != null) return String(cell.v);
+        return '';
+      }
+      function parseGvizNumber(cell) {
+        if (!cell || cell.v == null) return '';
+        if (typeof cell.v === 'number') return cell.v;
+        const n = parseFloat(String(cell.v).replace(/[$,\s]/g, ''));
+        return isNaN(n) ? '' : n;
+      }
+      function parseGvizEnvelope(text) {
+        const match = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+        if (!match) throw new Error('gviz response in unexpected format');
+        const data = JSON.parse(match[1]);
+        if (data.status !== 'ok') {
+          const msg = (data.errors && data.errors[0] && data.errors[0].detailed_message) || data.status;
+          throw new Error('gviz: ' + msg);
+        }
+        return data.table || { cols: [], rows: [] };
+      }
+      function findCol(cols, ...candidates) {
+        const norm = (s) => String(s || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim();
+        const normLabels = cols.map((c) => norm(c.label));
+        for (const cand of candidates) {
+          const target = norm(cand);
+          const idx = normLabels.findIndex((l) => l === target);
+          if (idx >= 0) return idx;
+        }
+        for (const cand of candidates) {
+          const target = norm(cand);
+          const idx = normLabels.findIndex((l) =>
+            l.indexOf(target) >= 0 || target.indexOf(l) >= 0
+          );
+          if (idx >= 0) return idx;
+        }
+        return -1;
+      }
+
+      async function loadProperties() {
+        setStatus('info', 'Loading properties from sheet…');
+        addressInput.innerHTML = '<option value="" disabled selected>Loading properties…</option>';
+        try {
+          const url = STATS_URL + '&t=' + Date.now();
+          const res = await fetch(url, { cache: 'no-store' });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const text = await res.text();
+          sheetRows = parseGvizEnvelope(text);
+
+          const ix = addrIx();
+          if (ix < 0) {
+            setStatus('err', 'Could not find "Property Address" column in the sheet.');
+            return;
+          }
+          const addresses = (sheetRows.rows || [])
+            .map((r) => parseGvizString((r.c || [])[ix]).trim())
+            .filter(Boolean);
+          const seen = new Set();
+          const unique = [];
+          for (const a of addresses) {
+            const key = a.toLowerCase();
+            if (!seen.has(key)) { seen.add(key); unique.push(a); }
+          }
+          unique.sort((a, b) => a.localeCompare(b));
+
+          if (unique.length === 0) {
+            addressInput.innerHTML = '<option value="" disabled selected>No properties yet</option>';
+            setStatus('warn', 'No properties found in the Intake sheet yet.');
+            return;
+          }
+
+          const opts = ['<option value="" disabled selected>Select a property…</option>']
+            .concat(unique.map((a) =>
+              '<option value="' + a.replace(/"/g, '&quot;') + '">' +
+                a.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;') +
+              '</option>'
+            ));
+          addressInput.innerHTML = opts.join('');
+          clearStatus();
+        } catch (err) {
+          console.error('Land one-pager load failed:', err);
+          addressInput.innerHTML = '<option value="" disabled selected>Could not load</option>';
+          setStatus('err', 'Could not load properties: ' + (err && err.message ? err.message : err));
+        }
+      }
+      function addrIx() {
+        if (!sheetRows) return -1;
+        return findCol(sheetRows.cols || [], 'Property Address', 'Address');
+      }
+
+      function findRowByAddress(needle) {
+        if (!sheetRows) return null;
+        const ix = addrIx();
+        if (ix < 0) return null;
+        const norm = (s) => String(s || '').toLowerCase().replace(/\s+/g, ' ').trim();
+        const target = norm(needle);
+        if (!target) return null;
+        const rows = sheetRows.rows || [];
+        for (let i = rows.length - 1; i >= 0; i--) {
+          const cellAddr = norm(parseGvizString(((rows[i].c) || [])[ix]));
+          if (cellAddr === target) return rows[i];
+        }
+        for (let i = rows.length - 1; i >= 0; i--) {
+          const cellAddr = norm(parseGvizString(((rows[i].c) || [])[ix]));
+          if (cellAddr.startsWith(target) || target.startsWith(cellAddr)) return rows[i];
+        }
+        for (let i = rows.length - 1; i >= 0; i--) {
+          const cellAddr = norm(parseGvizString(((rows[i].c) || [])[ix]));
+          if (cellAddr.indexOf(target) >= 0) return rows[i];
+        }
+        return null;
+      }
+
+      function buildPayload(row, photoFile) {
+        const cols = sheetRows.cols || [];
+        const c = row.c || [];
+        const ix = {
+          agent:          findCol(cols, 'Agent Name', 'Agent'),
+          address:        findCol(cols, 'Property Address'),
+          neighborhood:   findCol(cols, 'Neighborhood / Area', 'Neighborhood'),
+          askingPrice:    findCol(cols, 'Asking Price'),
+          contractPrice:  findCol(cols, 'Contract Price'),
+          firstContact:   findCol(cols, 'First Contact Date'),
+          underContract:  findCol(cols, 'Date Under Contract'),
+          ddEnd:          findCol(cols, 'Due Diligence End'),
+          closing:        findCol(cols, 'Closing Date'),
+          lotSize:        findCol(cols, 'Lot Size'),
+          topography:     findCol(cols, 'Topography'),
+          zoning:         findCol(cols, 'Zoning'),
+          floodZone:      findCol(cols, 'Flood Zone'),
+          variance:       findCol(cols, 'Needs Variance', 'Variance'),
+          setbackFront:   findCol(cols, 'Setback — Front (ft)', 'Setback Front', 'Front Setback'),
+          setbackRear:    findCol(cols, 'Setback — Rear (ft)', 'Setback Rear', 'Rear Setback'),
+          setbackInterior:findCol(cols, 'Setback — Interior (ft)', 'Setback Interior', 'Interior Setback'),
+          setbackRoad:    findCol(cols, 'Setback — Road Side (ft)', 'Setback Road Side', 'Road Side Setback'),
+          dimFront:       findCol(cols, 'Lot Dimension — Front (ft)', 'Dimension Front', 'Front Dimension'),
+          dimSideLeft:    findCol(cols, 'Lot Dimension — Side Left (ft)', 'Dimension Side Left', 'Side Left'),
+          dimRear:        findCol(cols, 'Lot Dimension — Rear (ft)', 'Dimension Rear', 'Rear Dimension'),
+          dimSideRight:   findCol(cols, 'Lot Dimension — Side Right (ft)', 'Dimension Side Right', 'Side Right'),
+          compInArea:     findCol(cols, 'Comp in Area', 'Comps in Area'),
+          bestComp:       findCol(cols, 'Best Comp'),
+          cma:            findCol(cols, 'CMA'),
+          landComps:      findCol(cols, 'Land Comps'),
+          notes:          findCol(cols, 'Additional Notes', 'Notes'),
+        };
+        function s(idx) { return idx >= 0 ? parseGvizString(c[idx]) : ''; }
+        function n(idx) { return idx >= 0 ? parseGvizNumber(c[idx]) : ''; }
+        function d(idx) { return idx >= 0 ? parseGvizDate(c[idx]) : null; }
+        function dStr(dd) {
+          if (!(dd instanceof Date) || isNaN(dd)) return '';
+          return dd.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        return {
+          requestId:      Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
+          mode:           'land',
+          agent:          s(ix.agent),
+          address:        s(ix.address),
+          neighborhood:   s(ix.neighborhood),
+          askingPrice:    n(ix.askingPrice),
+          contractPrice:  n(ix.contractPrice),
+          firstContact:   dStr(d(ix.firstContact)),
+          underContract:  dStr(d(ix.underContract)),
+          ddEnd:          dStr(d(ix.ddEnd)),
+          closing:        dStr(d(ix.closing)),
+          lotSize:        s(ix.lotSize),
+          topography:     s(ix.topography),
+          zoning:         s(ix.zoning),
+          floodZone:      s(ix.floodZone),
+          variance:       s(ix.variance),
+          setbacks: {
+            front:    s(ix.setbackFront),
+            rear:     s(ix.setbackRear),
+            interior: s(ix.setbackInterior),
+            road:     s(ix.setbackRoad),
+          },
+          dimensions: {
+            front:     s(ix.dimFront),
+            sideLeft:  s(ix.dimSideLeft),
+            rear:      s(ix.dimRear),
+            sideRight: s(ix.dimSideRight),
+          },
+          compInArea:     s(ix.compInArea),
+          bestComp:       s(ix.bestComp),
+          cma:            s(ix.cma),
+          landComps:      s(ix.landComps),
+          notes:          s(ix.notes),
+          photo:          photoFile ? { name: photoFile.name, type: photoFile.type, blob: photoFile } : null,
+          generatedAt:    new Date().toISOString(),
+          warnings:       [],
+          fileReceipts:   [],
+        };
+      }
+
+      generateBtn.addEventListener('click', async () => {
+        clearStatus();
+        const addr = (addressInput.value || '').trim();
+        if (!addr) {
+          setStatus('warn', 'Enter or select a property address first.');
+          addressInput.focus();
+          return;
+        }
+        if (!sheetRows) {
+          setStatus('err', 'Properties not loaded yet. Try again in a moment.');
+          return;
+        }
+        const row = findRowByAddress(addr);
+        if (!row) {
+          setStatus('err', 'No match in the Intake sheet for that address.');
+          return;
+        }
+
+        // Open the new tab synchronously to keep Safari's pop-up blocker happy.
+        const requestId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const outputWin = window.open('one-pager.html?req=' + requestId, '_blank');
+        if (!outputWin) {
+          setStatus('warn', 'Pop-up blocked — allow pop-ups from this site, then click Generate again.');
+          return;
+        }
+
+        const originalLabel = generateBtn.textContent;
+        generateBtn.disabled = true;
+        generateBtn.textContent = 'Preparing…';
+
+        try {
+          const payload = buildPayload(row, photoInput.files && photoInput.files[0]);
+          payload.requestId = requestId;
+
+          await idbPut('current', payload);
+          setStatus('ok', 'One-pager sent to a new tab. The PDF will download automatically once the page renders.');
+        } catch (err) {
+          console.error('Land one-pager generate failed:', err);
+          setStatus('err', 'Error preparing one-pager: ' + (err && err.message ? err.message : err));
+          try { outputWin.close(); } catch (_) {}
+        } finally {
+          generateBtn.disabled = false;
+          generateBtn.textContent = originalLabel;
+        }
+      });
+
+      openBtn && openBtn.addEventListener('click', openModal);
+      // Only wire close/backdrop/escape if we're actually running inside the
+      // admin modal — otherwise Escape or a stray click would blank the page.
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') closeModal();
+        });
+        modal.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab') return;
+          const items = focusables(); if (!items.length) return;
+          const first = items[0], last = items[items.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
+      }
+
+      // Standalone bootstrap: eagerly load properties on page load.
+      loadProperties();
+    })();
+  </script>
+</body>
+</html>

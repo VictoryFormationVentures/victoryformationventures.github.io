@@ -1,0 +1,2254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1400" />
+  <title>Investor Deck Generator · Victory Formation Ventures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       INVESTOR DECK GENERATOR · Victory Formation Ventures
+       Single-file tool: form sidebar + 22-slide live preview + Print to PDF
+       ============================================================ */
+    :root {
+      --bg:           #000;
+      --bg-elev:      #0e0e0e;
+      --bg-elev-2:    #181818;
+      --ink:          #f5efe2;
+      --ink-dim:      #a8a094;
+      --accent:       #d9c8a3;
+      --panel:        #0f0f0f;
+      --rule:         #3a3a3a;
+      --rule-soft:    #2a2a2a;
+      --green:        #6a8f6f;
+      --red:          #b56b6b;
+      --font-display: 'Aboreto', serif;
+      --font-body:    'Mulish', sans-serif;
+      --tracking-wide:   .15em;
+      --tracking-x-wide: .25em;
+      /* slide dimensions */
+      --slide-w: 13.33in;
+      --slide-h: 7.5in;
+      --slide-pad: 0.85in;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: #1a1a1a;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-weight: 400;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button { font: inherit; }
+    a { color: inherit; }
+    input, select, textarea {
+      font: inherit;
+      color: var(--ink);
+      background: #111;
+      border: 1px solid var(--rule);
+      padding: 6px 8px;
+      width: 100%;
+      border-radius: 0;
+    }
+    textarea { resize: vertical; min-height: 60px; font-size: 12px; line-height: 1.5; }
+    input[type=color] { padding: 0; height: 28px; }
+    label { font-size: 10px; text-transform: uppercase; letter-spacing: .12em; color: var(--ink-dim); display: block; margin-bottom: 4px; }
+
+    /* ===== Top toolbar ===== */
+    .toolbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: #000; border-bottom: 1px solid var(--rule);
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 18px; z-index: 200;
+    }
+    .toolbar .brand {
+      font-family: var(--font-display); font-size: 13px;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--ink);
+    }
+    .toolbar .brand small {
+      display: block; font-family: var(--font-body); font-size: 9px;
+      letter-spacing: .2em; color: var(--ink-dim); font-weight: 500;
+      margin-top: 2px;
+    }
+    .toolbar .spacer { flex: 1; }
+    .tb-btn {
+      font-size: 11px; text-transform: uppercase; letter-spacing: .15em;
+      padding: 9px 16px; cursor: pointer;
+      border: 1px solid var(--ink); background: var(--ink); color: #000;
+      font-weight: 600;
+    }
+    .tb-btn:hover { opacity: .85; }
+    .tb-btn.ghost { background: transparent; color: var(--ink); }
+    .tb-btn.danger { border-color: #5a3030; color: #d99; background: transparent; }
+    .tb-status { font-size: 10px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: .15em; }
+    .tb-status.ok { color: #9ec39e; }
+    .tb-status.err { color: #d99; }
+
+    /* ===== Layout ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 420px 1fr;
+      padding-top: 56px;
+      min-height: 100vh;
+    }
+
+    /* ===== Sidebar form ===== */
+    .editor {
+      background: #0a0a0a;
+      border-right: 1px solid var(--rule);
+      padding: 18px 18px 80px;
+      position: sticky; top: 56px; align-self: start;
+      height: calc(100vh - 56px); overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .editor h2 {
+      font-family: var(--font-display); font-size: 12px;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: var(--ink); margin: 0;
+    }
+    .editor p.note { font-size: 11px; color: var(--ink-dim); margin: 6px 0 14px; line-height: 1.45; }
+
+    /* Underwriting picker panel */
+    .uw-pull {
+      border: 1px solid var(--accent, #d9c8a3);
+      background: #141210;
+      padding: 14px 14px 12px;
+      margin: 6px 0 18px;
+    }
+    .uw-pull h3 {
+      font-family: var(--font-display, 'Aboreto', serif); font-size: 12px;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--accent, #d9c8a3); font-weight: 400;
+      margin: 0 0 6px;
+    }
+    .uw-pull .desc { font-size: 11px; color: var(--ink-dim); line-height: 1.45; margin: 0 0 10px; }
+    .uw-pull select {
+      width: 100%;
+      background: #000; color: #fff;
+      border: 1px solid var(--rule);
+      padding: 8px 10px; font-size: 12px;
+      font-family: inherit;
+      margin-bottom: 10px;
+    }
+    .uw-pull .checks {
+      display: flex; flex-direction: column;
+      gap: 4px; margin-bottom: 10px;
+    }
+    .uw-pull .checks label {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11px; color: var(--ink);
+      cursor: pointer;
+      line-height: 1.3;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .uw-pull .checks input[type="checkbox"] {
+      accent-color: var(--accent, #d9c8a3);
+      width: 14px; height: 14px;
+      flex-shrink: 0;
+      margin: 0;
+    }
+    .uw-pull .btn-apply {
+      width: 100%;
+      background: var(--accent, #d9c8a3); color: #000;
+      border: none; padding: 9px 12px;
+      font-family: inherit; font-size: 11px;
+      letter-spacing: .18em; text-transform: uppercase;
+      font-weight: 700; cursor: pointer;
+    }
+    .uw-pull .btn-apply:disabled { opacity: 0.4; cursor: not-allowed; }
+    .uw-pull .btn-apply:hover:not(:disabled) { filter: brightness(1.05); }
+    .uw-pull .uw-status { font-size: 10px; color: var(--ink-dim); margin-top: 6px; text-align: center; letter-spacing: 0.06em; }
+
+    details.section {
+      border: 1px solid var(--rule-soft);
+      margin-bottom: 8px;
+      background: #0e0e0e;
+    }
+    details.section[open] { background: #111; }
+    details.section > summary {
+      list-style: none; cursor: pointer;
+      padding: 11px 12px;
+      font-size: 11px; text-transform: uppercase; letter-spacing: .18em;
+      color: var(--accent); font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    details.section > summary::-webkit-details-marker { display: none; }
+    details.section > summary::before {
+      content: '+'; color: var(--ink-dim); font-weight: 400; width: 12px;
+      font-family: var(--font-body); font-size: 14px;
+    }
+    details.section[open] > summary::before { content: '−'; }
+    details.section .body { padding: 4px 12px 14px; }
+    .row { display: grid; gap: 10px; margin-bottom: 10px; }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    .row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .row.four { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .upload-row { display: flex; align-items: center; gap: 8px; }
+    .thumb {
+      width: 44px; height: 32px; background: #222 center/cover; flex-shrink: 0;
+      border: 1px solid var(--rule-soft);
+    }
+    .thumb.empty::after { content: '—'; color: #555; display: flex; height: 100%; align-items: center; justify-content: center; font-size: 11px; }
+    .mini-btn {
+      font-size: 10px; padding: 5px 9px;
+      background: transparent; color: var(--ink-dim);
+      border: 1px solid var(--rule); cursor: pointer;
+      text-transform: uppercase; letter-spacing: .12em;
+    }
+    .mini-btn:hover { color: var(--ink); border-color: var(--ink-dim); }
+    .mini-btn.danger { color: #d99; border-color: #5a3030; }
+
+    .item-card {
+      border: 1px solid var(--rule-soft); padding: 10px;
+      margin-bottom: 8px; background: #0a0a0a;
+    }
+    .item-card-head {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 10px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: .15em;
+      margin-bottom: 8px;
+    }
+
+    /* ===== Preview pane ===== */
+    .preview {
+      padding: 24px 32px 80px;
+      background: #1a1a1a;
+    }
+    .preview-head {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-bottom: 20px;
+    }
+    .preview-head .label {
+      font-size: 10px; color: var(--ink-dim);
+      text-transform: uppercase; letter-spacing: .2em;
+    }
+    .zoom-ctl { display: flex; gap: 6px; align-items: center; font-size: 10px; color: var(--ink-dim); text-transform: uppercase; letter-spacing: .15em; }
+    .zoom-ctl button {
+      width: 26px; height: 26px; background: transparent; color: var(--ink); border: 1px solid var(--rule); cursor: pointer;
+      font-size: 13px;
+    }
+
+    /* The slide stack */
+    #deck { display: flex; flex-direction: column; gap: 24px; align-items: center; }
+
+    .slide {
+      width: var(--slide-w);
+      height: var(--slide-h);
+      background: var(--bg);
+      color: var(--ink);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 30px rgba(0,0,0,.45);
+      transform-origin: top center;
+      flex-shrink: 0;
+      page-break-after: always;
+      break-after: page;
+    }
+    .slide:last-child { page-break-after: auto; break-after: auto; }
+    .slide .pg-num {
+      position: absolute; right: 0.6in; bottom: 0.35in;
+      font-size: 8px; letter-spacing: .25em; color: var(--ink-dim);
+      text-transform: uppercase;
+    }
+    .slide .slide-brand {
+      position: absolute; left: 0.6in; bottom: 0.32in;
+      display: flex; gap: 8px; align-items: center;
+    }
+    .slide .slide-brand .arch {
+      width: 14px; height: 14px;
+      background: var(--ink); -webkit-mask: url('assets/icon-arch-transparent.png') center/contain no-repeat; mask: url('assets/icon-arch-transparent.png') center/contain no-repeat;
+    }
+    .slide .slide-brand .wm {
+      font-family: var(--font-display); font-size: 8px; letter-spacing: .25em;
+      color: var(--ink); text-transform: uppercase;
+    }
+    .slide .slide-rule {
+      position: absolute; left: 0.6in; right: 0.6in; bottom: 0.7in;
+      height: 0; border-top: 1px solid var(--rule);
+    }
+
+    /* Slide chrome blocks */
+    .eyebrow {
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--accent); font-weight: 600;
+    }
+    .display-xl { font-family: var(--font-display); letter-spacing: .04em; line-height: 0.95; font-size: 72px; }
+    .display-l  { font-family: var(--font-display); letter-spacing: .05em; line-height: 1.05; font-size: 48px; }
+    .display-m  { font-family: var(--font-display); letter-spacing: .06em; line-height: 1.1; font-size: 32px; }
+    .body-p { font-size: 13px; line-height: 1.6; color: var(--ink); font-weight: 400; max-width: 9in; }
+    .body-p.dim { color: var(--ink-dim); }
+
+    /* ===== Slide 1: Cover ===== */
+    .cover {
+      background-size: cover; background-position: center;
+    }
+    .cover::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.25) 32%, rgba(0,0,0,.25) 65%, rgba(0,0,0,.85) 100%);
+    }
+    .cover .cover-inner { position: absolute; inset: 0; padding: 0.85in; display: flex; flex-direction: column; }
+    .cover .cover-date { position: absolute; right: 0.55in; top: 0.55in; font-size: 9px; color: var(--ink); letter-spacing: .15em; }
+    .cover .cover-title { margin-top: 0.6in; }
+    .cover .cover-title h1 {
+      font-family: var(--font-display); font-size: 88px; line-height: 0.92;
+      letter-spacing: .04em; margin: 0; color: var(--ink); text-transform: uppercase;
+    }
+    .cover .cover-subtitle {
+      margin-top: 24px; font-size: 13px; letter-spacing: .22em;
+      color: var(--ink); text-transform: uppercase; font-weight: 500;
+    }
+    .cover .cover-footer {
+      position: absolute; left: 0.85in; right: 0.85in; bottom: 0.55in;
+    }
+    .cover .cover-footer .rule { border-top: 1px solid rgba(245,239,226,.55); margin-bottom: 14px; }
+    .cover .cover-footer .eyebrow-row {
+      display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .cover .cover-footer .eyebrow { font-size: 11px; color: var(--ink); }
+    .cover .cover-footer .brand-wm {
+      font-family: var(--font-display); font-size: 11px; letter-spacing: .28em; color: var(--ink); text-transform: uppercase;
+    }
+
+    /* ===== Generic content area inside slides ===== */
+    .slide-content {
+      position: absolute; inset: 0;
+      padding: 0.55in 0.85in 1in;
+      display: flex; flex-direction: column;
+    }
+    .slide-content .slide-title { margin-top: 6px; }
+    .slide-content .slide-title h2 {
+      font-family: var(--font-display); font-size: 38px; letter-spacing: .03em;
+      margin: 6px 0 0; color: var(--ink); text-transform: uppercase; line-height: 1.05;
+    }
+    .slide-content .slide-title-rule {
+      width: 56px; height: 0; border-top: 2px solid var(--accent);
+      margin-top: 12px;
+    }
+
+    /* ===== Stat cards (used on multiple slides) ===== */
+    .stat-cards { display: grid; gap: 14px; }
+    .stat-cards.cols-2 { grid-template-columns: 1fr 1fr; }
+    .stat-cards.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .stat-cards.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .stat-card {
+      border: 1px solid var(--rule); padding: 16px;
+      background: rgba(245,239,226,.02);
+    }
+    .stat-card .lbl {
+      font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink-dim); margin-bottom: 8px;
+    }
+    .stat-card .val {
+      font-family: var(--font-display); font-size: 30px; color: var(--ink);
+      letter-spacing: .03em;
+    }
+    .stat-card .sub { font-size: 10px; color: var(--ink-dim); margin-top: 6px; letter-spacing: .08em; }
+
+    /* ===== Two-column hero (image + text) ===== */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; flex: 1; align-items: stretch; }
+    .two-col .pane.img { background-size: cover; background-position: center; min-height: 4in; border: 1px solid var(--rule-soft); }
+    .two-col .pane.img.empty { background: #1a1a1a; display: flex; align-items: center; justify-content: center; color: var(--ink-dim); font-size: 11px; letter-spacing: .15em; text-transform: uppercase; }
+
+    /* Two-col 60/40 split */
+    .two-col.split-40-60 { grid-template-columns: 5fr 7fr; }
+    .two-col.split-60-40 { grid-template-columns: 7fr 5fr; }
+
+    /* ===== Bullets ===== */
+    ul.b-list { list-style: none; padding: 0; margin: 12px 0 0; }
+    ul.b-list li { font-size: 12px; line-height: 1.5; color: var(--ink); padding-left: 16px; position: relative; margin-bottom: 8px; }
+    ul.b-list li::before { content: '·'; position: absolute; left: 4px; top: -3px; color: var(--accent); font-size: 22px; }
+
+    /* ===== Tables ===== */
+    table.deck { width: 100%; border-collapse: collapse; font-size: 11px; }
+    table.deck thead th {
+      text-align: left; padding: 8px 6px; font-size: 9px;
+      letter-spacing: .2em; text-transform: uppercase; color: var(--ink-dim);
+      border-bottom: 1px solid var(--rule); font-weight: 600;
+    }
+    table.deck thead th.r, table.deck tbody td.r { text-align: right; }
+    table.deck tbody td {
+      padding: 8px 6px; border-bottom: 1px solid var(--rule-soft);
+      color: var(--ink);
+    }
+    table.deck tbody td .sub { font-size: 9px; color: var(--ink-dim); display: block; margin-top: 2px; }
+    table.deck tr.subject td { background: rgba(217,200,163,.07); color: var(--accent); font-weight: 700; }
+
+    /* ===== Sensitivity heatmap ===== */
+    table.heat { width: 100%; border-collapse: collapse; font-size: 11px; table-layout: fixed; }
+    table.heat th, table.heat td {
+      text-align: center; padding: 10px 6px;
+      border: 1px solid var(--rule-soft);
+    }
+    table.heat th {
+      font-size: 9px; letter-spacing: .15em; text-transform: uppercase;
+      color: var(--ink-dim); background: #050505; font-weight: 600;
+    }
+    table.heat .corner { background: #000; }
+    table.heat td.cell { font-family: var(--font-display); color: var(--ink); }
+    table.heat td.base { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    /* ===== Image grid (renders / comps) ===== */
+    .img-grid { display: grid; gap: 10px; }
+    .img-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .img-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+    .img-grid .img-tile { background: #1a1a1a center/cover no-repeat; border: 1px solid var(--rule-soft); }
+    .img-grid .img-tile.empty { display: flex; align-items: center; justify-content: center; color: var(--ink-dim); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+
+    /* ===== Team profile slide ===== */
+    .profile { display: grid; grid-template-columns: 4.5in 1fr; gap: 36px; flex: 1; }
+    .profile .ph { background: #1a1a1a center/cover no-repeat; border: 1px solid var(--rule-soft); }
+    .profile .info .firm-line {
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--ink-dim); margin-bottom: 6px;
+    }
+    .profile .info .name { font-family: var(--font-display); font-size: 32px; letter-spacing: .03em; color: var(--ink); text-transform: uppercase; }
+    .profile .info .bio { font-size: 12.5px; line-height: 1.6; color: var(--ink); margin-top: 16px; }
+    .profile .info .url-link { display: inline-block; margin-top: 18px; font-size: 11px; letter-spacing: .12em; text-transform: lowercase; color: var(--ink); border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-decoration: none; }
+
+    /* ===== Closing slide ===== */
+    .closing { background-size: cover; background-position: center; }
+    .closing::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 40%, rgba(0,0,0,.55) 65%, rgba(0,0,0,.92) 100%);
+    }
+    .closing .inner { position: absolute; inset: 0; padding: 0.85in; display: flex; flex-direction: column; justify-content: space-between; }
+    .closing .head h1 {
+      font-family: var(--font-display); font-size: 80px; letter-spacing: .04em;
+      color: var(--ink); margin: 0.4in 0 0; text-transform: uppercase; line-height: 1;
+    }
+    .closing .head .sub { font-size: 13px; letter-spacing: .22em; color: var(--ink); margin-top: 18px; text-transform: uppercase; max-width: 6in; line-height: 1.5; }
+    .closing .contact { display: flex; gap: 18px; align-items: flex-end; }
+    .closing .contact .photo {
+      width: 1.4in; height: 1.4in; background: #1a1a1a center/cover; border-radius: 50%;
+      border: 1px solid var(--rule); flex-shrink: 0;
+    }
+    .closing .contact .info .name {
+      font-family: var(--font-display); font-size: 22px; color: var(--ink); letter-spacing: .04em; text-transform: uppercase;
+    }
+    .closing .contact .info .title { font-size: 11px; letter-spacing: .18em; color: var(--accent); margin-top: 4px; text-transform: uppercase; }
+    .closing .contact .info .row { font-size: 13px; color: var(--ink); margin-top: 10px; }
+    .closing .contact .info .row a { text-decoration: none; border-bottom: 1px solid rgba(217,200,163,.5); padding-bottom: 1px; }
+
+    /* ===== Print stylesheet ===== */
+    @page { size: 13.33in 7.5in; margin: 0; }
+    @media print {
+      html, body { background: #000; }
+      .toolbar, .editor, .preview-head, .zoom-ctl { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding-top: 0; }
+      .preview { padding: 0; background: #000; }
+      #deck { gap: 0; }
+      .slide {
+        width: 13.33in !important; height: 7.5in !important;
+        box-shadow: none !important;
+        transform: none !important;
+        margin: 0 !important;
+        page-break-after: always; break-after: page;
+        overflow: hidden;
+      }
+      .slide:last-child { page-break-after: auto; }
+    }
+
+    /* ===== Custom scrollbars in editor ===== */
+    .editor::-webkit-scrollbar { width: 8px; }
+    .editor::-webkit-scrollbar-thumb { background: #2a2a2a; }
+    .editor::-webkit-scrollbar-track { background: #0a0a0a; }
+  </style>
+</head>
+<body>
+  <!-- ===== TOOLBAR ===== -->
+  <header class="toolbar">
+    <div class="brand">
+      The Victory Formation Co.
+      <small>Investor Deck Generator</small>
+    </div>
+    <div class="spacer"></div>
+    <span class="tb-status" id="status">Ready</span>
+    <button class="tb-btn ghost" id="btn-preset">Load 423 Travis</button>
+    <button class="tb-btn ghost" id="btn-clear">Clear</button>
+    <button class="tb-btn" id="btn-print">Generate PDF</button>
+    <a class="tb-btn ghost" href="index.html#panel-development">← Dashboard</a>
+  </header>
+
+  <div class="layout">
+    <!-- ===== EDITOR SIDEBAR ===== -->
+    <aside class="editor" id="editor">
+      <h2>Build your deck</h2>
+      <p class="note">Fill out the sections below. The preview updates as you type. When ready, click <b>Generate PDF</b> — use your browser's print dialog, choose <b>Save as PDF</b>, and set paper size to <b>13.33×7.5 in</b> (or Tabloid Landscape, then crop).</p>
+
+      <!-- ===== Pull from Underwriting Log ===== -->
+      <div class="uw-pull" id="uw-pull-panel">
+        <h3>Pull from Underwriting Log</h3>
+        <p class="desc">Pick a logged deal from your underwriting sheet and auto-fill the deck numbers. Toggle which slides get overwritten.</p>
+        <select id="uw-deal-picker">
+          <option value="">Loading deals…</option>
+        </select>
+        <div class="checks">
+          <label><input type="checkbox" id="uw-apply-conservative" checked> Conservative model</label>
+          <label><input type="checkbox" id="uw-apply-stretch"> Stretch model</label>
+          <label><input type="checkbox" id="uw-apply-overview" checked> Overview cards</label>
+          <label><input type="checkbox" id="uw-apply-summary" checked> Investor summary</label>
+        </div>
+        <button type="button" class="btn-apply" id="uw-apply-btn" disabled>Apply to Deck</button>
+        <div class="uw-status" id="uw-status">Loading…</div>
+      </div>
+
+      <!-- ===== Pull from Land Acquisition Log ===== -->
+      <div class="uw-pull" id="land-pull-panel">
+        <h3>Pull from Land Acquisition Log</h3>
+        <p class="desc">Pick a logged lot to auto-fill the Land slide — eyebrow, narrative, and key-facts bullets. Optionally sync the cover address.</p>
+        <select id="land-deal-picker">
+          <option value="">Loading lots…</option>
+        </select>
+        <div class="checks">
+          <label><input type="checkbox" id="land-apply-land" checked> Land slide (03)</label>
+          <label><input type="checkbox" id="land-apply-cover"> Cover address</label>
+        </div>
+        <button type="button" class="btn-apply" id="land-apply-btn" disabled>Apply to Deck</button>
+        <div class="uw-status" id="land-status">Loading…</div>
+      </div>
+
+      <!-- ===== Unlock MLS PDF importer (build comps) ===== -->
+      <div class="uw-pull" id="rt-pull-panel">
+        <h3>Import Build Comps · Unlock MLS PDF</h3>
+        <p class="desc">Export the Residential Property CMA summary from Unlock MLS, drop the PDF here, and we'll prefill Closed &amp; Under-Contract comps. Land comps and Coming Soon comps stay manual.</p>
+        <input type="file" id="rt-file-input" accept="application/pdf" style="display:none">
+        <button type="button" class="btn-apply" id="rt-import-btn">Choose Unlock MLS PDF</button>
+        <div class="uw-status" id="rt-status">Ready</div>
+      </div>
+
+      <!-- Sections will be populated by JS below; only essentials are inline -->
+      <div id="form-root"></div>
+
+      <p class="note" style="margin-top:18px;">Project text auto-saves to this browser. Photos do not persist (re-upload on next session, or use the preset to load 423 Travis).</p>
+    </aside>
+
+    <!-- ===== PREVIEW PANE ===== -->
+    <main class="preview">
+      <div class="preview-head">
+        <div class="label">Live preview · 22 slides · 16:9 widescreen</div>
+        <div class="zoom-ctl">
+          <span>Zoom</span>
+          <button id="zoom-out">−</button>
+          <span id="zoom-val">55%</span>
+          <button id="zoom-in">+</button>
+          <button id="zoom-fit">Fit</button>
+        </div>
+      </div>
+      <div id="deck"></div>
+    </main>
+  </div>
+
+  <script>
+    // ============================================================
+    // STATE  -----------------------------------------------------
+    // ============================================================
+    const STORAGE_KEY = 'vfv.investorDeck.v1';
+
+    const DEFAULT_STATE = {
+      project: {
+        address: '423 SAMPLE RD',
+        location: 'Tarrytown · Austin',
+        eyebrow: 'MARQUEE PRIVATE ESTATE   |   WEST MEADE',
+        subtitle: 'Luxury Spec Home Development Opportunity',
+        heroImage: '',
+        date: ''
+      },
+      overview: {
+        thesis: 'Hillwood-adjacent estate parcel positioned for a wide-shouldered luxury spec home in one of Austin’s most enduring high-net-worth corridors. Conservative basis underwrites to 28% cash-on-cash and 19-month hold. Liebo Builders, Andrew King Designs, and Kathryn Zelenik Designs lead a project team with a closed track record in the 37205 estate band.',
+        cards: [
+          { lbl: 'TARGET BASIS', val: '$3.95M', sub: 'Land + hard + soft + carry' },
+          { lbl: 'TARGET EXIT', val: '$5.95M', sub: '$860 / SF · conservative case' },
+          { lbl: 'PROJECT IRR', val: '27%', sub: 'Base case · stretch 35%' },
+          { lbl: 'HOLD', val: '19 mo', sub: 'Acquisition → close' }
+        ]
+      },
+      land: {
+        photo: '',
+        title: 'THE LAND',
+        eyebrow: 'SITE · 1.72 ACRES',
+        narrative: 'The subject 1.72-acre parcel at 423 Travis Rd anchors the south side of a quiet Tarrytown lane and rises gracefully to a usable plateau with 220 feet of frontage. Mature hardwoods, deep front and rear yards, and an east-facing build pad give the architecture wide setbacks and uninterrupted view corridors.',
+        bullets: [
+          '1.72 acres · 220 ft of frontage',
+          'Zoned RS-40 · single-family by-right',
+          'Public water + sewer at street',
+          'Mature canopy; minimal grading required'
+        ]
+      },
+      location: {
+        mapImage: '',
+        title: 'THE LOCATION',
+        narrative: 'Tarrytown has long been one of Austin’s quiet seats of established wealth — a leafy, large-lot residential corridor anchored by Hillwood Country Club and bounded by the city’s most enduring luxury submarkets. The 37205 zip code consistently ranks among Texas’s highest-priced; the immediate pocket sits at the intersection of three of Austin’s most desirable addresses: Tarrytown, Hillwood, and Rollingwood.',
+        bullets: [
+          '8 minutes to Rollingwood Country Club',
+          '12 minutes to downtown Austin',
+          '15 minutes to BNA International Airport',
+          'Walking distance to Percy Warner Park trails'
+        ]
+      },
+      build: {
+        sqft: '7,200',
+        beds: '5',
+        baths: '5.5 + 1',
+        finish: '$465 / SF',
+        title: 'THE ANTICIPATED BUILD',
+        description: 'A wide-shouldered transitional estate designed by Andrew King — limestone and standing-seam-and-batten, deep covered porches, and a single-story living core with private guest and primary wings. The interior package from Kathryn Zelenik anchors on warm neutrals, plaster textures, white-oak millwork, and natural-stone counters across all primary rooms.',
+        renders: ['', '', '']
+      },
+      team: {
+        builder: {
+          firm: 'LIEBO BUILDERS',
+          name: 'David Liebo',
+          photo: '',
+          bio: 'Liebo Builders is one of Austin’s most respected luxury custom-home builders, with two decades of estate-grade projects across Rollingwood, Tarrytown, Hillwood, and West Lake Hills. David and his team are known for tight execution against the drawing set, deep trade relationships, and a willingness to guarantee the entire construction loan — meaningful capital-structure leverage for an investor.',
+          url: 'https://www.liebobuilders.com',
+          urlLabel: 'liebobuilders.com'
+        },
+        architect: {
+          firm: 'ANDREW KING DESIGNS',
+          name: 'Andrew King',
+          photo: '',
+          bio: 'For 423 Travis Rd, Andrew leads the architectural vision. The 1.72-acre parcel — with its 220 feet of frontage and generous setbacks — gives him the canvas to do what he does best: design a wide-shouldered statement home that earns its presence at the curb and lives gracefully across all four sides. His longstanding relationships with Austin’s top trades ensure the build executes against the drawings with no compromise.',
+          url: 'https://www.andrewkingdesigns.com',
+          urlLabel: 'andrewkingdesigns.com'
+        },
+        designer: {
+          firm: 'KATHRYN ZELENIK DESIGNS',
+          name: 'Kathryn Zelenik',
+          photo: '',
+          bio: 'For 423 Travis Rd, Kathryn leads the interior package — material story, finish selections, plumbing and lighting specifications, and the full custom millwork program. Her aesthetic — warm neutrals, plaster textures, white-oak cabinetry, and natural-stone counters — is exactly the language the buyer at this price point is looking for, and it photographs and showings well above its basis cost per square foot.',
+          url: 'https://kathrynzelenikdesigns.com',
+          urlLabel: 'kathrynzelenikdesigns.com'
+        }
+      },
+      comps: {
+        overview: 'Travis Rd sits inside one of Austin’s most active luxury submarkets — Tarrytown, Hillwood, and Rollingwood together booked 37 sales above $3M in the trailing twelve months. New-construction product priced at $750–$900 per square foot remains the supply gap; Estate-scale parcels along Gun Club Road, Robin Hill, and the immediate Travis Rd corridor continue to set new per-acre highs.',
+        landComps: [
+          { address: '423 SAMPLE RD', acres: '1.72', psa: '—',  price: 'SUBJECT', date: '—', isSubject: true },
+          { address: '6 Robin Hill Rd', acres: '1.40',  psa: '$893K', price: '$1.25M', date: '11/2025' },
+          { address: '512 Gun Club Rd', acres: '2.10',  psa: '$833K', price: '$1.75M', date: '08/2025' },
+          { address: '4901 Tyne Blvd',  acres: '1.80',  psa: '$917K', price: '$1.65M', date: '05/2025' },
+          { address: '110 Wellesley Pl', acres: '1.55', psa: '$903K', price: '$1.40M', date: '03/2025' }
+        ],
+        landMap: '',
+        closedComps: [
+          { address: '6420 Wescates Dr', sqft: '7,100', sold: '$6.1M', psf: '$859', date: '01/2026', photo: '' },
+          { address: '518 Rollingwood Blvd', sqft: '6,800', sold: '$5.9M', psf: '$868', date: '10/2025', photo: '' },
+          { address: '4220 Tyne Blvd', sqft: '7,350', sold: '$6.3M', psf: '$857', date: '07/2025', photo: '' }
+        ],
+        presoldComps: [
+          { address: '5120 Hill Place Dr', sqft: '7,400', list: '$6.5M', psf: '$878', status: 'Pending', photo: '' },
+          { address: '215 Brook Hollow Rd', sqft: '7,000', list: '$6.2M', psf: '$886', status: 'Under contract', photo: '' }
+        ],
+        comingSoonComps: [
+          { address: '419 Vaughn Rd', sqft: '7,500', list: '$6.75M', psf: '$900', status: 'Coming soon · Q3 26', photo: '' }
+        ],
+        buildMap: ''
+      },
+      uw: {
+        conservative: {
+          title: 'CONSERVATIVE MODEL · 423 SAMPLE RD · $860 / SF EXIT',
+          basis: [
+            { label: 'Land', value: 1450000 },
+            { label: 'Hard costs', value: 2050000 },
+            { label: 'Soft costs', value: 180000 },
+            { label: 'Carry + closing', value: 270000 }
+          ],
+          sqft: 7200,
+          exitPsf: 860,
+          sellingCosts: 0.06
+        },
+        stretch: {
+          title: 'STRETCH MODEL · 423 SAMPLE RD · $930 / SF EXIT',
+          basis: [
+            { label: 'Land', value: 1450000 },
+            { label: 'Hard costs', value: 2050000 },
+            { label: 'Soft costs', value: 180000 },
+            { label: 'Carry + closing', value: 270000 }
+          ],
+          sqft: 7200,
+          exitPsf: 930,
+          sellingCosts: 0.06
+        }
+      },
+      summary: {
+        capitalRequired: '$1.85M',
+        holdPeriod: '16 – 19 months',
+        targetIRR: '27% Base · 35% Stretch',
+        preferredReturn: '8% pref',
+        terms: '70/30 promote past pref',
+        minInvestment: '$250K',
+        notes: 'Liebo Builders guarantees the entire construction loan. Sponsor (Victory Formation) co-invests 10% pari passu. Quarterly distributions of available cash; remaining profit at sale.'
+      },
+      market: {
+        // Locked boilerplate — Austin Market slide
+      },
+      closing: {
+        headline: 'PARTNER WITH US',
+        sub: 'Interested in joining the 423 Travis Rd opportunity? Reach out — we’ll walk you through the model, the team, and the timeline.',
+        repName: 'GABE JEUDY-LALLY',
+        repTitle: 'FOUNDER & PRINCIPAL · VICTORY FORMATION VENTURES',
+        repEmail: 'gvjbusiness@yahoo.com',
+        repPhone: '(737) 600-5101',
+        repPhoto: '',
+        websiteUrl: 'https://www.victoryformationventures.com',
+        websiteLabel: 'victoryformationventures.com',
+        heroImage: '' // reuses cover.heroImage by default
+      }
+    };
+
+    // Deep clone helper
+    const clone = (o) => JSON.parse(JSON.stringify(o));
+
+    // Mutable state
+    let state = loadState() || clone(DEFAULT_STATE);
+
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const obj = JSON.parse(raw);
+        // shallow merge any missing keys from default
+        return deepMerge(clone(DEFAULT_STATE), obj);
+      } catch { return null; }
+    }
+    function saveState() {
+      try {
+        // Don't persist image data URLs to localStorage (too large)
+        const lite = clone(state);
+        stripImages(lite);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(lite));
+        setStatus('Saved', 'ok');
+      } catch (e) {
+        setStatus('Save failed: ' + e.message, 'err');
+      }
+    }
+    function stripImages(o) {
+      const walk = (n) => {
+        if (n && typeof n === 'object') {
+          for (const k in n) {
+            const v = n[k];
+            if (typeof v === 'string' && v.startsWith('data:image')) n[k] = '';
+            else walk(v);
+          }
+        }
+      };
+      walk(o);
+    }
+    function deepMerge(base, over) {
+      for (const k in over) {
+        if (over[k] && typeof over[k] === 'object' && !Array.isArray(over[k])) {
+          base[k] = deepMerge(base[k] || {}, over[k]);
+        } else if (over[k] !== undefined) {
+          base[k] = over[k];
+        }
+      }
+      return base;
+    }
+
+    let statusTimer = null;
+    function setStatus(msg, cls = '') {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = 'tb-status' + (cls ? ' ' + cls : '');
+      if (statusTimer) clearTimeout(statusTimer);
+      statusTimer = setTimeout(() => { el.textContent = 'Ready'; el.className = 'tb-status'; }, 2400);
+    }
+
+    // ============================================================
+    // FORM RENDERING  --------------------------------------------
+    // ============================================================
+    // We render the form dynamically so the file is more maintainable.
+    // Each "section" is a <details> block with field rows.
+
+    function renderForm() {
+      const root = document.getElementById('form-root');
+      root.innerHTML = ''; // wipe
+
+      root.appendChild(section('Project Identity', [
+        textRow('project.address', 'Address (cover headline)'),
+        textRow('project.location', 'Location line'),
+        textRow('project.eyebrow', 'Cover eyebrow'),
+        textRow('project.subtitle', 'Cover subtitle'),
+        imageRow('project.heroImage', 'Cover hero image'),
+        textRow('project.date', 'Date stamp (top right)', { placeholder: 'auto if blank' })
+      ], true));
+
+      root.appendChild(section('Investment Overview (slide 2)', [
+        textareaRow('overview.thesis', 'Thesis paragraph'),
+        listEditor('overview.cards', '4 stat cards', [
+          { key: 'lbl', label: 'Label' },
+          { key: 'val', label: 'Value' },
+          { key: 'sub', label: 'Sub' }
+        ], { max: 4 })
+      ]));
+
+      root.appendChild(section('The Land (slide 3)', [
+        imageRow('land.photo', 'Land photo'),
+        textRow('land.eyebrow', 'Eyebrow'),
+        textareaRow('land.narrative', 'Narrative'),
+        bulletEditor('land.bullets', 'Key facts')
+      ]));
+
+      root.appendChild(section('The Location (slide 4)', [
+        imageRow('location.mapImage', 'Map / locality image'),
+        textareaRow('location.narrative', 'Narrative'),
+        bulletEditor('location.bullets', 'Proximity bullets')
+      ]));
+
+      root.appendChild(section('The Anticipated Build (slide 5)', [
+        rowGroup([
+          textRow('build.sqft', 'SQFT'),
+          textRow('build.beds', 'Beds'),
+          textRow('build.baths', 'Baths'),
+          textRow('build.finish', 'Finish $')
+        ], 'four'),
+        textareaRow('build.description', 'Description'),
+        imageArrayRow('build.renders', 'Renders / inspiration (up to 3)', 3)
+      ]));
+
+      root.appendChild(section('Project Team — Builder', [
+        textRow('team.builder.firm', 'Firm'),
+        textRow('team.builder.name', 'Principal name'),
+        imageRow('team.builder.photo', 'Photo (project or portfolio)'),
+        textareaRow('team.builder.bio', 'Bio paragraph'),
+        rowGroup([
+          textRow('team.builder.url', 'URL'),
+          textRow('team.builder.urlLabel', 'URL label')
+        ], 'two')
+      ]));
+      root.appendChild(section('Project Team — Architect', [
+        textRow('team.architect.firm', 'Firm'),
+        textRow('team.architect.name', 'Principal name'),
+        imageRow('team.architect.photo', 'Photo'),
+        textareaRow('team.architect.bio', 'Bio paragraph'),
+        rowGroup([
+          textRow('team.architect.url', 'URL'),
+          textRow('team.architect.urlLabel', 'URL label')
+        ], 'two')
+      ]));
+      root.appendChild(section('Project Team — Designer', [
+        textRow('team.designer.firm', 'Firm'),
+        textRow('team.designer.name', 'Principal name'),
+        imageRow('team.designer.photo', 'Photo'),
+        textareaRow('team.designer.bio', 'Bio paragraph'),
+        rowGroup([
+          textRow('team.designer.url', 'URL'),
+          textRow('team.designer.urlLabel', 'URL label')
+        ], 'two')
+      ]));
+
+      root.appendChild(section('Comparables', [
+        textareaRow('comps.overview', 'Comps narrative (slide 9)'),
+        listEditor('comps.landComps', 'Land comps', [
+          { key: 'address', label: 'Address' },
+          { key: 'acres', label: 'Acres' },
+          { key: 'psa', label: '$/Ac' },
+          { key: 'price', label: 'Price' },
+          { key: 'date', label: 'Sold' },
+          { key: 'isSubject', label: 'Subject?', type: 'checkbox' }
+        ]),
+        imageRow('comps.landMap', 'Land comps map'),
+        listEditor('comps.closedComps', 'Closed build comps', [
+          { key: 'address', label: 'Address' },
+          { key: 'sqft', label: 'SQFT' },
+          { key: 'sold', label: 'Sold' },
+          { key: 'psf', label: '$/SF' },
+          { key: 'date', label: 'Sold' },
+          { key: 'photo', label: 'Photo', type: 'image' }
+        ]),
+        listEditor('comps.presoldComps', 'Under-contract comps', [
+          { key: 'address', label: 'Address' },
+          { key: 'sqft', label: 'SQFT' },
+          { key: 'list', label: 'List' },
+          { key: 'psf', label: '$/SF' },
+          { key: 'status', label: 'Status' },
+          { key: 'photo', label: 'Photo', type: 'image' }
+        ]),
+        listEditor('comps.comingSoonComps', 'Coming-soon comps', [
+          { key: 'address', label: 'Address' },
+          { key: 'sqft', label: 'SQFT' },
+          { key: 'list', label: 'List' },
+          { key: 'psf', label: '$/SF' },
+          { key: 'status', label: 'Status' },
+          { key: 'photo', label: 'Photo', type: 'image' }
+        ]),
+        imageRow('comps.buildMap', 'Build comps map')
+      ]));
+
+      root.appendChild(section('Underwriting — Conservative', [
+        textRow('uw.conservative.title', 'Slide title'),
+        listEditor('uw.conservative.basis', 'Basis line items', [
+          { key: 'label', label: 'Line' },
+          { key: 'value', label: 'Amount ($)', type: 'number' }
+        ]),
+        rowGroup([
+          textRow('uw.conservative.sqft', 'Sellable SF', { type: 'number' }),
+          textRow('uw.conservative.exitPsf', 'Exit $/SF', { type: 'number' }),
+          textRow('uw.conservative.sellingCosts', 'Selling cost %', { type: 'number', step: '0.01' })
+        ], 'three')
+      ]));
+
+      root.appendChild(section('Underwriting — Stretch', [
+        textRow('uw.stretch.title', 'Slide title'),
+        listEditor('uw.stretch.basis', 'Basis line items', [
+          { key: 'label', label: 'Line' },
+          { key: 'value', label: 'Amount ($)', type: 'number' }
+        ]),
+        rowGroup([
+          textRow('uw.stretch.sqft', 'Sellable SF', { type: 'number' }),
+          textRow('uw.stretch.exitPsf', 'Exit $/SF', { type: 'number' }),
+          textRow('uw.stretch.sellingCosts', 'Selling cost %', { type: 'number', step: '0.01' })
+        ], 'three')
+      ]));
+
+      root.appendChild(section('Investor Summary (slide 20)', [
+        rowGroup([
+          textRow('summary.capitalRequired', 'Capital required'),
+          textRow('summary.holdPeriod', 'Hold period')
+        ], 'two'),
+        rowGroup([
+          textRow('summary.targetIRR', 'Target IRR'),
+          textRow('summary.preferredReturn', 'Preferred return')
+        ], 'two'),
+        rowGroup([
+          textRow('summary.terms', 'Sponsor terms'),
+          textRow('summary.minInvestment', 'Min investment')
+        ], 'two'),
+        textareaRow('summary.notes', 'Notes / capital structure')
+      ]));
+
+      root.appendChild(section('Closing slide (rep & CTA)', [
+        rowGroup([
+          textRow('closing.headline', 'Headline'),
+          textRow('closing.repName', 'Rep name')
+        ], 'two'),
+        textRow('closing.repTitle', 'Rep title'),
+        textareaRow('closing.sub', 'CTA sub-text'),
+        rowGroup([
+          textRow('closing.repEmail', 'Email'),
+          textRow('closing.repPhone', 'Phone')
+        ], 'two'),
+        rowGroup([
+          textRow('closing.websiteUrl', 'Website URL'),
+          textRow('closing.websiteLabel', 'Website label')
+        ], 'two'),
+        imageRow('closing.repPhoto', 'Rep photo'),
+        imageRow('closing.heroImage', 'Closing hero image (defaults to cover)')
+      ]));
+    }
+
+    // ----- Form helpers -----
+    function el(tag, attrs = {}, ...kids) {
+      const e = document.createElement(tag);
+      for (const k in attrs) {
+        if (k === 'class') e.className = attrs[k];
+        else if (k === 'on') for (const ev in attrs.on) e.addEventListener(ev, attrs.on[ev]);
+        else if (k === 'style') Object.assign(e.style, attrs.style);
+        else e.setAttribute(k, attrs[k]);
+      }
+      for (const k of kids.flat()) {
+        if (k == null) continue;
+        if (typeof k === 'string') e.appendChild(document.createTextNode(k));
+        else e.appendChild(k);
+      }
+      return e;
+    }
+    function getPath(obj, path) {
+      return path.split('.').reduce((o, k) => (o == null ? undefined : o[k]), obj);
+    }
+    function setPath(obj, path, val) {
+      const ks = path.split('.');
+      let cur = obj;
+      for (let i = 0; i < ks.length - 1; i++) {
+        if (cur[ks[i]] == null) cur[ks[i]] = {};
+        cur = cur[ks[i]];
+      }
+      cur[ks[ks.length - 1]] = val;
+    }
+    function section(title, contents, openByDefault = false) {
+      const det = el('details', { class: 'section', ...(openByDefault ? { open: '' } : {}) });
+      det.appendChild(el('summary', {}, title));
+      const body = el('div', { class: 'body' }, ...contents);
+      det.appendChild(body);
+      return det;
+    }
+    function textRow(path, label, opts = {}) {
+      const v = getPath(state, path) ?? '';
+      const input = el('input', {
+        type: opts.type || 'text', value: v,
+        ...(opts.placeholder ? { placeholder: opts.placeholder } : {}),
+        ...(opts.step ? { step: opts.step } : {}),
+        on: { input: (e) => { setPath(state, path, opts.type === 'number' ? Number(e.target.value) : e.target.value); rerender(); } }
+      });
+      return el('div', { class: 'row' }, el('label', {}, label), input);
+    }
+    function textareaRow(path, label) {
+      const v = getPath(state, path) ?? '';
+      const ta = el('textarea', { rows: '4', on: { input: (e) => { setPath(state, path, e.target.value); rerender(); } } }, v);
+      return el('div', { class: 'row' }, el('label', {}, label), ta);
+    }
+    function imageRow(path, label) {
+      const v = getPath(state, path) ?? '';
+      const thumb = el('div', { class: 'thumb' + (v ? '' : ' empty'), style: v ? { backgroundImage: `url(${v})` } : {} });
+      const file = el('input', { type: 'file', accept: 'image/*', style: { display: 'none' }, on: {
+        change: (e) => {
+          const f = e.target.files[0]; if (!f) return;
+          const r = new FileReader();
+          r.onload = () => { setPath(state, path, r.result); rerender(); };
+          r.readAsDataURL(f);
+        }
+      } });
+      const pickBtn = el('button', { class: 'mini-btn', type: 'button', on: { click: () => file.click() } }, v ? 'Replace' : 'Upload');
+      const clearBtn = el('button', { class: 'mini-btn danger', type: 'button', on: { click: () => { setPath(state, path, ''); rerender(); } } }, '×');
+      return el('div', { class: 'row' },
+        el('label', {}, label),
+        el('div', { class: 'upload-row' }, thumb, pickBtn, v ? clearBtn : null, file)
+      );
+    }
+    function imageArrayRow(path, label, max) {
+      const arr = getPath(state, path) || [];
+      const wrap = el('div', { class: 'row' }, el('label', {}, label));
+      const grid = el('div', { class: 'row two' });
+      for (let i = 0; i < max; i++) {
+        const v = arr[i] || '';
+        const thumb = el('div', { class: 'thumb' + (v ? '' : ' empty'), style: v ? { backgroundImage: `url(${v})` } : {} });
+        const file = el('input', { type: 'file', accept: 'image/*', style: { display: 'none' }, on: {
+          change: (e) => {
+            const f = e.target.files[0]; if (!f) return;
+            const r = new FileReader();
+            r.onload = () => { const a = getPath(state, path) || []; a[i] = r.result; setPath(state, path, a); rerender(); };
+            r.readAsDataURL(f);
+          }
+        } });
+        const pickBtn = el('button', { class: 'mini-btn', type: 'button', on: { click: () => file.click() } }, v ? '↻' : '+');
+        const clearBtn = el('button', { class: 'mini-btn danger', type: 'button', on: { click: () => { const a = getPath(state, path) || []; a[i] = ''; setPath(state, path, a); rerender(); } } }, '×');
+        const cell = el('div', { class: 'upload-row' }, thumb, pickBtn, v ? clearBtn : null, file);
+        grid.appendChild(cell);
+      }
+      wrap.appendChild(grid);
+      return wrap;
+    }
+    function bulletEditor(path, label) {
+      const arr = (getPath(state, path) || []).slice();
+      const wrap = el('div', { class: 'row' }, el('label', {}, label));
+      const list = el('div');
+      arr.forEach((b, i) => {
+        const input = el('input', { type: 'text', value: b, on: { input: (e) => { const a = getPath(state, path).slice(); a[i] = e.target.value; setPath(state, path, a); rerender({ skipForm: true }); } } });
+        const rm = el('button', { class: 'mini-btn danger', type: 'button', on: { click: () => { const a = getPath(state, path).slice(); a.splice(i, 1); setPath(state, path, a); rerender(); } } }, '×');
+        list.appendChild(el('div', { class: 'upload-row', style: { marginBottom: '4px' } }, input, rm));
+      });
+      const addBtn = el('button', { class: 'mini-btn', type: 'button', on: { click: () => { const a = (getPath(state, path) || []).slice(); a.push(''); setPath(state, path, a); rerender(); } } }, '+ Add bullet');
+      wrap.appendChild(list);
+      wrap.appendChild(addBtn);
+      return wrap;
+    }
+    function listEditor(path, label, fields, opts = {}) {
+      const arr = (getPath(state, path) || []).slice();
+      const wrap = el('div', { class: 'row' }, el('label', {}, label));
+      arr.forEach((item, i) => {
+        const card = el('div', { class: 'item-card' });
+        card.appendChild(el('div', { class: 'item-card-head' },
+          el('span', {}, '#' + (i + 1) + (item.isSubject ? ' · SUBJECT' : '')),
+          el('button', { class: 'mini-btn danger', type: 'button', on: { click: () => { const a = getPath(state, path).slice(); a.splice(i, 1); setPath(state, path, a); rerender(); } } }, 'Remove')
+        ));
+        for (const f of fields) {
+          if (f.type === 'image') {
+            const v = item[f.key] || '';
+            const thumb = el('div', { class: 'thumb' + (v ? '' : ' empty'), style: v ? { backgroundImage: `url(${v})` } : {} });
+            const file = el('input', { type: 'file', accept: 'image/*', style: { display: 'none' }, on: {
+              change: (e) => {
+                const fl = e.target.files[0]; if (!fl) return;
+                const r = new FileReader();
+                r.onload = () => { const a = getPath(state, path).slice(); a[i] = { ...a[i], [f.key]: r.result }; setPath(state, path, a); rerender(); };
+                r.readAsDataURL(fl);
+              }
+            } });
+            const pickBtn = el('button', { class: 'mini-btn', type: 'button', on: { click: () => file.click() } }, v ? '↻' : '+');
+            card.appendChild(el('div', { class: 'row' }, el('label', {}, f.label), el('div', { class: 'upload-row' }, thumb, pickBtn, file)));
+          } else if (f.type === 'checkbox') {
+            const cb = el('input', { type: 'checkbox', ...(item[f.key] ? { checked: 'checked' } : {}), style: { width: 'auto' }, on: { change: (e) => { const a = getPath(state, path).slice(); a[i] = { ...a[i], [f.key]: e.target.checked }; setPath(state, path, a); rerender(); } } });
+            card.appendChild(el('div', { class: 'row', style: { gridTemplateColumns: '1fr auto', alignItems: 'center' } }, el('label', { style: { marginBottom: '0' } }, f.label), cb));
+          } else {
+            const input = el('input', {
+              type: f.type || 'text', value: item[f.key] ?? '',
+              on: { input: (e) => { const a = getPath(state, path).slice(); a[i] = { ...a[i], [f.key]: f.type === 'number' ? Number(e.target.value) : e.target.value }; setPath(state, path, a); rerender({ skipForm: true }); } }
+            });
+            card.appendChild(el('div', { class: 'row' }, el('label', {}, f.label), input));
+          }
+        }
+        wrap.appendChild(card);
+      });
+      if (!opts.max || arr.length < opts.max) {
+        const blank = {}; fields.forEach(f => blank[f.key] = f.type === 'checkbox' ? false : (f.type === 'number' ? 0 : ''));
+        const addBtn = el('button', { class: 'mini-btn', type: 'button', on: { click: () => { const a = (getPath(state, path) || []).slice(); a.push(clone(blank)); setPath(state, path, a); rerender(); } } }, '+ Add item');
+        wrap.appendChild(addBtn);
+      }
+      return wrap;
+    }
+    function rowGroup(rows, klass) {
+      // Strip the .row wrapper from inner rows and combine
+      const grid = el('div', { class: 'row ' + (klass || '') });
+      for (const r of rows) {
+        // r is a div.row > label + input — unwrap
+        const wrap = el('div');
+        for (const c of [...r.children]) wrap.appendChild(c);
+        grid.appendChild(wrap);
+      }
+      return grid;
+    }
+
+    // ============================================================
+    // DECK / SLIDE RENDERING  ------------------------------------
+    // ============================================================
+    function fmtMoney(n) {
+      if (n == null || isNaN(n)) return '—';
+      if (Math.abs(n) >= 1_000_000) return '$' + (n / 1_000_000).toFixed(n % 1_000_000 === 0 ? 1 : 2).replace(/\.0$/, '') + 'M';
+      if (Math.abs(n) >= 1_000) return '$' + Math.round(n / 1_000) + 'K';
+      return '$' + n;
+    }
+    function fmtMoneyFull(n) {
+      if (n == null || isNaN(n)) return '—';
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+    function fmtPct(n, digits = 0) { return (n * 100).toFixed(digits) + '%'; }
+
+    function uwCompute(model) {
+      const basis = (model.basis || []).reduce((s, b) => s + (Number(b.value) || 0), 0);
+      const exitGross = (Number(model.sqft) || 0) * (Number(model.exitPsf) || 0);
+      const sellCost = exitGross * (Number(model.sellingCosts) || 0);
+      const exitNet = exitGross - sellCost;
+      const profit = exitNet - basis;
+      const roi = basis > 0 ? profit / basis : 0;
+      return { basis, exitGross, sellCost, exitNet, profit, roi };
+    }
+
+    function escapeHTML(s) {
+      if (s == null) return '';
+      return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    }
+    function nl2br(s) {
+      return escapeHTML(s).replace(/\n/g, '<br>');
+    }
+
+    // Each slide is a function returning HTML string.
+    const slideFns = [
+      slideCover,           // 1
+      slideOverview,        // 2
+      slideLand,            // 3
+      slideLocation,        // 4
+      slideBuild,           // 5
+      (s) => slideTeam(s, 'builder',  '06 / 22', 'THE BUILDER'),
+      (s) => slideTeam(s, 'architect', '07 / 22', 'THE ARCHITECT'),
+      (s) => slideTeam(s, 'designer',  '08 / 22', 'THE INTERIOR DESIGNER'),
+      slideCompsOverview,   // 9
+      slideLandComps,       // 10
+      slideLandCompsMap,    // 11
+      slideBuildComps,      // 12
+      slidePresoldComps,    // 13
+      slideComingSoonComp,  // 14
+      slideBuildCompsMap,   // 15
+      (s) => slideUnderwriting(s, 'conservative', '16 / 22'),
+      (s) => slideSensitivity(s, 'conservative', '17 / 22'),
+      (s) => slideUnderwriting(s, 'stretch', '18 / 22'),
+      (s) => slideSensitivity(s, 'stretch', '19 / 22'),
+      slideInvestorSummary, // 20
+      slideAustinMarket, // 21
+      slideClosing          // 22
+    ];
+
+    function chrome(num, total = 22) {
+      return `<div class="slide-brand"><span class="arch"></span><span class="wm">THE VICTORY FORMATION CO.</span></div>
+              <div class="pg-num">${num} / ${total}</div>`;
+    }
+
+    function slideCover(s) {
+      const heroBg = s.project.heroImage ? `background-image: url('${s.project.heroImage}');` : 'background:#0a0a0a;';
+      const dateStr = s.project.date || new Date().toLocaleDateString('en-US', { month: 'numeric', year: 'numeric' }).replace('/', ' / ');
+      return `<section class="slide cover" style="${heroBg}">
+        <div class="cover-inner">
+          <div class="cover-date">${escapeHTML(dateStr)}</div>
+          <div class="cover-title">
+            <h1>${escapeHTML(s.project.address)}</h1>
+            <div class="cover-subtitle">${escapeHTML(s.project.subtitle)}</div>
+          </div>
+          <div class="cover-footer">
+            <div class="rule"></div>
+            <div class="eyebrow-row">
+              <div class="eyebrow">${escapeHTML(s.project.eyebrow)}</div>
+              <div class="brand-wm">THE VICTORY FORMATION CO.</div>
+            </div>
+          </div>
+        </div>
+      </section>`;
+    }
+
+    function slideOverview(s) {
+      const cards = (s.overview.cards || []).map(c => `
+        <div class="stat-card">
+          <div class="lbl">${escapeHTML(c.lbl)}</div>
+          <div class="val">${escapeHTML(c.val)}</div>
+          ${c.sub ? `<div class="sub">${escapeHTML(c.sub)}</div>` : ''}
+        </div>`).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">02 / 22</div>
+          <div class="slide-title"><h2>INVESTMENT OVERVIEW</h2><div class="slide-title-rule"></div></div>
+          <div style="margin-top:32px;" class="stat-cards cols-4">${cards}</div>
+          <p class="body-p" style="margin-top:36px;">${nl2br(s.overview.thesis)}</p>
+        </div>
+        ${chrome('02 / 22')}
+      </section>`;
+    }
+
+    function slideLand(s) {
+      const bg = s.land.photo ? `background-image:url('${s.land.photo}')` : '';
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">03 / 22 · ${escapeHTML(s.land.eyebrow)}</div>
+          <div class="slide-title"><h2>${escapeHTML(s.land.title)}</h2><div class="slide-title-rule"></div></div>
+          <div class="two-col split-60-40" style="margin-top:26px;">
+            <div class="pane">
+              <p class="body-p">${nl2br(s.land.narrative)}</p>
+              <ul class="b-list">
+                ${(s.land.bullets || []).map(b => `<li>${escapeHTML(b)}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="pane img${bg ? '' : ' empty'}" style="${bg}">${bg ? '' : 'Land photo'}</div>
+          </div>
+        </div>
+        ${chrome('03 / 22')}
+      </section>`;
+    }
+
+    function slideLocation(s) {
+      const bg = s.location.mapImage ? `background-image:url('${s.location.mapImage}')` : '';
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">04 / 22</div>
+          <div class="slide-title"><h2>${escapeHTML(s.location.title)}</h2><div class="slide-title-rule"></div></div>
+          <div class="two-col split-40-60" style="margin-top:26px;">
+            <div class="pane">
+              <p class="body-p">${nl2br(s.location.narrative)}</p>
+              <ul class="b-list">
+                ${(s.location.bullets || []).map(b => `<li>${escapeHTML(b)}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="pane img${bg ? '' : ' empty'}" style="${bg}">${bg ? '' : 'Map / locality image'}</div>
+          </div>
+        </div>
+        ${chrome('04 / 22')}
+      </section>`;
+    }
+
+    function slideBuild(s) {
+      const tiles = (s.build.renders || ['', '', '']).slice(0, 3).map(p => p
+        ? `<div class="img-tile" style="background-image:url('${p}')"></div>`
+        : `<div class="img-tile empty">Render</div>`).join('');
+      const stats = [
+        { l: 'SQFT', v: s.build.sqft },
+        { l: 'BEDS', v: s.build.beds },
+        { l: 'BATHS', v: s.build.baths },
+        { l: 'FINISH', v: s.build.finish }
+      ].map(x => `<div class="stat-card"><div class="lbl">${x.l}</div><div class="val">${escapeHTML(String(x.v))}</div></div>`).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">05 / 22</div>
+          <div class="slide-title"><h2>${escapeHTML(s.build.title)}</h2><div class="slide-title-rule"></div></div>
+          <div class="stat-cards cols-4" style="margin-top:22px;">${stats}</div>
+          <div class="img-grid cols-3" style="margin-top:22px; flex:1; max-height:3in;">${tiles}</div>
+          <p class="body-p" style="margin-top:16px;">${nl2br(s.build.description)}</p>
+        </div>
+        ${chrome('05 / 22')}
+      </section>`;
+    }
+
+    function slideTeam(s, key, pg, titleText) {
+      const t = s.team[key];
+      const bg = t.photo ? `background-image:url('${t.photo}')` : '';
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">${escapeHTML(pg)} · PROJECT TEAM</div>
+          <div class="slide-title"><h2>${escapeHTML(titleText)}</h2><div class="slide-title-rule"></div></div>
+          <div class="profile" style="margin-top:26px;">
+            <div class="ph${bg ? '' : ' empty'}" style="${bg}">${bg ? '' : ''}</div>
+            <div class="info">
+              <div class="firm-line">${escapeHTML(t.firm)}</div>
+              <div class="name">${escapeHTML(t.name)}</div>
+              <p class="bio">${nl2br(t.bio)}</p>
+              ${t.url ? `<a class="url-link" href="${escapeHTML(t.url)}" target="_blank" rel="noopener">${escapeHTML(t.urlLabel || t.url)}</a>` : ''}
+            </div>
+          </div>
+        </div>
+        ${chrome(pg)}
+      </section>`;
+    }
+
+    function slideCompsOverview(s) {
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">09 / 22</div>
+          <div class="slide-title"><h2>COMPARABLES — OVERVIEW</h2><div class="slide-title-rule"></div></div>
+          <p class="body-p" style="margin-top:30px;">${nl2br(s.comps.overview)}</p>
+          <div class="stat-cards cols-3" style="margin-top:32px;">
+            <div class="stat-card"><div class="lbl">LAND COMPS</div><div class="val">${(s.comps.landComps || []).filter(c => !c.isSubject).length}</div><div class="sub">12-mo trailing</div></div>
+            <div class="stat-card"><div class="lbl">CLOSED BUILDS</div><div class="val">${(s.comps.closedComps || []).length}</div><div class="sub">$/SF anchors</div></div>
+            <div class="stat-card"><div class="lbl">UNDER CONTRACT / SOON</div><div class="val">${((s.comps.presoldComps || []).length + (s.comps.comingSoonComps || []).length)}</div><div class="sub">Forward signal</div></div>
+          </div>
+        </div>
+        ${chrome('09 / 22')}
+      </section>`;
+    }
+
+    function slideLandComps(s) {
+      const rows = (s.comps.landComps || []).map(c => `
+        <tr${c.isSubject ? ' class="subject"' : ''}>
+          <td>${escapeHTML(c.address)}</td>
+          <td class="r">${escapeHTML(String(c.acres))}</td>
+          <td class="r">${escapeHTML(c.psa)}</td>
+          <td class="r">${escapeHTML(c.price)}</td>
+          <td class="r">${escapeHTML(c.date)}</td>
+        </tr>`).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">10 / 22</div>
+          <div class="slide-title"><h2>LAND COMPS</h2><div class="slide-title-rule"></div></div>
+          <table class="deck" style="margin-top:24px;">
+            <thead><tr><th>Address</th><th class="r">Acres</th><th class="r">$ / Acre</th><th class="r">Price</th><th class="r">Sold</th></tr></thead>
+            <tbody>${rows}</tbody>
+          </table>
+        </div>
+        ${chrome('10 / 22')}
+      </section>`;
+    }
+
+    function slideLandCompsMap(s) {
+      const bg = s.comps.landMap ? `background-image:url('${s.comps.landMap}')` : '';
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">11 / 22</div>
+          <div class="slide-title"><h2>LAND COMPS · MAP</h2><div class="slide-title-rule"></div></div>
+          <div class="pane img${bg ? '' : ' empty'}" style="${bg}; flex:1; margin-top:18px; min-height:0;">${bg ? '' : 'Upload land comps map image'}</div>
+        </div>
+        ${chrome('11 / 22')}
+      </section>`;
+    }
+
+    function compTileHTML(c, statusKey) {
+      const bg = c.photo ? `background-image:url('${c.photo}')` : '';
+      return `<div class="item-card" style="border:1px solid var(--rule-soft); padding:0;">
+        <div class="img-tile${bg ? '' : ' empty'}" style="${bg}; height:1.7in;">${bg ? '' : 'Photo'}</div>
+        <div style="padding:10px 12px;">
+          <div style="font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--ink);">${escapeHTML(c.address)}</div>
+          <div style="font-size:10px; color:var(--ink-dim); margin-top:4px;">${escapeHTML(c.sqft)} SF · ${escapeHTML(c[statusKey] || '')}</div>
+          <div style="font-family:var(--font-display); font-size:22px; letter-spacing:.03em; color:var(--accent); margin-top:6px;">${escapeHTML(c.psf)}</div>
+          <div style="font-size:9px; color:var(--ink-dim); letter-spacing:.15em; text-transform:uppercase;">${escapeHTML(c.status || c.date || '')}</div>
+        </div>
+      </div>`;
+    }
+
+    function slideBuildComps(s) {
+      const tiles = (s.comps.closedComps || []).slice(0, 3).map(c => compTileHTML(c, 'sold')).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">12 / 22 · CLOSED COMPS</div>
+          <div class="slide-title"><h2>BUILD COMPS · SOLD</h2><div class="slide-title-rule"></div></div>
+          <div class="img-grid cols-3" style="margin-top:24px;">${tiles}</div>
+        </div>
+        ${chrome('12 / 22')}
+      </section>`;
+    }
+
+    function slidePresoldComps(s) {
+      const tiles = (s.comps.presoldComps || []).slice(0, 3).map(c => compTileHTML(c, 'list')).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">13 / 22 · UNDER CONTRACT</div>
+          <div class="slide-title"><h2>BUILD COMPS · UNDER CONTRACT</h2><div class="slide-title-rule"></div></div>
+          <div class="img-grid cols-3" style="margin-top:24px;">${tiles}</div>
+        </div>
+        ${chrome('13 / 22')}
+      </section>`;
+    }
+
+    function slideComingSoonComp(s) {
+      const tiles = (s.comps.comingSoonComps || []).slice(0, 3).map(c => compTileHTML(c, 'list')).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">14 / 22 · COMING SOON</div>
+          <div class="slide-title"><h2>BUILD COMPS · COMING SOON</h2><div class="slide-title-rule"></div></div>
+          <div class="img-grid cols-3" style="margin-top:24px;">${tiles}</div>
+        </div>
+        ${chrome('14 / 22')}
+      </section>`;
+    }
+
+    function slideBuildCompsMap(s) {
+      const bg = s.comps.buildMap ? `background-image:url('${s.comps.buildMap}')` : '';
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">15 / 22</div>
+          <div class="slide-title"><h2>BUILD COMPS · MAP</h2><div class="slide-title-rule"></div></div>
+          <div class="pane img${bg ? '' : ' empty'}" style="${bg}; flex:1; margin-top:18px; min-height:0;">${bg ? '' : 'Upload build comps map image'}</div>
+        </div>
+        ${chrome('15 / 22')}
+      </section>`;
+    }
+
+    function slideUnderwriting(s, key, pg) {
+      const m = s.uw[key];
+      const c = uwCompute(m);
+      const basisRows = (m.basis || []).map(b => `
+        <tr><td>${escapeHTML(b.label)}</td><td class="r">${fmtMoneyFull(b.value)}</td></tr>`).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">${escapeHTML(pg)}</div>
+          <div class="slide-title"><h2>${escapeHTML(m.title)}</h2><div class="slide-title-rule"></div></div>
+          <div class="two-col split-60-40" style="margin-top:24px;">
+            <div class="pane">
+              <table class="deck">
+                <thead><tr><th>Basis</th><th class="r">Amount</th></tr></thead>
+                <tbody>
+                  ${basisRows}
+                  <tr style="border-top:2px solid var(--rule);"><td style="color:var(--accent); font-weight:700; text-transform:uppercase; letter-spacing:.12em;">Total basis</td><td class="r" style="color:var(--accent); font-family:var(--font-display); font-size:14px;">${fmtMoneyFull(c.basis)}</td></tr>
+                </tbody>
+              </table>
+              <table class="deck" style="margin-top:18px;">
+                <tbody>
+                  <tr><td>Sellable SF</td><td class="r">${Number(m.sqft).toLocaleString()}</td></tr>
+                  <tr><td>Exit $ / SF</td><td class="r">$${Number(m.exitPsf).toLocaleString()}</td></tr>
+                  <tr><td>Exit gross</td><td class="r">${fmtMoneyFull(c.exitGross)}</td></tr>
+                  <tr><td>Selling costs (${(m.sellingCosts*100).toFixed(1)}%)</td><td class="r">(${fmtMoneyFull(c.sellCost)})</td></tr>
+                  <tr style="border-top:1px solid var(--rule);"><td style="color:var(--accent); font-weight:700;">Net to investors</td><td class="r" style="color:var(--accent); font-family:var(--font-display); font-size:14px;">${fmtMoneyFull(c.exitNet)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="pane">
+              <div class="stat-cards cols-1" style="grid-template-columns:1fr; gap:14px;">
+                <div class="stat-card"><div class="lbl">PROJECT PROFIT</div><div class="val">${fmtMoneyFull(c.profit)}</div><div class="sub">Net of selling costs</div></div>
+                <div class="stat-card"><div class="lbl">RETURN ON BASIS</div><div class="val">${(c.roi*100).toFixed(1)}%</div><div class="sub">Profit ÷ Basis</div></div>
+                <div class="stat-card"><div class="lbl">EXIT $ / SF</div><div class="val">$${Number(m.exitPsf).toLocaleString()}</div><div class="sub">${key === 'conservative' ? 'Conservative case' : 'Stretch case'}</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        ${chrome(pg)}
+      </section>`;
+    }
+
+    function slideSensitivity(s, key, pg) {
+      const m = s.uw[key];
+      const c0 = uwCompute(m);
+      const basisDeltas = [-0.05, -0.025, 0, 0.025, 0.05];
+      const psfDeltas = [-60, -30, 0, 30, 60];
+      const cells = [];
+      psfDeltas.forEach(dp => {
+        const row = [];
+        basisDeltas.forEach(db => {
+          const altBasis = c0.basis * (1 + db);
+          const altPsf = m.exitPsf + dp;
+          const altGross = m.sqft * altPsf;
+          const altNet = altGross * (1 - m.sellingCosts);
+          const altProfit = altNet - altBasis;
+          const altRoi = altBasis > 0 ? altProfit / altBasis : 0;
+          row.push({ db, dp, altRoi, isBase: db === 0 && dp === 0 });
+        });
+        cells.push(row);
+      });
+      const colorFor = (roi) => {
+        if (roi < 0.05) return 'rgba(181,107,107,.22)';
+        if (roi < 0.15) return 'rgba(181,107,107,.12)';
+        if (roi < 0.25) return 'rgba(217,200,163,.10)';
+        if (roi < 0.35) return 'rgba(106,143,111,.18)';
+        return 'rgba(106,143,111,.32)';
+      };
+      const bodyHTML = cells.map((row, i) => {
+        const dp = psfDeltas[i];
+        return `<tr>
+          <th>${dp === 0 ? `$${m.exitPsf} (Base)` : (dp > 0 ? '+' : '') + '$' + dp}</th>
+          ${row.map(c => `<td class="cell${c.isBase ? ' base' : ''}" style="background:${colorFor(c.altRoi)};">${(c.altRoi*100).toFixed(1)}%</td>`).join('')}
+        </tr>`;
+      }).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">${escapeHTML(pg)} · ROI BY EXIT × BASIS</div>
+          <div class="slide-title"><h2>SENSITIVITY · ${key === 'conservative' ? 'CONSERVATIVE' : 'STRETCH'}</h2><div class="slide-title-rule"></div></div>
+          <div style="margin-top:22px; display:grid; grid-template-columns:1.4in 1fr; gap:0; align-items:start;">
+            <div></div>
+            <div style="font-size:9px; letter-spacing:.2em; color:var(--ink-dim); text-transform:uppercase; text-align:center; padding-bottom:8px;">Total basis variance →</div>
+          </div>
+          <table class="heat">
+            <thead><tr><th class="corner">Exit $ / SF ↓</th>${basisDeltas.map(d => `<th>${d===0?'Base':(d*100>0?'+':'')+(d*100).toFixed(1)+'%'}</th>`).join('')}</tr></thead>
+            <tbody>${bodyHTML}</tbody>
+          </table>
+          <p class="body-p dim" style="margin-top:18px; font-size:11px;">Base case (outlined): ${(c0.roi*100).toFixed(1)}% return on ${fmtMoneyFull(c0.basis)} basis at $${m.exitPsf}/SF exit. Heatmap shows return-on-basis (ROI) at each combination of basis and exit price.</p>
+        </div>
+        ${chrome(pg)}
+      </section>`;
+    }
+
+    function slideInvestorSummary(s) {
+      const cards = [
+        { lbl: 'CAPITAL REQUIRED', val: s.summary.capitalRequired },
+        { lbl: 'HOLD PERIOD', val: s.summary.holdPeriod },
+        { lbl: 'TARGET IRR', val: s.summary.targetIRR },
+        { lbl: 'MIN INVESTMENT', val: s.summary.minInvestment }
+      ];
+      const cardsHTML = cards.map(c => `<div class="stat-card"><div class="lbl">${c.lbl}</div><div class="val">${escapeHTML(c.val)}</div></div>`).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">20 / 22</div>
+          <div class="slide-title"><h2>INVESTOR SUMMARY</h2><div class="slide-title-rule"></div></div>
+          <div class="stat-cards cols-4" style="margin-top:22px;">${cardsHTML}</div>
+          <div class="two-col split-60-40" style="margin-top:30px;">
+            <div class="pane">
+              <h3 style="font-family:var(--font-display); font-size:14px; letter-spacing:.18em; color:var(--accent); text-transform:uppercase; margin:0 0 12px;">Capital Structure & Terms</h3>
+              <p class="body-p">${nl2br(s.summary.notes)}</p>
+            </div>
+            <div class="pane">
+              <table class="deck">
+                <tbody>
+                  <tr><td>Preferred return</td><td class="r">${escapeHTML(s.summary.preferredReturn)}</td></tr>
+                  <tr><td>Sponsor terms</td><td class="r">${escapeHTML(s.summary.terms)}</td></tr>
+                  <tr><td>Target IRR</td><td class="r">${escapeHTML(s.summary.targetIRR)}</td></tr>
+                  <tr><td>Hold period</td><td class="r">${escapeHTML(s.summary.holdPeriod)}</td></tr>
+                  <tr><td>Min investment</td><td class="r">${escapeHTML(s.summary.minInvestment)}</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        ${chrome('20 / 22')}
+      </section>`;
+    }
+
+    function slideAustinMarket(s) {
+      // Locked boilerplate
+      const callouts = [
+        { lbl: 'POPULATION', val: '+ 100/day', sub: 'New residents moving to Middle TX' },
+        { lbl: 'HQ RELOCATIONS', val: '50+', sub: 'Major employers since 2019 — Oracle, AllianceBernstein, Amazon Ops Center, Mitsubishi Motors' },
+        { lbl: 'NO STATE INCOME TAX', val: '0%', sub: 'Texas — magnet for HNW relocations' },
+        { lbl: '$3M+ SALES', val: '+ 42% YoY', sub: '37205 / 37215 luxury bands' }
+      ];
+      const cardsHTML = callouts.map(c => `<div class="stat-card"><div class="lbl">${c.lbl}</div><div class="val">${c.val}</div><div class="sub">${c.sub}</div></div>`).join('');
+      return `<section class="slide">
+        <div class="slide-content">
+          <div class="eyebrow">21 / 22</div>
+          <div class="slide-title"><h2>THE AUSTIN MARKET</h2><div class="slide-title-rule"></div></div>
+          <div class="stat-cards cols-4" style="margin-top:24px;">${cardsHTML}</div>
+          <p class="body-p" style="margin-top:24px;">Austin is the fastest-growing major metro in the Southeast, anchored by no state income tax, healthcare and music industry roots, and a decade of corporate HQ relocations. The 37205 corridor — Tarrytown, Rollingwood, Hillwood — has absorbed that demand at the top of the market: $3M+ closings are up over 40% year-over-year, and new-construction inventory at the $750–$900/SF band remains thinly supplied.</p>
+          <p class="body-p" style="margin-top:14px;">Oracle’s 8,500-job downtown campus, AllianceBernstein’s relocation from NYC, Amazon’s Operations Center of Excellence, and Mitsubishi Motors’ North American HQ are layered on top of an already deep Austin economy. Each brings senior executives looking for estate-grade product in the established West Austin luxury bands — the buyer pool 423 Travis Rd is built for.</p>
+        </div>
+        ${chrome('21 / 22')}
+      </section>`;
+    }
+
+    function slideClosing(s) {
+      const heroSrc = s.closing.heroImage || s.project.heroImage;
+      const heroBg = heroSrc ? `background-image:url('${heroSrc}');` : 'background:#0a0a0a;';
+      const photoBg = s.closing.repPhoto ? `background-image:url('${s.closing.repPhoto}');` : '';
+      return `<section class="slide closing" style="${heroBg}">
+        <div class="inner">
+          <div class="head">
+            <div class="eyebrow" style="color:var(--ink);">22 / 22 · NEXT STEPS</div>
+            <h1>${escapeHTML(s.closing.headline)}</h1>
+            <div class="sub">${escapeHTML(s.closing.sub)}</div>
+          </div>
+          <div class="contact">
+            <div class="photo" style="${photoBg}"></div>
+            <div class="info">
+              <div class="name">${escapeHTML(s.closing.repName)}</div>
+              <div class="title">${escapeHTML(s.closing.repTitle)}</div>
+              <div class="row"><a href="mailto:${escapeHTML(s.closing.repEmail)}">${escapeHTML(s.closing.repEmail)}</a>  ·  ${escapeHTML(s.closing.repPhone)}  ·  <a href="${escapeHTML(s.closing.websiteUrl)}" target="_blank" rel="noopener">${escapeHTML(s.closing.websiteLabel)}</a></div>
+            </div>
+          </div>
+        </div>
+      </section>`;
+    }
+
+    // ============================================================
+    // RENDER LOOP  -----------------------------------------------
+    // ============================================================
+    let rerenderTimer = null;
+    function rerender(opts = {}) {
+      // Debounce + persist
+      if (rerenderTimer) clearTimeout(rerenderTimer);
+      rerenderTimer = setTimeout(() => {
+        // Re-render slides every time
+        const deck = document.getElementById('deck');
+        deck.innerHTML = slideFns.map(fn => fn(state)).join('');
+        applyZoom();
+        // Only re-render form if asked (avoids losing focus while typing)
+        if (!opts.skipForm) {
+          // we still skip — the form is keyed to state, and inputs hold their own value
+          // re-rendering would steal focus from text inputs
+        }
+        saveState();
+      }, opts.fast ? 0 : 100);
+    }
+
+    // ============================================================
+    // ZOOM  ------------------------------------------------------
+    // ============================================================
+    let zoom = 0.55;
+    function applyZoom() {
+      document.querySelectorAll('.slide').forEach((s, i) => {
+        s.style.transform = `scale(${zoom})`;
+        s.style.marginBottom = `${-7.5 * 96 * (1 - zoom) + 24}px`;
+      });
+      document.getElementById('zoom-val').textContent = Math.round(zoom * 100) + '%';
+    }
+    function fitZoom() {
+      const w = document.querySelector('.preview').clientWidth - 80;
+      const slideW = 13.33 * 96;
+      zoom = Math.min(0.9, Math.max(0.3, w / slideW));
+      applyZoom();
+    }
+
+    // ============================================================
+    // INIT  ------------------------------------------------------
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      renderForm();
+      rerender({ fast: true });
+      fitZoom();
+      window.addEventListener('resize', fitZoom);
+
+      document.getElementById('btn-print').addEventListener('click', () => {
+        setStatus('Opening print dialog…', 'ok');
+        // For best PDF output, instruct user; print after a tick
+        setTimeout(() => window.print(), 200);
+      });
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        if (!confirm('Clear all fields and reset to defaults?')) return;
+        state = clone(DEFAULT_STATE);
+        renderForm(); rerender({ fast: true });
+      });
+      document.getElementById('btn-preset').addEventListener('click', () => {
+        state = clone(DEFAULT_STATE);
+        renderForm(); rerender({ fast: true });
+        setStatus('Loaded 423 Travis preset', 'ok');
+      });
+      document.getElementById('zoom-in').addEventListener('click', () => { zoom = Math.min(1, zoom + 0.05); applyZoom(); });
+      document.getElementById('zoom-out').addEventListener('click', () => { zoom = Math.max(0.25, zoom - 0.05); applyZoom(); });
+      document.getElementById('zoom-fit').addEventListener('click', fitZoom);
+
+      // ==========================================================
+      // Pull from Underwriting Log — wire picker + apply
+      // ==========================================================
+      initUnderwritingPicker();
+
+      // ==========================================================
+      // Pull from Land Acquisition Log — wire picker + apply
+      // ==========================================================
+      initLandPicker();
+
+      // ==========================================================
+      // Import Build Comps · Unlock MLS PDF
+      // ==========================================================
+      initMlsImport();
+    });
+
+    // ============================================================
+    // UNDERWRITING PICKER  ---------------------------------------
+    // ============================================================
+    const UW_LOG_SHEET_ID = '1xsqbZU9R9TNFPhVzwyvYdn2HKYnKiJVFVmLrMLFVtTE';
+    let UW_TABLE = null;
+    let UW_INDEX = null;
+
+    function gvizUrl(sheetId, tab) {
+      return 'https://docs.google.com/spreadsheets/d/' + sheetId +
+             '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(tab || 'Form Responses 1') +
+             '&t=' + Date.now();
+    }
+    function parseGviz(text) {
+      const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+      if (!m) throw new Error('Unexpected gviz response');
+      const data = JSON.parse(m[1]);
+      if (data.status !== 'ok') throw new Error('gviz error: ' + data.status);
+      return data.table || { cols: [], rows: [] };
+    }
+    function gvizString(cell) {
+      if (!cell) return '';
+      if (cell.f != null) return String(cell.f);
+      if (cell.v != null) return String(cell.v);
+      return '';
+    }
+    function gvizNumber(cell) {
+      if (!cell || cell.v == null) return 0;
+      if (typeof cell.v === 'number') return cell.v;
+      const n = parseFloat(String(cell.v).replace(/[$,\s%]/g, ''));
+      return isNaN(n) ? 0 : n;
+    }
+    function findCol(cols, ...candidates) {
+      const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+      const labels = cols.map(c => norm(c.label));
+      for (const cand of candidates) {
+        const t = norm(cand);
+        const idx = labels.findIndex(l => l === t);
+        if (idx >= 0) return idx;
+      }
+      for (const cand of candidates) {
+        const t = norm(cand);
+        const idx = labels.findIndex(l => l.indexOf(t) >= 0 || t.indexOf(l) >= 0);
+        if (idx >= 0) return idx;
+      }
+      return -1;
+    }
+    function buildIndex(cols) {
+      return {
+        scenario: findCol(cols, 'Scenerio Name', 'Scenario Name'),
+        address:  findCol(cols, 'Property Address', 'Address'),
+        neigh:    findCol(cols, 'Neighborhood'),
+        homes:    findCol(cols, 'Number of Homes'),
+        sqft:     findCol(cols, 'Sq Footage', 'Sq Footage / Home'),
+        buildPsf: findCol(cols, 'Build $ Sq Ft', 'Build $ / Sq Ft'),
+        salePrice:findCol(cols, 'Target Sale $'),
+        constMo:  findCol(cols, 'Construction Months'),
+        saleMo:   findCol(cols, 'Sale Period Months'),
+        overrun:  findCol(cols, 'Construction Overrun'),
+        realtor:  findCol(cols, 'Realtor Commission'),
+        bank:     findCol(cols, 'Bank Fee'),
+        intRate:  findCol(cols, 'Interest Rate'),
+        devFee:   findCol(cols, 'Developer Fee'),
+        pref:     findCol(cols, 'Investor Preferred Return', 'Preferred Return'),
+        lotCost:  findCol(cols, 'Lot Cost'),
+        ownerEq:  findCol(cols, 'Owner Equity Into Land'),
+        taxes:    findCol(cols, 'Annual Taxes'),
+        title:    findCol(cols, 'Title', 'Title / Closing'),
+        pool:     findCol(cols, 'Pool Cost'),
+        designer: findCol(cols, 'Designer Fee'),
+        architect:findCol(cols, 'Architect Fee'),
+        totalCost:findCol(cols, 'Total Project Cost'),
+        equity:   findCol(cols, 'Equity Invested'),
+        loan:     findCol(cols, 'Loan Amount'),
+        grossProfit:findCol(cols, 'Gross Profit'),
+        profitMargin:findCol(cols, 'Profit Margin'),
+        roe:      findCol(cols, 'ROE'),
+        roc:      findCol(cols, 'ROC'),
+        annualRoe:findCol(cols, 'Annualized ROE'),
+        breakeven:findCol(cols, 'Break-Even', 'Break-Even $ / SF'),
+        netRev:   findCol(cols, 'Net Revenue'),
+        constInt: findCol(cols, 'Construction Interest'),
+        bankFeesAmt:findCol(cols, 'Bank Fees'),
+        landLoan: findCol(cols, 'Land Loan')
+      };
+    }
+    async function initUnderwritingPicker() {
+      const statusEl = document.getElementById('uw-status');
+      const picker = document.getElementById('uw-deal-picker');
+      const applyBtn = document.getElementById('uw-apply-btn');
+      try {
+        const res = await fetch(gvizUrl(UW_LOG_SHEET_ID, 'Form Responses 1'), { cache: 'no-store' });
+        const text = await res.text();
+        UW_TABLE = parseGviz(text);
+        UW_INDEX = buildIndex(UW_TABLE.cols || []);
+        const rows = UW_TABLE.rows || [];
+        if (rows.length === 0) {
+          picker.innerHTML = '<option value="">No deals logged yet</option>';
+          statusEl.textContent = 'No deals in log';
+          return;
+        }
+        const options = rows.map((r, i) => {
+          const c = r.c || [];
+          const scen = UW_INDEX.scenario >= 0 ? gvizString(c[UW_INDEX.scenario]) : '';
+          const addr = UW_INDEX.address  >= 0 ? gvizString(c[UW_INDEX.address])  : '';
+          const label = (scen && addr) ? scen + ' · ' + addr : (scen || addr || '(unnamed)');
+          return '<option value="' + i + '">' + label.replace(/</g, '&lt;') + '</option>';
+        }).join('');
+        picker.innerHTML = '<option value="">— Pick a deal —</option>' + options;
+        statusEl.textContent = rows.length + ' deal' + (rows.length === 1 ? '' : 's') + ' available';
+        picker.addEventListener('change', () => {
+          applyBtn.disabled = !picker.value;
+          if (picker.value) {
+            const c = rows[Number(picker.value)].c || [];
+            const scen = UW_INDEX.scenario >= 0 ? gvizString(c[UW_INDEX.scenario]) : '';
+            statusEl.textContent = scen ? ('Selected: ' + scen) : 'Deal selected';
+          }
+        });
+        applyBtn.addEventListener('click', () => {
+          const idx = Number(picker.value);
+          if (isNaN(idx)) return;
+          applyDealToDeck(rows[idx].c || []);
+        });
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = 'Failed to load — check sheet access';
+        picker.innerHTML = '<option value="">(load failed)</option>';
+      }
+    }
+
+    // Map a deal row → deck state, respecting the four checkboxes
+    function applyDealToDeck(cells) {
+      const IX = UW_INDEX;
+      const g   = (i) => i >= 0 ? cells[i] : null;
+      const gn  = (i) => gvizNumber(g(i));
+      const gs  = (i) => gvizString(g(i));
+
+      const address    = gs(IX.address) || 'PROJECT';
+      const scenario   = gs(IX.scenario);
+      const neigh      = gs(IX.neigh);
+      const homes      = Math.max(1, gn(IX.homes) || 1);
+      const sqftPerHome= gn(IX.sqft);
+      const buildPsf   = gn(IX.buildPsf);
+      const salePricePerHome = gn(IX.salePrice);
+      const constMo    = gn(IX.constMo);
+      const saleMo     = gn(IX.saleMo);
+      const overrunPct = gn(IX.overrun) / 100;    // sheet stores as %
+      const realtorPct = gn(IX.realtor) / 100;
+      const bankFeePctInput = gn(IX.bank);
+      const intRate    = gn(IX.intRate);
+      const devFeePct  = gn(IX.devFee);
+      const prefPct    = gn(IX.pref);
+      const lotCost    = gn(IX.lotCost);
+      const ownerEq    = gn(IX.ownerEq);
+      const taxes      = gn(IX.taxes);
+      const title      = gn(IX.title);
+      const pool       = gn(IX.pool);
+      const designer   = gn(IX.designer);
+      const architect  = gn(IX.architect);
+      const totalCost  = gn(IX.totalCost);
+      const equity     = gn(IX.equity);
+      const constInt   = gn(IX.constInt);
+      const bankFeesAmt= gn(IX.bankFeesAmt);
+      const grossProfit= gn(IX.grossProfit);
+      const profitMarg = gn(IX.profitMargin);
+      const annualRoe  = gn(IX.annualRoe);
+      const breakeven  = gn(IX.breakeven);
+      const netRev     = gn(IX.netRev);
+
+      // Derived aggregates
+      const totalSellableSF = Math.round(sqftPerHome * homes);
+      const exitPsf         = sqftPerHome > 0 ? Math.round(salePricePerHome / sqftPerHome) : 0;
+      const totalSalePrice  = salePricePerHome * homes;
+
+      // Basis line items ($) — grouped for slide readability
+      const landBucket   = Math.round(lotCost + title + taxes + ownerEq);
+      const hardBucket   = Math.round((buildPsf * sqftPerHome * homes) * (1 + overrunPct));
+      const softBucket   = Math.round(architect + designer + pool);
+      const carryBucket  = Math.round(constInt + bankFeesAmt);
+      const buildBasis   = [
+        { label: 'Land + closing + taxes',       value: landBucket },
+        { label: 'Hard costs (incl. overrun)',   value: hardBucket },
+        { label: 'Soft costs (arch/design/pool)',value: softBucket },
+        { label: 'Carry + bank fees',            value: carryBucket }
+      ];
+
+      const fmtMoney = (n) => {
+        if (!n) return '—';
+        if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+        if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'k';
+        return '$' + n.toLocaleString();
+      };
+      const fmtPct = (n) => n ? (Math.round(n * 10) / 10) + '%' : '—';
+
+      const applyConservative = document.getElementById('uw-apply-conservative').checked;
+      const applyStretch      = document.getElementById('uw-apply-stretch').checked;
+      const applyOverview     = document.getElementById('uw-apply-overview').checked;
+      const applySummary      = document.getElementById('uw-apply-summary').checked;
+
+      const labelKey = scenario || address;
+
+      if (applyConservative) {
+        state.uw.conservative = {
+          title: 'CONSERVATIVE MODEL · ' + address.toUpperCase() + ' · $' + exitPsf.toLocaleString() + ' / SF EXIT',
+          basis: JSON.parse(JSON.stringify(buildBasis)),
+          sqft: totalSellableSF,
+          exitPsf: exitPsf,
+          sellingCosts: realtorPct || 0.06
+        };
+      }
+      if (applyStretch) {
+        // Stretch = same basis, +8% exit PSF assumption
+        const stretchPsf = Math.round(exitPsf * 1.08);
+        state.uw.stretch = {
+          title: 'STRETCH MODEL · ' + address.toUpperCase() + ' · $' + stretchPsf.toLocaleString() + ' / SF EXIT',
+          basis: JSON.parse(JSON.stringify(buildBasis)),
+          sqft: totalSellableSF,
+          exitPsf: stretchPsf,
+          sellingCosts: realtorPct || 0.06
+        };
+      }
+      if (applyOverview) {
+        state.overview.cards = [
+          { lbl: 'TARGET BASIS', val: fmtMoney(totalCost), sub: 'All-in project cost' },
+          { lbl: 'TARGET EXIT',  val: fmtMoney(totalSalePrice), sub: '$' + exitPsf.toLocaleString() + ' / SF · conservative' },
+          { lbl: 'PROJECT IRR',  val: fmtPct(annualRoe), sub: 'Annualized ROE · base case' },
+          { lbl: 'HOLD PERIOD',  val: (constMo + saleMo) + ' MO', sub: constMo + ' build · ' + saleMo + ' sale' }
+        ];
+      }
+      if (applySummary) {
+        state.summary.capitalRequired = fmtMoney(equity);
+        state.summary.holdPeriod      = (constMo + saleMo) + ' months (' + constMo + ' build · ' + saleMo + ' sale)';
+        state.summary.targetIRR       = fmtPct(annualRoe) + ' annualized ROE';
+        state.summary.preferredReturn = prefPct ? (prefPct + '% pref') : state.summary.preferredReturn;
+      }
+
+      renderForm();
+      rerender({ fast: true });
+      setStatus('Applied "' + (labelKey || 'deal') + '" to deck', 'ok');
+      const st = document.getElementById('uw-status');
+      st.textContent = 'Applied · ' + labelKey;
+    }
+
+    // ============================================================
+    // LAND ACQUISITION PICKER  -----------------------------------
+    // Reads the Land Intake sheet and applies fields to
+    // state.land (eyebrow, narrative, bullets) and optionally
+    // state.project (cover address / location line).
+    // ============================================================
+    const LAND_SHEET_ID = '1pA82pl93-fhGpSoBmU4coJbkLf8KtJlMesc2p5XcKTA';
+    let LAND_TABLE = null;
+    let LAND_INDEX = null;
+
+    function buildLandIndex(cols) {
+      return {
+        address:    findCol(cols, 'Property Address', 'Address'),
+        neigh:      findCol(cols, 'Neighborhood/Area', 'Neighborhood'),
+        askingPrice:findCol(cols, 'Asking Price'),
+        contractPrice:findCol(cols, 'Contract Price'),
+        lotSize:    findCol(cols, 'Lot Size'),
+        topography: findCol(cols, 'Topography'),
+        zoning:     findCol(cols, 'Zoning'),
+        floodZone:  findCol(cols, 'Flood Zone'),
+        needsVar:   findCol(cols, 'Needs Variance', 'Needs Variance?'),
+        setFront:   findCol(cols, 'Setback - Front'),
+        setRear:    findCol(cols, 'Setback - Rear'),
+        setInt:     findCol(cols, 'Setback - Interior'),
+        setRoad:    findCol(cols, 'Setback - Road Side'),
+        dimFront:   findCol(cols, 'Lot Dimension - Front'),
+        dimLeft:    findCol(cols, 'Lot Dimension - Side Left'),
+        dimRear:    findCol(cols, 'Lot Dimension - Rear'),
+        dimRight:   findCol(cols, 'Lot Dimension - Side Right'),
+        bestComp:   findCol(cols, 'Best Comp'),
+        notes:      findCol(cols, 'Additional Notes'),
+        status:     findCol(cols, 'Status')
+      };
+    }
+
+    async function initLandPicker() {
+      const statusEl = document.getElementById('land-status');
+      const picker = document.getElementById('land-deal-picker');
+      const applyBtn = document.getElementById('land-apply-btn');
+      try {
+        const res = await fetch(gvizUrl(LAND_SHEET_ID, 'Form Responses 1'), { cache: 'no-store' });
+        const text = await res.text();
+        LAND_TABLE = parseGviz(text);
+        LAND_INDEX = buildLandIndex(LAND_TABLE.cols || []);
+        const rows = LAND_TABLE.rows || [];
+        if (rows.length === 0) {
+          picker.innerHTML = '<option value="">No lots logged yet</option>';
+          statusEl.textContent = 'No lots in log';
+          return;
+        }
+        const options = rows.map((r, i) => {
+          const c = r.c || [];
+          const addr = LAND_INDEX.address >= 0 ? gvizString(c[LAND_INDEX.address]) : '';
+          const neigh = LAND_INDEX.neigh   >= 0 ? gvizString(c[LAND_INDEX.neigh])   : '';
+          const label = addr + (neigh ? ' · ' + neigh : '');
+          return '<option value="' + i + '">' + (label || '(unnamed)').replace(/</g, '&lt;') + '</option>';
+        }).join('');
+        picker.innerHTML = '<option value="">— Pick a lot —</option>' + options;
+        statusEl.textContent = rows.length + ' lot' + (rows.length === 1 ? '' : 's') + ' available';
+        picker.addEventListener('change', () => {
+          applyBtn.disabled = !picker.value;
+          if (picker.value) {
+            const c = rows[Number(picker.value)].c || [];
+            const addr = LAND_INDEX.address >= 0 ? gvizString(c[LAND_INDEX.address]) : '';
+            statusEl.textContent = addr ? ('Selected: ' + addr) : 'Lot selected';
+          }
+        });
+        applyBtn.addEventListener('click', () => {
+          const idx = Number(picker.value);
+          if (isNaN(idx)) return;
+          applyLandToDeck(rows[idx].c || []);
+        });
+      } catch (err) {
+        console.error(err);
+        statusEl.textContent = 'Failed to load — check sheet access';
+        picker.innerHTML = '<option value="">(load failed)</option>';
+      }
+    }
+
+    function applyLandToDeck(cells) {
+      const IX = LAND_INDEX;
+      const g  = (i) => i >= 0 ? cells[i] : null;
+      const gs = (i) => gvizString(g(i));
+      const gn = (i) => gvizNumber(g(i));
+
+      const address    = gs(IX.address);
+      const neigh      = gs(IX.neigh);
+      const lotSize    = gs(IX.lotSize);
+      const topo       = gs(IX.topography);
+      const zoning     = gs(IX.zoning);
+      const flood      = gs(IX.floodZone);
+      const needsVar   = gs(IX.needsVar);
+      const dimFront   = gs(IX.dimFront);
+      const dimLeft    = gs(IX.dimLeft);
+      const dimRear    = gs(IX.dimRear);
+      const dimRight   = gs(IX.dimRight);
+      const bestComp   = gs(IX.bestComp);
+      const notes      = gs(IX.notes);
+
+      const applyLand  = document.getElementById('land-apply-land').checked;
+      const applyCover = document.getElementById('land-apply-cover').checked;
+
+      // ---- Build Land slide fields ----
+      // Eyebrow: prefer lot size; fall back to street
+      const eyebrow = lotSize
+        ? ('SITE · ' + lotSize.toUpperCase())
+        : (address ? ('SITE · ' + address.toUpperCase()) : 'SITE');
+
+      // Narrative — human-readable auto paragraph
+      const narrativeParts = [];
+      if (address) {
+        const lotBit = lotSize ? ('The subject ' + lotSize.toLowerCase() + ' parcel at ' + address)
+                               : ('The subject parcel at ' + address);
+        narrativeParts.push(lotBit + (neigh ? (' sits in the ' + neigh + ' area') : '') + '.');
+      }
+      if (zoning) {
+        narrativeParts.push('Zoned ' + zoning + (topo ? (' with ' + topo.toLowerCase() + ' topography') : '') + '.');
+      } else if (topo) {
+        narrativeParts.push(topo.charAt(0).toUpperCase() + topo.slice(1) + ' topography.');
+      }
+      if (dimFront) {
+        const dim = [dimFront, dimLeft, dimRear, dimRight].filter(Boolean).join(' × ');
+        narrativeParts.push('Lot dimensions ' + dim + ' ft.');
+      }
+      if (notes) {
+        narrativeParts.push(notes);
+      }
+      const narrative = narrativeParts.join(' ');
+
+      // Bullets — mechanical key-facts list
+      const bullets = [];
+      if (lotSize)  bullets.push(lotSize + (dimFront ? (' · ' + dimFront + ' ft frontage') : ''));
+      if (zoning)   bullets.push('Zoned ' + zoning);
+      if (topo)     bullets.push('Topography: ' + topo);
+      if (flood) {
+        const noFlood = /^(no|none|x|zone x)$/i.test(flood.trim());
+        bullets.push(noFlood ? 'Not in flood zone' : ('Flood zone: ' + flood));
+      }
+      if (needsVar) {
+        const needs = /^(yes|y|true)$/i.test(needsVar.trim());
+        bullets.push(needs ? 'Variance required' : 'No variance required');
+      }
+      if (bestComp) bullets.push('Best land comp · ' + bestComp);
+
+      if (applyLand) {
+        state.land.eyebrow   = eyebrow;
+        state.land.narrative = narrative || state.land.narrative;
+        if (bullets.length) state.land.bullets = bullets;
+      }
+
+      if (applyCover && address) {
+        state.project.address = address.toUpperCase();
+        if (neigh) state.project.location = neigh + ' · Austin';
+      }
+
+      renderForm();
+      rerender({ fast: true });
+      setStatus('Applied land info · ' + (address || 'lot'), 'ok');
+      document.getElementById('land-status').textContent = 'Applied · ' + (address || 'lot');
+    }
+
+    // ============================================================
+    // REALTRACS PDF IMPORT  --------------------------------------
+    // Lazy-loads pdf.js. Parses UC + Closed sections of a
+    // Residential Property CMA export. Maps into deck comps state.
+    // ============================================================
+    const PDFJS_URL    = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    const PDFJS_WORKER = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    function loadPdfJs() {
+      if (window.pdfjsLib) return Promise.resolve(window.pdfjsLib);
+      return new Promise((resolve, reject) => {
+        const s = document.createElement('script');
+        s.src = PDFJS_URL; s.async = true;
+        s.onload = () => {
+          if (!window.pdfjsLib) return reject(new Error('pdf.js loaded but pdfjsLib missing'));
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDFJS_WORKER;
+          resolve(window.pdfjsLib);
+        };
+        s.onerror = () => reject(new Error('Failed to load pdf.js'));
+        document.head.appendChild(s);
+      });
+    }
+
+    async function extractLinesFromPDF(arrayBuffer) {
+      const pdfjsLib = await loadPdfJs();
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+      const allLines = [];
+      for (let pn = 1; pn <= pdf.numPages; pn++) {
+        const page = await pdf.getPage(pn);
+        const tc = await page.getTextContent();
+        const buckets = new Map();
+        for (const item of tc.items) {
+          const y = Math.round(item.transform[5]);
+          const x = item.transform[4];
+          if (!buckets.has(y)) buckets.set(y, []);
+          buckets.get(y).push({ x: x, s: item.str });
+        }
+        const ys = Array.from(buckets.keys()).sort((a, b) => b - a);
+        for (const y of ys) {
+          const row = buckets.get(y).sort((a, b) => a.x - b.x);
+          allLines.push(row.map(r => r.s).join('  '));
+        }
+      }
+      return allLines;
+    }
+
+    const STREET_SUFFIX_RE = /\b(Dr|Rd|Ct|Pl|Ave|St|Cir|Ln|Way|Blvd|Pkwy|Pike|Hwy|Trl|Sq|Ter|Xing|Loop|Park|Place|Court|Drive|Road|Avenue|Street|Boulevard|Lane|Trail)\b\.?/;
+
+    function rtLooksLikeCompRow(line) { return /^\s*\d{7}\s/.test(line); }
+    function rtParseRow(line, isClosed) {
+      line = line.trim();
+      const m1 = /^(\d{7})\s+(.*)$/.exec(line);
+      if (!m1) return null;
+      const rest = m1[2];
+      const yb = /\b(19\d{2}|20\d{2})\b/.exec(rest);
+      if (!yb) return null;
+      const head = rest.slice(0, yb.index);
+      const headRe = /(\d+(?:\.\d+)?)\s+(\d{1,2})\s+(\d+(?:\s*\/\s*\d+)?)\s*$/;
+      const hm = headRe.exec(head);
+      if (!hm) return null;
+      const acres = hm[1], br = hm[2], bath = hm[3].replace(/\s+/g, '');
+      const addrSubdev = rest.slice(0, hm.index).trim();
+      let address = addrSubdev;
+      const suf = STREET_SUFFIX_RE.exec(addrSubdev);
+      if (suf) address = addrSubdev.slice(0, suf.index + suf[0].length).trim();
+      else address = (addrSubdev.split(/\s{2,}/)[0] || '').trim();
+
+      const tail = rest.slice(yb.index).trim();
+      const tokens = tail.split(/\s+/);
+      if (tokens.length < 7) return null;
+      const rec = {
+        mls: m1[1], address, acres, br, bath,
+        yearBuilt: tokens[0], garage: tokens[1], sqft: tokens[2],
+        lpPsf: tokens[3], listPrice: tokens[4]
+      };
+      if (isClosed) {
+        if (tokens.length < 10) return null;
+        rec.spPsf = tokens[5]; rec.salePrice = tokens[6];
+        rec.closed = tokens[7]; rec.dom = tokens[8]; rec.ltc = tokens[9];
+      } else {
+        rec.dom = tokens[5]; rec.ltc = tokens[6];
+      }
+      return rec;
+    }
+
+    function rtParseCma(lines) {
+      const uc = [], closed = [];
+      let section = null;
+      for (const ln of lines) {
+        const lower = ln.toLowerCase();
+        if (lower.indexOf('under contract') !== -1 && lower.indexOf('showing') !== -1) { section = 'uc'; continue; }
+        if (lower.trim() === 'closed' || lower.indexOf('closed - showing') !== -1) { section = 'closed'; continue; }
+        if (!section) continue;
+        if (/^\s*(Average|Median)\b/.test(ln)) continue;
+        if (rtLooksLikeCompRow(ln)) {
+          const rec = rtParseRow(ln, section === 'closed');
+          if (rec) (section === 'closed' ? closed : uc).push(rec);
+        }
+      }
+      return { uc, closed };
+    }
+
+    // Format $X,XXX,XXX → $X.XXM (or $XXXk); keep raw if unparseable
+    function rtFormatPrice(raw) {
+      if (!raw) return '';
+      const n = parseFloat(String(raw).replace(/[$,\s]/g, ''));
+      if (!isFinite(n) || n === 0) return String(raw);
+      if (n >= 1e6) return '$' + (n / 1e6).toFixed(2) + 'M';
+      if (n >= 1e3) return '$' + Math.round(n / 1e3) + 'k';
+      return '$' + n.toLocaleString();
+    }
+    function rtFormatSqft(raw) {
+      if (!raw) return '';
+      const n = parseFloat(String(raw).replace(/[,\s]/g, ''));
+      if (!isFinite(n) || n === 0) return String(raw);
+      return n.toLocaleString();
+    }
+    function rtFormatPsf(raw) {
+      if (!raw) return '';
+      const s = String(raw).trim();
+      return s.startsWith('$') ? s : '$' + s;
+    }
+
+    // rec → closedComps entry
+    function rtToClosed(rec) {
+      return {
+        address: rec.address || '',
+        sqft:    rtFormatSqft(rec.sqft),
+        sold:    rtFormatPrice(rec.salePrice),
+        psf:     rtFormatPsf(rec.spPsf),
+        date:    rec.closed || '',
+        photo:   ''
+      };
+    }
+    // rec → presoldComps entry
+    function rtToPresold(rec) {
+      return {
+        address: rec.address || '',
+        sqft:    rtFormatSqft(rec.sqft),
+        list:    rtFormatPrice(rec.listPrice),
+        psf:     rtFormatPsf(rec.lpPsf),
+        status:  'Under contract' + (rec.dom ? ' · DOM ' + rec.dom : ''),
+        photo:   ''
+      };
+    }
+
+    function initMlsImport() {
+      const btn = document.getElementById('rt-import-btn');
+      const fileEl = document.getElementById('rt-file-input');
+      const statusEl = document.getElementById('rt-status');
+      if (!btn || !fileEl) return;
+
+      const setSt = (msg) => { if (statusEl) statusEl.textContent = msg; };
+
+      btn.addEventListener('click', () => fileEl.click());
+      fileEl.addEventListener('change', async () => {
+        const file = fileEl.files && fileEl.files[0];
+        if (!file) return;
+        btn.disabled = true;
+        setSt('Reading PDF…');
+        try {
+          const buf = await file.arrayBuffer();
+          const lines = await extractLinesFromPDF(buf);
+          const { uc, closed } = rtParseCma(lines);
+          if (uc.length === 0 && closed.length === 0) {
+            setSt('No comps found — is this a Unlock MLS Residential CMA export?');
+            setStatus('Unlock MLS: no comps found', 'err');
+            return;
+          }
+          if (closed.length) {
+            state.comps.closedComps = closed.slice(0, 3).map(rtToClosed);
+          }
+          if (uc.length) {
+            state.comps.presoldComps = uc.slice(0, 3).map(rtToPresold);
+          }
+          renderForm();
+          rerender({ fast: true });
+          const parts = [];
+          if (closed.length) parts.push(Math.min(3, closed.length) + ' closed');
+          if (uc.length)     parts.push(Math.min(3, uc.length) + ' UC');
+          setSt('Imported · ' + parts.join(' + '));
+          setStatus('Imported ' + parts.join(' + ') + ' from Unlock MLS', 'ok');
+        } catch (err) {
+          console.error(err);
+          setSt('Import failed — ' + (err && err.message || 'unknown error'));
+          setStatus('Unlock MLS import failed', 'err');
+        } finally {
+          btn.disabled = false;
+          fileEl.value = ''; // allow re-import of same file
+        }
+      });
+    }
+  </script>
+</body>
+</html>

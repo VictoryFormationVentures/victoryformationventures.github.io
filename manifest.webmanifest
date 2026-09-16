@@ -1,0 +1,16 @@
+{
+  "name": "Victory Formation Ventures",
+  "short_name": "Victory Formation",
+  "description": "Internal dashboard for Victory Formation Ventures.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "icons": [
+    { "src": "assets/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "assets/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "assets/icon-1024.png", "type": "image/png", "sizes": "1024x1024", "purpose": "any" }
+  ]
+}

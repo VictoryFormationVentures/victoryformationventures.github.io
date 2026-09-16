@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=1100" />
+  <title>Offer Memorandum · Victory Formation Ventures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:         #000;
+      --bg-elev:    #0e0e0e;
+      --bg-elev-2:  #181818;
+      --text:       #fff;
+      --text-muted: #b8b8b8;
+      --text-dim:   #777;
+      --rule:       #2a2a2a;
+      --rule-strong:#3a3a3a;
+      --font-display: 'Aboreto', serif;
+      --font-body:    'Montserrat', sans-serif;
+      --tracking-wide:   .15em;
+      --tracking-x-wide: .25em;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: #000;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Floating toolbar */
+    .toolbar {
+      position: fixed; top: 16px; right: 16px;
+      display: flex; gap: 10px;
+      z-index: 100;
+      align-items: flex-start;
+      max-width: calc(100vw - 32px);
+    }
+    .toolbar .tb-status {
+      font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-right: 6px; max-width: 360px;
+      white-space: normal; line-height: 1.5;
+      text-align: right; padding-top: 10px;
+    }
+    .toolbar .tb-status.err  { color: #f4b9b9; }
+    .toolbar .tb-status.warn { color: #e8d49a; }
+    .toolbar .tb-btn {
+      font: inherit; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      padding: 12px 22px;
+      color: var(--bg); background: var(--text);
+      border: 1px solid var(--text);
+      cursor: pointer; text-decoration: none;
+      display: inline-block;
+    }
+    .toolbar .tb-btn.ghost {
+      background: transparent; color: var(--text);
+      padding: 10px 16px; font-weight: 300;
+    }
+    .toolbar .tb-btn:hover { opacity: .85; }
+    .toolbar .tb-btn:disabled { opacity: .4; cursor: wait; }
+
+    /* Universal image fill — used inside every photo slot.
+       Implemented as a background-image div (not an <img>) because
+       html2canvas 1.4.x silently drops `object-fit: cover` on <img>
+       elements when the image's natural aspect ratio differs strongly
+       from the slot — the canvas falls back to "fill" (stretch). Putting
+       the data URL on background-image with background-size: cover
+       renders reliably for every slot regardless of source dimensions. */
+    .om-fill {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      display: block;
+    }
+
+    /* PAGE — landscape 10×5.625" widescreen.
+       Width of 1000px → height 562.5px at 100% zoom. We render at this
+       exact size on screen; html2canvas captures at scale:2 for crisp
+       output. pdf-lib lays each captured page onto a 10×5.625in PDF page. */
+    .om-page {
+      width: 1000px;
+      height: 562.5px;
+      margin: 24px auto;
+      background: #000;
+      position: relative;
+      overflow: hidden;
+      color: var(--text);
+    }
+
+    /* Common arch / brand logo (bottom-left or bottom-center on most pages) */
+    .om-logo {
+      position: absolute;
+      bottom: 22px; left: 22px;
+      width: 38px; height: 38px;
+      opacity: .95;
+    }
+    .om-logo img { width: 100%; height: 100%; display: block; }
+
+    /* Page 1 — Cover */
+    .om-page.cover {
+      padding: 0;
+    }
+    .om-page.cover .cover-hero {
+      position: absolute; inset: 0;
+      background-color: #111;
+      overflow: hidden;
+    }
+    .om-page.cover .cover-hero::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0.0) 100%);
+    }
+    .om-page.cover .date-stamp {
+      position: absolute; top: 24px; right: 32px;
+      font-size: 10px; color: var(--text-muted);
+      letter-spacing: var(--tracking-x-wide);
+    }
+    .om-page.cover .cover-title {
+      position: absolute; left: 48px; top: 110px;
+      font-family: var(--font-display);
+      font-size: 56px; line-height: 1.05; letter-spacing: .05em;
+      text-transform: uppercase;
+    }
+    .om-page.cover .cover-subtitle {
+      position: absolute; left: 48px; bottom: 110px;
+      font-family: var(--font-body); font-weight: 600;
+      font-size: 22px; letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border-top: 1px solid rgba(255,255,255,0.6);
+      padding-top: 14px;
+      max-width: 700px;
+    }
+    .om-page.cover .cover-foot {
+      position: absolute; left: 48px; bottom: 36px;
+      font-size: 11px;
+      letter-spacing: var(--tracking-x-wide);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+    .om-page.cover .cover-brand {
+      position: absolute; right: 36px; bottom: 36px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .om-page.cover .cover-brand img {
+      width: 44px; height: 44px;
+    }
+    .om-page.cover .cover-brand .brand-text {
+      font-family: var(--font-display);
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Generic 2-column "photo + writeup" page */
+    .om-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 100%;
+    }
+    .om-split.right-text { /* photo left, writeup right */ }
+    .om-split .pane-photo {
+      background-color: #111;
+      position: relative;
+      overflow: hidden;
+    }
+    .om-split .pane-photo.empty {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim);
+      font-size: 10px; letter-spacing: var(--tracking-x-wide);
+      text-transform: uppercase;
+    }
+    .om-split .pane-photo.empty::after {
+      content: "Photo not provided";
+    }
+    .om-split .pane-text {
+      padding: 56px 56px 80px;
+      display: flex; flex-direction: column; justify-content: flex-start;
+    }
+    .om-split .pane-text h2 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0 0 26px;
+      line-height: 1;
+    }
+    .om-split .pane-text p {
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--text);
+      margin: 0 0 14px;
+      letter-spacing: .015em;
+    }
+    .om-split .pane-text p:last-child { margin-bottom: 0; }
+    .om-split .pane-text .meta {
+      margin-top: 22px;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-muted);
+    }
+    .om-split .pane-text .meta .row { padding: 4px 0; }
+
+    /* "Anticipated build · vibe" page — text left + 2 image columns right */
+    .om-vibe {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      height: 100%;
+      gap: 14px;
+      padding: 56px 56px 80px;
+    }
+    .om-vibe h2 {
+      font-family: var(--font-display);
+      font-size: 26px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0 0 26px;
+    }
+    .om-vibe .vibe-text p {
+      font-size: 12.5px; line-height: 1.6; margin: 0 0 14px;
+    }
+    .om-vibe .vibe-pane {
+      display: flex; flex-direction: column;
+    }
+    .om-vibe .vibe-img {
+      flex: 1;
+      background-color: #111;
+      position: relative;
+      overflow: hidden;
+    }
+    .om-vibe .vibe-img.empty {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); font-size: 9px;
+      letter-spacing: var(--tracking-x-wide); text-transform: uppercase;
+    }
+    .om-vibe .vibe-img.empty::after { content: "No photo"; }
+    .om-vibe .vibe-caption {
+      margin-top: 8px;
+      font-size: 10px;
+      letter-spacing: var(--tracking-x-wide);
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* Comparables grid (page 8 / 9) and Other Projects (page 10) */
+    .om-grid {
+      padding: 56px 56px 50px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .om-grid h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: 0 0 28px;
+    }
+    .om-grid .three-up {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      flex: 1;
+    }
+    .om-grid .grid-card {
+      display: flex; flex-direction: column;
+    }
+    .om-grid .grid-card .card-img {
+      width: 100%; height: 200px;
+      background-color: #111;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .om-grid .grid-card .card-img.empty {
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-dim); font-size: 9px;
+      letter-spacing: var(--tracking-x-wide); text-transform: uppercase;
+    }
+    .om-grid .grid-card .card-img.empty::after { content: "No photo"; }
+    .om-grid .grid-card .card-address {
+      font-family: var(--font-body); font-style: italic;
+      font-size: 15px; margin-bottom: 8px; color: var(--text);
+    }
+    .om-grid .grid-card .card-row {
+      font-size: 11.5px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .om-grid .grid-card .card-row.status {
+      font-weight: 600;
+      letter-spacing: .04em;
+    }
+
+    /* Model page (page 11) — table-ish layout */
+    .om-model {
+      padding: 40px 50px 40px;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      font-size: 11px;
+    }
+    .om-model h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin: 0 0 22px;
+      grid-column: 1 / -1;
+    }
+    .om-model .prop-line {
+      grid-column: 1 / -1;
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: .04em;
+      margin-bottom: 6px;
+    }
+    .om-model .prop-line strong { color: var(--text); margin-left: 6px; }
+    .om-model .sec-head {
+      font-size: 11px;
+      color: var(--text-muted);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .om-model .kv {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      padding: 4px 0;
+      font-size: 11.5px;
+    }
+    .om-model .kv .v {
+      font-family: var(--font-body); font-weight: 500;
+      /* NOTE: avoid `font-variant-numeric: tabular-nums` — html2canvas 1.4.x
+         renders the alt glyphs with bogus advance widths, producing gaps
+         like "$1 ,560,000" / "1 8 Months" in the exported PDF. */
+      color: var(--text);
+    }
+    .om-model .col {
+      display: flex; flex-direction: column;
+    }
+    .om-model .col .group { margin-bottom: 14px; }
+
+    /* Financing & Profit Model (page 12) — full-width KV list */
+    .om-financing {
+      padding: 60px 80px;
+      height: 100%;
+      display: flex; flex-direction: column;
+    }
+    .om-financing h2 {
+      font-family: var(--font-display);
+      font-size: 22px; letter-spacing: 0.12em; text-transform: uppercase;
+      margin: 0 0 32px;
+    }
+    .om-financing .kv-list {
+      flex: 1;
+      display: flex; flex-direction: column;
+      gap: 6px;
+    }
+    .om-financing .kv-list .row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: baseline;
+      padding: 9px 0;
+      font-size: 12px;
+      letter-spacing: .01em;
+    }
+    .om-financing .kv-list .row .k {
+      font-weight: 600;
+    }
+    .om-financing .kv-list .row .v {
+      /* No tabular-nums — see note on .om-model .kv .v above. */
+    }
+
+    /* Summary page (page 14) - hero overlay + text */
+    .om-page.summary {
+      background-color: #111;
+      overflow: hidden;
+    }
+    .om-page.summary > .summary-bg {
+      position: absolute; inset: 0;
+      overflow: hidden;
+    }
+    .om-page.summary::after {
+      content: ""; position: absolute; inset: 0;
+      background: rgba(0,0,0,0.62);
+      z-index: 1;
+    }
+    .om-page.summary .summary-body {
+      position: relative; z-index: 2;
+      padding: 60px 80px;
+      height: 100%;
+      display: flex; flex-direction: column;
+    }
+    .om-page.summary .brand-corner { z-index: 2; }
+    .om-page.summary h2 {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: 0.1em; text-transform: uppercase;
+      margin: 0 0 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.5);
+      padding-bottom: 14px;
+    }
+    .om-page.summary p {
+      font-size: 12.5px;
+      line-height: 1.6;
+      margin: 0 0 14px;
+    }
+    .om-page.summary .brand-corner {
+      position: absolute; top: 30px; right: 40px;
+      display: flex; align-items: center; gap: 10px; z-index: 2;
+    }
+    .om-page.summary .brand-corner img { width: 40px; height: 40px; }
+    .om-page.summary .brand-corner .text {
+      font-family: var(--font-display);
+      font-size: 16px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* Hide everything in print */
+    @media print {
+      .toolbar { display: none !important; }
+      body { background: white; }
+      .om-page { margin: 0; box-shadow: none; page-break-after: always; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="tb-status" id="tb-status">Loading…</span>
+    <a class="tb-btn ghost" href="index.html#development">← Back</a>
+    <button class="tb-btn" type="button" id="save-btn" disabled>Save as PDF</button>
+  </div>
+
+  <main id="output"></main>
+
+  <script>
+    // ============================================================
+    // Offer Memorandum renderer
+    //  Reads payload from IndexedDB (dashboard wrote it just before
+    //  opening this tab), composes 14 widescreen pages, then
+    //  pdf-lib (loaded on Save) assembles them as a single landscape
+    //  PDF for download.
+    // ============================================================
+
+    // --- IDB transport (version 3 — shared with one-pager + engagement) ---
+    function idbOpen() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open('vfv-dashboard', 4);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+          if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+          if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+            if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async function idbGet(key) {
+      const db = await idbOpen();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('om', 'readonly');
+        const req = tx.objectStore('om').get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function loadPayload(onProgress) {
+      const params = new URLSearchParams(window.location.search);
+      const wantedReqId = params.get('req');
+      for (let i = 0; i < 300; i++) {
+        const data = await idbGet('current').catch(() => null);
+        if (data && (!wantedReqId || data.requestId === wantedReqId)) return data;
+        if (onProgress) onProgress(i, 300);
+        await new Promise((r) => setTimeout(r, 300));
+      }
+      return null;
+    }
+
+    const statusEl = document.getElementById('tb-status');
+    function setStatus(text, level) {
+      statusEl.textContent = text;
+      statusEl.classList.remove('warn', 'err');
+      if (level === 'warn') statusEl.classList.add('warn');
+      if (level === 'err')  statusEl.classList.add('err');
+    }
+
+    // --- Helpers ---
+    const blobUrls = [];
+    function blobToUrl(blob) {
+      if (!blob) return '';
+      const u = URL.createObjectURL(blob);
+      blobUrls.push(u);
+      return u;
+    }
+
+    // Convert a Blob → base64 data URL. Required because html2canvas does
+    // NOT reliably capture blob: URLs used in CSS background-image during
+    // its iframe-clone step. Data URLs survive that clone intact.
+    function blobToDataUrl(blob) {
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload  = () => resolve(fr.result);
+        fr.onerror = () => reject(fr.error);
+        fr.readAsDataURL(blob);
+      });
+    }
+    // Walk the payload, replacing every Blob with a stored dataUrl. After
+    // this runs, bgFromBlob can pull from file.dataUrl with no async.
+    async function preprocessPhotos(d) {
+      async function convert(p) {
+        if (!p || !p.blob || p.dataUrl) return p;
+        try { p.dataUrl = await blobToDataUrl(p.blob); }
+        catch (err) { console.warn('blob→dataUrl failed', err); }
+        return p;
+      }
+      const single = [
+        'heroPhoto','existingPhoto','lotPhoto','mapPhoto',
+        'exteriorPhoto','interiorPhoto','statsPhoto','pricingPhoto',
+        'skylinePhoto',
+      ];
+      for (const k of single) { if (d[k]) await convert(d[k]); }
+      for (const arr of [d.soldComps, d.singleStoryComps, d.otherProjects]) {
+        if (Array.isArray(arr)) {
+          for (const item of arr) {
+            if (item && item.photo) await convert(item.photo);
+          }
+        }
+      }
+    }
+    function esc(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function nl2p(text) {
+      if (!text) return '';
+      return text.split(/\n{2,}/).map((p) => '<p>' + esc(p).replace(/\n/g, '<br/>') + '</p>').join('');
+    }
+    function fmtUSD0(n) {
+      if (!isFinite(n) || !n) return '$0';
+      return '$' + Math.round(n).toLocaleString('en-US');
+    }
+    function fmtPct(p, d = 2) {
+      if (!isFinite(p)) return '0.00%';
+      return (p * 100).toFixed(d) + '%';
+    }
+    function fmtMonthYear(iso) {
+      const d = iso ? new Date(iso) : new Date();
+      if (isNaN(d)) return '';
+      return (d.getMonth() + 1) + ' / ' + d.getFullYear();
+    }
+    function logo() {
+      return '<div class="om-logo"><img src="assets/icon-arch-transparent.png" alt="Victory Formation Ventures" /></div>';
+    }
+    // Return a background-image div sized to fill its parent. We use a
+    // background-image (instead of an <img>) so html2canvas honours
+    // `background-size: cover` and centre-crops each photo — see the
+    // .om-fill CSS comment for the underlying html2canvas bug. The
+    // src is the same data URL we'd put on an <img>; we escape quotes
+    // so the inline style stays well-formed.
+    function imgFill(file, alt) {
+      if (!file) return '';
+      let src = '';
+      if (file.dataUrl) src = file.dataUrl;
+      else if (file.blob) src = blobToUrl(file.blob);
+      if (!src) return '';
+      // Single quotes in the url() — esc() handles "<>&\"" so we only
+      // need to guard the inline-style boundary character.
+      const safeSrc = src.replace(/'/g, "%27");
+      return '<div class="om-fill" role="img" aria-label="' + esc(alt || '') +
+             '" style="background-image:url(\'' + safeSrc + '\');"></div>';
+    }
+
+    // --- Translate a logged-deal row from the Underwriting Deal Log sheet
+    //     into the shape pages 11 & 12 want. All values are already
+    //     pre-computed in the sheet — we just need to derive a few
+    //     summary numbers (total build, dev fee, etc.) from the inputs. ---
+    function uwFromLog(uw) {
+      if (!uw) return null;
+      const numHomes = uw.numHomes || 0;
+      const sqft     = uw.sqft || 0;
+      const buildPsf = uw.buildPsf || 0;
+      const salePsf  = uw.salePsf || 0;
+      const constrMo = uw.constrMo || 0;
+      const saleMo   = uw.saleMo || 0;
+      const totalHold = constrMo + saleMo;
+
+      const totalBuild = sqft * buildPsf * numHomes;
+      const overrunPct = (uw.overrunPct || 0) / 100;
+      const realtorPct = (uw.realtorPct || 0) / 100;
+      const bankFeePct = (uw.bankFeePct || 0) / 100;
+      const devFeePct  = (uw.devFeePct  || 0) / 100;
+      const overrun    = totalBuild * overrunPct;
+      const devFee     = ((uw.lotCost || 0) + totalBuild + overrun) * devFeePct;
+      const grossSales = salePsf * sqft * numHomes;
+      const realtor    = grossSales * realtorPct;
+      const netRevenue = uw.netRevenue || (grossSales - realtor);
+
+      return {
+        numHomes, sqft, buildPsf, salePsf,
+        constrMo, saleMo, totalHold,
+        lotCost:    uw.lotCost     || 0,
+        totalBuild, overrun, devFee,
+        taxes:      uw.taxes       || 0,
+        title:      uw.title       || 0,
+        pool:       uw.pool        || 0,
+        designer:   uw.designer    || 0,
+        architect:  uw.architect   || 0,
+        bankFees:   uw.bankFees    || 0,
+        interest:   uw.interest    || 0,
+        tpc:        uw.tpc         || 0,
+        equity:     uw.equity      || 0,
+        equityPer:  uw.equityPer   || 0,
+        loan:       uw.loan        || 0,
+        landLoan:   uw.landLoan    || 0,
+        salePerHome: salePsf * sqft,
+        grossSales, realtor, netRevenue,
+        grossProfit: uw.grossProfit || 0,
+        profitMargin:(uw.margin     || 0) / 100,
+        roe:         (uw.roe        || 0) / 100,
+        roc:         (uw.roc        || 0) / 100,
+        roeAnn:      (uw.roeAnn     || 0) / 100,
+        profitPerHome: uw.profitPerHome || 0,
+        devNet:        uw.devNet || 0,
+        breakEven:     uw.breakEven || 0,
+        overrunPct, realtorPct, bankFeePct, devFeePct,
+        // Scenario context
+        scenario:     uw.scenario || '',
+      };
+    }
+
+    // --- Page renderers ---
+    function pageCover(d) {
+      return (
+        '<section class="om-page cover">' +
+          '<div class="cover-hero">' + imgFill(d.heroPhoto, 'Hero rendering') + '</div>' +
+          '<div class="date-stamp">' + esc(fmtMonthYear(d.generatedAt)) + '</div>' +
+          '<div class="cover-title">Offer<br/>Memorandum</div>' +
+          '<div class="cover-subtitle">' +
+            esc(d.projectName || 'Project') +
+            (d.neighborhood ? ' &nbsp;|&nbsp; ' + esc(d.neighborhood) : '') +
+          '</div>' +
+          '<div class="cover-foot">Victory Formation Ventures &nbsp;·&nbsp; Development</div>' +
+          '<div class="cover-brand">' +
+            '<img src="assets/icon-arch-transparent.png" alt="Victory Formation Ventures" />' +
+            '<span class="brand-text">The Victory Formation Co.</span>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function pageOverview(d) {
+      // Render construction / completion as plain body paragraphs (matching
+      // the overview writeup styling) rather than the muted-uppercase .meta
+      // block — user wants them to read like the rest of the prose.
+      const extraParas = [];
+      if (d.constructionStart) extraParas.push('<p>Construction is set to begin ' + esc(d.constructionStart) + '</p>');
+      if (d.completion)        extraParas.push('<p>Our expected completion is ' + esc(d.completion) + '</p>');
+      return (
+        '<section class="om-page">' +
+          '<div class="om-split">' +
+            '<div class="pane-photo' + (d.existingPhoto ? '' : ' empty') + '">' + imgFill(d.existingPhoto, 'Existing property') + '</div>' +
+            '<div class="pane-text">' +
+              '<h2>Overview / Writeup</h2>' +
+              (d.overviewText ? nl2p(d.overviewText) : '<p style="color:var(--text-dim);">(Overview writeup not yet provided.)</p>') +
+              extraParas.join('') +
+            '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageLot(d) {
+      return (
+        '<section class="om-page">' +
+          '<div class="om-split">' +
+            '<div class="pane-photo' + (d.lotPhoto ? '' : ' empty') + '">' + imgFill(d.lotPhoto, 'Lot') + '</div>' +
+            '<div class="pane-text">' +
+              '<h2>Lot</h2>' +
+              (d.lotText ? nl2p(d.lotText) : '<p style="color:var(--text-dim);">(Lot description not yet provided.)</p>') +
+            '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageLocation(d) {
+      return (
+        '<section class="om-page">' +
+          '<div class="om-split">' +
+            '<div class="pane-text">' +
+              '<h2>Location</h2>' +
+              (d.locationText ? nl2p(d.locationText) : '<p style="color:var(--text-dim);">(Location writeup not yet provided.)</p>') +
+            '</div>' +
+            '<div class="pane-photo' + (d.mapPhoto ? '' : ' empty') + '">' + imgFill(d.mapPhoto, 'Location map') + '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageBuildVibe(d) {
+      return (
+        '<section class="om-page">' +
+          '<div class="om-vibe">' +
+            '<div class="vibe-text">' +
+              '<h2>Anticipated<br/>Build</h2>' +
+              (d.buildVibeText ? nl2p(d.buildVibeText) : '<p style="color:var(--text-dim);">(Build narrative not yet provided.)</p>') +
+            '</div>' +
+            '<div class="vibe-pane">' +
+              '<div class="vibe-img' + (d.exteriorPhoto ? '' : ' empty') + '">' + imgFill(d.exteriorPhoto, 'Exterior reference') + '</div>' +
+              '<div class="vibe-caption">Exterior</div>' +
+            '</div>' +
+            '<div class="vibe-pane">' +
+              '<div class="vibe-img' + (d.interiorPhoto ? '' : ' empty') + '">' + imgFill(d.interiorPhoto, 'Interior reference') + '</div>' +
+              '<div class="vibe-caption">Interior</div>' +
+            '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageBuildStats(d) {
+      const lines = [];
+      if (d.sqft || d.bdBa) {
+        lines.push((d.sqft ? esc(d.sqft) + ' is our projected square footage, ' : '') +
+                   (d.bdBa ? 'accompanied by ' + esc(d.bdBa) + '. ' : '') +
+                   (d.yardNote ? 'Yard to include ' + esc(d.yardNote) + '.' : ''));
+      }
+      const narrativeHtml = d.buildStatsText ? nl2p(d.buildStatsText)
+        : (lines.length ? '<p>' + lines.join(' ') + '</p>' : '');
+      // Auto-append the $/SF line ONLY when the user did not write their
+      // own narrative — otherwise we duplicate the sentence the user
+      // already typed in buildStatsText.
+      const psfLine = (!d.buildStatsText && d.areaPsf)
+        ? '<p>Average price per square foot exceeding ' + esc(d.areaPsf) + ' in the immediate area</p>'
+        : '';
+      // Prefer the page-6-specific upload; fall back to hero rendering.
+      const photo = d.statsPhoto || d.heroPhoto;
+      return (
+        '<section class="om-page">' +
+          '<div class="om-split">' +
+            '<div class="pane-photo' + (photo ? '' : ' empty') + '">' + imgFill(photo, 'Build photo') + '</div>' +
+            '<div class="pane-text">' +
+              '<h2>Anticipated Build</h2>' +
+              narrativeHtml +
+              psfLine +
+            '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageBuildPricing(d) {
+      let html;
+      if (d.pricingText) {
+        html = nl2p(d.pricingText);
+      } else {
+        const sqftBit = d.sqft ? '<strong>' + esc(d.sqft) + '</strong> square feet. ' : '';
+        const compBit = (d.anchorAddress && d.anchorSold)
+          ? 'A key comparable, <strong>' + esc(d.anchorAddress) + '</strong>, which sold for <strong>' + esc(d.anchorSold) + '</strong>' +
+            (d.anchorPsf ? ', reflecting roughly <strong>' + esc(d.anchorPsf) + ' per sq ft</strong>' : '') +
+            ', and will serve as the primary benchmark for our project.'
+          : '';
+        const targetBit = (d.targetSale)
+          ? '<p>Based on current market conditions and neighborhood demand, our model projects a final price of <strong>' +
+            esc(d.targetSale) + '</strong>' +
+            (d.targetPsf ? ' with a potential to achieve <strong>' + esc(d.targetPsf) + ' per sq ft</strong>' : '') +
+            '. Strong buyer demand and limited inventory in the area support confidence in pricing at or above recent comps, positioning the home for a timely and competitive sale.</p>'
+          : '';
+        html = (sqftBit || compBit) ? ('<p>We plan to build a similarly designed luxury estate. Our project will total approximately ' + sqftBit + compBit + '</p>' + targetBit) : '<p style="color:var(--text-dim);">(Pricing narrative not yet provided.)</p>';
+      }
+      // Prefer the page-7-specific upload; fall back to the interior reference.
+      const photo = d.pricingPhoto || d.interiorPhoto;
+      return (
+        '<section class="om-page">' +
+          '<div class="om-split">' +
+            '<div class="pane-photo' + (photo ? '' : ' empty') + '">' + imgFill(photo, 'Pricing photo') + '</div>' +
+            '<div class="pane-text">' +
+              '<h2>Anticipated Build</h2>' +
+              html +
+            '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageCompGrid(d, items, title) {
+      return (
+        '<section class="om-page">' +
+          '<div class="om-grid">' +
+            '<h2>' + esc(title) + '</h2>' +
+            '<div class="three-up">' +
+              items.map((c) => (
+                '<div class="grid-card">' +
+                  '<div class="card-img' + (c.photo ? '' : ' empty') + '">' + imgFill(c.photo, c.address || 'Comp') + '</div>' +
+                  (c.address ? '<div class="card-address">' + esc(c.address) + '</div>' : '') +
+                  (c.specs   ? '<div class="card-row">' + esc(c.specs)   + '</div>' : '') +
+                  (c.price   ? '<div class="card-row">' + esc(c.price)   + '</div>' : '') +
+                  (c.psf     ? '<div class="card-row">' + esc(c.psf)     + '</div>' : '') +
+                  (c.status  ? '<div class="card-row">' + esc(c.status)  + '</div>' : '') +
+                '</div>'
+              )).join('') +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function pageOtherProjects(d, items) {
+      return (
+        '<section class="om-page">' +
+          '<div class="om-grid">' +
+            '<h2>Other Projects · Austin / Round Rock</h2>' +
+            '<div class="three-up">' +
+              items.map((p) => (
+                '<div class="grid-card">' +
+                  '<div class="card-img' + (p.photo ? '' : ' empty') + '">' + imgFill(p.photo, p.address || 'Project') + '</div>' +
+                  (p.address ? '<div class="card-address">' + esc(p.address) + '</div>' : '') +
+                  (p.status  ? '<div class="card-row status">' + esc(p.status) + '</div>' : '') +
+                  (p.specs   ? '<div class="card-row">' + esc(p.specs)  + '</div>' : '') +
+                  (p.price   ? '<div class="card-row">' + esc(p.price)  + '</div>' : '') +
+                  (p.psf     ? '<div class="card-row">' + esc(p.psf)    + '</div>' : '') +
+                  (p.date    ? '<div class="card-row">' + esc(p.date)   + '</div>' : '') +
+                '</div>'
+              )).join('') +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function pageModel(d, r) {
+      if (!r) {
+        return (
+          '<section class="om-page"><div class="om-financing">' +
+            '<h2>Model</h2>' +
+            '<p style="color:var(--text-dim);">No Underwriting Model state was found. Open the Underwriting Model modal on the Development tab, fill in numbers, then regenerate this OM.</p>' +
+          '</div></section>'
+        );
+      }
+      const totalCost = r.lotCost + r.totalBuild + r.overrun + r.taxes + r.title + r.pool + r.designer + r.architect + r.devFee + r.bankFees + r.interest;
+      const realtorFees = r.realtor;
+      const projectSale = r.grossSales;
+      const profit = projectSale - realtorFees - totalCost;
+      return (
+        '<section class="om-page">' +
+          '<div class="om-model">' +
+            '<h2>Model</h2>' +
+            '<div class="prop-line">Property Address:<strong>' + esc(d.address || '') + '</strong></div>' +
+            '<div class="col">' +
+              '<div class="group">' +
+                '<div class="kv"><span>Lot Cost</span><span class="v">' + fmtUSD0(r.lotCost) + '</span></div>' +
+                '<div class="kv"><span>Total Build Cost</span><span class="v">' + fmtUSD0(r.totalBuild) + '</span></div>' +
+                '<div class="kv"><span>Construction Overruns</span><span class="v">' + fmtUSD0(r.overrun) + '</span></div>' +
+                '<div class="kv"><span>Annual Taxes</span><span class="v">' + fmtUSD0(r.taxes) + '</span></div>' +
+                '<div class="kv"><span>Title / Closing Costs</span><span class="v">' + fmtUSD0(r.title) + '</span></div>' +
+                '<div class="kv"><span>Bank Fees</span><span class="v">' + fmtUSD0(r.bankFees) + '</span></div>' +
+                '<div class="kv"><span>Bank Interest</span><span class="v">' + fmtUSD0(r.interest) + '</span></div>' +
+                '<div class="kv"><span>Pool Cost</span><span class="v">' + fmtUSD0(r.pool) + '</span></div>' +
+                '<div class="kv"><span>Designer Fee</span><span class="v">' + fmtUSD0(r.designer) + '</span></div>' +
+                '<div class="kv"><span>Architect Fee</span><span class="v">' + fmtUSD0(r.architect) + '</span></div>' +
+                '<div class="kv"><span>Developer Fee</span><span class="v">' + fmtUSD0(r.devFee) + '</span></div>' +
+              '</div>' +
+              '<div class="group">' +
+                '<div class="kv"><span><strong>Total Costs</strong></span><span class="v">' + fmtUSD0(totalCost) + '</span></div>' +
+                '<div class="kv"><span>Realtor Fees</span><span class="v">' + fmtUSD0(realtorFees) + '</span></div>' +
+                '<div class="kv"><span>Project Total Sales Price</span><span class="v">' + fmtUSD0(projectSale) + '</span></div>' +
+                '<div class="kv"><span><strong>Profit</strong></span><span class="v">' + fmtUSD0(profit) + '</span></div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="col">' +
+              '<div class="group">' +
+                '<div class="sec-head">Build Plan</div>' +
+                '<div class="kv"><span>Number of Homes</span><span class="v">' + r.numHomes + '</span></div>' +
+                '<div class="kv"><span>Square Footage Per Home</span><span class="v">' + (r.sqft || 0).toLocaleString() + '</span></div>' +
+                '<div class="kv"><span>Build Price Per Square Foot</span><span class="v">' + fmtUSD0(r.buildPsf) + '</span></div>' +
+                '<div class="kv"><span>Project Length (Months)</span><span class="v">' + r.totalHold + '</span></div>' +
+                '<div class="kv"><span>Target Sales Price Per Square Foot</span><span class="v">' + fmtUSD0(r.salePsf) + '</span></div>' +
+              '</div>' +
+              '<div class="group">' +
+                '<div class="sec-head">Misc</div>' +
+                '<div class="kv"><span>Construction Overrun %</span><span class="v">' + fmtPct(r.overrunPct, 2) + '</span></div>' +
+                '<div class="kv"><span>Realtor %</span><span class="v">' + fmtPct(r.realtorPct, 1) + '</span></div>' +
+                '<div class="kv"><span>Bank Fee %</span><span class="v">' + fmtPct(r.bankFeePct, 2) + '</span></div>' +
+              '</div>' +
+              '<div class="group" style="margin-top:auto;">' +
+                '<div class="kv"><span>Down Payment</span><span class="v">' + fmtUSD0(r.equity) + '</span></div>' +
+                '<div class="kv"><span>Estimated Loan Amount</span><span class="v">' + fmtUSD0(r.loan) + '</span></div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function pageFinancing(d, r) {
+      if (!r) {
+        return (
+          '<section class="om-page"><div class="om-financing">' +
+            '<h2>Financing &amp; Profit Model</h2>' +
+            '<p style="color:var(--text-dim);">Underwriting Model state required. Open it, fill in numbers, regenerate.</p>' +
+          '</div></section>'
+        );
+      }
+      const purchasePrice = r.lotCost;
+      const buildCost = r.totalBuild + r.overrun;
+      const holdingFees = r.bankFees + r.interest + r.taxes + r.title;
+      const totalInvestment = r.equity;
+      const projectedSale = r.grossSales;
+      const netAfterAgent = projectedSale - r.realtor;
+      const projectedProfit = netAfterAgent - (purchasePrice + buildCost + holdingFees + r.pool + r.designer + r.architect + r.devFee);
+      const cashOnCash = totalInvestment > 0 ? (projectedProfit / totalInvestment) : 0;
+      const rows = [
+        ['Purchase Price',           fmtUSD0(purchasePrice)],
+        ['Build Cost',               fmtUSD0(buildCost)],
+        ['Holding & Fees',           fmtUSD0(holdingFees) + ' (Holding + Closing + Origination)'],
+        ['Total Investment',         fmtUSD0(totalInvestment)],
+        ['Projected Sale Price',     fmtUSD0(projectedSale)],
+        ['Net After Agent Fees (' + fmtPct(r.realtorPct, 0) + ')', fmtUSD0(netAfterAgent)],
+        ['Projected Profit',         fmtUSD0(projectedProfit)],
+        ['Hold Period',              r.totalHold + ' Months'],
+        ['Cash On Cash Return',      fmtPct(cashOnCash, 2)],
+      ];
+      return (
+        '<section class="om-page">' +
+          '<div class="om-financing">' +
+            '<h2>Financing &amp; Profit Model</h2>' +
+            '<div class="kv-list">' +
+              rows.map(([k, v]) => (
+                '<div class="row"><span class="k">' + esc(k) + '</span><span class="v">' + esc(v) + '</span></div>'
+              )).join('') +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function pageMarket(d) {
+      return (
+        '<section class="om-page">' +
+          '<div class="om-split">' +
+            '<div class="pane-photo' + (d.skylinePhoto ? '' : ' empty') + '">' + imgFill(d.skylinePhoto, 'Austin skyline') + '</div>' +
+            '<div class="pane-text">' +
+              '<h2>Austin Market</h2>' +
+              (d.marketText ? nl2p(d.marketText) : '<p style="color:var(--text-dim);">(Market writeup not yet provided.)</p>') +
+            '</div>' +
+          '</div>' +
+          logo() +
+        '</section>'
+      );
+    }
+
+    function pageSummary(d) {
+      return (
+        '<section class="om-page summary">' +
+          '<div class="summary-bg">' + imgFill(d.heroPhoto, 'Background') + '</div>' +
+          '<div class="brand-corner">' +
+            '<img src="assets/icon-arch-transparent.png" alt="Victory Formation Ventures" />' +
+            '<span class="text">The Victory Formation Co.</span>' +
+          '</div>' +
+          '<div class="summary-body">' +
+            '<h2>Summary</h2>' +
+            (d.summaryText ? nl2p(d.summaryText) : '<p style="color:var(--text-dim);">(Summary not yet provided.)</p>') +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function render(d) {
+      const out = document.getElementById('output');
+      const r = uwFromLog(d.uwLog);
+      const html =
+        pageCover(d) +
+        pageOverview(d) +
+        pageLot(d) +
+        pageLocation(d) +
+        pageBuildVibe(d) +
+        pageBuildStats(d) +
+        pageBuildPricing(d) +
+        pageCompGrid(d, d.soldComps || [], 'Comparables — Sold') +
+        pageCompGrid(d, d.singleStoryComps || [], 'Comparables') +
+        pageOtherProjects(d, d.otherProjects || []) +
+        pageModel(d, r) +
+        pageFinancing(d, r) +
+        pageMarket(d) +
+        pageSummary(d);
+      out.innerHTML = html;
+    }
+
+    // --- PDF assembly ---
+    const saveBtn = document.getElementById('save-btn');
+    let libsPromise = null;
+    function loadLibs() {
+      if (libsPromise) return libsPromise;
+      function loadScript(src) {
+        return new Promise((res, rej) => {
+          const s = document.createElement('script');
+          s.src = src; s.onload = () => res(); s.onerror = () => rej(new Error('Failed to load ' + src));
+          document.head.appendChild(s);
+        });
+      }
+      libsPromise = Promise.all([
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+        loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js'),
+      ]).then(() => {
+        if (!window.html2canvas) throw new Error('html2canvas not available');
+        if (!window.PDFLib || !window.PDFLib.PDFDocument) throw new Error('pdf-lib not available');
+        return {
+          html2canvas: window.html2canvas,
+          PDFDocument: window.PDFLib.PDFDocument,
+          rgb: window.PDFLib.rgb,
+        };
+      });
+      return libsPromise;
+    }
+
+    // 10×5.625" page: 720 × 405 points
+    const PAGE_W_PT = 720;
+    const PAGE_H_PT = 405;
+
+    function cleanFilename(s) {
+      return String(s || 'OM').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 60) || 'OM';
+    }
+
+    function blobToArrayBuffer(blob) {
+      if (blob.arrayBuffer) return blob.arrayBuffer();
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload = () => resolve(fr.result);
+        fr.onerror = () => reject(fr.error);
+        fr.readAsArrayBuffer(blob);
+      });
+    }
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = filename;
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { try { document.body.removeChild(a); } catch(_){} URL.revokeObjectURL(url); }, 1000);
+    }
+
+    async function buildPdf(payload) {
+      const originalLabel = saveBtn.textContent;
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Building…';
+      setStatus('Loading PDF engine…');
+      try {
+        const { html2canvas, PDFDocument, rgb } = await loadLibs();
+        const pages = Array.from(document.querySelectorAll('.om-page'));
+        const out = await PDFDocument.create();
+        for (let i = 0; i < pages.length; i++) {
+          setStatus('Rendering page ' + (i + 1) + ' of ' + pages.length + '…');
+          const canvas = await html2canvas(pages[i], {
+            scale: 2,
+            backgroundColor: '#000000',
+            useCORS: true,
+            logging: false,
+          });
+          const jpegBlob = await new Promise((res, rej) =>
+            canvas.toBlob((b) => b ? res(b) : rej(new Error('canvas.toBlob null')), 'image/jpeg', 0.92)
+          );
+          const bytes = await blobToArrayBuffer(jpegBlob);
+          const img = await out.embedJpg(bytes);
+          const page = out.addPage([PAGE_W_PT, PAGE_H_PT]);
+          page.drawRectangle({ x: 0, y: 0, width: PAGE_W_PT, height: PAGE_H_PT, color: rgb(0, 0, 0) });
+          // Fit image to page (same aspect, but be defensive)
+          const ratio = canvas.width / canvas.height;
+          const pageRatio = PAGE_W_PT / PAGE_H_PT;
+          let w, h, x, y;
+          if (ratio >= pageRatio) {
+            w = PAGE_W_PT; h = PAGE_W_PT / ratio; x = 0; y = (PAGE_H_PT - h) / 2;
+          } else {
+            h = PAGE_H_PT; w = PAGE_H_PT * ratio; y = 0; x = (PAGE_W_PT - w) / 2;
+          }
+          page.drawImage(img, { x: x, y: y, width: w, height: h });
+          await new Promise((r) => setTimeout(r, 60));
+        }
+        setStatus('Saving…');
+        const pdfBytes = await out.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const filename = 'OM-' + cleanFilename((payload && payload.projectName) || (payload && payload.address) || 'project') + '.pdf';
+        downloadBlob(blob, filename);
+        setStatus('Saved: ' + filename + ' (' + pages.length + ' pages)');
+      } catch (err) {
+        console.error('OM PDF build failed:', err);
+        setStatus('PDF failed: ' + (err && err.message ? err.message : 'unknown error'), 'err');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = originalLabel;
+      }
+    }
+
+    let __payload = null;
+    saveBtn.addEventListener('click', () => __payload && buildPdf(__payload));
+
+    async function whenReady() {
+      const imgs = Array.from(document.querySelectorAll('img'));
+      await Promise.all(imgs.map((img) =>
+        img.complete && img.naturalWidth ? Promise.resolve()
+        : new Promise((res) => { img.onload = img.onerror = res; })
+      ));
+      if (document.fonts && document.fonts.ready) await document.fonts.ready;
+      await new Promise((r) => setTimeout(r, 300));
+    }
+
+    (async () => {
+      setStatus('Waiting for data…');
+      const d = await loadPayload((i) => {
+        const sec = Math.round((i + 1) * 300 / 1000);
+        if (i >= 30 && i < 60) setStatus('Still working… ' + sec + 's');
+        else if (i >= 60) setStatus('Waiting on dashboard… ' + sec + 's');
+      });
+      if (!d) {
+        setStatus('No data', 'err');
+        return;
+      }
+      __payload = d;
+      setStatus('Preparing photos…');
+      // Convert every uploaded photo to a base64 data URL so they survive
+      // html2canvas's DOM clone when we capture each page for the PDF.
+      await preprocessPhotos(d);
+      setStatus('Rendering…');
+      render(d);
+      await whenReady();
+      setStatus('Ready · 14 pages');
+      saveBtn.disabled = false;
+    })();
+  </script>
+</body>
+</html>

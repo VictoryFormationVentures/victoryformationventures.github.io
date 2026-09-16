@@ -1,0 +1,796 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Monthly Statement — Victory Formation Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+<style>
+  :root {
+    --paper:  #ffffff;
+    --ink:    #111;
+    --muted:  #4a4a4a;
+    --dim:    #888;
+    --rule:   #d6d6d6;
+    --panel:  #f5f5f5;
+    --font-display: 'Aboreto', 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'Mulish', 'Inter', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #1a1a1a; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    padding: 24px 12px 60px;
+  }
+
+  /* Sticky toolbar spanning full width — wraps on narrow viewports so
+     buttons never get clipped off the right edge. */
+  .toolbar {
+    position: sticky; top: 0; left: 0; right: 0;
+    z-index: 100;
+    background: #000; border-bottom: 1px solid #2a2a2a;
+    padding: 10px 16px;
+    display: flex; gap: 8px 10px; align-items: center; flex-wrap: wrap;
+  }
+  .toolbar .status {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-right: auto;    /* push everything after status to the right */
+  }
+  .toolbar .btn {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .toolbar .btn.primary { background: #fff; color: #000; }
+  .toolbar .btn:hover { opacity: 0.85; }
+  /* Give the page some breathing room under the sticky bar */
+  body > .page { margin-top: 24px; }
+
+  /* Letter portrait page */
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.65in 0.7in;
+    margin: 0 auto;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding-bottom: 14pt;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 22pt;
+  }
+  .header .brand-block { flex: 1; }
+  .header .arch {
+    width: 40px; display: block; margin-bottom: 6pt;
+  }
+  .header .brand {
+    font-family: var(--font-display);
+    font-size: 13pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4pt;
+  }
+  .header .brand-sub {
+    font-family: var(--font-body);
+    font-size: 9pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .header .meta {
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 9pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .header .meta .month-line {
+    font-family: var(--font-display);
+    font-size: 15pt;
+    letter-spacing: 0.16em;
+    color: var(--ink);
+    margin-bottom: 6pt;
+  }
+
+  /* Title block */
+  .title-block { text-align: center; margin-bottom: 22pt; }
+  .title-block .eyebrow {
+    font-family: var(--font-body);
+    font-size: 9pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 6pt;
+  }
+  .title-block h1 {
+    font-family: var(--font-display);
+    font-size: 22pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  /* Parties block */
+  .parties {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32pt;
+    margin-bottom: 24pt;
+    padding: 14pt 18pt;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+  }
+  .parties .party-label {
+    font-family: var(--font-body);
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5pt;
+  }
+  .parties .party-name {
+    font-family: var(--font-display);
+    font-size: 14pt;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    margin-bottom: 4pt;
+  }
+  .parties .party-detail {
+    font-size: 10pt;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Category totals grid */
+  .cat-totals {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10pt;
+    margin-bottom: 20pt;
+  }
+  .cat-tile {
+    border: 1px solid var(--rule);
+    padding: 12pt 10pt;
+    text-align: center;
+  }
+  .cat-tile .label {
+    font-family: var(--font-body);
+    font-size: 8pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4pt;
+  }
+  .cat-tile .val {
+    font-family: var(--font-display);
+    font-size: 14pt;
+    color: var(--ink);
+  }
+
+  /* Entries table */
+  h2 {
+    font-family: var(--font-body);
+    font-size: 10pt;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding-bottom: 5pt;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 10pt;
+  }
+  table.entries {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10.5pt;
+    margin-bottom: 20pt;
+  }
+  table.entries thead th {
+    text-align: left;
+    padding: 8pt 6pt;
+    font-family: var(--font-body);
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--rule);
+  }
+  table.entries tbody td {
+    padding: 8pt 6pt;
+    border-bottom: 1px solid #ececec;
+    color: var(--ink);
+    vertical-align: top;
+  }
+  table.entries .cat-pill {
+    display: inline-block;
+    font-size: 8pt;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 2pt 8pt;
+  }
+  table.entries .amount {
+    font-family: var(--font-body);
+    font-weight: 600;
+    text-align: right;
+    white-space: nowrap;
+  }
+  table.entries tfoot td {
+    padding: 10pt 6pt;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: 11pt;
+    color: var(--ink);
+    border-top: 2px solid var(--ink);
+  }
+  table.entries tfoot .amount { text-align: right; }
+  .empty-msg {
+    padding: 30pt 0;
+    text-align: center;
+    color: var(--dim);
+    font-style: italic;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 30pt;
+    padding-top: 12pt;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-body);
+    font-size: 8pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  /* Print */
+  @page { size: letter portrait; margin: 0; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .toolbar { display: none !important; }
+    .page { box-shadow: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="status" id="tb-status">Loading…</span>
+  <button class="btn" type="button" id="btn-text-tenant"   hidden>📱 Text Tenant + PDF</button>
+  <button class="btn" type="button" id="btn-email-tenant"  hidden>✉ Email Tenant + PDF</button>
+  <button class="btn" type="button" id="btn-text-landlord" hidden>📱 Text Landlord + PDF</button>
+  <button class="btn" type="button" id="btn-email-landlord" hidden>✉ Email Landlord + PDF</button>
+  <button class="btn primary" type="button" id="btn-print">Print / Save PDF</button>
+  <a class="btn" href="index.html#propmgmt">← Dashboard</a>
+</div>
+
+<div class="page" id="page">
+  <!-- Header -->
+  <div class="header">
+    <div class="brand-block">
+      <img class="arch" src="assets/icon-arch-black.png" alt="" />
+      <div class="brand">Victory Formation Ventures</div>
+      <div class="brand-sub">Property Management · Austin, TX</div>
+    </div>
+    <div class="meta">
+      <div class="month-line" id="meta-month">—</div>
+      <div>Statement Date · <span id="meta-issued">—</span></div>
+      <div>Prepared by Victory Formation Property Mgmt</div>
+    </div>
+  </div>
+
+  <!-- Title -->
+  <div class="title-block">
+    <div class="eyebrow">Monthly Property Statement</div>
+    <h1 id="stmt-address">—</h1>
+  </div>
+
+  <!-- Parties -->
+  <div class="parties">
+    <div>
+      <div class="party-label">Landlord / Owner</div>
+      <div class="party-name" id="p-owner-name">—</div>
+      <div class="party-detail" id="p-owner-detail">—</div>
+    </div>
+    <div>
+      <div class="party-label">Tenant</div>
+      <div class="party-name" id="p-tenant-name">—</div>
+      <div class="party-detail" id="p-tenant-detail">—</div>
+    </div>
+  </div>
+
+  <!-- Category totals -->
+  <div class="cat-totals">
+    <div class="cat-tile"><div class="label">Rent</div><div class="val" id="t-rent">$0</div></div>
+    <div class="cat-tile"><div class="label">Water</div><div class="val" id="t-water">$0</div></div>
+    <div class="cat-tile"><div class="label">Electric</div><div class="val" id="t-electric">$0</div></div>
+    <div class="cat-tile"><div class="label">Gas</div><div class="val" id="t-gas">$0</div></div>
+    <div class="cat-tile"><div class="label">Internet</div><div class="val" id="t-internet">$0</div></div>
+  </div>
+
+  <!-- Entries -->
+  <h2>Activity This Month</h2>
+  <table class="entries" id="entries-table">
+    <thead>
+      <tr>
+        <th style="width:14%;">Date</th>
+        <th style="width:20%;">Category</th>
+        <th>Notes</th>
+        <th class="amount" style="width:15%;">Amount</th>
+      </tr>
+    </thead>
+    <tbody id="entries-body">
+      <tr><td colspan="4" class="empty-msg">Loading…</td></tr>
+    </tbody>
+    <tfoot id="entries-foot" hidden>
+      <tr>
+        <td colspan="3">Utilities Subtotal</td>
+        <td class="amount" id="foot-utilities">$0</td>
+      </tr>
+      <tr>
+        <td colspan="3">Rent</td>
+        <td class="amount" id="foot-rent">$0</td>
+      </tr>
+      <tr style="border-top:2px solid #111;">
+        <td colspan="3">TOTAL ACTIVITY THIS MONTH</td>
+        <td class="amount" id="foot-total">$0</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div>Victory Formation Ventures · Property Management</div>
+    <div id="foot-generated">Generated · —</div>
+  </div>
+</div>
+
+<script>
+  // ---- Configs (mirrored from dashboard's index.html) ----
+  const PROPERTIES_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+  const TENANTS_SHEET_ID    = "PASTE_YOUR_SHEET_ID";
+  let   LEDGER_SHEET_ID     = "";  // filled in when Gabe wires the sheet
+
+  const STATUS_EL = document.getElementById('tb-status');
+  function setStatus(t) { STATUS_EL.textContent = t; }
+
+  // Try to read LEDGER_SHEET_ID from index.html at runtime (so we don't duplicate it).
+  async function findLedgerSheetId() {
+    if (LEDGER_SHEET_ID) return LEDGER_SHEET_ID;
+    try {
+      const res = await fetch('index.html', { cache: 'no-store' });
+      const txt = await res.text();
+      const m = txt.match(/const\s+LEDGER_CONFIG\s*=\s*\{[^}]*SHEET_ID:\s*"([^"]+)"/);
+      if (m && m[1]) { LEDGER_SHEET_ID = m[1]; return m[1]; }
+    } catch (_) {}
+    return "";
+  }
+
+  // ---- URL params ----
+  const params = new URLSearchParams(location.search);
+  const PROPERTY = params.get('property') || '';
+  const MONTH    = params.get('month')    || '';  // "YYYY-MM"
+
+  // ---- Formatting ----
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function money(n) {
+    const v = parseFloat(n);
+    if (isNaN(v)) return '$0';
+    return '$' + v.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function fmtDate(d) {
+    if (!(d instanceof Date) || isNaN(d)) return '';
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  }
+  function fmtLongDate(d) {
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+  function monthLabel(ym) {
+    if (!/^\d{4}-\d{2}$/.test(ym)) return ym || '—';
+    const [y, m] = ym.split('-').map(Number);
+    const names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    return names[m - 1] + ' ' + y;
+  }
+
+  // ---- gviz helpers ----
+  function gvizUrl(sheetId, tab) {
+    return 'https://docs.google.com/spreadsheets/d/' + sheetId +
+           '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(tab || 'Form Responses 1') +
+           '&t=' + Date.now();
+  }
+  function parseGviz(text) {
+    const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+    if (!m) throw new Error('Unexpected gviz response');
+    const data = JSON.parse(m[1]);
+    if (data.status !== 'ok') throw new Error('gviz error: ' + data.status);
+    return data.table || { cols: [], rows: [] };
+  }
+  function gvizDate(cell) {
+    if (!cell || cell.v == null) return null;
+    if (typeof cell.v === 'string') {
+      const m = cell.v.match(/^Date\((\d+),(\d+),(\d+)/);
+      if (m) return new Date(+m[1], +m[2], +m[3]);
+    }
+    if (cell.f) { const p = new Date(cell.f); if (!isNaN(p)) return p; }
+    return null;
+  }
+  function gvizString(cell) {
+    if (!cell) return '';
+    if (cell.f != null) return String(cell.f);
+    if (cell.v != null) return String(cell.v);
+    return '';
+  }
+  function gvizNumber(cell) {
+    if (!cell || cell.v == null) return 0;
+    if (typeof cell.v === 'number') return cell.v;
+    const n = parseFloat(String(cell.v).replace(/[$,\s]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+  function findCol(cols, ...candidates) {
+    const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const labels = cols.map(c => norm(c.label));
+    for (const cand of candidates) {
+      const t = norm(cand);
+      const idx = labels.findIndex(l => l === t);
+      if (idx >= 0) return idx;
+    }
+    for (const cand of candidates) {
+      const t = norm(cand);
+      const idx = labels.findIndex(l => l.indexOf(t) >= 0 || t.indexOf(l) >= 0);
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  }
+
+  // ---- Load all three sheets in parallel + render ----
+  async function loadAndRender() {
+    if (!PROPERTY || !MONTH) {
+      setStatus('Missing ?property= or ?month= in URL');
+      document.getElementById('entries-body').innerHTML = '<tr><td colspan="4" class="empty-msg">This page needs <code>?property=...&month=YYYY-MM</code> in the URL. Go back to the dashboard and click Generate Monthly Statement.</td></tr>';
+      return;
+    }
+    setStatus('Loading…');
+    document.getElementById('stmt-address').textContent = PROPERTY;
+    document.getElementById('meta-month').textContent   = monthLabel(MONTH);
+    document.getElementById('meta-issued').textContent  = fmtLongDate(new Date());
+    document.getElementById('foot-generated').textContent = 'Generated · ' + fmtLongDate(new Date());
+    document.title = 'Statement — ' + PROPERTY + ' — ' + monthLabel(MONTH);
+
+    const ledgerId = await findLedgerSheetId();
+
+    const fetches = [
+      fetch(gvizUrl(PROPERTIES_SHEET_ID, 'Form Responses 1'), { cache: 'no-store' }).then(r => r.text()).then(parseGviz),
+      fetch(gvizUrl(TENANTS_SHEET_ID, 'Form Responses 1'), { cache: 'no-store' }).then(r => r.text()).then(parseGviz),
+      ledgerId
+        ? fetch(gvizUrl(ledgerId, 'Form Responses 1'), { cache: 'no-store' }).then(r => r.text()).then(parseGviz)
+        : Promise.resolve({ cols: [], rows: [] })
+    ];
+    let propTable, tenTable, ledTable;
+    try {
+      [propTable, tenTable, ledTable] = await Promise.all(fetches);
+    } catch (err) {
+      setStatus('Load failed');
+      console.error(err);
+      return;
+    }
+
+    // Find the property row
+    const pCols = propTable.cols || [];
+    const pIx = {
+      addr:      findCol(pCols, 'property_address', 'Property Address'),
+      ownerName: findCol(pCols, 'owner_name', 'Owner Name'),
+      ownerEmail:findCol(pCols, 'owner_email', 'Owner Email'),
+      ownerPhone:findCol(pCols, 'owner_phone', 'Owner Phone'),
+      ownerMail: findCol(pCols, 'owner_mailing', 'Owner Mailing')
+    };
+    const propRow = (propTable.rows || []).map(r => r.c || []).find(c => {
+      const addr = pIx.addr >= 0 ? gvizString(c[pIx.addr]).trim() : '';
+      return addr.toLowerCase() === PROPERTY.toLowerCase();
+    });
+    let ownerName = '', ownerEmail = '', ownerPhone = '';
+    if (propRow) {
+      ownerName  = pIx.ownerName >= 0 ? gvizString(propRow[pIx.ownerName]) : '';
+      ownerEmail = pIx.ownerEmail>= 0 ? gvizString(propRow[pIx.ownerEmail]) : '';
+      ownerPhone = pIx.ownerPhone>= 0 ? gvizString(propRow[pIx.ownerPhone]) : '';
+      const oMail = pIx.ownerMail >= 0 ? gvizString(propRow[pIx.ownerMail]) : '';
+      document.getElementById('p-owner-name').textContent   = ownerName || '(no owner name on file)';
+      document.getElementById('p-owner-detail').innerHTML   =
+        [ownerEmail, ownerPhone, oMail].filter(Boolean).map(esc).join('<br>') || '(no contact on file)';
+    } else {
+      document.getElementById('p-owner-name').textContent = '(property not found in Properties sheet)';
+      document.getElementById('p-owner-detail').textContent = '';
+    }
+
+    // Find the tenant row (most recent Active tenant for the property)
+    const tCols = tenTable.cols || [];
+    const tIx = {
+      first:   findCol(tCols, 'first_name', 'First Name'),
+      last:    findCol(tCols, 'last_name',  'Last Name'),
+      email:   findCol(tCols, 'email'),
+      phone:   findCol(tCols, 'phone'),
+      status:  findCol(tCols, 'status'),
+      addr:    findCol(tCols, 'property_address', 'Property Address', 'Property'),
+      unit:    findCol(tCols, 'unit')
+    };
+    const tenantRows = (tenTable.rows || []).map(r => r.c || []).filter(c => {
+      const a = tIx.addr >= 0 ? gvizString(c[tIx.addr]).trim() : '';
+      return a.toLowerCase() === PROPERTY.toLowerCase();
+    });
+    // Prefer status "Active"; fall back to any tenant on the property.
+    const preferred = tenantRows.find(c => {
+      const s = tIx.status >= 0 ? gvizString(c[tIx.status]).trim().toLowerCase() : '';
+      return s === 'active';
+    }) || tenantRows[0];
+    let tenantFirst = '', tenantLast = '', tenantEmail = '', tenantPhone = '';
+    if (preferred) {
+      tenantFirst = tIx.first >= 0 ? gvizString(preferred[tIx.first]) : '';
+      tenantLast  = tIx.last  >= 0 ? gvizString(preferred[tIx.last]) : '';
+      tenantEmail = tIx.email >= 0 ? gvizString(preferred[tIx.email]) : '';
+      tenantPhone = tIx.phone >= 0 ? gvizString(preferred[tIx.phone]) : '';
+      const unit  = tIx.unit  >= 0 ? gvizString(preferred[tIx.unit]) : '';
+      document.getElementById('p-tenant-name').textContent   = ((tenantFirst + ' ' + tenantLast).trim() || '(no name on file)') + (unit ? '  ·  Unit ' + unit : '');
+      document.getElementById('p-tenant-detail').innerHTML   =
+        [tenantEmail, tenantPhone].filter(Boolean).map(esc).join('<br>') || '(no contact on file)';
+    } else {
+      document.getElementById('p-tenant-name').textContent = '(no tenant on file for this property)';
+      document.getElementById('p-tenant-detail').textContent = '';
+    }
+
+    // ==== Wire the Text / Email quick-send buttons ====
+    // Flow: click → render this page to a PDF → try navigator.share so the
+    // OS share sheet lets you pick Messages / Mail with the PDF attached →
+    // fall back to auto-download + opening sms:/mailto: composer.
+    function toDigits(p) { return String(p || '').replace(/[^\d]/g, ''); }
+    const monthNice = monthLabel(MONTH);
+
+    // Slugified filename so downloads are legible
+    function pdfFilename() {
+      const slug = String(PROPERTY || 'property').toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      return 'vfv-statement-' + slug + '-' + MONTH + '.pdf';
+    }
+
+    // Build a PDF from the .page element using html2canvas + pdf-lib.
+    // Returns { blob, filename, arrayBuffer }.
+    async function buildStatementPdf() {
+      const pageEl = document.getElementById('page');
+      const setStat = (msg) => { const s = document.getElementById('tb-status'); if (s) s.textContent = msg; };
+      setStat('Building PDF…');
+      const canvas = await html2canvas(pageEl, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false
+      });
+      const imgArr = await (await fetch(canvas.toDataURL('image/jpeg', 0.92))).arrayBuffer();
+      const { PDFDocument } = PDFLib;
+      const doc = await PDFDocument.create();
+      const page = doc.addPage([612, 792]); // US Letter, points
+      const jpg = await doc.embedJpg(imgArr);
+      const scale = Math.min(612 / jpg.width, 792 / jpg.height);
+      const w = jpg.width * scale, h = jpg.height * scale;
+      page.drawImage(jpg, { x: (612 - w) / 2, y: (792 - h) / 2, width: w, height: h });
+      const bytes = await doc.save();
+      setStat('PDF ready');
+      const blob = new Blob([bytes], { type: 'application/pdf' });
+      return { blob, filename: pdfFilename(), bytes };
+    }
+
+    // Download a blob as a file (fallback path)
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 300);
+    }
+
+    // Master send routine. mode = 'sms' | 'email'. Uses Web Share API
+    // when available (mobile) so recipient + body + PDF attachment all
+    // land in the same share sheet — user just picks the app.
+    async function sendStatement(mode, contact) {
+      const btnStatus = document.getElementById('tb-status');
+      const { blob, filename } = await buildStatementPdf();
+      const file = new File([blob], filename, { type: 'application/pdf' });
+
+      const first = (contact.name || '').split(' ')[0] || 'there';
+      const subject = 'Monthly Statement — ' + PROPERTY + ' — ' + monthNice;
+      const body = (mode === 'sms')
+        ? `Hi ${first} — attached is your ${monthNice} statement for ${PROPERTY}. — Victory Formation`
+        : `Hi ${first},\n\nAttached is your ${monthNice} monthly statement for ${PROPERTY}.\n\n— Victory Formation Ventures`;
+
+      // Preferred: native share with PDF file attached
+      const shareData = {
+        title: subject,
+        text: body,
+        files: [file]
+      };
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        try {
+          await navigator.share(shareData);
+          if (btnStatus) btnStatus.textContent = 'Shared';
+          return;
+        } catch (err) {
+          // User cancelled — fall through to download+link so they can
+          // still get the PDF if they want.
+          if (err && err.name === 'AbortError') return;
+          console.warn('[share] fell back:', err);
+        }
+      }
+
+      // Fallback (desktop / older browsers): auto-download PDF + open
+      // sms:/mailto: composer. User attaches the just-downloaded PDF.
+      downloadBlob(blob, filename);
+      let url;
+      if (mode === 'sms') {
+        const digits = toDigits(contact.phone);
+        url = 'sms:' + digits + '?&body=' + encodeURIComponent(body + '\n\n(PDF just downloaded — attach it in Messages.)');
+      } else {
+        url = 'mailto:' + (contact.email || '') +
+          '?subject=' + encodeURIComponent(subject) +
+          '&body=' + encodeURIComponent(body + '\n\n(PDF just downloaded — attach it in your email compose window.)');
+      }
+      window.location.href = url;
+      if (btnStatus) btnStatus.textContent = 'PDF downloaded — attach in composer';
+    }
+
+    // Wire each button — buttons stay hidden until we know we have contact info.
+    const btnTextTenant   = document.getElementById('btn-text-tenant');
+    const btnEmailTenant  = document.getElementById('btn-email-tenant');
+    const btnTextLandlord = document.getElementById('btn-text-landlord');
+    const btnEmailLandlord= document.getElementById('btn-email-landlord');
+    if (tenantPhone) {
+      btnTextTenant.hidden = false;
+      btnTextTenant.addEventListener('click', () =>
+        sendStatement('sms', { name: tenantFirst || '', phone: tenantPhone }));
+    }
+    if (tenantEmail) {
+      btnEmailTenant.hidden = false;
+      btnEmailTenant.addEventListener('click', () =>
+        sendStatement('email', { name: tenantFirst || '', email: tenantEmail }));
+    }
+    if (ownerPhone) {
+      btnTextLandlord.hidden = false;
+      btnTextLandlord.addEventListener('click', () =>
+        sendStatement('sms', { name: ownerName || '', phone: ownerPhone }));
+    }
+    if (ownerEmail) {
+      btnEmailLandlord.hidden = false;
+      btnEmailLandlord.addEventListener('click', () =>
+        sendStatement('email', { name: ownerName || '', email: ownerEmail }));
+    }
+
+    // Load ledger + filter by property + month
+    if (!ledgerId) {
+      document.getElementById('entries-body').innerHTML = '<tr><td colspan="4" class="empty-msg">Ledger sheet not yet configured. Wire LEDGER_CONFIG.SHEET_ID in index.html to enable this.</td></tr>';
+      setStatus('Ledger sheet not configured');
+      return;
+    }
+
+    const lCols = ledTable.cols || [];
+    const lIx = {
+      month:    findCol(lCols, 'month', 'Entry Month', 'entry_date', 'Date'),
+      addr:     findCol(lCols, 'property_address', 'Property Address', 'Property'),
+      rent:     findCol(lCols, 'rent'),
+      water:    findCol(lCols, 'water'),
+      electric: findCol(lCols, 'electric'),
+      gas:      findCol(lCols, 'gas'),
+      internet: findCol(lCols, 'internet'),
+      // Legacy columns fallback
+      category: findCol(lCols, 'category'),
+      amount:   findCol(lCols, 'amount'),
+      notes:    findCol(lCols, 'notes')
+    };
+    // Find the row for this property + this month
+    const rowMatch = (ledTable.rows || []).map(r => r.c || []).find(c => {
+      const addr = lIx.addr >= 0 ? gvizString(c[lIx.addr]).trim() : '';
+      if (addr.toLowerCase() !== PROPERTY.toLowerCase()) return false;
+      const d = lIx.month >= 0 ? gvizDate(c[lIx.month]) : null;
+      if (!d) return false;
+      const em = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+      return em === MONTH;
+    });
+
+    // Extract amounts from the row (new schema first, legacy fallback)
+    const totals = { Rent: 0, Water: 0, Electric: 0, Gas: 0, Internet: 0 };
+    let notesText = '';
+    if (rowMatch) {
+      if (lIx.rent     >= 0) totals.Rent     = gvizNumber(rowMatch[lIx.rent]);
+      if (lIx.water    >= 0) totals.Water    = gvizNumber(rowMatch[lIx.water]);
+      if (lIx.electric >= 0) totals.Electric = gvizNumber(rowMatch[lIx.electric]);
+      if (lIx.gas      >= 0) totals.Gas      = gvizNumber(rowMatch[lIx.gas]);
+      if (lIx.internet >= 0) totals.Internet = gvizNumber(rowMatch[lIx.internet]);
+      if (lIx.notes    >= 0) notesText       = gvizString(rowMatch[lIx.notes]);
+      // Legacy fallback: only category+amount columns present, single row = single line item
+      if (lIx.rent < 0 && lIx.category >= 0 && lIx.amount >= 0) {
+        const cat = gvizString(rowMatch[lIx.category]);
+        const amt = gvizNumber(rowMatch[lIx.amount]);
+        if (totals[cat] != null) totals[cat] = amt;
+      }
+    }
+
+    document.getElementById('t-rent').textContent     = money(totals.Rent);
+    document.getElementById('t-water').textContent    = money(totals.Water);
+    document.getElementById('t-electric').textContent = money(totals.Electric);
+    document.getElementById('t-gas').textContent      = money(totals.Gas);
+    document.getElementById('t-internet').textContent = money(totals.Internet);
+    const utilitiesSum = totals.Water + totals.Electric + totals.Gas + totals.Internet;
+    document.getElementById('foot-utilities').textContent = money(utilitiesSum);
+    document.getElementById('foot-rent').textContent      = money(totals.Rent);
+    document.getElementById('foot-total').textContent     = money(totals.Rent + utilitiesSum);
+
+    // Render the itemized table — one row per category (Rent + 4 utilities), skipping zeros
+    const body = document.getElementById('entries-body');
+    const foot = document.getElementById('entries-foot');
+    const items = [
+      { label: 'Rent',     amount: totals.Rent },
+      { label: 'Water',    amount: totals.Water },
+      { label: 'Electric', amount: totals.Electric },
+      { label: 'Gas',      amount: totals.Gas },
+      { label: 'Internet', amount: totals.Internet }
+    ].filter(i => i.amount > 0);
+
+    if (!rowMatch) {
+      body.innerHTML = '<tr><td colspan="4" class="empty-msg">No ledger entry found for this property in ' + monthLabel(MONTH) + '. Log the month\'s totals on the Ledger tab.</td></tr>';
+      foot.hidden = true;
+    } else if (items.length === 0) {
+      body.innerHTML = '<tr><td colspan="4" class="empty-msg">Row exists but all amounts are zero.</td></tr>';
+      foot.hidden = true;
+    } else {
+      body.innerHTML = items.map(it =>
+        '<tr>' +
+          '<td>' + esc(monthLabel(MONTH)) + '</td>' +
+          '<td><span class="cat-pill">' + esc(it.label) + '</span></td>' +
+          '<td>' + esc(notesText || '') + '</td>' +
+          '<td class="amount">' + esc(money(it.amount)) + '</td>' +
+        '</tr>'
+      ).join('');
+      foot.hidden = false;
+    }
+
+    setStatus(rowMatch ? 'Ready to print' : 'No ledger row for this month');
+  }
+
+  document.getElementById('btn-print').addEventListener('click', () => window.print());
+  loadAndRender();
+</script>
+</body>
+</html>

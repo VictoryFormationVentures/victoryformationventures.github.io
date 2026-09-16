@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Engagement Letter · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper:        #ffffff;
+      --ink:          #111111;
+      --ink-muted:    #4a4a4a;
+      --rule:         #cccccc;
+      --accent:       #111111;
+      --bg:           #1a1a1a;
+
+      --font-body:    'EB Garamond', 'Georgia', 'Times New Roman', serif;
+      --font-heading: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+      /* US Letter portrait at 96 DPI = 816 × 1056. We render at this
+         exact size so html2canvas captures pixel-true pages we can drop
+         straight into a 612pt × 792pt PDF page (1pt = 1.333 px). */
+      --page-w: 816px;
+      --page-h: 1056px;
+      --page-pad: 78px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Floating toolbar — not part of the printed/exported PDF. */
+    .toolbar {
+      position: fixed; top: 16px; right: 16px;
+      display: flex; gap: 10px;
+      z-index: 100;
+      align-items: flex-start;
+      max-width: calc(100vw - 32px);
+    }
+    .toolbar .tb-status {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c5c5c5;
+      margin-right: 6px; padding-top: 10px;
+      max-width: 360px;
+      white-space: normal; line-height: 1.5;
+      text-align: right;
+    }
+    .toolbar .tb-status.err  { color: #f4b9b9; }
+    .toolbar .tb-status.warn { color: #e8d49a; }
+    .toolbar .tb-btn {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      padding: 12px 22px;
+      color: #ffffff; background: transparent;
+      border: 1px solid #ffffff;
+      cursor: pointer; text-decoration: none;
+      display: inline-block;
+    }
+    .toolbar .tb-btn.primary {
+      background: #ffffff; color: #000000;
+    }
+    .toolbar .tb-btn:hover { opacity: .85; }
+    .toolbar .tb-btn:disabled { opacity: .4; cursor: wait; }
+
+    /* ============ Split-view generator layout ============ */
+    .layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      min-height: 100vh;
+    }
+    @media (max-width: 900px){ .layout { grid-template-columns: 1fr; } }
+
+    /* Left sidebar form */
+    .editor {
+      background: #0a0a0a;
+      border-right: 1px solid #2a2a2a;
+      padding: 76px 20px 60px;
+      position: sticky; top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow-y: auto;
+      color: #eee;
+    }
+    .editor h2 {
+      font-family: var(--font-heading);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: #ffffff;
+      margin: 0 0 6px;
+    }
+    .editor p.note {
+      font-family: var(--font-heading);
+      font-size: 11px; color: #bbbbbb;
+      line-height: 1.5;
+      margin: 0 0 20px;
+    }
+    .editor .field {
+      display: flex; flex-direction: column; gap: 6px;
+      margin-bottom: 14px;
+    }
+    .editor label {
+      font-family: var(--font-heading);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.16em; text-transform: uppercase;
+      color: #cccccc;
+    }
+    .editor input,
+    .editor textarea {
+      font-family: var(--font-heading);
+      font-size: 13px;
+      background: #141414;
+      color: #ffffff;
+      border: 1px solid #2a2a2a;
+      padding: 10px 12px;
+      resize: vertical;
+      outline: none;
+    }
+    .editor input:focus,
+    .editor textarea:focus { border-color: #ffffff; }
+    .editor textarea { min-height: 66px; line-height: 1.4; }
+    .editor .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .editor .divider {
+      height: 1px; background: #2a2a2a;
+      margin: 20px 0;
+    }
+
+    /* Right preview pane */
+    .preview {
+      background: var(--bg);
+      padding-top: 56px;
+    }
+    .preview .preview-head {
+      position: sticky; top: 56px; z-index: 5;
+      background: linear-gradient(to bottom, #1a1a1a 65%, transparent);
+      padding: 6px 24px 12px;
+      font-family: var(--font-heading);
+      font-size: 10px; letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #999999;
+    }
+
+    /* Page container — vertical column of US-Letter pages */
+    .doc {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 28px;
+      padding: 12px 16px 80px;
+      transform-origin: top center;
+    }
+    /* Slight down-scale so the letter-sized pages fit nicely
+       in the preview pane without needing horizontal scroll. */
+    @media (min-width: 901px) and (max-width: 1200px){
+      .doc { transform: scale(0.78); margin-bottom: -320px; }
+    }
+    @media (min-width: 1201px) and (max-width: 1400px){
+      .doc { transform: scale(0.86); margin-bottom: -220px; }
+    }
+
+    /* Individual page — fixed dimensions so html2canvas captures consistently */
+    .el-page {
+      width: var(--page-w);
+      height: var(--page-h);
+      background: var(--paper);
+      color: var(--ink);
+      padding: var(--page-pad) var(--page-pad) 64px;
+      position: relative;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.45);
+      font-size: 14px;
+      line-height: 1.55;
+      font-weight: 400;
+      overflow: hidden;
+    }
+    .el-page .footer {
+      position: absolute;
+      left: var(--page-pad); right: var(--page-pad);
+      bottom: 24px;
+      font-family: var(--font-heading);
+      font-size: 9.5px;
+      letter-spacing: 0.12em;
+      color: var(--ink-muted);
+      text-transform: none;
+      text-align: center;
+      border-top: 1px solid var(--rule);
+      padding-top: 8px;
+    }
+
+    /* Cover header */
+    .el-page .brand {
+      text-align: center;
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .el-page .brand-sub {
+      text-align: center;
+      font-family: var(--font-heading);
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--ink-muted);
+      margin-top: 6px;
+      text-transform: uppercase;
+    }
+    .el-page .cover-rule {
+      border-bottom: 1.5px solid var(--accent);
+      margin: 26px 0 28px;
+    }
+    .el-page h1.doc-title {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 22px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-align: center;
+      margin: 0 0 4px;
+      color: var(--ink);
+    }
+    .el-page .doc-subtitle {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 14px;
+      text-align: center;
+      color: var(--ink-muted);
+      margin-bottom: 26px;
+    }
+
+    /* Section headings */
+    .el-page h2 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin: 18px 0 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--accent);
+    }
+    .el-page h2:first-child { margin-top: 0; }
+    .el-page h3 {
+      font-family: var(--font-heading);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      color: var(--ink);
+      margin: 12px 0 5px;
+    }
+
+    .el-page p {
+      margin: 0 0 9px;
+      text-align: justify;
+      hyphens: auto;
+    }
+    .el-page p.tight { margin-bottom: 4px; }
+
+    .el-page ul {
+      margin: 0 0 8px 22px;
+      padding: 0;
+    }
+    .el-page ul li {
+      margin: 2px 0;
+      text-align: justify;
+    }
+
+    .el-page strong { font-weight: 600; }
+    .el-page em { font-style: italic; }
+
+    /* The parties block has a small indent like the docx version */
+    .el-page .party {
+      margin: 8px 0 8px 24px;
+      text-align: justify;
+    }
+
+    /* Numbered (a)(b)(c) list used at the end */
+    .el-page ol.lower-alpha {
+      list-style: lower-alpha;
+      margin: 0 0 10px 22px;
+      padding: 0;
+    }
+    .el-page ol.lower-alpha li {
+      margin: 4px 0;
+      text-align: justify;
+    }
+
+    /* Signature page */
+    .el-page .sig-block { margin: 12px 0 22px; }
+    .el-page .sig-label {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 11.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .el-page .sig-row {
+      display: grid;
+      grid-template-columns: 1fr 200px;
+      gap: 24px;
+      margin-bottom: 14px;
+      align-items: end;
+    }
+    .el-page .sig-row .label {
+      font-family: var(--font-heading);
+      font-size: 10.5px;
+      letter-spacing: 0.05em;
+      color: var(--ink-muted);
+      text-transform: none;
+    }
+    .el-page .sig-line {
+      border-bottom: 1px solid var(--ink);
+      height: 22px;
+    }
+    .el-page .sig-meta {
+      font-family: var(--font-body);
+      font-size: 12.5px;
+      margin: 4px 0;
+    }
+    .el-page .ack {
+      margin-top: 28px;
+      padding-top: 18px;
+      border-top: 1.5px solid var(--accent);
+    }
+    .el-page .ack h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 11.5px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+
+    /* Print fallback — if the user prints from the toolbar, hide chrome */
+    @page { size: letter portrait; margin: 0; }
+    @media print {
+      body { background: #fff !important; }
+      .toolbar { display: none !important; }
+      .doc { padding: 0; gap: 0; }
+      .el-page {
+        box-shadow: none;
+        page-break-after: always;
+        margin: 0; padding: var(--page-pad);
+      }
+      .el-page:last-child { page-break-after: auto; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="tb-status" id="tb-status">Loading…</span>
+  <button class="tb-btn" type="button" id="print-btn">Print</button>
+  <button class="tb-btn primary" type="button" id="pdf-btn">Download PDF</button>
+</div>
+
+<div class="layout">
+
+  <!-- ============ LEFT: FORM SIDEBAR ============ -->
+  <aside class="editor" id="editor">
+    <h2>Build your engagement letter</h2>
+    <p class="note">Fill in the fields below. The preview on the right updates as you type. When you're happy, click <b>Download PDF</b>.</p>
+
+    <div class="field">
+      <label for="f-effectiveDate">Effective date</label>
+      <input type="date" id="f-effectiveDate" />
+    </div>
+
+    <div class="divider"></div>
+
+    <h2 style="margin-bottom:12px;">Client</h2>
+
+    <div class="field">
+      <label for="f-clientName">Client name</label>
+      <input type="text" id="f-clientName" placeholder="Full legal name" />
+    </div>
+
+    <div class="field">
+      <label for="f-clientEmail">Client email</label>
+      <input type="email" id="f-clientEmail" placeholder="name@domain.com" />
+    </div>
+
+    <div class="field">
+      <label for="f-clientAddress">Client address</label>
+      <textarea id="f-clientAddress" placeholder="Street&#10;City, ST ZIP"></textarea>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2 style="margin-bottom:12px;">Project</h2>
+
+    <div class="field">
+      <label for="f-projectAddress">Project address</label>
+      <input type="text" id="f-projectAddress" placeholder="123 Sample Rd, Austin, TX" />
+    </div>
+
+    <p class="note" style="margin-top:20px;">The Victory Formation party block, scope, fee, and legal sections come pre-filled from the master template.</p>
+  </aside>
+
+  <!-- ============ RIGHT: LIVE PREVIEW ============ -->
+  <main class="preview">
+    <div class="preview-head">Live preview · 8-page letter · US Letter portrait</div>
+    <div class="doc" id="doc">
+      <!-- Pages are injected by JS. -->
+    </div>
+  </main>
+</div>
+
+<script>
+  // ---------------------------------------------------------------------------
+  // engagement-letter.html — output page for the Engagement Letter Generator.
+  //
+  // Flow:
+  //   1. Read payload from IndexedDB ('vfv-dashboard' → 'engagement' →
+  //      key 'current'). Payload is written by the modal in index.html right
+  //      before this tab opens.
+  //   2. Build the 10 page divs with placeholders filled in.
+  //   3. Auto-trigger PDF download via html2canvas + pdf-lib (same plumbing
+  //      as om.html and one-pager.html).
+  // ---------------------------------------------------------------------------
+
+  const statusEl = document.getElementById('tb-status');
+  const pdfBtn   = document.getElementById('pdf-btn');
+  const printBtn = document.getElementById('print-btn');
+  const docEl    = document.getElementById('doc');
+
+  function setStatus(msg, level) {
+    statusEl.textContent = msg || '';
+    statusEl.className = 'tb-status' + (level ? ' ' + level : '');
+  }
+
+  // ----- HTML escape (single source for the templating) -----
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ----- Pretty-print the effective date as "May 23, 2026" -----
+  function fmtDate(iso) {
+    if (!iso) return '[EFFECTIVE DATE]';
+    const d = new Date(iso + 'T12:00:00'); // noon to dodge tz edge cases
+    if (isNaN(d.getTime())) return iso;
+    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  }
+
+  // ----- Safe filename slice (for the PDF download) -----
+  function cleanFilename(s) {
+    return String(s || 'Client').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 50) || 'Client';
+  }
+
+  // ----- IndexedDB helpers — version 3, store 'engagement' -----
+  function idbOpen() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('vfv-dashboard', 4);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+        if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+        if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+            if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror   = () => reject(req.error);
+    });
+  }
+  async function idbGet(key) {
+    const db = await idbOpen();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('engagement', 'readonly');
+      const rq = tx.objectStore('engagement').get(key);
+      rq.onsuccess = () => resolve(rq.result);
+      rq.onerror   = () => reject(rq.error);
+    });
+  }
+
+  // Wait briefly (with polling) for the modal's IDB write to land.
+  // The modal opens this tab synchronously before its async write, so
+  // we may arrive before the payload is in the store.
+  async function readPayload() {
+    const requestId = new URLSearchParams(location.search).get('req');
+    const deadline = Date.now() + 8000;
+    while (Date.now() < deadline) {
+      try {
+        const p = await idbGet('current');
+        if (p && (!requestId || p.requestId === requestId)) return p;
+      } catch (_) { /* DB might still be opening */ }
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    return null;
+  }
+
+  // ============================================================
+  // PAGE CONTENT — each page is built as an HTML string. Placeholders
+  // pull from the payload (filled values) or fall back to grey [TOKEN].
+  // ============================================================
+  function buildPages(p) {
+    const eff      = fmtDate(p && p.effectiveDate);
+    const clientNm = esc(p && p.clientName)     || '[CLIENT NAME]';
+    const clientAd = esc(p && p.clientAddress)  || '[CLIENT ADDRESS]';
+    const clientEm = esc(p && p.clientEmail)    || '[CLIENT EMAIL]';
+    const project  = esc(p && p.projectAddress) || '[PROJECT ADDRESS]';
+
+    // Header strip shared by every non-cover page.
+    function header() { return ''; /* keep clean text-only pages — brand on cover only */ }
+
+    // Footer strip shared by every page (page X of N — N filled in below).
+    const TOTAL_PAGES = 8;
+    function footer(n) {
+      return '<div class="footer">Victory Formation Ventures · Owner&rsquo;s Representative Engagement Letter · Page ' + n + ' of ' + TOTAL_PAGES + '</div>';
+    }
+
+    const pages = [];
+
+    // --- PAGE 1 — Cover + Parties + Section 1 + Section 2 intro ---
+    pages.push(
+      '<section class="el-page">' +
+        '<div class="brand">Victory Formation Ventures</div>' +
+        '<div class="brand-sub">Custom Home Rep · Austin, Texas</div>' +
+        '<div class="cover-rule"></div>' +
+        '<h1 class="doc-title">Owner&rsquo;s Representative Engagement Letter</h1>' +
+
+        '<p>This Owner&rsquo;s Representative Engagement Letter (the &ldquo;Agreement&rdquo;) is entered into as of ' +
+          '<strong>' + esc(eff) + '</strong> by and between:</p>' +
+        '<p class="party"><strong>Victory Formation Real Estate LLC</strong> — a Texas limited liability company with its principal place of business at 206 Ben Allen Rd #7, Austin, Texas 37207, doing business as Victory Formation Ventures (&ldquo;<em>TSC</em>&rdquo; or the &ldquo;<em>Owner&rsquo;s Rep</em>&rdquo;), and</p>' +
+        '<p class="party"><strong>' + clientNm + '</strong> — of ' + clientAd + ' (the &ldquo;<em>Client</em>&rdquo;).</p>' +
+        '<p>TSC and the Client are each referred to as a &ldquo;Party&rdquo; and together as the &ldquo;Parties.&rdquo; This Agreement governs TSC&rsquo;s engagement to act as the Client&rsquo;s Owner&rsquo;s Representative for the Client&rsquo;s custom home project located at <strong>' + project + '</strong> (the &ldquo;Project&rdquo;).</p>' +
+
+        '<h2>1. Engagement and Role of Owner&rsquo;s Representative</h2>' +
+        '<p>The Client engages TSC, and TSC accepts the engagement, to serve as the Client&rsquo;s Owner&rsquo;s Representative in connection with the Project on the terms set forth in this Agreement. In that capacity TSC will represent the Client&rsquo;s interests in dealings with the architect, designer, builder, contractors, suppliers, and other Project participants, and will provide the management, coordination, and oversight services described in Section 2.</p>' +
+        '<p>TSC is not the architect, designer, engineer, builder, general contractor, subcontractor, or supplier on the Project, does not perform construction work, and does not act as the Client&rsquo;s real estate broker in connection with this engagement. All Project decisions — including selection of the architect, designer, builder, finishes, materials, scope, budget, and schedule — are made solely by the Client. TSC provides recommendations, analysis, coordination, and oversight; the Client is responsible for its own decisions and their consequences.</p>' +
+        '<p>TSC will perform its services with the reasonable skill and care of an owner&rsquo;s representative engaged on similar projects in the Austin / Central Texas market. The Parties expressly agree that this is the sole standard of performance for TSC under this Agreement and that no broader duty or warranty — express or implied — applies.</p>' +
+
+        '<h2>2. Scope of Services</h2>' +
+        '<p>TSC will provide the following services with respect to the Project:</p>' +
+
+        footer(1) +
+      '</section>'
+    );
+
+    // --- PAGE 2 — Section 2 details + Section 3 fee + hard build cost defined ---
+    pages.push(
+      '<section class="el-page">' +
+        '<h3>Pre-Construction</h3>' +
+        '<ul>' +
+          '<li>Coordinate the interview, vetting, and selection process for the architect, designer, builder, and any other consultants the Client elects to engage.</li>' +
+          '<li><strong>Architectural oversight.</strong> Review architectural plans and proposed square footage against the Client&rsquo;s stated budget and expectations, and flag material misalignment to the Client before contracts with the architect or builder are executed.</li>' +
+          '<li>Review proposed builder fees, contracts, and pricing structures, and provide recommendations to the Client before any agreement is executed by the Client.</li>' +
+          '<li>Evaluate each prospective builder&rsquo;s quality-control systems and project-management platforms (e.g., BuilderTrend) and report findings to the Client.</li>' +
+          '<li>Assist the Client in establishing a project budget, schedule, and finish-level expectations.</li>' +
+          '<li><strong>Design oversight.</strong> Throughout pre-construction, TSC oversees the design coordination process &mdash; whether or not the Client retains a separate interior designer &mdash; to ensure clear and consistent communication with the builder regarding selections, finishes, and specifications. If the Client elects not to retain a separate interior designer, TSC additionally facilitates the design selection process directly. TSC&rsquo;s role in either case is coordination and direction-giving on behalf of the Client; TSC does not act as the architect, designer, or engineer of record.</li>' +
+        '</ul>' +
+
+        '<h3>Construction</h3>' +
+        '<ul>' +
+          '<li>Serve as the Client&rsquo;s primary point of contact for the architect, designer, builder, and trades, and act as the communication buffer between the Client and the Project team.</li>' +
+          '<li>Coordinate, attend, and document key Project meetings; record meetings the Client cannot attend live and copy the Client on all material written communications.</li>' +
+          '<li><strong>Subcontractor quote review.</strong> Review subcontractor quotes for the Project, evaluate whether quoted material and labor costs align with prevailing industry standards, and present the Client with alternative subcontractor options when quotes appear out of market. The Client retains sole authority to select and engage all subcontractors.</li>' +
+          '<li>Review draws, change orders, allowances, and invoices, and provide recommendations before the Client authorizes payment. The Client retains sole authority to approve and release funds.</li>' +
+          '<li>Conduct periodic site walks and report progress, risks, and decision points to the Client.</li>' +
+          '<li>Coordinate punch-list completion and assist the Client in obtaining the Certificate of Occupancy (&ldquo;CO&rdquo;).</li>' +
+        '</ul>' +
+
+        '<h3>Exclusions</h3>' +
+        '<p>This Agreement covers TSC&rsquo;s Owner&rsquo;s Rep services as described in Section 2. It does not cover land acquisition, brokerage representation, legal services, architectural or engineering services, the creative or licensed services of an interior designer, or construction lending advice. Where TSC provides design coordination, architectural plan review, or subcontractor pricing review under Section 2 above, it does so solely in its capacity as Owner&rsquo;s Representative and does not act as the architect, designer, engineer, or builder of record; the Client remains responsible for engaging licensed professionals where required. If the Client wishes to engage TSC&rsquo;s land acquisition team or any other TSC division, a separate written agreement will govern those services and any associated fees.</p>' +
+
+        '<h2>3. Fees and Payment</h2>' +
+        '<h3>Fee Structure</h3>' +
+        '<p>In consideration of the services described in Section 2, the Client shall pay TSC an Owner&rsquo;s Rep fee equal to <strong>five percent (5%) of the Hard Build Cost</strong> (the &ldquo;Owner&rsquo;s Rep Fee&rdquo;).</p>' +
+
+        '<h3>Hard Build Cost — Defined</h3>' +
+        '<p>&ldquo;Hard Build Cost&rdquo; means the total cost of constructing the Project, comprising:</p>' +
+        '<ul>' +
+          '<li>Construction materials, including landscaping and hardscape materials installed as part of the Project;</li>' +
+          '<li>Construction labor; and</li>' +
+          '<li>Site preparation work.</li>' +
+        '</ul>' +
+
+        footer(2) +
+      '</section>'
+    );
+
+    // --- PAGE 3 — Section 3 excludes + payment + section 4 + section 5 ---
+    pages.push(
+      '<section class="el-page">' +
+        '<p>Hard Build Cost expressly excludes (and the Owner&rsquo;s Rep Fee will not be calculated on) the following soft costs:</p>' +
+        '<ul>' +
+          '<li>Architect, designer, and engineer fees;</li>' +
+          '<li>Builder&rsquo;s fee and any general contractor overhead, profit, or contingency line items charged by the builder;</li>' +
+          '<li>Interest accrued on any construction or other financing;</li>' +
+          '<li>Real estate taxes;</li>' +
+          '<li>Title, closing, and recording costs; and</li>' +
+          '<li>Insurance premiums.</li>' +
+        '</ul>' +
+
+        '<h3>Payment Schedule</h3>' +
+        '<p>The Owner&rsquo;s Rep Fee is earned and payable in approximately equal monthly installments over the construction period of the Project. The first installment is due upon commencement of demolition (or, if no demolition is required, upon the first day of site work), and the final installment is due upon issuance of the Certificate of Occupancy. The Parties may agree in writing to align installments with builder draw cycles.</p>' +
+        '<p>The Owner&rsquo;s Rep Fee is payable to TSC by check or ACH within fifteen (15) days of each invoice. Amounts not paid within thirty (30) days of invoice will accrue interest at the lesser of 1.5% per month or the maximum rate permitted by Texas law.</p>' +
+
+        '<h3>Adjustments</h3>' +
+        '<p>If the final Hard Build Cost differs from the estimate used for installment sizing, the Parties will true-up the Owner&rsquo;s Rep Fee at CO based on actual Hard Build Cost. If the Project is terminated or paused before CO, fees are owed through the effective date of termination as set out in Section 11.</p>' +
+
+        '<h2>4. Decision-Making Authority</h2>' +
+        '<p>All Project decisions — including but not limited to selection of vendors, approval of designs, approval of materials and finishes, authorization of change orders, approval of draws and payments, and acceptance of completed work — are made solely by the Client. TSC will provide recommendations, analysis, and options, but TSC has no authority to bind the Client, commit the Client&rsquo;s funds, sign contracts on behalf of the Client, or accept delivery of work on the Client&rsquo;s behalf, except to the extent the Client gives TSC specific written authorization for a defined action.</p>' +
+        '<p>The Client acknowledges that TSC&rsquo;s recommendations are advisory. The Client is responsible for performing its own diligence, obtaining independent legal, financial, tax, insurance, engineering, and architectural advice as the Client deems necessary, and for evaluating and accepting the risk of any decision.</p>' +
+
+        footer(3) +
+      '</section>'
+    );
+
+    // --- PAGE 4 — Sections 5, 6, 7 + Marketing ---
+    pages.push(
+      '<section class="el-page">' +
+        '<h2>5. Communication Protocol</h2>' +
+        '<p>Unless the Parties expressly agree otherwise in writing, all routine Project communication between the Client and the architect, designer, builder, and trades will flow through TSC. TSC will copy the Client on material written communications and will invite the Client to all interview and major-decision meetings. Meetings the Client elects not to attend live may, where practical, be recorded by TSC for the Client&rsquo;s subsequent review.</p>' +
+        '<p>The Client is welcome to communicate directly with any Project vendor, but is encouraged to copy TSC so that TSC can perform its Owner&rsquo;s Rep role effectively. Where the Client deals directly with vendors without notifying TSC, TSC is not responsible for any consequences arising from that direct communication.</p>' +
+
+        '<h2>6. Independent Contractor; No Agency</h2>' +
+        '<p>TSC is an independent contractor. Nothing in this Agreement creates an employment, partnership, joint venture, franchise, or agency relationship between the Parties. Neither Party has authority to bind the other or hold itself out as having such authority. TSC is solely responsible for its own taxes, withholdings, benefits, and insurance with respect to its personnel.</p>' +
+
+        '<h2>7. Confidentiality and Privacy</h2>' +
+        '<p>Client privacy and confidentiality are a priority of TSC. Without the Client&rsquo;s prior written consent, TSC will not disclose the Client&rsquo;s identity, the Project address, floor plans, finishes, budget, or other identifying details to any third party that does not have a need to know in connection with the Project.</p>' +
+        '<p>At the Client&rsquo;s request, the Parties will execute a separate non-disclosure agreement on terms reasonably acceptable to both Parties. The Client may also direct TSC to enter into reasonable confidentiality covenants with builders, architects, designers, and other Project vendors.</p>' +
+        '<p>The obligations in this Section 7 do not apply to information that (a) is or becomes publicly available through no breach of this Agreement; (b) is independently developed by TSC without reference to Client information; (c) was rightfully known to TSC before disclosure; or (d) is required to be disclosed by law, court order, or governmental authority, provided that TSC gives the Client prompt notice (where lawful) to allow the Client to seek a protective order.</p>' +
+
+        '<h3>Marketing and Social Media</h3>' +
+        '<p>TSC will not post, publish, or otherwise market the Project — including by reference to the address, photographs, floor plans, or the Client&rsquo;s identity — without the Client&rsquo;s prior written consent. The Client controls the marketing posture of the Project. Permissions granted by the Client may be revoked at any time on written notice; TSC will remove prospectively published TSC-controlled content within a reasonable time after notice.</p>' +
+
+        footer(4) +
+      '</section>'
+    );
+
+    // --- PAGE 5 — Sections 8, 9, 10 ---
+    pages.push(
+      '<section class="el-page">' +
+        '<h2>8. No Legal, Engineering, or Architectural Advice</h2>' +
+        '<p>TSC does not provide legal, accounting, tax, engineering, architectural, surveying, geotechnical, environmental, real estate brokerage (in connection with this engagement), insurance, or financial advice. Any input from TSC on these subjects is provided for general informational purposes only and is not a substitute for advice from a licensed professional. The Client is responsible for engaging its own licensed professionals where required.</p>' +
+
+        '<h2>9. Limitation of Liability; No Warranty</h2>' +
+        '<p>The Client acknowledges that TSC does not perform construction work, does not design the Project, and does not control the schedule, means, methods, sequence, or quality of the work performed by the architect, designer, builder, contractors, subcontractors, suppliers, or any other third party. TSC makes no representation, warranty, or guarantee — express or implied — regarding the Project&rsquo;s cost, schedule, quality, code compliance, marketability, fitness for any particular purpose, or any other outcome.</p>' +
+        '<p>To the maximum extent permitted by applicable law, TSC will not be liable to the Client or to any third party for: (a) the acts, errors, omissions, breaches, defects, delays, cost overruns, or insolvency of any architect, designer, engineer, builder, contractor, subcontractor, supplier, lender, or other third party; (b) any consequences of decisions made by the Client; (c) loss of use, lost profits, lost rental income, diminution in value, or any indirect, incidental, special, consequential, exemplary, or punitive damages; or (d) any matter outside TSC&rsquo;s direct, willful misconduct or fraud.</p>' +
+        '<p>TSC&rsquo;s aggregate liability under or in connection with this Agreement, whether in contract, tort (including negligence), warranty, or otherwise, will not exceed the total Owner&rsquo;s Rep Fees actually paid by the Client to TSC under this Agreement during the twelve (12) months preceding the event giving rise to the claim. The Parties acknowledge that this allocation of risk is a material part of the consideration for the Owner&rsquo;s Rep Fee and that the Owner&rsquo;s Rep Fee would be substantially higher absent this allocation.</p>' +
+
+        '<h2>10. Insurance</h2>' +
+        '<p>TSC strongly recommends — but does not require — that the Client procure and maintain throughout the Project: (a) builder&rsquo;s risk insurance on the Project in an amount at least equal to the full replacement cost of the work in place; and (b) general liability and umbrella coverage in commercially reasonable amounts. TSC further recommends that the Client require the builder and each subcontractor of consequence to maintain general liability, workers&rsquo; compensation, and (where applicable) professional liability insurance, with the Client named as an additional insured where appropriate.</p>' +
+
+        footer(5) +
+      '</section>'
+    );
+
+    // --- PAGE 6 — Section 10 closer + Sections 11, 12 ---
+    pages.push(
+      '<section class="el-page">' +
+        '<p>The Client may, at the Client&rsquo;s sole election, decline to procure or require any of the foregoing coverage. The Client acknowledges that any such election to forgo recommended coverage is the Client&rsquo;s decision and that the Client assumes all risk of uninsured loss with respect to the Project. TSC&rsquo;s recommendation to carry insurance is advisory only, is not a duty, and the absence or insufficiency of insurance does not shift any risk or liability to TSC.</p>' +
+
+        '<h2>11. Term and Termination</h2>' +
+        '<p>This Agreement commences on the Effective Date and continues until the earlier of (a) issuance of the Certificate of Occupancy for the Project, (b) mutual written agreement of the Parties, or (c) termination in accordance with this Section 11.</p>' +
+        '<p>Either Party may terminate this Agreement at any time, for convenience or for cause, on thirty (30) days&rsquo; prior written notice to the other Party. Either Party may terminate this Agreement immediately for cause if the other Party materially breaches this Agreement and fails to cure the breach within fifteen (15) days after written notice describing the breach in reasonable detail.</p>' +
+        '<p>On termination, the Client will pay TSC all Owner&rsquo;s Rep Fees earned through the effective date of termination, including any pro-rated portion of the then-current installment, plus any approved expenses incurred but unpaid. Sections 4, 6, 7, 8, 9, 10, 12, 13, 14, 15, and 16 survive termination.</p>' +
+
+        '<h2>12. Indemnification by Client</h2>' +
+        '<p>To the maximum extent permitted by applicable law, the Client will defend, indemnify, and hold harmless TSC, its members, officers, employees, contractors, and affiliates from and against any and all third-party claims, demands, suits, proceedings, losses, damages, liabilities, judgments, settlements, costs, and expenses (including reasonable attorneys&rsquo; fees) arising out of or related to (a) the Project, (b) the acts or omissions of any architect, designer, engineer, builder, contractor, subcontractor, supplier, lender, or other third party engaged on the Project, (c) any decision made by the Client, or (d) the Client&rsquo;s breach of this Agreement. This indemnity does not extend to claims arising from TSC&rsquo;s own willful misconduct or fraud.</p>' +
+
+        footer(6) +
+      '</section>'
+    );
+
+    // --- PAGE 7 — Sections 13, 14, 15, 16 ---
+    pages.push(
+      '<section class="el-page">' +
+        '<h2>13. Governing Law; Dispute Resolution</h2>' +
+        '<p>This Agreement is governed by and construed in accordance with the laws of the State of Texas, without regard to its conflict-of-law principles. The Parties consent to exclusive venue in the state and federal courts located in Travis County, Texas for any matter not subject to the arbitration provisions below.</p>' +
+        '<p>If a dispute arises out of or relates to this Agreement, the Parties will first attempt to resolve the dispute through good-faith negotiation between senior representatives. If the dispute is not resolved within thirty (30) days of written notice of the dispute, the Parties will submit the matter to non-binding mediation in Travis County, Texas before a mutually agreed mediator. If the dispute is not resolved within sixty (60) days after the commencement of mediation, the dispute will be finally resolved by binding arbitration administered by the American Arbitration Association under its Commercial Arbitration Rules, before a single arbitrator, in Travis County, Texas. Judgment on the award may be entered in any court of competent jurisdiction. The prevailing Party in any action to enforce this Agreement is entitled to recover its reasonable attorneys&rsquo; fees and costs.</p>' +
+
+        '<h2>14. Notices</h2>' +
+        '<p>All notices under this Agreement must be in writing and delivered by hand, by overnight courier with tracking, or by email with confirmation of receipt, to the addresses set forth on the signature page (or to such other address as a Party may designate in writing). Notice by email is deemed received on the next business day after sending if not bounced back, provided that termination and breach notices must additionally be sent by hand or courier.</p>' +
+
+        '<h2>15. Entire Agreement; Amendment; Assignment</h2>' +
+        '<p>This Agreement constitutes the entire agreement between the Parties with respect to its subject matter and supersedes all prior or contemporaneous proposals, negotiations, and understandings, written or oral. This Agreement may be amended only by a written instrument signed by both Parties. Neither Party may assign this Agreement without the other Party&rsquo;s prior written consent, except that TSC may assign to a successor in connection with a merger, reorganization, or sale of substantially all of its assets.</p>' +
+
+        '<h2>16. Miscellaneous</h2>' +
+        '<ol class="lower-alpha">' +
+          '<li><strong>Severability.</strong> If any provision of this Agreement is held to be unenforceable, the remaining provisions remain in full force and effect, and the unenforceable provision will be reformed to the minimum extent necessary to be enforceable while preserving the Parties&rsquo; original intent.</li>' +
+          '<li><strong>No Waiver.</strong> A Party&rsquo;s failure to enforce any right or provision is not a waiver of that right or provision or of any other right or provision.</li>' +
+          '<li><strong>Counterparts; Electronic Signatures.</strong> This Agreement may be executed in counterparts, each of which is an original and all of which together constitute one agreement. Electronic signatures are valid and binding.</li>' +
+          '<li><strong>Headings.</strong> Section headings are for convenience only and do not affect interpretation.</li>' +
+          '<li><strong>Force Majeure.</strong> Neither Party is liable for any delay or failure to perform (other than payment obligations) caused by events beyond its reasonable control, including acts of God, government action, labor disputes, supply-chain disruptions, severe weather, fire, pandemic, or war.</li>' +
+        '</ol>' +
+
+        footer(7) +
+      '</section>'
+    );
+
+    // --- PAGE 8 — Signatures + Acknowledgement ---
+    pages.push(
+      '<section class="el-page">' +
+        '<h2>Signatures</h2>' +
+        '<p>IN WITNESS WHEREOF, the Parties have caused this Agreement to be executed as of the Effective Date.</p>' +
+
+        '<div class="sig-block">' +
+          '<div class="sig-label">Victory Formation Real Estate LLC</div>' +
+          '<div class="sig-row">' +
+            '<div><div class="sig-line"></div><div class="label">Signature</div></div>' +
+            '<div><div class="sig-line"></div><div class="label">Date</div></div>' +
+          '</div>' +
+          '<div class="sig-row">' +
+            '<div><div class="sig-line"></div><div class="label">Printed Name</div></div>' +
+            '<div></div>' +
+          '</div>' +
+          '<div class="sig-meta"><strong>By:</strong> Gabe Jeudy-Lally, Founder</div>' +
+          '<div class="sig-meta"><strong>Address:</strong> 206 Ben Allen Rd #7, Austin, TX 78701</div>' +
+          '<div class="sig-meta"><strong>Email:</strong> gvjbusiness@yahoo.com</div>' +
+        '</div>' +
+
+        '<div class="sig-block">' +
+          '<div class="sig-label">Client</div>' +
+          '<div class="sig-row">' +
+            '<div><div class="sig-line"></div><div class="label">Signature</div></div>' +
+            '<div><div class="sig-line"></div><div class="label">Date</div></div>' +
+          '</div>' +
+          '<div class="sig-row">' +
+            '<div><div class="sig-line"></div><div class="label">Printed Name</div></div>' +
+            '<div></div>' +
+          '</div>' +
+          '<div class="sig-meta"><strong>Name:</strong> ' + clientNm + '</div>' +
+          '<div class="sig-meta"><strong>Address:</strong> ' + clientAd + '</div>' +
+          '<div class="sig-meta"><strong>Email:</strong> ' + clientEm + '</div>' +
+        '</div>' +
+
+        '<div class="ack">' +
+          '<h3>Client Acknowledgement</h3>' +
+          '<p>By signing above, the Client acknowledges that the Client has read this Agreement in full, has had the opportunity to consult independent legal and financial advisors, understands that TSC is acting solely as the Client&rsquo;s Owner&rsquo;s Representative (and not as the builder, architect, designer, engineer, or broker on the Project), and accepts the allocation of decision-making authority and the limitations of liability set forth herein.</p>' +
+        '</div>' +
+
+        footer(8) +
+      '</section>'
+    );
+
+    return pages.join('');
+  }
+
+  // ============================================================
+  // PDF EXPORT — html2canvas + pdf-lib (matches the OM pattern)
+  // ============================================================
+  const SCRIPT_HTML2CANVAS = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  const SCRIPT_PDFLIB      = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src; s.async = true;
+      s.onload  = () => resolve();
+      s.onerror = () => reject(new Error('Failed to load ' + src));
+      document.head.appendChild(s);
+    });
+  }
+  async function loadPdfLibs() {
+    if (!window.html2canvas) await loadScript(SCRIPT_HTML2CANVAS);
+    if (!window.PDFLib)      await loadScript(SCRIPT_PDFLIB);
+    if (!window.html2canvas) throw new Error('html2canvas not available');
+    if (!window.PDFLib || !window.PDFLib.PDFDocument) throw new Error('pdf-lib not available');
+    return { html2canvas: window.html2canvas, PDFDocument: window.PDFLib.PDFDocument, rgb: window.PDFLib.rgb };
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { try { document.body.removeChild(a); } catch (_) {} URL.revokeObjectURL(url); }, 1000);
+  }
+  function blobToArrayBuffer(blob) {
+    if (blob.arrayBuffer) return blob.arrayBuffer();
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(fr.result);
+      fr.onerror = () => reject(fr.error);
+      fr.readAsArrayBuffer(blob);
+    });
+  }
+
+  // US Letter portrait in PDF points (1pt = 1/72")
+  const PAGE_W_PT = 612;
+  const PAGE_H_PT = 792;
+
+  async function buildPdf(payload) {
+    const originalLabel = pdfBtn.textContent;
+    pdfBtn.disabled = true;
+    pdfBtn.textContent = 'Building…';
+    setStatus('Loading PDF engine…');
+
+    try {
+      const { html2canvas, PDFDocument, rgb } = await loadPdfLibs();
+      const pages = Array.from(document.querySelectorAll('.el-page'));
+      const out = await PDFDocument.create();
+
+      for (let i = 0; i < pages.length; i++) {
+        setStatus('Rendering page ' + (i + 1) + ' of ' + pages.length + '…');
+        const canvas = await html2canvas(pages[i], {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          useCORS: true,
+          logging: false,
+        });
+        const jpegBlob = await new Promise((res, rej) =>
+          canvas.toBlob((b) => b ? res(b) : rej(new Error('canvas.toBlob null')), 'image/jpeg', 0.93)
+        );
+        const bytes = await blobToArrayBuffer(jpegBlob);
+        const img = await out.embedJpg(bytes);
+        const page = out.addPage([PAGE_W_PT, PAGE_H_PT]);
+        page.drawRectangle({ x: 0, y: 0, width: PAGE_W_PT, height: PAGE_H_PT, color: rgb(1, 1, 1) });
+        const ratio = canvas.width / canvas.height;
+        const pageRatio = PAGE_W_PT / PAGE_H_PT;
+        let w, h, x, y;
+        if (ratio >= pageRatio) {
+          w = PAGE_W_PT; h = PAGE_W_PT / ratio; x = 0; y = (PAGE_H_PT - h) / 2;
+        } else {
+          h = PAGE_H_PT; w = PAGE_H_PT * ratio; y = 0; x = (PAGE_W_PT - w) / 2;
+        }
+        page.drawImage(img, { x: x, y: y, width: w, height: h });
+        await new Promise((r) => setTimeout(r, 60));
+      }
+
+      setStatus('Saving…');
+      const pdfBytes = await out.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const filename = 'TSC-Engagement-Letter-' + cleanFilename((payload && payload.clientName) || 'Client') + '.pdf';
+      downloadBlob(blob, filename);
+      setStatus('Saved: ' + filename);
+    } catch (err) {
+      console.error('Engagement Letter PDF build failed:', err);
+      setStatus('PDF failed: ' + (err && err.message ? err.message : 'unknown error'), 'err');
+    } finally {
+      pdfBtn.disabled = false;
+      pdfBtn.textContent = originalLabel;
+    }
+  }
+
+  // ============================================================
+  // STATE + FORM BINDING — sidebar drives live preview
+  // ============================================================
+  const STORAGE_KEY = 'vfv.engagementLetter.v1';
+  const FIELDS = ['effectiveDate', 'clientName', 'clientEmail', 'clientAddress', 'projectAddress'];
+
+  function loadState() {
+    // 1) Try localStorage first
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (_) {}
+    // 2) Fall back to the legacy IDB payload (still works when the
+    //    modal in index.html opens this page with a fresh client)
+    return null;
+  }
+  function saveState(state) {
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (_) {}
+  }
+
+  let __state = loadState() || {
+    effectiveDate:  '',
+    clientName:     '',
+    clientEmail:    '',
+    clientAddress: '',
+    projectAddress:''
+  };
+
+  // Populate form inputs from state, and wire input → state → re-render
+  function bindForm() {
+    FIELDS.forEach((key) => {
+      const el = document.getElementById('f-' + key);
+      if (!el) return;
+      el.value = __state[key] || '';
+      el.addEventListener('input', () => {
+        __state[key] = el.value;
+        saveState(__state);
+        render();
+      });
+    });
+  }
+
+  function render() {
+    docEl.innerHTML = buildPages(__state);
+  }
+
+  // ============================================================
+  // BOOT
+  // ============================================================
+  pdfBtn.addEventListener('click', () => buildPdf(__state));
+  printBtn.addEventListener('click', () => window.print());
+
+  (async function init() {
+    setStatus('Ready · edit the sidebar to fill the letter');
+
+    // If we were opened from the dashboard modal (via IDB payload),
+    // merge that in on top of any existing localStorage state.
+    try {
+      const p = await Promise.race([
+        readPayload(),
+        new Promise((r) => setTimeout(() => r(null), 1500))
+      ]);
+      if (p) {
+        FIELDS.forEach((k) => { if (p[k]) __state[k] = p[k]; });
+        saveState(__state);
+      }
+    } catch (_) {}
+
+    bindForm();
+    render();
+    pdfBtn.disabled = false;
+    printBtn.disabled = false;
+  })();
+</script>
+</body>
+</html>

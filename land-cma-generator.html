@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1000" />
+  <title>Land CMA Generator · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --bg-elev-2:       #141414;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --tracking-wide:   0.18em;
+      --tracking-x-wide: 0.22em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell { max-width: 960px; margin: 0 auto; padding: 20px 28px 60px; }
+    .page-toolbar {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .page-toolbar .brand {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .page-toolbar .spacer { flex: 1; }
+    .page-toolbar a.back {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+
+    .modal-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 22px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .modal-title-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-eyebrow {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: 0.08em;
+      text-transform: uppercase; line-height: 1;
+      margin: 0; font-weight: 400;
+    }
+    .modal-foot {
+      padding: 22px 0 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 22px;
+      display: flex; align-items: center; gap: 14px; justify-content: flex-end;
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 34px; }
+    legend {
+      font-family: var(--font-display);
+      font-size: 12px; color: var(--accent);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 16px; padding: 0;
+    }
+    .form-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    label {
+      display: block; font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-bottom: 6px;
+    }
+    label .req { color: var(--text); margin-left: 2px; }
+    input[type=text], input[type=email], input[type=date],
+    input[type=number], input[type=tel], input[type=url],
+    input[type=file], select, textarea {
+      width: 100%; font: inherit; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--bg);
+      border: 1px solid var(--rule-strong); padding: 11px 12px;
+      transition: border-color .15s, background .15s;
+      -webkit-appearance: none; appearance: none; border-radius: 0;
+    }
+    input[type=file] { padding: 9px 12px; color: var(--text-muted); }
+    textarea { resize: vertical; min-height: 60px; line-height: 1.45; }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--text); background: var(--bg-elev-2);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    .comp-block {
+      border: 1px solid var(--rule);
+      background: var(--panel);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+    }
+    .comp-block h3 {
+      margin: 0 0 16px;
+      font-family: var(--font-display);
+      font-size: 13px; letter-spacing: var(--tracking-x-wide);
+      text-transform: uppercase; color: var(--accent);
+      font-weight: 400;
+    }
+
+    .btn {
+      font: inherit; padding: 13px 26px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      border: 1px solid var(--text); background: var(--text); color: var(--bg);
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .btn:hover { background: transparent; color: var(--text); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent; color: var(--text-muted);
+      border-color: var(--rule-strong);
+    }
+    .btn.ghost:hover { color: var(--text); border-color: var(--text); background: transparent; }
+    .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    .form-status {
+      margin: 18px 0;
+      padding: 12px 14px;
+      font-size: 12px;
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      color: var(--text-muted);
+      display: none;
+    }
+    .form-status.show { display: block; }
+    .form-status.ok  { color: #b6e3c5; border-color: #1f3a2a; }
+    .form-status.err { color: #f4b9b9; border-color: #4a1f1f; }
+    .form-status.warn { color: #e8d49a; border-color: #4a3a1f; }
+
+    @media print { .page-toolbar, .modal-foot { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div class="page-shell" id="landcma-modal">
+    <div class="page-toolbar">
+      <a href="land.html" class="brand">
+        <img src="assets/icon-arch-transparent.png" alt="" />
+        Victory Formation Ventures · Land CMA
+      </a>
+      <div class="spacer"></div>
+      <a href="land.html" class="back">← Land Acquisition</a>
+    </div>
+
+    <header class="modal-head">
+      <div class="modal-title-group">
+        <span class="modal-eyebrow">Land · Comparables</span>
+        <h2 class="modal-title">Land CMA Generator</h2>
+      </div>
+    </header>
+
+    <form class="modal-body" id="landcma-form" autocomplete="off" novalidate>
+      <!-- Page 1: Cover -->
+      <fieldset>
+        <legend>Cover — Page 1</legend>
+        <div class="form-grid">
+          <div class="full">
+            <label for="lc-subject-address">Subject Property Address <span class="req">*</span></label>
+            <input id="lc-subject-address" name="subject_address" type="text" required placeholder="2000 Cromwell Dr, Austin, TX 78701" />
+          </div>
+          <div>
+            <label for="lc-date">Date</label>
+            <input id="lc-date" name="date" type="text" placeholder="8/2026" />
+          </div>
+          <div>
+            <label for="lc-subject-hero">Subject Hero Photo</label>
+            <input id="lc-subject-hero" name="subject_hero" type="file" accept="image/*" />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Page 2: Subject Summary -->
+      <fieldset>
+        <legend>Subject Property Summary — Page 2</legend>
+        <div class="form-grid">
+          <div>
+            <label for="lc-subject-acreage">Acreage</label>
+            <input id="lc-subject-acreage" name="subject_acreage" type="text" placeholder="1.24" />
+          </div>
+          <div>
+            <label for="lc-subject-frontage">Frontage (ft)</label>
+            <input id="lc-subject-frontage" name="subject_frontage" type="text" placeholder="140" />
+          </div>
+          <div>
+            <label for="lc-subject-depth">Depth (ft)</label>
+            <input id="lc-subject-depth" name="subject_depth" type="text" placeholder="385" />
+          </div>
+          <div>
+            <label for="lc-subject-slope">Slope (%)</label>
+            <input id="lc-subject-slope" name="subject_slope" type="text" placeholder="8" />
+          </div>
+          <div class="full">
+            <label for="lc-subject-flood">Flood Zone</label>
+            <input id="lc-subject-flood" name="subject_flood" type="text" placeholder="X" />
+          </div>
+        </div>
+      </fieldset>
+
+      <!-- Page 3: Sold Comps (3) -->
+      <fieldset>
+        <legend>Sold Comparables — Page 3 (3 comps)</legend>
+
+        <!-- COMP TEMPLATE ×3 -->
+        <div class="comp-block" data-comp="1">
+          <h3>Comp 1</h3>
+          <div class="form-grid">
+            <div>
+              <label for="lc-c1-photo">Photo</label>
+              <input id="lc-c1-photo" type="file" accept="image/*" />
+            </div>
+            <div>
+              <label for="lc-c1-address">Address</label>
+              <input id="lc-c1-address" type="text" placeholder="1234 Rollingwood Blvd" />
+            </div>
+            <div>
+              <label for="lc-c1-acreage">Acreage</label>
+              <input id="lc-c1-acreage" type="text" placeholder="1.10" />
+            </div>
+            <div>
+              <label for="lc-c1-frontage">Frontage (ft)</label>
+              <input id="lc-c1-frontage" type="text" placeholder="120" />
+            </div>
+            <div>
+              <label for="lc-c1-depth">Depth (ft)</label>
+              <input id="lc-c1-depth" type="text" placeholder="400" />
+            </div>
+            <div>
+              <label for="lc-c1-slope">Slope (%)</label>
+              <input id="lc-c1-slope" type="text" placeholder="6" />
+            </div>
+            <div>
+              <label for="lc-c1-flood">Flood Zone</label>
+              <input id="lc-c1-flood" type="text" placeholder="X" />
+            </div>
+            <div>
+              <label for="lc-c1-price">Sold Price</label>
+              <input id="lc-c1-price" type="text" placeholder="$1,250,000" />
+            </div>
+            <div>
+              <label for="lc-c1-date">Sold Date</label>
+              <input id="lc-c1-date" type="text" placeholder="6/15/26" />
+            </div>
+            <div class="full">
+              <label for="lc-c1-comments">Comments</label>
+              <textarea id="lc-c1-comments" rows="2" placeholder="Optional notes on this comp"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-block" data-comp="2">
+          <h3>Comp 2</h3>
+          <div class="form-grid">
+            <div>
+              <label for="lc-c2-photo">Photo</label>
+              <input id="lc-c2-photo" type="file" accept="image/*" />
+            </div>
+            <div>
+              <label for="lc-c2-address">Address</label>
+              <input id="lc-c2-address" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-acreage">Acreage</label>
+              <input id="lc-c2-acreage" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-frontage">Frontage (ft)</label>
+              <input id="lc-c2-frontage" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-depth">Depth (ft)</label>
+              <input id="lc-c2-depth" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-slope">Slope (%)</label>
+              <input id="lc-c2-slope" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-flood">Flood Zone</label>
+              <input id="lc-c2-flood" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-price">Sold Price</label>
+              <input id="lc-c2-price" type="text" />
+            </div>
+            <div>
+              <label for="lc-c2-date">Sold Date</label>
+              <input id="lc-c2-date" type="text" />
+            </div>
+            <div class="full">
+              <label for="lc-c2-comments">Comments</label>
+              <textarea id="lc-c2-comments" rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="comp-block" data-comp="3">
+          <h3>Comp 3</h3>
+          <div class="form-grid">
+            <div>
+              <label for="lc-c3-photo">Photo</label>
+              <input id="lc-c3-photo" type="file" accept="image/*" />
+            </div>
+            <div>
+              <label for="lc-c3-address">Address</label>
+              <input id="lc-c3-address" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-acreage">Acreage</label>
+              <input id="lc-c3-acreage" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-frontage">Frontage (ft)</label>
+              <input id="lc-c3-frontage" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-depth">Depth (ft)</label>
+              <input id="lc-c3-depth" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-slope">Slope (%)</label>
+              <input id="lc-c3-slope" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-flood">Flood Zone</label>
+              <input id="lc-c3-flood" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-price">Sold Price</label>
+              <input id="lc-c3-price" type="text" />
+            </div>
+            <div>
+              <label for="lc-c3-date">Sold Date</label>
+              <input id="lc-c3-date" type="text" />
+            </div>
+            <div class="full">
+              <label for="lc-c3-comments">Comments</label>
+              <textarea id="lc-c3-comments" rows="2"></textarea>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-status" id="landcma-status" role="status" aria-live="polite"></div>
+
+      <footer class="modal-foot">
+        <button class="btn ghost" type="reset">Reset</button>
+        <button class="btn" type="submit" id="submit-landcma">Generate PDF</button>
+      </footer>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      const form      = document.getElementById('landcma-form');
+      const statusEl  = document.getElementById('landcma-status');
+      const submitBtn = document.getElementById('submit-landcma');
+      if (!form) return;
+
+      function setStatus(level, msg) {
+        if (!statusEl) return;
+        if (!msg && !level) { statusEl.textContent = ''; statusEl.className = 'form-status'; return; }
+        statusEl.textContent = msg || '';
+        statusEl.className = 'form-status show' + (level ? ' ' + level : '');
+      }
+
+      // ---- File → base64 data URL ----
+      function fileToDataURL(fileInput) {
+        return new Promise((resolve) => {
+          const f = fileInput && fileInput.files && fileInput.files[0];
+          if (!f) return resolve('');
+          const r = new FileReader();
+          r.onload = () => resolve(r.result || '');
+          r.onerror = () => resolve('');
+          r.readAsDataURL(f);
+        });
+      }
+
+      // ---- IDB (shared 'vfv-dashboard' v4) ----
+      function idbOpen() {
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open('vfv-dashboard', 4);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+            if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+            if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+            if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+            if (!db.objectStoreNames.contains('landcma'))    db.createObjectStore('landcma');
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      }
+      async function idbPut(key, value) {
+        const db = await idbOpen();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction('landcma', 'readwrite');
+          tx.objectStore('landcma').put(value, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      const v = (id) => (document.getElementById(id) || {}).value || '';
+      const t = (id) => v(id).trim();
+
+      async function readComp(n) {
+        const photo = await fileToDataURL(document.getElementById('lc-c' + n + '-photo'));
+        return {
+          photo:    photo,
+          address:  t('lc-c' + n + '-address'),
+          acreage:  t('lc-c' + n + '-acreage'),
+          frontage: t('lc-c' + n + '-frontage'),
+          depth:    t('lc-c' + n + '-depth'),
+          slope:    t('lc-c' + n + '-slope'),
+          flood:    t('lc-c' + n + '-flood'),
+          price:    t('lc-c' + n + '-price'),
+          soldDate: t('lc-c' + n + '-date'),
+          comments: t('lc-c' + n + '-comments'),
+        };
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setStatus('');
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        // Open the tab BEFORE the async write — Safari blocks window.open
+        // calls that happen after the user-gesture context ends.
+        const requestId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const outputWin = window.open('land-cma.html?req=' + requestId, '_blank');
+        if (!outputWin) {
+          setStatus('warn', 'Pop-up blocked — allow pop-ups, then click Generate PDF again.');
+          return;
+        }
+
+        const originalLabel = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Preparing…';
+
+        try {
+          const heroData = await fileToDataURL(document.getElementById('lc-subject-hero'));
+          const comps = [];
+          for (let i = 1; i <= 3; i++) comps.push(await readComp(i));
+
+          const payload = {
+            requestId:   requestId,
+            generatedAt: new Date().toISOString(),
+            subject: {
+              address:  t('lc-subject-address'),
+              date:     t('lc-date'),
+              hero:     heroData,
+              acreage:  t('lc-subject-acreage'),
+              frontage: t('lc-subject-frontage'),
+              depth:    t('lc-subject-depth'),
+              slope:    t('lc-subject-slope'),
+              flood:    t('lc-subject-flood'),
+            },
+            comps: comps,
+          };
+
+          await idbPut(requestId, payload);
+          // Also stash under 'current' so the output tab can find the
+          // most-recent record without needing the requestId to match.
+          await idbPut('current', payload);
+          setStatus('ok', 'Sent to a new tab — the PDF will download automatically once the page renders.');
+          setTimeout(() => {
+            submitBtn.textContent = originalLabel;
+            submitBtn.disabled = false;
+          }, 1200);
+        } catch (err) {
+          console.error('Land CMA submit failed:', err);
+          setStatus('err', 'Could not save data: ' + (err && err.message ? err.message : err));
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+          try { outputWin.close(); } catch (_) {}
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

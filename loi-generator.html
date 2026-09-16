@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1000" />
+  <title>Letter of Intent · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --bg-elev-2:       #141414;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --tracking-wide:   0.18em;
+      --tracking-x-wide: 0.22em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell { max-width: 900px; margin: 0 auto; padding: 20px 28px 60px; }
+    .page-toolbar {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .page-toolbar .brand {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .page-toolbar .spacer { flex: 1; }
+    .page-toolbar a.back {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+
+    .modal-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 22px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .modal-title-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-eyebrow {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: 0.08em;
+      text-transform: uppercase; line-height: 1;
+      margin: 0; font-weight: 400;
+    }
+    .modal-body { padding: 0; }
+    .modal-foot {
+      padding: 22px 0 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 22px;
+      display: flex; align-items: center; gap: 14px; justify-content: flex-end;
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 28px; }
+    legend {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 16px; padding: 0;
+    }
+    .form-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    label {
+      display: block; font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-bottom: 6px;
+    }
+    label .req { color: var(--text); margin-left: 2px; }
+    input[type=text], input[type=email], input[type=date],
+    input[type=number], input[type=tel], input[type=url],
+    select, textarea {
+      width: 100%; font: inherit; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--bg);
+      border: 1px solid var(--rule-strong); padding: 11px 12px;
+      transition: border-color .15s, background .15s;
+      -webkit-appearance: none; appearance: none; border-radius: 0;
+    }
+    textarea { resize: vertical; min-height: 70px; line-height: 1.45; }
+    input[type=date] { color-scheme: dark; }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--text); background: var(--bg-elev-2);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    .btn {
+      font: inherit; padding: 13px 26px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      border: 1px solid var(--text); background: var(--text); color: var(--bg);
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .btn:hover { background: transparent; color: var(--text); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent; color: var(--text-muted);
+      border-color: var(--rule-strong);
+    }
+    .btn.ghost:hover { color: var(--text); border-color: var(--text); background: transparent; }
+    .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    .form-status {
+      margin: 18px 0;
+      padding: 12px 14px;
+      font-size: 12px;
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      color: var(--text-muted);
+      display: none;
+    }
+    .form-status.show { display: block; }
+    .form-status.ok  { color: #b6e3c5; border-color: #1f3a2a; }
+    .form-status.err { color: #f4b9b9; border-color: #4a1f1f; }
+    .form-status.warn { color: #e8d49a; border-color: #4a3a1f; }
+
+    .legend-hint {
+      font-size: 11px; color: var(--text-dim);
+      margin: -4px 0 12px; letter-spacing: 0.02em;
+    }
+
+    @media print { .page-toolbar, .modal-foot { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div id="loi-modal-overlay" aria-hidden="false">
+  <div class="page-shell" id="loi-modal">
+    <div class="page-toolbar">
+      <a href="land.html" class="brand">
+        <img src="assets/icon-arch-transparent.png" alt="" />
+        Victory Formation Ventures · Letter of Intent
+      </a>
+      <div class="spacer"></div>
+      <a href="land.html" class="back">← Land Acquisition</a>
+    </div>
+
+    <header class="modal-head">
+      <div class="modal-title-group">
+        <span class="modal-eyebrow">Development · Marketing</span>
+        <h2 class="modal-title" id="loi-modal-title">Letter of Intent Generator</h2>
+      </div>
+    </header>
+
+    <form class="modal-body" id="loi-form" autocomplete="off" novalidate>
+      <fieldset>
+        <legend>Letter</legend>
+        <div class="form-grid">
+          <div>
+            <label for="loi-date">Date <span class="req">*</span></label>
+            <input id="loi-date" name="date" type="date" required />
+          </div>
+          <div>
+            <label for="loi-recipient">Recipient First Name <span class="req">*</span></label>
+            <input id="loi-recipient" name="recipient" type="text" required placeholder="Sandra" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Property</legend>
+        <div class="form-grid">
+          <div>
+            <label for="loi-prop-short">Short Name <span class="req">*</span></label>
+            <input id="loi-prop-short" name="property_short" type="text" required placeholder="2000 Cromwell" />
+          </div>
+          <div>
+            <label for="loi-prop-full">Full Address <span class="req">*</span></label>
+            <input id="loi-prop-full" name="property_address" type="text" required placeholder="2000 Cromwell Dr, Austin, TX 78701" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Proposed Terms</legend>
+        <div class="form-grid">
+          <div>
+            <label for="loi-price">Purchase Price <span class="req">*</span></label>
+            <input id="loi-price" name="purchase_price" type="text" required placeholder="$1,475,000" />
+          </div>
+          <div>
+            <label for="loi-earnest">Earnest Money <span class="req">*</span></label>
+            <input id="loi-earnest" name="earnest" type="text" required placeholder="$15,000" />
+          </div>
+          <div>
+            <label for="loi-closing">Closing Date</label>
+            <input id="loi-closing" name="closing" type="text" placeholder="Negotiable" value="Negotiable" />
+          </div>
+          <div>
+            <label for="loi-contingencies">Contingencies</label>
+            <input id="loi-contingencies" name="contingencies" type="text" placeholder="Negotiable" value="Negotiable" />
+          </div>
+          <div class="full">
+            <label for="loi-postocc">Post-Occupancy Period</label>
+            <input id="loi-postocc" name="post_occupancy" type="text" placeholder="Negotiable" value="Negotiable" />
+          </div>
+          <div class="full">
+            <label for="loi-notes">Additional Terms / Notes <span class="legend-hint" style="font-weight:400;">(optional — appears on the LOI under a &ldquo;Additional Terms&rdquo; heading. Use for anything not covered above: assignment rights, financing terms, subject to X, seller concessions, etc.)</span></label>
+            <textarea id="loi-notes" name="notes" rows="4" placeholder="e.g. Buyer to have the right to assign contract. Sale contingent on satisfactory feasibility review within 30 days. Seller to leave existing survey and plans."></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Sender Contact</legend>
+        <p class="legend-hint">Shown at the bottom of the LOI under the Victory Formation signature line. Use whichever agent is sending this letter.</p>
+        <div class="form-grid">
+          <div>
+            <label for="loi-sender-phone">Phone</label>
+            <input id="loi-sender-phone" name="sender_phone" type="tel" inputmode="tel" placeholder="(737) 600-5101" autocomplete="tel" />
+          </div>
+          <div>
+            <label for="loi-sender-email">Email</label>
+            <input id="loi-sender-email" name="sender_email" type="email" placeholder="gvjbusiness@yahoo.com" autocomplete="email" />
+          </div>
+        </div>
+      </fieldset>
+
+      <div class="form-status" id="loi-status" role="status" aria-live="polite"></div>
+
+      <footer class="modal-foot">
+        <button class="btn" type="submit" id="submit-loi-modal">Generate PDF</button>
+      </footer>
+    </form>
+
+  </div><!-- /.page-shell -->
+  </div><!-- /overlay wrapper -->
+
+  <script>
+    (function () {
+      const overlay   = document.getElementById('loi-modal-overlay');
+      const modal     = document.getElementById('loi-modal');
+      const form      = document.getElementById('loi-form');
+      const statusEl  = document.getElementById('loi-status');
+      const openBtn   = document.getElementById('open-loi-modal');
+      const closeBtn  = document.getElementById('close-loi-modal');
+      const cancelBtn = document.getElementById('cancel-loi-modal');
+      const submitBtn = document.getElementById('submit-loi-modal');
+      if (!overlay || !form) return;
+
+      let lastFocus = null;
+      function openModal() {
+        lastFocus = document.activeElement;
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        const dateEl = document.getElementById('loi-date');
+        if (dateEl && !dateEl.value) {
+          dateEl.value = new Date().toISOString().slice(0, 10);
+        }
+        setTimeout(() => { const f = modal.querySelector('input, button'); f && f.focus(); }, 30);
+      }
+      function closeModal() {
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+        setStatus('');
+      }
+      function setStatus(level, msg) {
+        if (!statusEl) return;
+        if (!msg && !level) { statusEl.textContent = ''; statusEl.className = 'form-status'; return; }
+        statusEl.textContent = msg || '';
+        statusEl.className = 'form-status show' + (level ? ' ' + level : '');
+      }
+
+      openBtn && openBtn.addEventListener('click', openModal);
+      // Only wire close/cancel/backdrop/escape if we're actually running inside
+      // the admin modal — otherwise Escape or a stray click would blank the page.
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') closeModal();
+        });
+      }
+
+      // --- IDB (version 4, shared across all generators) ---
+      function idbOpen() {
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open('vfv-dashboard', 4);
+          req.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+            if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+            if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+            if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      }
+      async function idbPut(key, value) {
+        const db = await idbOpen();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction('loi', 'readwrite');
+          tx.objectStore('loi').put(value, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        setStatus('');
+        if (!form.checkValidity()) { form.reportValidity(); return; }
+
+        // Open the tab BEFORE the async write — Safari blocks window.open
+        // calls that happen after the user-gesture context ends.
+        const requestId = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+        const outputWin = window.open('loi.html?req=' + requestId, '_blank');
+        if (!outputWin) {
+          setStatus('warn', 'Pop-up blocked — allow pop-ups, then click Generate PDF again.');
+          return;
+        }
+
+        const originalLabel = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Preparing…';
+
+        try {
+          const payload = {
+            requestId:       requestId,
+            generatedAt:     new Date().toISOString(),
+            date:            document.getElementById('loi-date').value,
+            recipient:       document.getElementById('loi-recipient').value.trim(),
+            propertyShort:   document.getElementById('loi-prop-short').value.trim(),
+            propertyAddress: document.getElementById('loi-prop-full').value.trim(),
+            purchasePrice:   document.getElementById('loi-price').value.trim(),
+            earnest:         document.getElementById('loi-earnest').value.trim(),
+            closing:         document.getElementById('loi-closing').value.trim() || 'Negotiable',
+            contingencies:   document.getElementById('loi-contingencies').value.trim() || 'Negotiable',
+            postOccupancy:   document.getElementById('loi-postocc').value.trim() || 'Negotiable',
+            notes:           document.getElementById('loi-notes').value.trim(),
+            senderPhone:     document.getElementById('loi-sender-phone').value.trim(),
+            senderEmail:     document.getElementById('loi-sender-email').value.trim(),
+          };
+          await idbPut('current', payload);
+          setStatus('ok', 'Sent to a new tab — the PDF will download automatically once the page renders.');
+          setTimeout(() => {
+            submitBtn.textContent = originalLabel;
+            submitBtn.disabled = false;
+          }, 1200);
+        } catch (err) {
+          console.error('LOI submit failed:', err);
+          setStatus('err', 'Could not save LOI data: ' + (err && err.message ? err.message : err));
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+          try { outputWin.close(); } catch (_) {}
+        }
+      });
+
+      // Standalone bootstrap: default the date to today.
+      const dateEl = document.getElementById('loi-date');
+      if (dateEl && !dateEl.value) {
+        dateEl.value = new Date().toISOString().slice(0, 10);
+      }
+    })();
+  </script>
+</body>
+</html>

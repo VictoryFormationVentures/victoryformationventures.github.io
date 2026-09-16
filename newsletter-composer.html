@@ -1,0 +1,748 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Newsletter Composer · Victory Formation Ventures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* =========================================================
+       COMPOSER UI (the editor — separate from the email it builds)
+       ========================================================= */
+    :root {
+      --bg: #000;
+      --bg-elev: #0f0f0f;
+      --rule: #2a2a2a;
+      --rule-strong: #444;
+      --text: #ffffff;
+      --text-muted: #b8b8b8;
+      --text-dim: #6e6e6e;
+      --gold: #d9c8a3;
+      --green: #9ec39e;
+      --red: #d99;
+      --font-display: 'Aboreto', 'Cormorant Garamond', Georgia, serif;
+      --font-body: 'Mulish', 'Inter', Helvetica, Arial, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      min-height: 100vh;
+    }
+    a { color: inherit; }
+
+    /* Top bar */
+    .topbar {
+      position: sticky; top: 0; z-index: 100;
+      display: flex; align-items: center; gap: 16px;
+      padding: 14px 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--rule);
+    }
+    .topbar h1 {
+      font-family: var(--font-display);
+      font-size: 14px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      margin: 0; flex: 1;
+    }
+    .topbar .meta {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-dim);
+    }
+    .topbar button, .topbar a.btn {
+      font-family: var(--font-body);
+      font-size: 10px; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      padding: 9px 16px;
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--rule-strong);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .topbar button:hover, .topbar a.btn:hover { border-color: var(--text); }
+    .topbar button.primary {
+      background: var(--text); color: #000; border-color: var(--text);
+    }
+    .topbar button.primary:hover { opacity: .85; }
+
+    /* Layout shell */
+    .shell {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      min-height: calc(100vh - 60px);
+    }
+
+    /* Sidebar form */
+    .sidebar {
+      border-right: 1px solid var(--rule);
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(100vh - 60px);
+      background: var(--bg);
+    }
+    .sidebar fieldset {
+      border: none; border-top: 1px solid var(--rule);
+      padding: 18px 0 0; margin: 0 0 18px;
+    }
+    .sidebar fieldset:first-of-type { border-top: none; padding-top: 0; }
+    .sidebar legend {
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 0 0 12px;
+    }
+    .field { margin-bottom: 14px; }
+    .field label {
+      display: block;
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 6px;
+    }
+    .field .hint {
+      display: block;
+      font-size: 10px; color: var(--text-dim);
+      margin-top: 4px; font-style: italic;
+    }
+    .field input[type="text"], .field input[type="url"], .field input[type="number"],
+    .field input[type="month"], .field input[type="email"], .field textarea, .field select {
+      width: 100%;
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 13px;
+      padding: 10px 12px;
+      outline: none;
+    }
+    .field input:focus, .field textarea:focus { border-color: var(--gold); }
+    .field textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+
+    .pdf-row {
+      display: grid; gap: 8px;
+      padding: 12px;
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      margin-bottom: 12px;
+    }
+    .pdf-row h4 {
+      font-family: var(--font-display);
+      font-size: 11px; font-weight: 400;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      margin: 0 0 4px;
+    }
+    .pdf-row input[type="file"] {
+      font-family: var(--font-body); font-size: 11px;
+      color: var(--text-muted);
+    }
+    .pdf-row input[type="file"]::file-selector-button {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      background: var(--bg); color: var(--text);
+      border: 1px solid var(--rule-strong);
+      padding: 6px 12px; margin-right: 10px;
+      cursor: pointer;
+    }
+    .pdf-row .url-input { font-size: 11px; }
+    .pdf-row .pdf-status {
+      font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-dim);
+      min-height: 14px;
+    }
+    .pdf-row .pdf-status.ok  { color: var(--green); }
+    .pdf-row .pdf-status.err { color: var(--red); }
+
+    /* Preview pane */
+    .preview-pane {
+      padding: 28px;
+      overflow-y: auto;
+      max-height: calc(100vh - 60px);
+      background: #1a1a1a;
+    }
+    .preview-frame {
+      max-width: 640px; margin: 0 auto;
+      background: #ffffff;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.5);
+    }
+    .preview-meta {
+      max-width: 640px; margin: 0 auto 14px;
+      font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--text-dim);
+      display: flex; justify-content: space-between;
+    }
+
+    /* Token setup card */
+    .token-card {
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+    .token-card h3 {
+      font-family: var(--font-display);
+      font-size: 12px; font-weight: 400;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .token-card p {
+      font-size: 12px; color: var(--text-muted);
+      line-height: 1.5; margin: 0 0 12px;
+    }
+    .token-card a { color: var(--gold); border-bottom: 1px solid var(--rule-strong); text-decoration: none; }
+    .token-card .row { display: grid; gap: 8px; }
+    .token-card input { width: 100%; }
+    .token-card .ok { color: var(--green); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+    @media (max-width: 900px) {
+      .shell { grid-template-columns: 1fr; }
+      .sidebar { max-height: unset; }
+      .preview-pane { max-height: unset; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="topbar">
+    <h1>Newsletter Composer</h1>
+    <span class="meta" id="edition-meta">— · —</span>
+    <button id="btn-copy" type="button" class="primary">Copy HTML</button>
+    <button id="btn-download" type="button">Download</button>
+    <button id="btn-newtab" type="button">Preview</button>
+    <a class="btn" href="index.html#sales">← Dashboard</a>
+  </header>
+
+  <div class="shell">
+    <!-- ============== SIDEBAR FORM ============== -->
+    <aside class="sidebar">
+
+      <!-- GitHub token setup for PDF uploads -->
+      <div class="token-card" id="token-card">
+        <h3 id="token-card-title">GitHub access for PDF uploads</h3>
+        <p id="token-card-body">
+          To upload market PDFs directly from the composer, paste a GitHub personal access token here (same one you use for Premier Listings). It's stored only in this browser.
+        </p>
+        <div class="row">
+          <input id="token-input" type="password" placeholder="github_pat_..." autocomplete="off" />
+          <button type="button" id="token-save" class="topbar"><span style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;">Save token</span></button>
+          <span class="ok" id="token-ok" hidden>✓ Token saved · uploads enabled</span>
+        </div>
+      </div>
+
+      <fieldset>
+        <legend>Edition</legend>
+        <div class="field">
+          <label for="f-month">Month</label>
+          <input id="f-month" type="month" />
+          <span class="hint">Defaults to current month. Recipients see "March 2026" etc.</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>A Note From Gabe</legend>
+        <div class="field">
+          <textarea id="f-note" placeholder="Write 2–4 sentences here. Conversational tone — what's on your mind this month."></textarea>
+          <span class="hint">Signs off as "— Gabe" automatically.</span>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Our Listings</legend>
+        <div class="field">
+          <label for="f-listings-url">Link to your Listings page</label>
+          <input id="f-listings-url" type="url" value="https://www.victoryformationventures.com" />
+          <span class="hint">Button in the email sends recipients here.</span>
+        </div>
+        <div class="field">
+          <label for="f-listings-blurb">Short blurb (optional)</label>
+          <input id="f-listings-blurb" type="text" placeholder="See what's active and coming soon →" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Premier Listings</legend>
+        <div class="field">
+          <label for="f-premier-count">New properties this month</label>
+          <input id="f-premier-count" type="number" min="0" step="1" value="0" />
+          <span class="hint" id="premier-hint">— total properties currently listed</span>
+        </div>
+        <div class="field">
+          <label for="f-premier-url">Link to Premier Listings</label>
+          <input id="f-premier-url" type="url" value="https://gvj32.github.io/Dashboard/premier-listings/" />
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Market Reports (PDF)</legend>
+
+        <div class="pdf-row" data-market="austin">
+          <h4>Austin</h4>
+          <input type="file" class="pdf-file" accept="application/pdf" />
+          <input type="url" class="url-input pdf-url" placeholder="…or paste a PDF URL" />
+          <div class="pdf-status">No PDF selected yet</div>
+        </div>
+
+        <div class="pdf-row" data-market="round-rock">
+          <h4>Round Rock</h4>
+          <input type="file" class="pdf-file" accept="application/pdf" />
+          <input type="url" class="url-input pdf-url" placeholder="…or paste a PDF URL" />
+          <div class="pdf-status">No PDF selected yet</div>
+        </div>
+
+        <div class="pdf-row" data-market="franklin">
+          <h4>Georgetown</h4>
+          <input type="file" class="pdf-file" accept="application/pdf" />
+          <input type="url" class="url-input pdf-url" placeholder="…or paste a PDF URL" />
+          <div class="pdf-status">No PDF selected yet</div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>CMA Call-to-Action</legend>
+        <div class="field">
+          <label for="f-cma-to">Reply email</label>
+          <input id="f-cma-to" type="email" value="gvjbusiness@yahoo.com" />
+          <span class="hint">Mailto button uses this address.</span>
+        </div>
+        <div class="field">
+          <label for="f-cma-subject">Email subject (auto-fills for recipient)</label>
+          <input id="f-cma-subject" type="text" value="Free CMA Request" />
+        </div>
+      </fieldset>
+
+    </aside>
+
+    <!-- ============== PREVIEW PANE ============== -->
+    <main class="preview-pane">
+      <div class="preview-meta">
+        <span>Inbox preview</span>
+        <span id="size-meta">—</span>
+      </div>
+      <div class="preview-frame" id="preview-frame"></div>
+    </main>
+  </div>
+
+  <script>
+    // ============================================================
+    // PREMIER LISTINGS — fetch the property count for the hint
+    // ============================================================
+    (async function() {
+      try {
+        const res = await fetch('premier-listings/properties.json?_=' + Date.now(), { cache: 'no-store' });
+        if (!res.ok) return;
+        const props = await res.json();
+        const hint = document.getElementById('premier-hint');
+        if (hint && Array.isArray(props)) {
+          hint.textContent = props.length + ' total properties currently listed';
+        }
+      } catch (e) { /* silent — hint stays default */ }
+    })();
+
+    // ============================================================
+    // GITHUB PAT — reuse the Premier Listings token from localStorage
+    // (key: 'vfv-gh-pat'). Composer adds its own UI to set/clear
+    // because composer is a standalone page.
+    // ============================================================
+    const REPO_OWNER = 'gvj32';
+    const REPO_NAME  = 'Dashboard';
+    const BRANCH     = 'main';
+    const LS_TOKEN   = 'vfv-gh-pat';
+
+    function getToken()  { try { return localStorage.getItem(LS_TOKEN); } catch (_) { return null; } }
+    function saveToken(t){ try { localStorage.setItem(LS_TOKEN, t); } catch (_) {} }
+
+    function refreshTokenCard() {
+      const have = !!getToken();
+      document.getElementById('token-ok').hidden = !have;
+      document.getElementById('token-input').value = '';
+      document.getElementById('token-card').style.opacity = have ? '0.55' : '1';
+    }
+    refreshTokenCard();
+
+    document.getElementById('token-save').addEventListener('click', () => {
+      const t = document.getElementById('token-input').value.trim();
+      if (!t.startsWith('github_pat_') && !t.startsWith('ghp_')) {
+        alert('That doesn\'t look like a GitHub PAT. Should start with github_pat_ or ghp_'); return;
+      }
+      saveToken(t);
+      refreshTokenCard();
+    });
+
+    function ghHeaders(extra) {
+      const t = getToken();
+      const h = { 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28' };
+      if (t) h['Authorization'] = 'Bearer ' + t;
+      return Object.assign(h, extra || {});
+    }
+    async function ghPutBinary(path, file, message) {
+      // Read file as base64
+      const b64 = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload = () => resolve(String(r.result).split(',')[1]);
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+      // Check if file exists (for SHA) — overwrite if it does
+      let sha = null;
+      try {
+        const ck = await fetch(
+          'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + path + '?ref=' + BRANCH + '&_=' + Date.now(),
+          { headers: ghHeaders(), cache: 'no-store' }
+        );
+        if (ck.ok) { sha = (await ck.json()).sha; }
+      } catch (_) {}
+      const body = { message, content: b64, branch: BRANCH };
+      if (sha) body.sha = sha;
+      const res = await fetch(
+        'https://api.github.com/repos/' + REPO_OWNER + '/' + REPO_NAME + '/contents/' + path,
+        { method: 'PUT', headers: ghHeaders({ 'Content-Type': 'application/json' }), body: JSON.stringify(body) }
+      );
+      if (!res.ok) throw new Error('PUT failed: ' + res.status + ' ' + (await res.text()));
+      return await res.json();
+    }
+
+    // ============================================================
+    // PDF UPLOAD HANDLERS — for each market row
+    // ============================================================
+    document.querySelectorAll('.pdf-row').forEach(row => {
+      const market = row.getAttribute('data-market');
+      const file   = row.querySelector('.pdf-file');
+      const url    = row.querySelector('.pdf-url');
+      const status = row.querySelector('.pdf-status');
+
+      function setStatus(kind, msg) {
+        status.className = 'pdf-status' + (kind ? ' ' + kind : '');
+        status.textContent = msg;
+      }
+
+      file.addEventListener('change', async () => {
+        const f = file.files && file.files[0];
+        if (!f) return;
+        if (!getToken()) {
+          setStatus('err', 'No GitHub token — paste one above first.');
+          file.value = ''; return;
+        }
+        const month = document.getElementById('f-month').value || isoMonth();
+        const path = 'assets/market-reports/' + month + '/' + market + '.pdf';
+        setStatus('', 'Uploading…');
+        try {
+          await ghPutBinary(path, f, 'Upload market PDF: ' + market + ' ' + month);
+          const publicUrl = 'https://' + REPO_OWNER.toLowerCase().replace(/[^a-z0-9]/g, '-') + '.github.io/' + REPO_NAME + '/' + path;
+          url.value = publicUrl;
+          setStatus('ok', '✓ Uploaded — public URL filled in');
+          render();
+        } catch (err) {
+          console.error(err);
+          setStatus('err', 'Upload failed: ' + (err.message || err).slice(0, 80));
+        }
+      });
+
+      url.addEventListener('input', () => {
+        if (url.value.trim()) setStatus('ok', '✓ URL set');
+        render();
+      });
+    });
+
+    function isoMonth() {
+      const d = new Date();
+      return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0');
+    }
+
+    // ============================================================
+    // EMAIL TEMPLATE — table-based, inline styles, email-client safe.
+    // 600px wide. Black bg, white text, monochrome accents (no gold).
+    // Uses web-safe font fallbacks (Aboreto won't render in Outlook;
+    // falls back to Cormorant Garamond → Georgia → serif).
+    // ============================================================
+    function escape(s) {
+      return String(s == null ? '' : s)
+        .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+    function paraify(s) {
+      // Break note text into <p> per paragraph, preserve single line breaks as <br>
+      const text = String(s || '').trim();
+      if (!text) return '<p style="margin:0 0 12px;">[Write your monthly note in the sidebar →]</p>';
+      return text.split(/\n\s*\n/).map(p => {
+        const inner = escape(p).replace(/\n/g, '<br>');
+        return '<p style="margin:0 0 14px; line-height:1.6;">' + inner + '</p>';
+      }).join('');
+    }
+
+    function monthLabel(ym) {
+      // ym = "2026-03" → "March 2026"
+      if (!ym || !/^\d{4}-\d{2}$/.test(ym)) {
+        const d = new Date();
+        return d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+      }
+      const [y, m] = ym.split('-').map(Number);
+      const names = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      return names[m - 1] + ' ' + y;
+    }
+
+    const COLORS = {
+      bg:        '#000000',
+      panel:     '#0a0a0a',
+      text:      '#ffffff',
+      muted:     '#b8b8b8',
+      dim:       '#6e6e6e',
+      accent:    '#ffffff',   // was gold — now plain white
+      rule:      '#2a2a2a',
+      ruleSoft:  '#444444',   // for thin accent rules + button borders
+      btnBg:     '#ffffff',
+      btnText:   '#000000',
+    };
+
+    function buildEmailHtml(state) {
+      const editionLabel = monthLabel(state.month);
+      const cmaHref = 'mailto:' + encodeURIComponent(state.cmaTo) +
+        '?subject=' + encodeURIComponent(state.cmaSubject || 'CMA Request') +
+        '&body=' + encodeURIComponent("Hi Gabe,\n\nI'd like to get a current market analysis for my home at:\n\n[Your address]\n\nThanks!");
+      const archUrl = 'https://gvj32.github.io/Dashboard/assets/icon-arch-transparent.png';
+
+      // Helper for a styled section row
+      const sectionHeader = (label) => `
+        <tr>
+          <td align="left" style="padding:40px 36px 6px;">
+            <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:11px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.muted};">${escape(label)}</div>
+            <div style="height:1px; background:${COLORS.ruleSoft}; width:36px; margin:10px 0 18px;"></div>
+          </td>
+        </tr>`;
+
+      // Market reports — only show rows where a URL exists
+      const marketRows = ['austin','round-rock','franklin'].map(key => {
+        const cfg = state.markets[key];
+        if (!cfg.url) return '';
+        const label = key.charAt(0).toUpperCase() + key.slice(1);
+        return `
+        <tr>
+          <td style="padding:6px 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${COLORS.panel}; border:1px solid ${COLORS.rule};">
+              <tr>
+                <td style="padding:16px 18px;" align="left">
+                  <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:14px; letter-spacing:0.14em; text-transform:uppercase; color:${COLORS.text};">${escape(label)} · ${escape(editionLabel)}</div>
+                  <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; letter-spacing:0.06em; color:${COLORS.dim}; margin-top:4px;">Monthly market report (PDF)</div>
+                </td>
+                <td style="padding:16px 18px;" align="right">
+                  <a href="${escape(cfg.url)}" target="_blank" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:${COLORS.text}; text-decoration:none; border:1px solid ${COLORS.ruleSoft}; padding:8px 14px;">View PDF →</a>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>`;
+      }).join('');
+
+      const marketSection = marketRows ? sectionHeader('Market Reports') + marketRows + '<tr><td style="height:16px;"></td></tr>' : '';
+
+      // Whole email
+      return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Victory Formation Ventures · ${escape(editionLabel)}</title>
+</head>
+<body style="margin:0; padding:0; background:${COLORS.bg}; -webkit-text-size-adjust:100%;">
+  <!-- Preheader (hidden preview text in Gmail/Outlook list view) -->
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; mso-hide:all;">${escape(editionLabel)} · A note from Gabe, market reports for Austin, Round Rock, Georgetown, and what's new at Victory Formation.</div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${COLORS.bg};">
+    <tr>
+      <td align="center" style="padding:0;">
+
+        <!-- ===== CONTAINER ===== -->
+        <table role="presentation" width="640" cellpadding="0" cellspacing="0" border="0" style="max-width:640px; width:100%; background:${COLORS.bg};">
+
+          <!-- HEADER -->
+          <tr>
+            <td align="center" style="padding:44px 36px 18px;">
+              <img src="${archUrl}" width="56" height="56" alt="Victory Formation Ventures" style="display:block; border:0; outline:0; max-width:56px; margin:0 auto 18px;" />
+              <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:18px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.text};">Victory Formation Ventures</div>
+              <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.dim}; margin-top:10px;">${escape(editionLabel)} · Monthly Update</div>
+              <div style="height:1px; background:${COLORS.ruleSoft}; width:48px; margin:22px auto 0;"></div>
+            </td>
+          </tr>
+
+          ${sectionHeader('A Note From Gabe')}
+          <tr>
+            <td style="padding:0 36px 24px;" align="left">
+              <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.65;">
+                ${paraify(state.note)}
+                <p style="margin:14px 0 0; font-family:'Aboreto','Cormorant Garamond',Georgia,serif; letter-spacing:0.14em; text-transform:uppercase; font-size:11px; color:${COLORS.muted};">— Gabe</p>
+              </div>
+            </td>
+          </tr>
+
+          ${sectionHeader('Our Listings')}
+          <tr>
+            <td style="padding:0 36px 28px;" align="left">
+              <p style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.6; margin:0 0 16px;">${escape(state.listingsBlurb || "See what's active and coming soon →")}</p>
+              <a href="${escape(state.listingsUrl)}" target="_blank" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.btnText}; background:${COLORS.btnBg}; padding:14px 28px; text-decoration:none; border:1px solid ${COLORS.btnBg};">Browse Listings</a>
+            </td>
+          </tr>
+
+          ${sectionHeader('Premier Listings')}
+          <tr>
+            <td style="padding:0 36px 28px;" align="left">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:${COLORS.panel}; border:1px solid ${COLORS.rule};">
+                <tr>
+                  <td style="padding:22px 22px;" align="center">
+                    <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:36px; letter-spacing:0.08em; color:${COLORS.text}; margin:0 0 6px;">${state.premierCount}</div>
+                    <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:${COLORS.muted}; margin:0 0 18px;">${state.premierCount === 1 ? 'New property' : 'New properties'} this month</div>
+                    <a href="${escape(state.premierUrl)}" target="_blank" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.text}; border:1px solid ${COLORS.ruleSoft}; padding:10px 22px; text-decoration:none;">Browse Premier Listings →</a>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          ${marketSection}
+
+          ${sectionHeader('What is your home worth?')}
+          <tr>
+            <td style="padding:0 36px 36px;" align="left">
+              <p style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.6; margin:0 0 16px;">Curious about your home's current market value? Click below and we'll send you a complimentary CMA within 48 hours.</p>
+              <a href="${cmaHref}" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.btnText}; background:${COLORS.btnBg}; padding:14px 28px; text-decoration:none; border:1px solid ${COLORS.btnBg};">Get My CMA →</a>
+            </td>
+          </tr>
+
+          <!-- FOOTER -->
+          <tr>
+            <td style="padding:32px 36px 44px; border-top:1px solid ${COLORS.rule};" align="center">
+              <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:12px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.muted}; margin-bottom:14px;">Victory Formation Ventures</div>
+              <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; color:${COLORS.dim}; line-height:1.7;">
+                <a href="https://www.victoryformationventures.com" target="_blank" style="color:${COLORS.muted}; text-decoration:none;">victoryformationventures.com</a><br>
+                <a href="mailto:${escape(state.cmaTo)}" style="color:${COLORS.muted}; text-decoration:none;">${escape(state.cmaTo)}</a><br>
+                206 Ben Allen Rd #7, Austin, TX 78701
+              </div>
+              <!-- Brevo will auto-append the unsubscribe link below this footer -->
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+    }
+
+    // ============================================================
+    // STATE + RENDER LOOP
+    // ============================================================
+    function readState() {
+      const monthInput = document.getElementById('f-month').value || isoMonth();
+      return {
+        month: monthInput,
+        note: document.getElementById('f-note').value,
+        listingsUrl: document.getElementById('f-listings-url').value || 'https://www.victoryformationventures.com',
+        listingsBlurb: document.getElementById('f-listings-blurb').value,
+        premierCount: parseInt(document.getElementById('f-premier-count').value || '0', 10),
+        premierUrl: document.getElementById('f-premier-url').value || 'https://gvj32.github.io/Dashboard/premier-listings/',
+        cmaTo: document.getElementById('f-cma-to').value || 'gvjbusiness@yahoo.com',
+        cmaSubject: document.getElementById('f-cma-subject').value || 'CMA Request',
+        markets: {
+          austin: { url: document.querySelector('[data-market="austin"] .pdf-url').value.trim() },
+          round-rock: { url: document.querySelector('[data-market="round-rock"] .pdf-url').value.trim() },
+          franklin:  { url: document.querySelector('[data-market="franklin"] .pdf-url').value.trim() }
+        }
+      };
+    }
+
+    let currentHtml = '';
+    function render() {
+      const state = readState();
+      currentHtml = buildEmailHtml(state);
+      document.getElementById('preview-frame').innerHTML = currentHtml;
+      document.getElementById('edition-meta').textContent = monthLabel(state.month) + ' · Monthly Update';
+      const kb = (new Blob([currentHtml]).size / 1024).toFixed(1);
+      document.getElementById('size-meta').textContent = kb + ' KB · ' + (currentHtml.length.toLocaleString()) + ' chars';
+      // Persist draft to localStorage so refreshes don't lose work
+      try {
+        const draft = {
+          month: state.month, note: state.note,
+          listingsUrl: state.listingsUrl, listingsBlurb: state.listingsBlurb,
+          premierCount: state.premierCount, premierUrl: state.premierUrl,
+          cmaTo: state.cmaTo, cmaSubject: state.cmaSubject,
+          markets: state.markets
+        };
+        localStorage.setItem('vfv.newsletter.draft', JSON.stringify(draft));
+      } catch (_) {}
+    }
+
+    // ============================================================
+    // ACTION BUTTONS
+    // ============================================================
+    document.getElementById('btn-copy').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(currentHtml);
+        const btn = document.getElementById('btn-copy');
+        const orig = btn.textContent;
+        btn.textContent = '✓ Copied';
+        setTimeout(() => { btn.textContent = orig; }, 1500);
+      } catch (e) {
+        alert('Copy failed. Open the Preview button and copy from the browser instead.');
+      }
+    });
+
+    document.getElementById('btn-download').addEventListener('click', () => {
+      const blob = new Blob([currentHtml], { type: 'text/html' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const state = readState();
+      a.href = url;
+      a.download = 'vfv-newsletter-' + state.month + '.html';
+      document.body.appendChild(a); a.click();
+      setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 200);
+    });
+
+    document.getElementById('btn-newtab').addEventListener('click', () => {
+      const w = window.open('', '_blank');
+      if (!w) { alert('Popup blocked — allow popups for this site to preview.'); return; }
+      w.document.open();
+      w.document.write(currentHtml);
+      w.document.close();
+    });
+
+    // Load draft if there is one, then default the month if needed
+    (function loadDraft() {
+      try {
+        const raw = localStorage.getItem('vfv.newsletter.draft');
+        if (raw) {
+          const d = JSON.parse(raw);
+          if (d.month) document.getElementById('f-month').value = d.month;
+          if (d.note != null) document.getElementById('f-note').value = d.note;
+          if (d.listingsUrl) document.getElementById('f-listings-url').value = d.listingsUrl;
+          if (d.listingsBlurb != null) document.getElementById('f-listings-blurb').value = d.listingsBlurb;
+          if (d.premierCount != null) document.getElementById('f-premier-count').value = d.premierCount;
+          if (d.premierUrl) document.getElementById('f-premier-url').value = d.premierUrl;
+          if (d.cmaTo) document.getElementById('f-cma-to').value = d.cmaTo;
+          if (d.cmaSubject) document.getElementById('f-cma-subject').value = d.cmaSubject;
+          if (d.markets) {
+            Object.keys(d.markets).forEach(k => {
+              const inp = document.querySelector('[data-market="' + k + '"] .pdf-url');
+              if (inp && d.markets[k].url) inp.value = d.markets[k].url;
+            });
+          }
+        }
+      } catch (_) {}
+      if (!document.getElementById('f-month').value) {
+        document.getElementById('f-month').value = isoMonth();
+      }
+    })();
+
+    // Wire all inputs to re-render
+    document.querySelectorAll('input, textarea, select').forEach(el => {
+      el.addEventListener('input', render);
+    });
+
+    render();
+  </script>
+</body>
+</html>

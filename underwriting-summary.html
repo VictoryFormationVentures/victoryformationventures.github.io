@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Underwriting Summary — Victory Formation Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:  #ffffff;
+    --ink:    #111;
+    --muted:  #4a4a4a;
+    --dim:    #888;
+    --rule:   #d6d6d6;
+    --panel:  #f5f5f5;
+    --font-display: 'Aboreto', 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'Mulish', 'Inter', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #1a1a1a; }
+  body {
+    font-family: var(--font-body);
+    color: var(--ink);
+    padding: 24px 12px 60px;
+  }
+
+  /* Toolbar */
+  .toolbar {
+    position: fixed; top: 16px; right: 16px;
+    z-index: 100;
+    display: flex; gap: 10px; align-items: center;
+  }
+  .toolbar .btn {
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    background: transparent;
+    color: #fff;
+    border: 1px solid #fff;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+  }
+  .toolbar .btn.primary { background: #fff; color: #000; }
+  .toolbar .btn:hover { opacity: 0.85; }
+  .toolbar .status {
+    font-family: var(--font-body);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #ccc;
+    margin-right: 8px;
+  }
+  .toolbar .deal-picker {
+    font-family: var(--font-body);
+    font-size: 11px;
+    background: #000;
+    color: #fff;
+    border: 1px solid #fff;
+    padding: 9px 14px;
+  }
+
+  /* Page */
+  .page {
+    width: 8.5in;
+    min-height: 11in;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.5in 0.55in;
+    margin: 0 auto;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding-bottom: 10pt;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 14pt;
+  }
+  .header .brand-block { flex: 1; }
+  .header .arch { width: 40px; display: block; margin-bottom: 6pt; }
+  .header .brand {
+    font-family: var(--font-display);
+    font-size: 13pt;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 4pt;
+  }
+  .header .brand-sub {
+    font-family: var(--font-body);
+    font-size: 9pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .header .meta {
+    text-align: right;
+    font-family: var(--font-body);
+    font-size: 9pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* Title */
+  .title-block { text-align: center; margin-bottom: 14pt; }
+  .title-block .eyebrow {
+    font-family: var(--font-body);
+    font-size: 8pt;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4pt;
+  }
+  .title-block h1 {
+    font-family: var(--font-display);
+    font-size: 18pt;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.15;
+  }
+  .title-block .scenario {
+    font-family: var(--font-body);
+    font-size: 10pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 5pt;
+  }
+
+  /* Section header */
+  h2 {
+    font-family: var(--font-body);
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding-bottom: 4pt;
+    border-bottom: 1px solid var(--ink);
+    margin: 0 0 7pt;
+  }
+  section { margin-bottom: 12pt; }
+
+  /* Hero returns tiles */
+  .hero-returns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8pt;
+    margin-bottom: 14pt;
+  }
+  .hero-tile {
+    border: 1px solid var(--rule);
+    padding: 10pt 10pt;
+    text-align: center;
+    background: var(--panel);
+  }
+  .hero-tile .label {
+    font-family: var(--font-body);
+    font-size: 7.5pt;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 4pt;
+  }
+  .hero-tile .val {
+    font-family: var(--font-display);
+    font-size: 17pt;
+    color: var(--ink);
+    letter-spacing: 0.02em;
+  }
+
+  /* KV grid */
+  .kv-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2pt 20pt;
+  }
+  .kv-grid.two { grid-template-columns: repeat(2, 1fr); }
+  .kv-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .kv {
+    display: flex;
+    justify-content: space-between;
+    padding: 3pt 0;
+    border-bottom: 1px dotted #ddd;
+    font-size: 9pt;
+  }
+  .kv .k { color: var(--muted); letter-spacing: 0.02em; }
+  .kv .v { color: var(--ink); font-weight: 600; text-align: right; }
+
+  /* Notes */
+  .notes {
+    padding: 9pt 12pt;
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: var(--muted);
+  }
+  .notes .empty { font-style: italic; color: var(--dim); }
+
+  /* Empty state (no deal picked) */
+  .empty-state {
+    padding: 80pt 40pt;
+    text-align: center;
+    color: var(--muted);
+  }
+  .empty-state h2 {
+    border: none;
+    font-family: var(--font-display);
+    font-size: 20pt;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink);
+    padding: 0;
+    margin: 0 0 12pt;
+  }
+  .empty-state p { font-size: 11pt; line-height: 1.6; max-width: 400pt; margin: 0 auto 24pt; }
+  .empty-state select {
+    font-family: var(--font-body);
+    font-size: 13pt;
+    background: #fff;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 12pt 20pt;
+    min-width: 300pt;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 16pt;
+    padding-top: 8pt;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-body);
+    font-size: 7.5pt;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  @page { size: letter portrait; margin: 0; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .toolbar { display: none !important; }
+    .page { box-shadow: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="status" id="tb-status">Loading…</span>
+  <select class="deal-picker" id="tb-deal-picker" hidden></select>
+  <button class="btn primary" type="button" id="btn-print">Print / Save PDF</button>
+  <a class="btn" href="index.html#development">← Dashboard</a>
+</div>
+
+<div class="page" id="page">
+  <!-- Content injected by JS -->
+  <div class="empty-state" id="empty-state">
+    <h2>Underwriting Summary</h2>
+    <p>Pick a logged deal to see a printable Victory Formation-branded one-page underwriting summary.</p>
+    <select id="empty-picker">
+      <option value="">Loading deals…</option>
+    </select>
+  </div>
+
+  <div id="statement-body" hidden>
+    <div class="header">
+      <div class="brand-block">
+        <img class="arch" src="assets/icon-arch-black.png" alt="" />
+        <div class="brand">Victory Formation Ventures</div>
+        <div class="brand-sub">Development · Austin, TX</div>
+      </div>
+      <div class="meta">
+        <div>Underwriting Summary</div>
+        <div>Prepared · <span id="meta-issued">—</span></div>
+      </div>
+    </div>
+
+    <div class="title-block">
+      <div class="eyebrow">Development Project</div>
+      <h1 id="stmt-address">—</h1>
+      <div class="scenario" id="stmt-scenario">—</div>
+    </div>
+
+    <div class="hero-returns">
+      <div class="hero-tile"><div class="label">Total Project Cost</div><div class="val" id="t-total-cost">—</div></div>
+      <div class="hero-tile"><div class="label">Gross Profit</div><div class="val" id="t-gross-profit">—</div></div>
+      <div class="hero-tile"><div class="label">Profit Margin</div><div class="val" id="t-profit-margin">—</div></div>
+      <div class="hero-tile"><div class="label">Annualized ROE</div><div class="val" id="t-annual-roe">—</div></div>
+    </div>
+
+    <section>
+      <h2>Project Overview — Inputs</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Neighborhood</span><span class="v" id="k-neigh">—</span></div>
+        <div class="kv"><span class="k">Number of Homes</span><span class="v" id="k-homes">—</span></div>
+        <div class="kv"><span class="k">Sq Footage / Home</span><span class="v" id="k-sqft">—</span></div>
+        <div class="kv"><span class="k">Build $ / SF</span><span class="v" id="k-build-psf">—</span></div>
+        <div class="kv"><span class="k">Target Sale $</span><span class="v" id="k-sale-price">—</span></div>
+        <div class="kv"><span class="k">Construction Period</span><span class="v" id="k-const-months">—</span></div>
+        <div class="kv"><span class="k">Sale Period</span><span class="v" id="k-sale-months">—</span></div>
+        <div class="kv"><span class="k">Number of Investors</span><span class="v" id="k-investors">—</span></div>
+        <div class="kv"><span class="k">Capital Mode</span><span class="v" id="k-cap-mode">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Land &amp; Site Costs — Inputs</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Lot Cost</span><span class="v" id="k-lot-cost">—</span></div>
+        <div class="kv"><span class="k">Owner Equity Into Land</span><span class="v" id="k-owner-eq">—</span></div>
+        <div class="kv"><span class="k">Annual Taxes</span><span class="v" id="k-taxes">—</span></div>
+        <div class="kv"><span class="k">Title / Closing</span><span class="v" id="k-title">—</span></div>
+        <div class="kv"><span class="k">Architect Fee</span><span class="v" id="k-architect">—</span></div>
+        <div class="kv"><span class="k">Designer Fee</span><span class="v" id="k-designer">—</span></div>
+        <div class="kv"><span class="k">Pool Cost</span><span class="v" id="k-pool">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Fee &amp; Rate Assumptions — Inputs</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Construction Overrun</span><span class="v" id="k-overrun">—</span></div>
+        <div class="kv"><span class="k">Realtor Commission</span><span class="v" id="k-realtor">—</span></div>
+        <div class="kv"><span class="k">Bank Fee</span><span class="v" id="k-bank-fee">—</span></div>
+        <div class="kv"><span class="k">Interest Rate</span><span class="v" id="k-int-rate">—</span></div>
+        <div class="kv"><span class="k">Developer Fee</span><span class="v" id="k-dev-fee">—</span></div>
+        <div class="kv"><span class="k">Investor Pref Return</span><span class="v" id="k-pref">—</span></div>
+        <div class="kv"><span class="k">LTC Ratio (target)</span><span class="v" id="k-ltc-ratio">—</span></div>
+        <div class="kv"><span class="k">Target LTV</span><span class="v" id="k-ltv-target">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Capital Structure — Computed</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Total Project Cost</span><span class="v" id="k-total-cost">—</span></div>
+        <div class="kv"><span class="k">Equity Invested</span><span class="v" id="k-equity">—</span></div>
+        <div class="kv"><span class="k">Equity / Investor</span><span class="v" id="k-equity-per">—</span></div>
+        <div class="kv"><span class="k">Loan Amount</span><span class="v" id="k-loan">—</span></div>
+        <div class="kv"><span class="k">Land Loan</span><span class="v" id="k-land-loan">—</span></div>
+        <div class="kv"><span class="k">Developer Fee ($)</span><span class="v" id="k-dev-fee-amt">—</span></div>
+        <div class="kv"><span class="k">Construction Interest</span><span class="v" id="k-const-int">—</span></div>
+        <div class="kv"><span class="k">Bank Fees ($)</span><span class="v" id="k-bank-fees-amt">—</span></div>
+        <div class="kv"><span class="k">Computed LTC</span><span class="v" id="k-ltc">—</span></div>
+        <div class="kv"><span class="k">Computed LTV</span><span class="v" id="k-ltv">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Returns — Computed</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Net Revenue</span><span class="v" id="k-net-rev">—</span></div>
+        <div class="kv"><span class="k">Gross Profit</span><span class="v" id="k-gross-profit">—</span></div>
+        <div class="kv"><span class="k">Profit Margin</span><span class="v" id="k-profit-margin">—</span></div>
+        <div class="kv"><span class="k">ROE</span><span class="v" id="k-roe">—</span></div>
+        <div class="kv"><span class="k">ROC</span><span class="v" id="k-roc">—</span></div>
+        <div class="kv"><span class="k">Annualized ROE</span><span class="v" id="k-annual-roe">—</span></div>
+        <div class="kv"><span class="k">Profit / Home</span><span class="v" id="k-profit-per-home">—</span></div>
+        <div class="kv"><span class="k">Developer Net Profit</span><span class="v" id="k-dev-net">—</span></div>
+        <div class="kv"><span class="k">Break-Even $ / SF</span><span class="v" id="k-breakeven-psf">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Notes</h2>
+      <div class="notes" id="k-notes"><span class="empty">No notes on this deal.</span></div>
+    </section>
+
+    <div class="footer">
+      <div>Victory Formation Ventures · Development Division</div>
+      <div id="foot-generated">Generated · —</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const UW_LOG_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+  const STATUS_EL = document.getElementById('tb-status');
+  function setStatus(t) { STATUS_EL.textContent = t; }
+
+  const params = new URLSearchParams(location.search);
+  let SELECTED_DEAL = params.get('deal') || '';
+
+  // ---- Formatters ----
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function money(n) {
+    const v = parseFloat(n);
+    if (isNaN(v) || v === 0) return '—';
+    if (Math.abs(v) >= 1000000) return '$' + (v / 1000000).toFixed(2) + 'M';
+    if (Math.abs(v) >= 10000)   return '$' + (v / 1000).toFixed(0) + 'k';
+    return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function moneyDetailed(n) {
+    const v = parseFloat(n);
+    if (isNaN(v) || v === 0) return '—';
+    return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function pct(n) {
+    const v = parseFloat(n);
+    if (isNaN(v) || v === 0) return '—';
+    return v.toFixed(2) + '%';
+  }
+  function num(n) {
+    const v = parseFloat(n);
+    if (isNaN(v)) return '—';
+    return v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function txt(s) {
+    return s == null || String(s).trim() === '' ? '—' : String(s).trim();
+  }
+  function fmtLongDate(d) {
+    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  }
+
+  // ---- gviz helpers ----
+  function gvizUrl(sheetId, tab) {
+    return 'https://docs.google.com/spreadsheets/d/' + sheetId +
+           '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(tab || 'Form Responses 1') +
+           '&t=' + Date.now();
+  }
+  function parseGviz(text) {
+    const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+    if (!m) throw new Error('Unexpected gviz response');
+    const data = JSON.parse(m[1]);
+    if (data.status !== 'ok') throw new Error('gviz error: ' + data.status);
+    return data.table || { cols: [], rows: [] };
+  }
+  function gvizString(cell) {
+    if (!cell) return '';
+    if (cell.f != null) return String(cell.f);
+    if (cell.v != null) return String(cell.v);
+    return '';
+  }
+  function gvizNumber(cell) {
+    if (!cell || cell.v == null) return 0;
+    if (typeof cell.v === 'number') return cell.v;
+    const n = parseFloat(String(cell.v).replace(/[$,\s%]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+  function findCol(cols, ...candidates) {
+    const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const labels = cols.map(c => norm(c.label));
+    for (const cand of candidates) {
+      const t = norm(cand);
+      const idx = labels.findIndex(l => l === t);
+      if (idx >= 0) return idx;
+    }
+    for (const cand of candidates) {
+      const t = norm(cand);
+      const idx = labels.findIndex(l => l.indexOf(t) >= 0 || t.indexOf(l) >= 0);
+      if (idx >= 0) return idx;
+    }
+    return -1;
+  }
+
+  // ---- Load + render ----
+  async function loadDeals() {
+    setStatus('Loading deals…');
+    try {
+      const res = await fetch(gvizUrl(UW_LOG_SHEET_ID, 'Form Responses 1'), { cache: 'no-store' });
+      const text = await res.text();
+      const table = parseGviz(text);
+      return table;
+    } catch (err) {
+      setStatus('Load failed');
+      console.error(err);
+      return null;
+    }
+  }
+
+  function populatePickers(table) {
+    const cols = table.cols || [];
+    const scenIx = findCol(cols, 'Scenerio Name', 'Scenario Name');
+    const addrIx = findCol(cols, 'Property Address', 'Address');
+    const tsIx   = findCol(cols, 'Timestamp');
+    const options = (table.rows || []).map((r, i) => {
+      const c = r.c || [];
+      const scen = scenIx >= 0 ? gvizString(c[scenIx]) : '';
+      const addr = addrIx >= 0 ? gvizString(c[addrIx]) : '';
+      const ts   = tsIx   >= 0 ? gvizString(c[tsIx])   : '';
+      const label = (scen && addr) ? scen + ' · ' + addr : (scen || addr || '(unnamed)');
+      // Row-index-based unique key (guaranteed distinct even for
+      // deals sharing scenario+address). "i:<index>" prefix keeps it
+      // trivially parseable in render() and stable across page reloads
+      // as long as no row above it is deleted in the sheet.
+      return { key: 'i:' + i, label, scen, addr, ts };
+    }).filter(o => o.label !== '(unnamed)');
+
+    const optHtml = '<option value="">— Pick a deal —</option>' +
+      options.map(o => '<option value="' + esc(o.key) + '"' +
+        (o.key === SELECTED_DEAL ? ' selected' : '') + '>' + esc(o.label) + '</option>').join('');
+    const tbPicker = document.getElementById('tb-deal-picker');
+    const emptyPicker = document.getElementById('empty-picker');
+    if (tbPicker) tbPicker.innerHTML = optHtml;
+    if (emptyPicker) emptyPicker.innerHTML = optHtml;
+    if (tbPicker) tbPicker.hidden = false;
+    // Change handlers
+    [tbPicker, emptyPicker].forEach(el => {
+      if (!el) return;
+      el.addEventListener('change', () => {
+        const val = el.value;
+        if (!val) return;
+        const url = location.pathname + '?deal=' + encodeURIComponent(val);
+        location.href = url;
+      });
+    });
+  }
+
+  function render(table) {
+    const cols = table.cols || [];
+    const ix = {
+      scenario: findCol(cols, 'Scenerio Name', 'Scenario Name'),
+      address:  findCol(cols, 'Property Address', 'Address'),
+      neigh:    findCol(cols, 'Neighborhood'),
+      notes:    findCol(cols, 'Notes'),
+      homes:    findCol(cols, 'Number of Homes'),
+      sqft:     findCol(cols, 'Sq Footage', 'Sq Footage / Home'),
+      buildPsf: findCol(cols, 'Build $ Sq Ft', 'Build $ / Sq Ft'),
+      salePrice:findCol(cols, 'Target Sale $'),
+      constMo:  findCol(cols, 'Construction Months'),
+      saleMo:   findCol(cols, 'Sale Period Months'),
+      investors:findCol(cols, 'Number of Investors'),
+      overrun:  findCol(cols, 'Construction Overrun'),
+      realtor:  findCol(cols, 'Realtor Commission'),
+      bank:     findCol(cols, 'Bank Fee'),
+      intRate:  findCol(cols, 'Interest Rate'),
+      devFee:   findCol(cols, 'Developer Fee'),
+      pref:     findCol(cols, 'Investor Preferred Return', 'Preferred Return'),
+      capMode:  findCol(cols, 'Capital Mode'),
+      ltcRatio: findCol(cols, 'LTC Ratio'),
+      ltvTarget:findCol(cols, 'Target LTV'),
+      lotCost:  findCol(cols, 'Lot Cost'),
+      ownerEq:  findCol(cols, 'Owner Equity Into Land'),
+      taxes:    findCol(cols, 'Annual Taxes'),
+      title:    findCol(cols, 'Title', 'Title / Closing'),
+      pool:     findCol(cols, 'Pool Cost'),
+      designer: findCol(cols, 'Designer Fee'),
+      architect:findCol(cols, 'Architect Fee'),
+      totalCost:findCol(cols, 'Total Project Cost'),
+      equity:   findCol(cols, 'Equity Invested'),
+      equityPer:findCol(cols, 'Equity Per Investor'),
+      loan:     findCol(cols, 'Loan Amount'),
+      compLtc:  findCol(cols, 'Computed LTC'),
+      compLtv:  findCol(cols, 'Computed LTV'),
+      grossProfit: findCol(cols, 'Gross Profit'),
+      profitMargin:findCol(cols, 'Profit Margin'),
+      roe:      findCol(cols, 'ROE'),
+      roc:      findCol(cols, 'ROC'),
+      annualRoe:findCol(cols, 'Annualized ROE'),
+      profitPerHome:findCol(cols, 'Profit Per Home'),
+      devNet:   findCol(cols, 'Developer Net Profit'),
+      breakeven:findCol(cols, 'Break-Even', 'Break-Even $ / SF'),
+      netRev:   findCol(cols, 'Net Revenue'),
+      constInt: findCol(cols, 'Construction Interest'),
+      bankFeesAmt:findCol(cols, 'Bank Fees'),
+      landLoan: findCol(cols, 'Land Loan')
+    };
+
+    // SELECTED_DEAL is now "i:<row-index>" for uniqueness. Fall back
+    // to the legacy scenario/address match if someone opens an old link.
+    const rows = (table.rows || []).map(r => r.c || []);
+    let deal = null;
+    if (/^i:\d+$/.test(SELECTED_DEAL)) {
+      const idx = Number(SELECTED_DEAL.slice(2));
+      deal = rows[idx] || null;
+    }
+    if (!deal) {
+      deal = rows.find(c => {
+        const scen = ix.scenario >= 0 ? gvizString(c[ix.scenario]) : '';
+        const addr = ix.address  >= 0 ? gvizString(c[ix.address])  : '';
+        return scen === SELECTED_DEAL || addr === SELECTED_DEAL;
+      });
+    }
+
+    if (!deal) {
+      setStatus('Deal not found');
+      document.getElementById('empty-state').innerHTML =
+        '<h2>Deal Not Found</h2>' +
+        '<p>Could not find a logged deal matching <strong>' + esc(SELECTED_DEAL) + '</strong>. Pick another one below.</p>' +
+        document.getElementById('empty-picker').outerHTML;
+      return;
+    }
+
+    // Hide empty state, show body
+    document.getElementById('empty-state').hidden = true;
+    document.getElementById('statement-body').hidden = false;
+
+    const val = (i) => i >= 0 ? deal[i] : null;
+    const scenario = ix.scenario >= 0 ? gvizString(deal[ix.scenario]) : '';
+    const address  = ix.address  >= 0 ? gvizString(deal[ix.address])  : '';
+
+    document.title = 'Underwriting Summary — ' + (scenario || address);
+    document.getElementById('stmt-address').textContent = address || '(no address)';
+    document.getElementById('stmt-scenario').textContent = scenario || '';
+    document.getElementById('meta-issued').textContent = fmtLongDate(new Date());
+    document.getElementById('foot-generated').textContent = 'Generated · ' + fmtLongDate(new Date());
+
+    // Hero returns tiles
+    document.getElementById('t-total-cost').textContent    = money(gvizNumber(val(ix.totalCost)));
+    document.getElementById('t-gross-profit').textContent  = money(gvizNumber(val(ix.grossProfit)));
+    document.getElementById('t-profit-margin').textContent = pct(gvizNumber(val(ix.profitMargin)));
+    document.getElementById('t-annual-roe').textContent    = pct(gvizNumber(val(ix.annualRoe)));
+
+    // Project Overview — Inputs
+    document.getElementById('k-neigh').textContent         = txt(gvizString(val(ix.neigh)));
+    document.getElementById('k-homes').textContent         = num(gvizNumber(val(ix.homes)));
+    document.getElementById('k-sqft').textContent          = num(gvizNumber(val(ix.sqft)));
+    document.getElementById('k-build-psf').textContent     = '$' + num(gvizNumber(val(ix.buildPsf)));
+    document.getElementById('k-sale-price').textContent    = moneyDetailed(gvizNumber(val(ix.salePrice)));
+    document.getElementById('k-const-months').textContent  = num(gvizNumber(val(ix.constMo))) + ' mo';
+    document.getElementById('k-sale-months').textContent   = num(gvizNumber(val(ix.saleMo))) + ' mo';
+    document.getElementById('k-investors').textContent     = num(gvizNumber(val(ix.investors)));
+    document.getElementById('k-cap-mode').textContent      = txt(gvizString(val(ix.capMode)));
+
+    // Land & Site Costs — Inputs
+    document.getElementById('k-lot-cost').textContent      = moneyDetailed(gvizNumber(val(ix.lotCost)));
+    document.getElementById('k-owner-eq').textContent      = moneyDetailed(gvizNumber(val(ix.ownerEq)));
+    document.getElementById('k-taxes').textContent         = moneyDetailed(gvizNumber(val(ix.taxes)));
+    document.getElementById('k-title').textContent         = moneyDetailed(gvizNumber(val(ix.title)));
+    document.getElementById('k-architect').textContent     = moneyDetailed(gvizNumber(val(ix.architect)));
+    document.getElementById('k-designer').textContent      = moneyDetailed(gvizNumber(val(ix.designer)));
+    document.getElementById('k-pool').textContent          = moneyDetailed(gvizNumber(val(ix.pool)));
+
+    // Fee & Rate Assumptions — Inputs
+    document.getElementById('k-overrun').textContent       = pct(gvizNumber(val(ix.overrun)));
+    document.getElementById('k-realtor').textContent       = pct(gvizNumber(val(ix.realtor)));
+    document.getElementById('k-bank-fee').textContent      = pct(gvizNumber(val(ix.bank)));
+    document.getElementById('k-int-rate').textContent      = pct(gvizNumber(val(ix.intRate)));
+    document.getElementById('k-dev-fee').textContent       = pct(gvizNumber(val(ix.devFee)));
+    document.getElementById('k-pref').textContent          = pct(gvizNumber(val(ix.pref)));
+    document.getElementById('k-ltc-ratio').textContent     = pct(gvizNumber(val(ix.ltcRatio)));
+    document.getElementById('k-ltv-target').textContent    = pct(gvizNumber(val(ix.ltvTarget)));
+
+    // Capital Structure — Computed
+    document.getElementById('k-total-cost').textContent    = moneyDetailed(gvizNumber(val(ix.totalCost)));
+    document.getElementById('k-equity').textContent        = moneyDetailed(gvizNumber(val(ix.equity)));
+    document.getElementById('k-equity-per').textContent    = moneyDetailed(gvizNumber(val(ix.equityPer)));
+    document.getElementById('k-loan').textContent          = moneyDetailed(gvizNumber(val(ix.loan)));
+    document.getElementById('k-land-loan').textContent     = moneyDetailed(gvizNumber(val(ix.landLoan)));
+
+    // Developer Fee $ — computed from inputs (sheet only stores the %)
+    // Formula (matches Underwriting Model):
+    //   devFee = (lotCost + build + overrun) × devFeePct
+    //   where build   = sqft × buildPsf × homes
+    //         overrun = build × overrunPct
+    const _lot     = gvizNumber(val(ix.lotCost));
+    const _sqft    = gvizNumber(val(ix.sqft));
+    const _psf     = gvizNumber(val(ix.buildPsf));
+    const _homes   = Math.max(1, gvizNumber(val(ix.homes)) || 1);
+    const _overrun = gvizNumber(val(ix.overrun)) / 100;
+    const _dfPct   = gvizNumber(val(ix.devFee)) / 100;
+    const _build   = _sqft * _psf * _homes;
+    const _devFeeAmt = (_lot + _build + _build * _overrun) * _dfPct;
+    document.getElementById('k-dev-fee-amt').textContent = moneyDetailed(_devFeeAmt);
+
+    document.getElementById('k-const-int').textContent     = moneyDetailed(gvizNumber(val(ix.constInt)));
+    document.getElementById('k-bank-fees-amt').textContent = moneyDetailed(gvizNumber(val(ix.bankFeesAmt)));
+    document.getElementById('k-ltc').textContent           = pct(gvizNumber(val(ix.compLtc)));
+    document.getElementById('k-ltv').textContent           = pct(gvizNumber(val(ix.compLtv)));
+
+    // Returns — Computed
+    document.getElementById('k-net-rev').textContent        = moneyDetailed(gvizNumber(val(ix.netRev)));
+    document.getElementById('k-gross-profit').textContent   = moneyDetailed(gvizNumber(val(ix.grossProfit)));
+    document.getElementById('k-profit-margin').textContent  = pct(gvizNumber(val(ix.profitMargin)));
+    document.getElementById('k-roe').textContent            = pct(gvizNumber(val(ix.roe)));
+    document.getElementById('k-roc').textContent            = pct(gvizNumber(val(ix.roc)));
+    document.getElementById('k-annual-roe').textContent     = pct(gvizNumber(val(ix.annualRoe)));
+    document.getElementById('k-profit-per-home').textContent= moneyDetailed(gvizNumber(val(ix.profitPerHome)));
+    document.getElementById('k-dev-net').textContent        = moneyDetailed(gvizNumber(val(ix.devNet)));
+    document.getElementById('k-breakeven-psf').textContent  = '$' + num(gvizNumber(val(ix.breakeven)));
+
+    // Notes
+    const notesEl = document.getElementById('k-notes');
+    const notes = ix.notes >= 0 ? gvizString(deal[ix.notes]) : '';
+    if (notes && notes.trim()) {
+      notesEl.textContent = notes;
+    }
+
+    setStatus('Ready to print');
+  }
+
+  document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+  (async function main() {
+    const table = await loadDeals();
+    if (!table) return;
+    populatePickers(table);
+    if (SELECTED_DEAL) {
+      render(table);
+    } else {
+      setStatus('Pick a deal');
+    }
+  })();
+</script>
+</body>
+</html>

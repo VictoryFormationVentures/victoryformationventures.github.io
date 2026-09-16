@@ -1,0 +1,1434 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Development Project · Custom Home Representation</title>
+  <meta name="theme-color" content="#000000" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="description" content="Development Project — the Custom Home Representation practice of Victory Formation Ventures." />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;   /* warm ivory — matches Victory Formation story color */
+
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+      --tracking-wide:   0.18em;
+      --tracking-x-wide: 0.28em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+    body {
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ==================== Top bar ==================== */
+    .topbar {
+      position: sticky; top: 0; z-index: 50;
+      background: #000; border-bottom: 1px solid var(--panel-edge);
+      display: flex; align-items: center; gap: 22px;
+      padding: 20px 28px;
+    }
+    .topbar .brand {
+      display: flex; align-items: center; gap: 22px;
+    }
+    .topbar .brand img.arch {
+      width: 120px; height: 120px; object-fit: contain;
+      background: transparent;
+    }
+    .topbar .brand .name {
+      font-family: var(--font-display);
+      font-size: 28px; letter-spacing: .32em; text-transform: uppercase;
+      color: #fff;
+    }
+    .topbar .brand .name small {
+      display: block; font-family: var(--font-body);
+      font-size: 8px; letter-spacing: .28em; color: var(--text-dim);
+      font-weight: 600; margin-top: 3px;
+    }
+    .topbar .spacer { flex: 1; }
+    .topbar .parent-link {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase;
+      color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .topbar .parent-link:hover { color: #fff; border-color: #fff; }
+
+    /* ==================== Layout ==================== */
+    .shell {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: calc(100vh - 160px);
+    }
+
+    /* ==================== Side nav ==================== */
+    .sidenav {
+      background: #0a0a0a;
+      border-right: 1px solid var(--panel-edge);
+      padding: 22px 18px;
+      position: sticky; top: 160px;
+      height: calc(100vh - 160px); overflow-y: auto;
+    }
+    .sidenav .section-label {
+      font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600;
+      margin: 4px 0 10px;
+    }
+    .sidenav .nav-item {
+      display: block; width: 100%; text-align: left;
+      background: transparent; border: 0; color: var(--text-muted);
+      font-family: var(--font-body); font-size: 12px;
+      letter-spacing: .16em; text-transform: uppercase;
+      padding: 10px 12px; margin: 2px 0;
+      cursor: pointer;
+    }
+    .sidenav .nav-item:hover { color: #fff; background: #141414; }
+    .sidenav .nav-item.is-active { color: #fff; background: #141414; border-left: 2px solid var(--accent); padding-left: 10px; }
+    /* Parent items (like "In Build") — labeled group header, non-clickable */
+    .sidenav .nav-item-parent {
+      color: var(--text-dim); cursor: default; padding-top: 4px;
+      font-weight: 600; font-size: 11px;
+    }
+    /* Sub-nav items — indented client tabs beneath In Build */
+    .sidenav .nav-sub {
+      padding-left: 26px; font-size: 11px;
+      color: var(--text-muted);
+    }
+    .sidenav .nav-sub::before {
+      content: '· '; color: var(--text-dim); margin-right: 4px;
+    }
+    .sidenav .nav-sub.is-active {
+      padding-left: 24px; color: #fff; background: #141414;
+      border-left: 2px solid var(--accent);
+    }
+    .sidenav .nav-group-title {
+      font-family: var(--font-display);
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      color: #fff; margin: 22px 0 8px 12px;
+    }
+
+    /* ==================== Client project page ==================== */
+    .project-hero {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 24px; padding-bottom: 22px;
+      border-bottom: 1px solid var(--rule); margin-bottom: 24px;
+    }
+    .project-hero .eyebrow {
+      font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600; margin-bottom: 8px;
+    }
+    .project-hero h2.project-name {
+      font-family: var(--font-display);
+      font-size: 34px; letter-spacing: .1em; text-transform: uppercase;
+      margin: 0 0 4px; font-weight: 400; line-height: 1.1;
+    }
+    .project-hero .project-address {
+      font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--text-muted); font-weight: 500;
+    }
+    .project-hero .stage-badge {
+      display: inline-block; padding: 5px 12px;
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      background: var(--accent); color: #000; font-weight: 700;
+    }
+
+    /* ==================== Interactive timeline ==================== */
+    .tl {
+      position: relative;
+      padding-left: 44px;
+      margin-top: 8px;
+    }
+    /* Vertical spine line running through the phase numbers */
+    .tl::before {
+      content: '';
+      position: absolute;
+      left: 15px; top: 12px; bottom: 12px;
+      width: 2px; background: var(--rule);
+    }
+    .tl-phase {
+      position: relative;
+      padding: 6px 0 26px;
+    }
+    .tl-phase:last-child { padding-bottom: 6px; }
+    .tl-num {
+      position: absolute;
+      left: -44px; top: 0;
+      width: 32px; height: 32px; border-radius: 50%;
+      background: #141414;
+      border: 2px solid var(--rule);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display);
+      font-size: 13px; color: var(--text-muted); font-weight: 500;
+      z-index: 2;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .tl-phase.state-progress .tl-num { border-color: var(--warn-c, #e8c068); color: var(--warn-c, #e8c068); }
+    .tl-phase.state-complete .tl-num {
+      background: #4a7548; border-color: #4a7548; color: #fff;
+    }
+    .tl-phase.state-complete .tl-num::before { content: '✓'; font-size: 15px; }
+    .tl-phase.state-complete .tl-num-label { display: none; }
+    .tl-num-label { display: inline-block; }
+
+    .tl-phase-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      gap: 14px;
+      margin-bottom: 6px;
+    }
+    .tl-phase-name {
+      font-family: var(--font-display);
+      font-size: 15px; letter-spacing: .18em; text-transform: uppercase;
+      color: #fff; font-weight: 400;
+    }
+    .tl-phase-dur {
+      font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600;
+    }
+    .tl-phase-badge {
+      display: inline-block; padding: 2px 8px; margin-left: 8px;
+      font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+      background: #141414; color: var(--text-dim); font-weight: 700;
+    }
+    .tl-phase.state-progress .tl-phase-badge { background: #3a301c; color: #e8c068; }
+    .tl-phase.state-complete .tl-phase-badge { background: #1c3a1c; color: #9ec39e; }
+
+    .tl-items {
+      list-style: none; padding: 6px 0 0; margin: 0;
+      display: flex; flex-direction: column; gap: 2px;
+    }
+    .tl-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 8px 10px 8px 8px;
+      cursor: pointer;
+      border-left: 2px solid transparent;
+      transition: background .15s, border-color .15s;
+    }
+    .tl-item:hover { background: #0e0e0e; border-left-color: var(--rule); }
+    .tl-item .tl-check {
+      flex: 0 0 auto;
+      width: 16px; height: 16px; border-radius: 3px;
+      border: 1.5px solid #666; background: #0a0a0a;
+      position: relative; margin-top: 2px;
+      transition: background .15s, border-color .15s;
+    }
+    .tl-item.done .tl-check {
+      background: #9ec39e; border-color: #9ec39e;
+    }
+    .tl-item.done .tl-check::after {
+      content: '';
+      position: absolute; left: 4px; top: 0px;
+      width: 4px; height: 9px;
+      border: solid #0a0a0a; border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    .tl-item.progress .tl-check {
+      background: #e8c068; border-color: #e8c068;
+    }
+    .tl-item.progress .tl-check::after {
+      content: '';
+      position: absolute; left: 3px; top: 3px;
+      width: 8px; height: 8px; border-radius: 50%;
+      background: #0a0a0a;
+    }
+    .tl-item-label {
+      flex: 1;
+      font-size: 12.5px; line-height: 1.45; color: var(--text-muted);
+    }
+    .tl-item.done    .tl-item-label { color: var(--text-dim); text-decoration: line-through; text-decoration-color: #444; }
+    .tl-item.progress .tl-item-label { color: #fff; }
+    .tl-item-meta {
+      font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 2px;
+    }
+    .tl-item.done .tl-item-meta { color: #9ec39e; }
+    .tl-item.progress .tl-item-meta { color: #e8c068; }
+
+    /* Progress bar summarizing overall phase completion */
+    .tl-summary {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 16px; margin-bottom: 20px;
+      background: var(--panel); border: 1px solid var(--rule);
+    }
+    .tl-summary .lbl {
+      font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 700;
+    }
+    .tl-summary .bar { flex: 1; height: 6px; background: #1a1a1a; border-radius: 3px; overflow: hidden; }
+    .tl-summary .bar-fill { height: 100%; background: #4a7548; transition: width .3s; }
+    .tl-summary .pct { font-family: var(--font-display); font-size: 16px; color: #fff; }
+
+    /* Legend */
+    .tl-legend {
+      display: flex; gap: 14px; margin-bottom: 14px;
+      font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-dim);
+    }
+    .tl-legend span { display: flex; align-items: center; gap: 6px; }
+    .tl-legend .dot {
+      width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid #666; background: #0a0a0a;
+    }
+    .tl-legend .dot.progress { background: #e8c068; border-color: #e8c068; }
+    .tl-legend .dot.done { background: #9ec39e; border-color: #9ec39e; }
+
+    /* ==================== Document cards ==================== */
+    .doc-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 12px;
+    }
+    .doc-card {
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      padding: 16px 18px;
+      display: flex; flex-direction: column; gap: 10px;
+      min-height: 120px;
+      transition: border-color .15s;
+    }
+    .doc-card:hover { border-color: var(--rule-strong); }
+    .doc-card.has-file { border-color: #4a7548; }
+    .doc-card .doc-label {
+      font-family: var(--font-body); font-size: 11px;
+      letter-spacing: .16em; text-transform: uppercase;
+      color: #fff; font-weight: 700;
+    }
+    .doc-card .doc-current {
+      font-size: 11px; color: var(--text-muted); line-height: 1.4;
+      flex: 1;
+    }
+    .doc-card .doc-current .filename {
+      color: #fff; word-break: break-all;
+    }
+    .doc-card .doc-current .meta {
+      font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--text-dim); margin-top: 4px;
+    }
+    .doc-card .doc-current.empty {
+      color: var(--text-dim); font-style: italic;
+    }
+    .doc-card .doc-actions {
+      display: flex; gap: 8px; margin-top: auto;
+    }
+    .doc-card .doc-btn {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .16em; text-transform: uppercase; font-weight: 600;
+      padding: 7px 12px; cursor: pointer;
+      border: 1px solid var(--panel-edge); background: transparent; color: #fff;
+      text-decoration: none; display: inline-block;
+    }
+    .doc-card .doc-btn:hover { border-color: #fff; background: #141414; }
+    .doc-card .doc-btn.primary { background: #fff; color: #000; border-color: #fff; }
+    .doc-card .doc-btn.primary:hover { opacity: .85; background: #fff; }
+    .doc-card .doc-btn.busy { opacity: .5; cursor: default; pointer-events: none; }
+    .doc-card input[type="file"] { display: none; }
+
+    /* ==================== Team cards ==================== */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+    }
+    .team-card {
+      background: var(--panel);
+      border: 1px solid var(--rule);
+      padding: 18px 20px;
+      position: relative;
+    }
+    .team-card .role {
+      font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--accent); font-weight: 700; margin-bottom: 8px;
+    }
+    .team-card .name {
+      font-family: var(--font-display);
+      font-size: 20px; letter-spacing: .06em;
+      color: #fff; margin: 0 0 4px; font-weight: 400; line-height: 1.15;
+    }
+    .team-card .co {
+      font-size: 11px; letter-spacing: .05em; color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .team-card .contact-line {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 11.5px; color: var(--text-muted);
+      padding: 4px 0; border-top: 1px solid var(--rule);
+    }
+    .team-card .contact-line:first-of-type { border-top: 1px solid var(--rule); margin-top: 8px; }
+    .team-card .contact-line a { color: #fff; }
+    .team-card .contact-line a:hover { text-decoration: underline; }
+    .team-card .contact-line .lbl {
+      font-size: 8.5px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 700; min-width: 44px;
+    }
+    .team-card.needs-add {
+      border-style: dashed;
+    }
+    .team-card.needs-add .add-note {
+      font-size: 10px; color: var(--text-dim); font-style: italic;
+      margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--rule);
+    }
+
+    /* Sub-tabs within a client page */
+    .subtabs {
+      display: flex; gap: 4px; flex-wrap: wrap;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .subtab {
+      background: transparent; border: 0; color: var(--text-muted);
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .18em; text-transform: uppercase;
+      padding: 10px 14px; cursor: pointer;
+      border-bottom: 2px solid transparent;
+    }
+    .subtab:hover { color: #fff; }
+    .subtab.is-active {
+      color: #fff; border-bottom-color: var(--accent);
+    }
+    .subpanel { display: none; }
+    .subpanel.is-active { display: block; }
+
+    /* ==================== Content ==================== */
+    .content {
+      padding: 40px 48px 80px;
+      max-width: 1400px;
+    }
+    .division-eyebrow {
+      font-size: 10px; letter-spacing: .32em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600; margin-bottom: 10px;
+    }
+    h1.division-title {
+      font-family: var(--font-display);
+      font-size: 56px; letter-spacing: .14em; text-transform: uppercase;
+      color: #fff; margin: 0 0 8px; font-weight: 400; line-height: 1;
+    }
+    h1.division-title small {
+      display: block; font-family: var(--font-body);
+      font-size: 12px; letter-spacing: .3em; color: var(--text-muted);
+      font-weight: 500; margin-top: 14px; text-transform: uppercase;
+    }
+
+    .panel {
+      display: none;
+      margin-top: 40px;
+    }
+    .panel.is-active { display: block; }
+    .panel-intro {
+      font-size: 13px; line-height: 1.6; color: var(--text-muted);
+      max-width: 720px; margin: 0 0 22px;
+    }
+
+    /* Placeholder empty-state — used for panels we haven't spec'd yet */
+    .placeholder {
+      border: 1px dashed var(--rule-strong); background: var(--panel);
+      padding: 40px 32px; text-align: center;
+    }
+    .placeholder .mark {
+      font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600; margin-bottom: 10px;
+    }
+    .placeholder h2 {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .22em; text-transform: uppercase;
+      margin: 0 0 8px;
+    }
+    .placeholder p {
+      font-size: 12px; color: var(--text-muted); line-height: 1.6;
+      max-width: 520px; margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="topbar">
+    <a href="index.html" class="brand" title="Back to hub">
+      <!-- Development Project logo — drops into assets/devproject-logo.png. Falls back
+           to the Victory Formation arch until the real logo is added. -->
+      <img class="arch" src="assets/devproject-logo.png" alt=""
+           onerror="this.onerror=null; this.src='assets/icon-arch-transparent.png';" />
+      <div class="name">Development Project<small>Custom Home Representation</small></div>
+    </a>
+    <div class="spacer"></div>
+    <button type="button" class="parent-link" id="btn-refresh" title="Fetch the latest version (bust cache)" style="background:transparent; border:1px solid transparent; cursor:pointer; margin-right:12px;">↻ Refresh</button>
+    <a href="index.html?hub=1" class="parent-link">◫ Switch Division</a>
+  </div>
+  <script>
+    // Cache-bust refresh — appends ?v=timestamp so browsers + GitHub Pages
+    // edge caches serve the newest file.
+    document.getElementById('btn-refresh').addEventListener('click', () => {
+      const u = new URL(location.href);
+      u.searchParams.set('v', Date.now());
+      location.replace(u.toString());
+    });
+  </script>
+
+  <div class="shell">
+
+    <!-- ==================== Side nav ==================== -->
+    <aside class="sidenav" role="tablist" aria-label="Development Project sections">
+      <div class="section-label">Development Project</div>
+      <button type="button" class="nav-item is-active" data-panel="overview">Overview</button>
+
+      <div class="nav-group-title">Pipeline</div>
+      <button type="button" class="nav-item" data-panel="prospects">In Conversation</button>
+      <div class="nav-item nav-item-parent" data-panel="projects">In Build</div>
+      <button type="button" class="nav-item nav-sub" data-panel="client-campbell">Campbell Residence</button>
+
+      <div class="nav-group-title">Contacts</div>
+      <button type="button" class="nav-item" data-panel="custom-home-clients">Custom Home Clients</button>
+
+      <div class="nav-group-title">Tools</div>
+      <button type="button" class="nav-item" data-panel="tools">Cost Estimator + Docs</button>
+
+      <div class="nav-group-title">Company</div>
+      <button type="button" class="nav-item" data-panel="team">Team</button>
+      <button type="button" class="nav-item" data-panel="settings">Settings</button>
+    </aside>
+
+    <!-- ==================== Content ==================== -->
+    <main class="content">
+      <div class="division-eyebrow">Development Project · Victory Formation Ventures</div>
+      <h1 class="division-title">Custom Home Representation<small>Your interests. Always.</small></h1>
+
+      <!-- Overview -->
+      <section class="panel is-active" id="panel-overview" role="tabpanel">
+        <p class="panel-intro">Snapshot of the Development Project practice — active client count, projects in build, upcoming milestones. Content still to be spec'd — Gabe will guide the build section by section.</p>
+        <div class="placeholder">
+          <div class="mark">— Placeholder —</div>
+          <h2>Overview coming soon</h2>
+          <p>KPIs, active clients, upcoming meetings, and monthly wins will live here.</p>
+        </div>
+      </section>
+
+      <!-- Prospects -->
+      <section class="panel" id="panel-prospects" role="tabpanel">
+        <p class="panel-intro">Prospects in conversation — inquiries, discovery calls, proposals out, negotiating. Every row here graduates to <b>In Build</b> when the engagement is signed.</p>
+        <div class="placeholder">
+          <div class="mark">— Placeholder —</div>
+          <h2>Prospect pipeline coming soon</h2>
+          <p>Same underlying sheet as the admin dashboard's nurturing pipeline. Gabe will spec the layout.</p>
+        </div>
+      </section>
+
+      <!-- Projects (index — kept for direct-link fallback; usually users
+           navigate straight to a specific client via the sub-nav) -->
+      <section class="panel" id="panel-projects" role="tabpanel">
+        <p class="panel-intro">Active projects in build — pick a client from the sub-nav on the left.</p>
+        <div class="placeholder">
+          <div class="mark">— Select a client —</div>
+          <h2>Choose a project</h2>
+          <p>Currently building: Campbell Residence. More clients will appear here as they graduate from In Conversation.</p>
+        </div>
+      </section>
+
+      <!-- ==================== CAMPBELL RESIDENCE ==================== -->
+      <section class="panel" id="panel-client-campbell" role="tabpanel" data-client-match="campbell">
+        <div class="project-hero">
+          <div>
+            <div class="eyebrow">In Build · Campbell Residence</div>
+            <h2 class="project-name" data-field="client">Rick &amp; Kati Campbell</h2>
+            <div class="project-address" data-field="address">Loading address…</div>
+          </div>
+          <div style="text-align:right;">
+            <span class="stage-badge" data-field="stage">Pre-Con</span>
+            <div style="font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); margin-top:10px;" data-field="co-target"></div>
+          </div>
+        </div>
+
+        <!-- Team + engagement snapshot pulled from the admin sheet -->
+        <div class="project-snapshot" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px 22px; padding:18px 20px; background:var(--panel); border:1px solid var(--rule); margin-bottom:24px;">
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Architect</div><div style="font-size:13px; color:#fff;" data-field="architect">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Designer</div><div style="font-size:13px; color:#fff;" data-field="designer">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Builder</div><div style="font-size:13px; color:#fff;" data-field="builder">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Hard Cost Est.</div><div style="font-size:13px; color:#fff;" data-field="hard-cost">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Engagement Start</div><div style="font-size:13px; color:#fff;" data-field="engagement">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Projected CO</div><div style="font-size:13px; color:#fff;" data-field="projected-co">—</div></div>
+        </div>
+
+        <div class="subtabs" role="tablist" aria-label="Campbell Residence sections">
+          <button type="button" class="subtab is-active" data-sub="overview">Overview</button>
+          <button type="button" class="subtab" data-sub="timeline">Timeline</button>
+          <button type="button" class="subtab" data-sub="budget">Budget</button>
+          <button type="button" class="subtab" data-sub="team">Team</button>
+          <button type="button" class="subtab" data-sub="meetings">Meetings &amp; Selections</button>
+          <button type="button" class="subtab" data-sub="documents">Documents</button>
+          <button type="button" class="subtab" data-sub="photos">Photos</button>
+          <button type="button" class="subtab" data-sub="communications">Communications</button>
+          <button type="button" class="subtab" data-sub="notes">Notes</button>
+        </div>
+
+        <div class="subpanel is-active" data-sub="overview">
+          <div class="placeholder">
+            <div class="mark">— Awaiting spec —</div>
+            <h2>Overview coming</h2>
+            <p>Snapshot: current stage, next milestone, key contacts, budget vs actual, upcoming meetings. Tell me what you want front-and-center.</p>
+          </div>
+        </div>
+        <div class="subpanel" data-sub="timeline">
+          <div class="tl-legend">
+            <span><span class="dot"></span> Upcoming</span>
+            <span><span class="dot progress"></span> In Progress</span>
+            <span><span class="dot done"></span> Complete</span>
+            <span style="margin-left:auto; color:var(--text-dim); font-style:italic; text-transform:none; letter-spacing:.02em;">
+              Click any item to cycle its state.
+            </span>
+          </div>
+          <div class="tl-summary" id="tl-summary-campbell">
+            <span class="lbl">Overall progress</span>
+            <div class="bar"><div class="bar-fill" style="width:0%"></div></div>
+            <span class="pct">0%</span>
+          </div>
+          <!-- Timeline is rendered by JS into this container.
+               Data lives in the DEVPROJECT_TIMELINE constant + saved state per project. -->
+          <div class="tl" data-project="campbell" id="tl-campbell"></div>
+        </div>
+        <div class="subpanel" data-sub="budget">
+          <div class="placeholder">
+            <div class="mark">— Awaiting spec —</div>
+            <h2>Budget coming</h2>
+            <p>Hard costs, soft costs, change orders, spent vs remaining. Could pull from the Cost Estimator or run its own tracker.</p>
+          </div>
+        </div>
+        <div class="subpanel" data-sub="team">
+          <p class="panel-intro" style="margin-bottom:20px;">The build team on this project. Contact details are pulled live from Development → Contacts. If a card shows only a name, that person isn't in Contacts yet — add them there to enrich this card.</p>
+          <div class="team-grid" id="team-campbell" data-project="campbell">
+            <!-- Rendered by JS from DEVPROJECT_TEAMS[projectId] -->
+          </div>
+        </div>
+        <div class="subpanel" data-sub="meetings">
+          <div class="placeholder">
+            <div class="mark">— Awaiting spec —</div>
+            <h2>Meetings &amp; Selections coming</h2>
+            <p>Weekly check-ins, selection meetings, budget reviews. Upcoming + past logs.</p>
+          </div>
+        </div>
+        <div class="subpanel" data-sub="documents">
+          <p class="panel-intro" style="margin-bottom:18px;">Every contract, plan, and design board for this project — one slot per document. Click <b>Upload</b> to add a file; upload again to replace with a newer version. Files are stored in the repo so they're always accessible.</p>
+
+          <h3 style="font-family:var(--font-display); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); margin:0 0 12px;">Contracts</h3>
+          <div class="doc-grid" data-project="campbell">
+            <div class="doc-card" data-slot="owners-rep-contract"        data-label="Owner's Rep Contract"></div>
+            <div class="doc-card" data-slot="architect-contract"         data-label="Architect Contract"></div>
+            <div class="doc-card" data-slot="designer-contract"          data-label="Designer Contract"></div>
+            <div class="doc-card" data-slot="builder-contract"           data-label="Builder Contract"></div>
+            <div class="doc-card" data-slot="landscape-architect-contract" data-label="Landscape Architect Contract"></div>
+          </div>
+
+          <h3 style="font-family:var(--font-display); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); margin:24px 0 12px;">Plans &amp; Design</h3>
+          <div class="doc-grid" data-project="campbell">
+            <div class="doc-card" data-slot="current-architectural-plans" data-label="Current Architectural Plans"></div>
+            <div class="doc-card" data-slot="current-landscape-plans"     data-label="Current Landscape Architectural Plans"></div>
+            <div class="doc-card" data-slot="current-design-board"        data-label="Current Design Board"></div>
+            <div class="doc-card" data-slot="survey"                      data-label="Survey"></div>
+          </div>
+
+          <div id="doc-status-campbell" style="margin-top:14px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim);"></div>
+        </div>
+        <div class="subpanel" data-sub="photos">
+          <div class="placeholder">
+            <div class="mark">— Awaiting spec —</div>
+            <h2>Photos coming</h2>
+            <p>Progress photos over time — site visits, framing shots, finish selections, punch list.</p>
+          </div>
+        </div>
+        <div class="subpanel" data-sub="communications">
+          <div class="placeholder">
+            <div class="mark">— Awaiting setup —</div>
+            <h2>Communications coming</h2>
+            <p>Emails between everyone on the project, threaded chronologically. Waiting on you to pick which integration path — see options in chat.</p>
+          </div>
+        </div>
+        <div class="subpanel" data-sub="notes">
+          <div class="placeholder">
+            <div class="mark">— Awaiting spec —</div>
+            <h2>Notes coming</h2>
+            <p>Running log — conversations, decisions, flags. Chronological.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Custom Home Clients — filtered view of the shared Contacts sheet.
+           Adds via admin's Add Contact modal with Category = Custom Home Clients. -->
+      <section class="panel" id="panel-custom-home-clients" role="tabpanel">
+        <p class="panel-intro">Custom home clients — your book of past + potential build clients. Pulls live from the shared Development Contacts sheet (Category = Custom Home Clients). Add a new client via <b>Admin → Development → Contacts → + Add Contact</b> and pick that category; they'll appear here on next load.</p>
+        <div style="margin-bottom:12px; font-size:11px; color:var(--text-dim); letter-spacing:.14em; text-transform:uppercase;" id="chc-count">Loading…</div>
+        <div id="chc-list" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:12px;"></div>
+      </section>
+
+      <!-- Tools -->
+      <section class="panel" id="panel-tools" role="tabpanel">
+        <p class="panel-intro">Cost Estimator, Estimate Summary PDF, Engagement Letter, Scope of Services, Custom Home Timeline. Same generators as admin — Development Project-branded where relevant.</p>
+        <div class="placeholder">
+          <div class="mark">— Placeholder —</div>
+          <h2>Tools grid coming soon</h2>
+          <p>Gabe will spec which tools show and how they're grouped.</p>
+        </div>
+      </section>
+
+      <!-- Team -->
+      <section class="panel" id="panel-team" role="tabpanel">
+        <p class="panel-intro">The Development Project team — reps working under this brand.</p>
+        <div class="placeholder">
+          <div class="mark">— Placeholder —</div>
+          <h2>Team roster coming soon</h2>
+          <p>Names, roles, contact info, follow-ups.</p>
+        </div>
+      </section>
+
+      <!-- Settings -->
+      <section class="panel" id="panel-settings" role="tabpanel">
+        <p class="panel-intro">Development Project-specific settings — branding, fee defaults, document templates.</p>
+        <div class="placeholder">
+          <div class="mark">— Placeholder —</div>
+          <h2>Settings coming soon</h2>
+          <p>Configuration for the practice will live here.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Simple side-nav → panel switch. Adds .is-active to both the button
+    // and the target section, removes from siblings. Uses data-panel to
+    // pair each button to its panel id ("panel-{key}").
+    (function () {
+      const nav = document.querySelector('.sidenav');
+      const panels = document.querySelectorAll('.content .panel');
+      if (!nav) return;
+      nav.addEventListener('click', (e) => {
+        const btn = e.target.closest('.nav-item');
+        if (!btn) return;
+        const key = btn.getAttribute('data-panel');
+        nav.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('is-active', b === btn));
+        panels.forEach(p => p.classList.toggle('is-active', p.id === 'panel-' + key));
+        // Lazy-load the Custom Home Clients list the first time the tab opens
+        if (key === 'custom-home-clients' && typeof _loadCustomHomeClients === 'function') _loadCustomHomeClients();
+        // Update URL hash so browser back/forward + shareable links work
+        history.replaceState(null, '', '#' + key);
+        // Scroll content to top when switching panels
+        document.querySelector('.content').scrollIntoView({ behavior: 'instant', block: 'start' });
+      });
+      // Deep-link support: land directly on ?panel=... or #panel-key
+      const hash = (location.hash || '').replace(/^#/, '');
+      if (hash) {
+        const btn = nav.querySelector('[data-panel="' + hash + '"]');
+        if (btn) btn.click();
+      }
+    })();
+
+    // Sub-tabs within a client project page (delegated so any client panel
+    // added later gets the same behavior for free).
+    document.addEventListener('click', (e) => {
+      const tab = e.target.closest && e.target.closest('.subtab');
+      if (!tab) return;
+      const panel = tab.closest('.panel');
+      if (!panel) return;
+      const key = tab.getAttribute('data-sub');
+      panel.querySelectorAll('.subtab').forEach(t => t.classList.toggle('is-active', t === tab));
+      panel.querySelectorAll('.subpanel').forEach(p => p.classList.toggle('is-active', p.getAttribute('data-sub') === key));
+    });
+
+    /* =========================================================
+       INTERACTIVE CUSTOM HOME TIMELINE
+       Data shape: array of phases, each with items. Each item has
+       a stable "key" so state can be saved + restored.
+       State per item = 'upcoming' | 'progress' | 'complete'.
+       Click cycles: upcoming → progress → complete → upcoming.
+       Persistence: localStorage now (instant); Google Form POST
+       when TIMELINE_CONFIG.FORM_URL is filled in (setup guide in
+       docs/devproject-timeline-setup.md).
+       ========================================================= */
+    const DEVPROJECT_TIMELINE = [
+      { key: 'dd', num: 1, name: 'Due Diligence Phase', duration: '~1 week', items: [
+        { key: 'dd-comps',   label: 'Gather home comparables for project guidance' },
+        { key: 'dd-survey',  label: 'Order survey (if missing)' }
+      ]},
+      { key: 'hiring', num: 2, name: 'Hiring Phase', duration: '1–2 weeks · interviews in order', items: [
+        { key: 'hiring-arch',      label: 'Architect interviews' },
+        { key: 'hiring-builder',   label: 'Builder interviews' },
+        { key: 'hiring-designer',  label: 'Designer interviews (if applicable)' },
+        { key: 'hiring-landscape', label: 'Landscape architect interviews (if applicable)' }
+      ]},
+      { key: 'design', num: 3, name: 'Design Phase', duration: '1–3 months · iterative plan development', items: [
+        { key: 'design-initial',        label: 'Initial team meeting — introductions' },
+        { key: 'design-builder',        label: '1:1 with Builder — budget building' },
+        { key: 'design-architect',      label: '1:1 with Architect — wishlist & initial plans' },
+        { key: 'design-designer',       label: '1:1 with Designer — initial finishes & mood board' },
+        { key: 'design-meeting-2',      label: 'Design Meeting #2 — plans review, corrections, budget alignment, sizing' },
+        { key: 'design-plans-2',        label: 'Second pass of plans — designer on call for fine tuning' },
+        { key: 'design-finishes',       label: 'Design Finishes Meeting — major selections, budget' },
+        { key: 'design-walk',           label: 'Walk Your Plans — finishes, layout & functionality' },
+        { key: 'design-plans-3',        label: 'Third pass of plans — exterior finishes, ceiling heights, flow' },
+        { key: 'design-plans-extra',    label: 'Additional passes scheduled as needed' },
+        { key: 'design-final',          label: 'Final Plans Set' },
+        { key: 'design-moodboard',      label: 'Mood Board Finalized — major selections penciled in' }
+      ]},
+      { key: 'precon', num: 4, name: 'Pre-Construction', duration: 'Weeks preceding groundbreaking', items: [
+        { key: 'precon-demo',    label: 'Demo permit pulled (if applicable)' },
+        { key: 'precon-codes',   label: 'Plans submitted to codes' },
+        { key: 'precon-permits', label: 'Building permits pulled' }
+      ]},
+      { key: 'construction', num: 5, name: 'Construction', duration: '~12-month build · broad-scope milestones', items: [
+        { key: 'const-siteprep',   label: '1. Site Prep — site cleared, utilities marked' },
+        { key: 'const-foundation', label: '2. Foundation — excavation, footings, foundation walls, waterproofing, backfill, first inspection' },
+        { key: 'const-framing',    label: '3. Framing & Dry-In — wall framing, floors, roof, windows & exterior doors; weather-tight shell' },
+        { key: 'const-mep',        label: '4. MEP Rough-Ins & Inspections — mechanical, electrical, plumbing routed & inspected; fireplaces set' },
+        { key: 'const-drywall',    label: '5. Insulation, Drywall & Interior Finishes Begin — insulation, drywall, trim, doors, stairs, cabinetry staged' },
+        { key: 'const-cabinetry',  label: '6. Cabinetry, Fixtures, Flooring & Landscape — cabinets, counters, tile, hardwood, paint, fixtures, appliances, hardscape' },
+        { key: 'const-co',         label: '7. Punch-List, CO & Move-In — final inspections, Certificate of Occupancy, walkthroughs, punch items, keys delivered' }
+      ]}
+    ];
+
+    // ---- Google Sheet sync ----
+    const TIMELINE_CONFIG = {
+      SHEET_ID:  "1vfzckpxrOdDb55zPjbkZjy5mozhq40UM0NdY9wHD3AM",
+      SHEET_TAB: "Form Responses 1",
+      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FIELD_MAP: {
+        project_id:    "entry.837814797",
+        milestone_key: "entry.1629696435",
+        state:         "entry.535980600",
+        updated_by:    "entry.27256755",
+        notes:         "entry.1868483197"
+      }
+    };
+    const CYCLE = { upcoming: 'progress', progress: 'complete', complete: 'upcoming' };
+
+    function _tlLocalKey(projectId) { return 'devproject.timeline:' + projectId; }
+    function _tlLoadLocal(projectId) {
+      try { return JSON.parse(localStorage.getItem(_tlLocalKey(projectId)) || '{}') || {}; }
+      catch (_) { return {}; }
+    }
+    function _tlSaveLocal(projectId, state) {
+      try { localStorage.setItem(_tlLocalKey(projectId), JSON.stringify(state)); } catch (_) {}
+    }
+    function _tlUpdatedBy() {
+      // For now, all agents share one namespace — future: pull from agent unlock
+      return 'Development Project Team';
+    }
+
+    // Post a milestone change to the Google Form (fire-and-forget, no-cors).
+    function _tlPostChange(projectId, milestoneKey, state) {
+      if (!TIMELINE_CONFIG.FORM_URL || !TIMELINE_CONFIG.FIELD_MAP.milestone_key) return;
+      const body = new URLSearchParams();
+      const m = TIMELINE_CONFIG.FIELD_MAP;
+      if (m.project_id)    body.append(m.project_id,    projectId);
+      if (m.milestone_key) body.append(m.milestone_key, milestoneKey);
+      if (m.state)         body.append(m.state,         state);
+      if (m.updated_by)    body.append(m.updated_by,    _tlUpdatedBy());
+      fetch(TIMELINE_CONFIG.FORM_URL, { method: 'POST', mode: 'no-cors', body }).catch(() => {});
+    }
+
+    // Fetch shared state from the sheet, merge into local state (sheet wins).
+    async function _tlHydrateFromSheet(projectId, container) {
+      if (!TIMELINE_CONFIG.SHEET_ID) return;
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/' + TIMELINE_CONFIG.SHEET_ID +
+          '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(TIMELINE_CONFIG.SHEET_TAB) +
+          '&t=' + Date.now();
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) return;
+        const text = await res.text();
+        const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+        if (!m) return;
+        const data = JSON.parse(m[1]);
+        if (data.status !== 'ok') return;
+        const cols = data.table.cols || [];
+        const rows = data.table.rows || [];
+        const idx = (label) => cols.findIndex(c => String(c.label || '').toLowerCase() === label);
+        const ix = {
+          ts:    idx('timestamp'),
+          proj:  idx('project_id'),
+          key:   idx('milestone_key'),
+          state: idx('state')
+        };
+        // Latest state per milestone key for this project
+        const latest = {};
+        rows.forEach(r => {
+          const c = r.c || [];
+          const p = (ix.proj  >= 0 && c[ix.proj]  ? String(c[ix.proj].v || '').trim()  : '');
+          if (p !== projectId) return;
+          const k = (ix.key   >= 0 && c[ix.key]   ? String(c[ix.key].v || '').trim()   : '');
+          const s = (ix.state >= 0 && c[ix.state] ? String(c[ix.state].v || '').trim() : '');
+          const t = (ix.ts    >= 0 && c[ix.ts]) ? c[ix.ts].v : null;
+          const ts = (typeof t === 'string' && /^Date\(/.test(t)) ? new Date(...t.match(/\d+/g).map(Number)) : new Date(t || 0);
+          if (!k || !s) return;
+          if (!latest[k] || (latest[k]._ts < ts)) latest[k] = { state: s, _ts: ts };
+        });
+        // Merge into local state
+        const local = _tlLoadLocal(projectId);
+        Object.keys(latest).forEach(k => { local[k] = latest[k].state; });
+        _tlSaveLocal(projectId, local);
+        _tlRenderTimeline(container, projectId);
+      } catch (err) {
+        console.warn('[Development Project Timeline] sheet hydrate failed:', err);
+      }
+    }
+
+    function _tlPhaseState(phase, state) {
+      const total = phase.items.length;
+      const done  = phase.items.filter(i => (state[i.key] || 'upcoming') === 'complete').length;
+      const prog  = phase.items.filter(i => (state[i.key] || 'upcoming') === 'progress').length;
+      if (done === total) return 'complete';
+      if (done > 0 || prog > 0) return 'progress';
+      return 'upcoming';
+    }
+
+    function _tlRenderTimeline(container, projectId) {
+      const state = _tlLoadLocal(projectId);
+      let totalItems = 0, doneItems = 0;
+      const html = DEVPROJECT_TIMELINE.map(phase => {
+        const phaseState = _tlPhaseState(phase, state);
+        totalItems += phase.items.length;
+        const itemsHtml = phase.items.map(item => {
+          const s = state[item.key] || 'upcoming';
+          if (s === 'complete') doneItems++;
+          const cls = s === 'complete' ? 'done' : (s === 'progress' ? 'progress' : '');
+          const meta = s === 'complete' ? 'Complete' : (s === 'progress' ? 'In Progress' : '');
+          return `
+            <li class="tl-item ${cls}" data-item="${item.key}">
+              <span class="tl-check"></span>
+              <div>
+                <div class="tl-item-label">${item.label}</div>
+                ${meta ? '<div class="tl-item-meta">' + meta + '</div>' : ''}
+              </div>
+            </li>
+          `;
+        }).join('');
+        const phaseBadge = phaseState === 'complete' ? '<span class="tl-phase-badge">Complete</span>'
+                        : phaseState === 'progress'  ? '<span class="tl-phase-badge">In Progress</span>'
+                        : '';
+        return `
+          <div class="tl-phase state-${phaseState}" data-phase="${phase.key}">
+            <div class="tl-num"><span class="tl-num-label">${phase.num}</span></div>
+            <div class="tl-phase-head">
+              <div class="tl-phase-name">${phase.name}${phaseBadge}</div>
+              <div class="tl-phase-dur">${phase.duration}</div>
+            </div>
+            <ul class="tl-items">${itemsHtml}</ul>
+          </div>
+        `;
+      }).join('');
+      container.innerHTML = html;
+      // Update summary bar
+      const summary = document.getElementById('tl-summary-' + projectId);
+      if (summary) {
+        const pct = totalItems ? Math.round((doneItems / totalItems) * 100) : 0;
+        summary.querySelector('.bar-fill').style.width = pct + '%';
+        summary.querySelector('.pct').textContent = pct + '%';
+      }
+    }
+
+    // Click delegation: any timeline item cycles state on click
+    document.addEventListener('click', (e) => {
+      const item = e.target.closest && e.target.closest('.tl-item');
+      if (!item) return;
+      const tl = item.closest('.tl');
+      if (!tl) return;
+      const projectId = tl.getAttribute('data-project');
+      const itemKey   = item.getAttribute('data-item');
+      const state     = _tlLoadLocal(projectId);
+      const cur       = state[itemKey] || 'upcoming';
+      const next      = CYCLE[cur];
+      state[itemKey]  = next;
+      _tlSaveLocal(projectId, state);
+      _tlPostChange(projectId, itemKey, next);
+      _tlRenderTimeline(tl, projectId);
+    });
+
+    // Boot every timeline present on the page
+    document.querySelectorAll('.tl[data-project]').forEach(tl => {
+      const projectId = tl.getAttribute('data-project');
+      _tlRenderTimeline(tl, projectId);
+      _tlHydrateFromSheet(projectId, tl);
+    });
+
+    /* =========================================================
+       PROJECT TEAMS — per-project roster of Architect, Designer,
+       Builder, Landscape Architect, Owner's Rep. Cards enrich
+       from Development → Contacts by name match.
+       ========================================================= */
+    // Each member has a `source`: 'contacts' → look up in Development Contacts,
+    // 'roster' → look up in the internal Victory Formation Team Roster.
+    // Owner's Rep is 'roster' because it's an internal role — as Development Project
+    // hires more reps, Gabe adds them to the Team Roster once and assigns
+    // them here per project.
+    const DEVPROJECT_TEAMS = {
+      campbell: [
+        { role: 'Architect',              name: 'Andrew King',      source: 'contacts' },
+        { role: 'Interior Designer',      name: 'Kathryn Zelenik',  source: 'contacts' },
+        { role: 'Builder',                name: 'Justin Davis',     source: 'contacts' },
+        { role: 'Landscape Architect',    name: 'Brad Allison',     source: 'contacts' },
+        { role: "Owner's Representative", name: 'Gabe Jeudy-Lally',  source: 'roster'   }
+      ]
+    };
+    const CONTACTS_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+    const TEAM_ROSTER_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+
+    // Fetch the Contacts sheet once and stash by lowercased name for lookup
+    async function _fetchContactsIndex() {
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/' + CONTACTS_SHEET_ID +
+          '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) return {};
+        const text = await res.text();
+        const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+        if (!m) return {};
+        const data = JSON.parse(m[1]);
+        if (data.status !== 'ok') return {};
+        const cols = data.table.cols || [];
+        const rows = data.table.rows || [];
+        const norm = s => String(s || '').toLowerCase().trim();
+        const idx = label => cols.findIndex(c => norm(c.label) === label);
+        const ix = {
+          category: idx('category'),
+          name:     idx('name'),
+          company:  idx('company'),
+          role:     idx('role'),
+          email:    idx('email'),
+          phone:    idx('phone'),
+          address:  idx('address'),
+        };
+        const byName = {};
+        rows.forEach(r => {
+          const c = r.c || [];
+          const get = i => (i >= 0 && c[i] && c[i].v != null) ? String(c[i].v).trim() : '';
+          const name = get(ix.name);
+          if (!name) return;
+          // Latest wins if the same name appears more than once
+          byName[name.toLowerCase()] = {
+            name, category: get(ix.category), company: get(ix.company),
+            role: get(ix.role), email: get(ix.email), phone: get(ix.phone),
+            address: get(ix.address)
+          };
+        });
+        return byName;
+      } catch (err) {
+        console.warn('[Development Project Team] Contacts fetch failed:', err);
+        return {};
+      }
+    }
+
+    // Custom Home Clients list — filtered view of the shared Contacts sheet.
+    // Renders card grid on first tab open, caches after so switching tabs
+    // doesn't re-fetch.
+    let _chcLoaded = false;
+    async function _loadCustomHomeClients() {
+      if (_chcLoaded) return;
+      _chcLoaded = true;
+      const listEl = document.getElementById('chc-list');
+      const countEl = document.getElementById('chc-count');
+      if (!listEl || !countEl) return;
+      const escHtml = s => String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+      try {
+        const byName = await _fetchContactsIndex();
+        const clients = Object.values(byName)
+          .filter(c => (c.category || '').trim() === 'Custom Home Clients')
+          .sort((a, b) => a.name.localeCompare(b.name));
+        if (clients.length === 0) {
+          countEl.textContent = '0 clients';
+          listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:var(--text-dim); font-size:13px;">No custom home clients yet. Add one via Admin → Development → Contacts → + Add Contact, Category: Custom Home Clients.</div>';
+          return;
+        }
+        countEl.textContent = clients.length + ' client' + (clients.length === 1 ? '' : 's');
+        listEl.innerHTML = clients.map(c => {
+          const rows = [];
+          if (c.company) rows.push('<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">' + escHtml(c.company) + '</div>');
+          if (c.phone)   rows.push('<div style="font-size:12px; color:#ddd; margin-top:8px;"><a href="tel:' + escHtml(c.phone.replace(/\D+/g,'')) + '" style="color:#ddd;">' + escHtml(c.phone) + '</a></div>');
+          if (c.email)   rows.push('<div style="font-size:11px; color:var(--text-muted); margin-top:2px;"><a href="mailto:' + escHtml(c.email) + '" style="color:var(--text-muted);">' + escHtml(c.email) + '</a></div>');
+          if (c.address) rows.push('<div style="font-size:11px; color:var(--text-dim); margin-top:6px;">' + escHtml(c.address) + '</div>');
+          return '<article style="background:var(--panel); border:1px solid var(--rule); padding:14px 16px;">' +
+                   '<div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#fff;">' + escHtml(c.name) + '</div>' +
+                   rows.join('') +
+                 '</article>';
+        }).join('');
+      } catch (err) {
+        countEl.textContent = 'Could not load';
+        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#d99; font-size:13px;">Error: ' + escHtml(err.message || err) + '</div>';
+        _chcLoaded = false;   // let user retry by tab-switching
+      }
+    }
+
+    function _teamCardHtml(member, contact) {
+      const has = !!contact;
+      const contactLines = [];
+      if (has) {
+        if (contact.company) contactLines.push(`<div class="contact-line"><span class="lbl">Firm</span>${contact.company}</div>`);
+        if (contact.role)    contactLines.push(`<div class="contact-line"><span class="lbl">Role</span>${contact.role}</div>`);
+        if (contact.phone)   contactLines.push(`<div class="contact-line"><span class="lbl">Phone</span><a href="tel:${contact.phone.replace(/\D+/g,'')}">${contact.phone}</a></div>`);
+        if (contact.email)   contactLines.push(`<div class="contact-line"><span class="lbl">Email</span><a href="mailto:${contact.email}">${contact.email}</a></div>`);
+      }
+      return `
+        <article class="team-card ${has ? '' : 'needs-add'}">
+          <div class="role">${member.role}</div>
+          <h3 class="name">${member.name}</h3>
+          ${(has && contact.company && !contactLines.some(l => l.indexOf('Firm')>=0)) ? '' : ''}
+          ${contactLines.join('')}
+          ${has ? '' : '<div class="add-note">Not in Development → Contacts yet. Add them to auto-fill firm, phone, and email here.</div>'}
+        </article>
+      `;
+    }
+
+    // Same shape as Contacts index but from the internal Team Roster sheet.
+    // Maps lowercased name → { name, role/title, phone, email, company }
+    async function _fetchTeamRosterIndex() {
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/' + TEAM_ROSTER_SHEET_ID +
+          '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) return {};
+        const text = await res.text();
+        const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+        if (!m) return {};
+        const data = JSON.parse(m[1]);
+        if (data.status !== 'ok') return {};
+        const cols = data.table.cols || [];
+        const rows = data.table.rows || [];
+        const norm = s => String(s || '').toLowerCase().trim();
+        const idx = label => cols.findIndex(c => norm(c.label) === label);
+        const ix = {
+          name:  idx('name'),
+          title: idx('title'),
+          role:  idx('role'),
+          email: idx('email'),
+          phone: idx('phone'),
+        };
+        const byName = {};
+        rows.forEach(r => {
+          const c = r.c || [];
+          const get = i => (i >= 0 && c[i] && c[i].v != null) ? String(c[i].v).trim() : '';
+          const name = get(ix.name);
+          if (!name) return;
+          byName[name.toLowerCase()] = {
+            name,
+            // Map to same shape as contacts so _teamCardHtml can share logic:
+            //   company -> title (their job title inside Victory Formation)
+            //   role    -> role tier (Founder / Agent / Specialist / Admin)
+            company: get(ix.title),
+            role:    get(ix.role),
+            email:   get(ix.email),
+            phone:   get(ix.phone)
+          };
+        });
+        return byName;
+      } catch (err) {
+        console.warn('[Development Project Team] Team Roster fetch failed:', err);
+        return {};
+      }
+    }
+
+    /* =========================================================
+       PROJECT DOCUMENTS — per-project upload/replace of contracts,
+       plans, and design boards. Files persist to the GitHub repo
+       at assets/devproject/{project}/documents/{slot}.{ext}. Metadata
+       (filename + uploaded_at + who) is kept in localStorage so
+       cards show which slots are filled without a HEAD probe.
+       ========================================================= */
+    const GH_REPO_OWNER = 'gvj32';
+    const GH_REPO_NAME  = 'Dashboard';
+    const GH_BRANCH     = 'main';
+    const GH_TOKEN_KEY  = 'vfv.ghToken';
+
+    function _ghGetToken() {
+      try { return localStorage.getItem(GH_TOKEN_KEY) || null; } catch (_) { return null; }
+    }
+    function _ghSaveToken(t) {
+      try { localStorage.setItem(GH_TOKEN_KEY, t); } catch (_) {}
+    }
+    function _ghPromptForToken() {
+      const existing = _ghGetToken() || '';
+      const t = prompt(
+        'Paste your GitHub personal access token to enable document uploads.\n\n' +
+        'Get one at github.com/settings/tokens → Fine-grained → Contents: read/write on this repo.\n' +
+        'The token is saved to this browser only.',
+        existing
+      );
+      if (t && t.trim()) { _ghSaveToken(t.trim()); return t.trim(); }
+      return null;
+    }
+
+    async function _ghUploadDoc(path, file) {
+      let token = _ghGetToken();
+      if (!token) token = _ghPromptForToken();
+      if (!token) throw new Error('No GitHub token — upload cancelled.');
+
+      // Read file as base64 (strip the data: prefix)
+      const b64 = await new Promise((resolve, reject) => {
+        const r = new FileReader();
+        r.onload  = () => resolve(String(r.result).split(',')[1]);
+        r.onerror = reject;
+        r.readAsDataURL(file);
+      });
+      const headers = {
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'Authorization': 'Bearer ' + token
+      };
+      // Check if file exists → need SHA to overwrite
+      let sha = null;
+      try {
+        const ck = await fetch(
+          'https://api.github.com/repos/' + GH_REPO_OWNER + '/' + GH_REPO_NAME +
+          '/contents/' + encodeURI(path) + '?ref=' + GH_BRANCH + '&_=' + Date.now(),
+          { headers, cache: 'no-store' }
+        );
+        if (ck.ok) sha = (await ck.json()).sha;
+      } catch (_) {}
+      const body = { message: 'Upload document: ' + path, content: b64, branch: GH_BRANCH };
+      if (sha) body.sha = sha;
+      const res = await fetch(
+        'https://api.github.com/repos/' + GH_REPO_OWNER + '/' + GH_REPO_NAME + '/contents/' + encodeURI(path),
+        { method: 'PUT',
+          headers: Object.assign({}, headers, { 'Content-Type': 'application/json' }),
+          body: JSON.stringify(body) }
+      );
+      if (!res.ok) throw new Error('GitHub upload failed: ' + res.status + ' — ' + (await res.text()).slice(0, 200));
+      return path;
+    }
+
+    // Local metadata store — one entry per project/slot
+    function _docStateKey(projectId) { return 'devproject.docs:' + projectId; }
+    function _docLoadState(projectId) {
+      try { return JSON.parse(localStorage.getItem(_docStateKey(projectId)) || '{}') || {}; }
+      catch (_) { return {}; }
+    }
+    function _docSaveState(projectId, state) {
+      try { localStorage.setItem(_docStateKey(projectId), JSON.stringify(state)); } catch (_) {}
+    }
+    function _extFromFile(file) {
+      const m = /\.([a-z0-9]+)$/i.exec(file.name || '');
+      return m ? m[1].toLowerCase() : 'bin';
+    }
+    function _fmtDate(d) {
+      if (!(d instanceof Date) || isNaN(d)) return '';
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    function _renderDocCard(card, projectId, state) {
+      const slot  = card.getAttribute('data-slot');
+      const label = card.getAttribute('data-label');
+      const entry = state[slot];
+      const has   = !!(entry && entry.path);
+      const rawUrl = has
+        ? 'https://raw.githubusercontent.com/' + GH_REPO_OWNER + '/' + GH_REPO_NAME + '/' + GH_BRANCH + '/' + encodeURI(entry.path) + '?_=' + Date.now()
+        : '';
+      const currentHtml = has
+        ? `<div class="filename">${entry.originalName || entry.path.split('/').pop()}</div>
+           <div class="meta">Uploaded ${_fmtDate(new Date(entry.uploadedAt))}${entry.uploadedBy ? ' · ' + entry.uploadedBy : ''}</div>`
+        : `<span class="empty">No file yet</span>`;
+      const actionsHtml = has
+        ? `<a class="doc-btn primary" href="${rawUrl}" target="_blank" rel="noopener">Download</a>
+           <label class="doc-btn">Replace<input type="file" data-role="upload" /></label>`
+        : `<label class="doc-btn primary">Upload<input type="file" data-role="upload" /></label>`;
+      card.classList.toggle('has-file', has);
+      card.innerHTML = `
+        <div class="doc-label">${label}</div>
+        <div class="doc-current ${has ? '' : 'empty'}">${currentHtml}</div>
+        <div class="doc-actions">${actionsHtml}</div>
+      `;
+      // Wire the file input
+      const input = card.querySelector('input[data-role="upload"]');
+      if (input) input.addEventListener('change', async () => {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        const ext = _extFromFile(file);
+        const path = 'assets/devproject/' + projectId + '/documents/' + slot + '.' + ext;
+        const btns = card.querySelectorAll('.doc-btn');
+        btns.forEach(b => b.classList.add('busy'));
+        const statusEl = document.getElementById('doc-status-' + projectId);
+        if (statusEl) { statusEl.textContent = 'Uploading ' + file.name + '…'; statusEl.style.color = ''; }
+        try {
+          await _ghUploadDoc(path, file);
+          // Update state
+          const st = _docLoadState(projectId);
+          st[slot] = {
+            path: path,
+            originalName: file.name,
+            uploadedAt: new Date().toISOString(),
+            uploadedBy: 'Development Project Team'
+          };
+          _docSaveState(projectId, st);
+          _renderDocCard(card, projectId, st);
+          if (statusEl) { statusEl.textContent = '✓ Uploaded ' + file.name; statusEl.style.color = '#9ec39e'; }
+        } catch (err) {
+          console.error(err);
+          if (statusEl) { statusEl.textContent = 'Upload failed: ' + (err.message || err); statusEl.style.color = '#d99'; }
+          btns.forEach(b => b.classList.remove('busy'));
+        }
+      });
+    }
+
+    (function _renderDocGrids() {
+      const grids = document.querySelectorAll('.doc-grid[data-project]');
+      grids.forEach(grid => {
+        const projectId = grid.getAttribute('data-project');
+        const state = _docLoadState(projectId);
+        grid.querySelectorAll('.doc-card').forEach(card => _renderDocCard(card, projectId, state));
+      });
+    })();
+
+    (async function _renderTeams() {
+      const grids = document.querySelectorAll('.team-grid[data-project]');
+      if (grids.length === 0) return;
+      // Fetch both sources in parallel
+      const [contactsByName, rosterByName] = await Promise.all([
+        _fetchContactsIndex(),
+        _fetchTeamRosterIndex()
+      ]);
+      grids.forEach(grid => {
+        const projectId = grid.getAttribute('data-project');
+        const roster = DEVPROJECT_TEAMS[projectId] || [];
+        grid.innerHTML = roster.map(m => {
+          const src = (m.source === 'roster') ? rosterByName : contactsByName;
+          const c = src[m.name.toLowerCase()];
+          return _teamCardHtml(m, c);
+        }).join('');
+      });
+    })();
+
+    /* =========================================================
+       Pull live project data from the admin Custom Rep Intake
+       sheet. Any panel with data-client-match="<substring>" gets
+       its data-field="..." elements populated from the matching
+       sheet row (case-insensitive substring match on Client Name).
+       ========================================================= */
+    (async function () {
+      const CUSTOMREP_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
+      const CUSTOMREP_SHEET_TAB = "Form_Responses";
+      const clientPanels = document.querySelectorAll('.panel[data-client-match]');
+      if (clientPanels.length === 0) return;
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/' + CUSTOMREP_SHEET_ID +
+          '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(CUSTOMREP_SHEET_TAB) +
+          '&t=' + Date.now();
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const text = await res.text();
+        const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+        if (!m) throw new Error('Bad gviz envelope');
+        const data = JSON.parse(m[1]);
+        if (data.status !== 'ok') throw new Error(data.errors?.[0]?.detailed_message || data.status);
+        const cols = data.table.cols || [];
+        const rows = data.table.rows || [];
+        const label = s => String(s || '').toLowerCase();
+        const colIdx = name => cols.findIndex(c => label(c.label) === label(name));
+        const ix = {
+          timestamp: colIdx('Timestamp'),
+          client:    colIdx('Client Name'),
+          address:   colIdx('Address'),
+          architect: colIdx('Architect'),
+          designer:  colIdx('Designer'),
+          builder:   colIdx('Builder'),
+          engagement:colIdx('Engagement Start Date'),
+          projectedCO:colIdx('Projected CO Date'),
+          stage:     colIdx('Current Stage'),
+          hardCost:  colIdx('Hard Cost Estimate'),
+          notes:     colIdx('Notes')
+        };
+        function cellStr(c) {
+          if (!c) return '';
+          if (c.f != null) return String(c.f);
+          if (c.v != null) return String(c.v);
+          return '';
+        }
+        function cellDate(c) {
+          if (!c || c.v == null) return null;
+          const v = c.v;
+          if (typeof v === 'string' && /^Date\(/.test(v)) {
+            const m = v.match(/Date\((\d+),(\d+),(\d+)/);
+            if (m) return new Date(+m[1], +m[2], +m[3]);
+          }
+          const d = new Date(v);
+          return isNaN(d) ? null : d;
+        }
+        function fmtDate(d) {
+          if (!(d instanceof Date) || isNaN(d)) return '';
+          return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+        function fmtUSD(n) {
+          if (!isFinite(n) || !n) return '';
+          return '$' + Math.round(n).toLocaleString();
+        }
+        // Parse + dedupe by client name (latest Timestamp wins — mirrors admin logic)
+        const byKey = new Map();
+        rows.forEach(r => {
+          const c = r.c || [];
+          const client = cellStr(c[ix.client]).trim();
+          if (!client) return;
+          const key = client.toLowerCase();
+          const ts = cellDate(c[ix.timestamp]);
+          const ex = byKey.get(key);
+          if (!ex || (ts && (!ex._ts || ts > ex._ts))) {
+            byKey.set(key, {
+              _ts:        ts,
+              client:     client,
+              address:    cellStr(c[ix.address]),
+              architect:  cellStr(c[ix.architect]),
+              designer:   cellStr(c[ix.designer]),
+              builder:    cellStr(c[ix.builder]),
+              engagement: cellDate(c[ix.engagement]),
+              projectedCO:cellDate(c[ix.projectedCO]),
+              stage:      cellStr(c[ix.stage]),
+              hardCost:   parseFloat(cellStr(c[ix.hardCost]).replace(/[^\d.]/g, '')) || 0,
+              notes:      cellStr(c[ix.notes])
+            });
+          }
+        });
+        // For each client panel, find a matching row and populate fields
+        clientPanels.forEach(panel => {
+          const needle = (panel.getAttribute('data-client-match') || '').toLowerCase();
+          let match = null;
+          for (const [k, v] of byKey) {
+            if (k.indexOf(needle) >= 0) { match = v; break; }
+          }
+          if (!match) return;
+          const setField = (name, val) => {
+            const el = panel.querySelector('[data-field="' + name + '"]');
+            if (el && val) el.textContent = val;
+          };
+          setField('client',       match.client);
+          setField('address',      match.address);
+          setField('stage',        match.stage);
+          setField('architect',    match.architect);
+          setField('designer',     match.designer);
+          setField('builder',      match.builder);
+          setField('hard-cost',    fmtUSD(match.hardCost));
+          setField('engagement',   fmtDate(match.engagement));
+          setField('projected-co', fmtDate(match.projectedCO));
+          if (match.projectedCO) {
+            const today = new Date(); today.setHours(0,0,0,0);
+            const days = Math.round((match.projectedCO - today) / 86400000);
+            setField('co-target', days > 0 ? days + ' days to CO' : 'CO ' + Math.abs(days) + ' days ago');
+          }
+        });
+      } catch (err) {
+        console.warn('[Development Project] Custom Rep sheet fetch failed:', err);
+      }
+    })();
+  </script>
+</body>
+</html>

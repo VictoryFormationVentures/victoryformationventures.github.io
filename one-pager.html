@@ -1,0 +1,1234 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Property One Pager · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg:           #000000;
+      --bg-elev:      #0c0c0c;
+      --bg-elev-2:    #141414;
+      --text:         #ffffff;
+      --text-muted:   #b4b4b4;
+      --text-dim:     #707070;
+      --rule:         #1f1f1f;
+      --rule-strong:  #2a2a2a;
+
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+      --font-body:    'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+
+      --tracking-wide:   0.25em;
+      --tracking-x-wide: 0.35em;
+
+      --pad-x: 56px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
+    body {
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Floating "print / regenerate" controls — never appear on the printed page */
+    .toolbar {
+      position: fixed; top: 16px; right: 16px;
+      display: flex; gap: 10px;
+      z-index: 100;
+      align-items: flex-start;
+      max-width: calc(100vw - 32px);
+    }
+    .toolbar .tb-status {
+      font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-right: 6px;
+      max-width: 560px;
+      white-space: normal;
+      line-height: 1.5;
+      text-align: right;
+      padding-top: 10px;
+    }
+    .toolbar .tb-status.warn {
+      color: #ffb46b;
+      font-weight: 500;
+      white-space: normal;
+      line-height: 1.4;
+    }
+    .toolbar .tb-status.err {
+      color: #ff6b6b;
+      font-weight: 500;
+      white-space: normal;
+      line-height: 1.4;
+    }
+    .toolbar .tb-btn {
+      font: inherit; font-size: 11px; font-weight: 400;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      padding: 12px 22px;
+      color: var(--bg); background: var(--text);
+      border: 1px solid var(--text);
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .toolbar .tb-btn.ghost {
+      background: transparent; color: var(--text);
+      padding: 10px 16px; font-weight: 300;
+    }
+    .toolbar .tb-btn:hover { opacity: .85; }
+    .toolbar .tb-btn:disabled { opacity: .4; cursor: wait; }
+
+    /* ------------------------------------------------------------
+       The one-pager itself — sized to fit an 8.5" x 11" page nicely.
+       max-width 850px keeps text at a comfortable line length when
+       viewed on screen; @media print sets exact page dimensions.
+       ------------------------------------------------------------ */
+    .pager {
+      max-width: 850px;
+      margin: 0 auto;
+      padding: 40px var(--pad-x) 48px;
+      background: var(--bg);
+    }
+
+    /* Header */
+    .pager-head {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 28px;
+    }
+    .brand-mark {
+      width: 56px; height: 56px;
+      flex-shrink: 0;
+    }
+    .brand-mark img { width: 100%; height: 100%; display: block; }
+    .head-right {
+      text-align: right;
+    }
+    .head-eyebrow {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 18px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .head-sub {
+      margin-top: 6px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-muted);
+    }
+
+    /* Hero image — preserves the rendering's natural aspect ratio so
+       widescreen architectural renderings aren't squashed into a square.
+       max-height caps very tall portrait images from dominating the page. */
+    .hero {
+      width: 100%;
+      max-height: 620px;
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      margin: 0 auto 32px;
+      overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .hero img {
+      display: block;
+      width: 100%;
+      height: auto;
+      max-height: 620px;
+      object-fit: contain;
+    }
+    .hero.empty {
+      color: var(--text-dim);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+
+    /* Address block */
+    .address h1 {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 38px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin: 0;
+      line-height: 1.05;
+    }
+    .address .sub {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+    .address .sub .dot { margin: 0 8px; color: var(--text-dim); }
+
+    /* Stats row */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      padding: 26px 0;
+      margin: 28px 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      text-align: center;
+    }
+    .stat .num {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 38px;
+      line-height: 1;
+      color: var(--text);
+    }
+    .stat .label {
+      margin-top: 8px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-muted);
+    }
+
+    /* Two-column body: highlights + at-a-glance */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+    .col-head {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text);
+      margin: 0 0 14px;
+    }
+    .highlights ul {
+      list-style: disc;
+      padding-left: 20px;
+      margin: 0;
+      color: var(--text);
+      font-size: 13px;
+      line-height: 1.7;
+    }
+    .highlights ul li::marker { color: var(--text); }
+
+    .glance {
+      background: var(--bg-elev);
+      border: 1px solid var(--rule-strong);
+      padding: 20px 22px;
+    }
+    .glance .col-head { margin-bottom: 16px; }
+    .glance-rows {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 18px;
+    }
+    .glance-row.full { grid-column: 1 / -1; }
+    .glance-row .k {
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+    .glance-row .v {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 22px;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    /* CTA buttons on the cover */
+    .ctas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0 32px;
+    }
+    .ctas.single {
+      grid-template-columns: 1fr;
+      max-width: 320px;
+      margin: 24px auto 32px;
+    }
+    .cta-btn {
+      display: block;
+      text-align: center;
+      padding: 14px 18px;
+      font-size: 11px;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text);
+      background: transparent;
+      border: 1px solid var(--text);
+      text-decoration: none;
+    }
+
+    /* ------------------------------------------------------------
+       Extra full-bleed pages (Building Plans, Design Board)
+       Each is its own printed page after the cover.
+       ------------------------------------------------------------ */
+    .extra-page {
+      max-width: 850px;
+      margin: 40px auto 0;
+      padding: 32px var(--pad-x) 40px;
+      background: var(--bg);
+      border-top: 1px solid var(--rule);     /* on-screen separator only */
+    }
+    .extra-page-head {
+      display: flex; align-items: flex-end; justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 22px;
+    }
+    .extra-page-eyebrow {
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      color: var(--text);
+      line-height: 1.2;
+    }
+    .extra-page-addr {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      color: var(--text-muted);
+    }
+    .extra-page-image {
+      width: 100%;
+      max-height: 880px;
+      object-fit: contain;
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+      display: block;
+    }
+
+    /* "Appended to PDF" notice card — shown when PDF plans/design board
+       are attached but not previewed on screen. */
+    .attached-notice {
+      max-width: 850px;
+      margin: 32px auto 0;
+      padding: 24px var(--pad-x);
+      background: var(--bg-elev);
+      border: 1px solid var(--rule);
+    }
+    .attached-notice .an-head {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: var(--tracking-x-wide);
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .attached-notice ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 14px;
+      font-size: 13px;
+      color: var(--text);
+    }
+    .attached-notice ul li {
+      padding: 6px 0;
+      border-bottom: 1px solid var(--rule);
+      letter-spacing: .02em;
+    }
+    .attached-notice ul li:last-child { border-bottom: 0; }
+    .attached-notice ul li strong {
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-right: 8px;
+    }
+    .attached-notice .an-foot {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+    .attached-notice .an-foot em { font-style: italic; }
+
+    /* Prepared-for block */
+    .prepared {
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid var(--rule);
+    }
+    .prepared .label {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      color: var(--text-muted);
+      margin-bottom: 10px;
+    }
+    .prepared .name {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 26px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Land mode: comps section (Best Comp / CMA / Land Comps) */
+    .comps-section {
+      margin-top: 28px;
+      padding-top: 22px;
+      border-top: 1px solid var(--rule);
+    }
+    .comps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px 24px;
+      margin-top: 12px;
+    }
+    .comp-row.full { grid-column: 1 / -1; }
+    .comp-row .k {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 4px;
+    }
+    .comp-row .v {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    /* Foot disclaimer */
+    .pager-foot {
+      margin-top: 24px;
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: var(--tracking-x-wide);
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Empty / error state */
+    .empty-state {
+      max-width: 480px;
+      margin: 100px auto;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .empty-state h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      margin: 0 0 14px;
+    }
+    .empty-state p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    /* Print styling — kept minimal to avoid Safari's "blank print" bug.
+       Aggressive print-specific size overrides + page-break-inside:avoid
+       on oversized content can cause Safari to silently drop the entire
+       cover from the output. We rely on the screen layout instead and
+       only override the essentials here. */
+    @page {
+      size: letter portrait;
+      margin: 0;
+    }
+    @media print {
+      /* Force every element to retain its CSS colors in the print.
+         Without this, Chrome/Safari strip backgrounds. */
+      *, *::before, *::after {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        color-adjust: exact !important;
+      }
+      html, body {
+        background: #000000 !important;
+        color: #ffffff !important;
+      }
+
+      .toolbar { display: none !important; }
+
+      /* Cover fills the page; let it flow naturally rather than fighting
+         the browser's pagination with page-break-inside: avoid. */
+      .pager {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0.4in 0.5in !important;
+        page-break-after: always;
+      }
+      .pager-foot { page-break-after: always; }
+
+      /* Each extra page starts on a fresh sheet. */
+      .extra-page {
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0.4in 0.5in !important;
+        border-top: 0 !important;
+        page-break-before: always;
+      }
+      .extra-page-image {
+        max-height: 9.2in;
+        border: 0 !important;
+      }
+
+      a { color: inherit; text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="tb-status" id="tb-status">Loading…</span>
+    <a class="tb-btn ghost" href="index.html#sales">← Back</a>
+    <button class="tb-btn" type="button" id="print-btn" disabled>Save as PDF</button>
+  </div>
+
+  <main id="output"></main>
+
+  <script>
+    // ============================================================
+    // One-pager renderer
+    //  Reads the payload from IndexedDB (dashboard wrote it just before
+    //  opening this tab), composes the styled output page, and converts
+    //  any Blob attachments to object URLs for use as <img src="…">.
+    // ============================================================
+
+    const output = document.getElementById('output');
+
+    function escapeHTML(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+      }[c]));
+    }
+    function formatUSD(v) {
+      if (v == null || v === '') return '';
+      const n = Number(String(v).replace(/[$,\s]/g, ''));
+      if (!isFinite(n)) return String(v);
+      return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 }).format(n);
+    }
+    function dash(v) { return v == null || v === '' ? '—' : v; }
+
+    function blobToUrl(b) {
+      return (b instanceof Blob) ? URL.createObjectURL(b) : '';
+    }
+
+    // ----- IndexedDB helpers (mirror the dashboard) -----
+    // Version 3 with all three stores (onepager, om, engagement) — keeps
+    // this reader compatible regardless of which writer ran first.
+    function idbOpen() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open('vfv-dashboard', 4);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+          if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+          if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+            if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    async function idbGet(key) {
+      const db = await idbOpen();
+      return new Promise((resolve, reject) => {
+        const tx = db.transaction('onepager', 'readonly');
+        const req = tx.objectStore('onepager').get(key);
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    // The dashboard passes a unique ?req=... when opening this page so we
+    // only render the matching payload (avoids stale data from a previous
+    // generation if IDB still has an old entry).
+    const REQUESTED_ID = new URLSearchParams(window.location.search).get('req');
+
+    // The output tab is sometimes opened by the dashboard BEFORE the IDB
+    // write completes (we open synchronously to avoid Safari's pop-up
+    // blocker). Poll IDB for up to 90 seconds (300 × 300ms) — generous
+    // window for big PDF renders. Update status periodically so the user
+    // knows it hasn't frozen.
+    //
+    // For backwards compatibility, any payload is accepted when no ?req=
+    // is in the URL; otherwise we wait for the matching requestId.
+    async function loadPayload(onProgress) {
+      const MAX_TRIES = 300;
+      const STEP_MS = 300;
+      for (let i = 0; i < MAX_TRIES; i++) {
+        try {
+          const v = await idbGet('current');
+          if (v && v.mode) {
+            if (!REQUESTED_ID || v.requestId === REQUESTED_ID) return v;
+          }
+        } catch (err) {
+          console.error('IndexedDB read failed:', err);
+          return null;
+        }
+        if (onProgress) onProgress(i, MAX_TRIES);
+        await new Promise((r) => setTimeout(r, STEP_MS));
+      }
+      return null;
+    }
+
+    function renderEmpty() {
+      output.innerHTML =
+        '<div class="empty-state">' +
+          '<h2>No one-pager data</h2>' +
+          '<p>Return to the dashboard, open Sales → Marketing Templates → Property One Pager, fill in the form, and generate again.</p>' +
+        '</div>';
+    }
+
+    function renderOnePager(d) {
+
+      const isNewCon = d.mode === 'new_construction';
+
+      const heroSrc = isNewCon
+        ? blobToUrl(d.rendering && d.rendering.blob)
+        : blobToUrl(d.listingPhoto && d.listingPhoto.blob);
+
+      const headEyebrow = 'Victory Formation Ventures';
+      const headSub = isNewCon ? 'Exclusive Off-Market Property' : 'On-Market Listing';
+
+      const highlightsHtml = (d.highlights || '')
+        .split(/\r?\n/)
+        .map(s => s.trim())
+        .filter(Boolean)
+        .map(s => '<li>' + escapeHTML(s) + '</li>')
+        .join('');
+
+      // Build the "AT A GLANCE" rows by mode
+      let glanceRows = '';
+      if (isNewCon) {
+        glanceRows =
+          '<div class="glance-row full"><div class="k">Price</div><div class="v">' + escapeHTML(formatUSD(d.price) || '—') + '</div></div>' +
+          (d.completion ? '<div class="glance-row full"><div class="k">Completion</div><div class="v">' + escapeHTML(d.completion) + '</div></div>' : '') +
+          '<div class="glance-row"><div class="k">Builder</div><div class="v">' + escapeHTML(dash(d.builder)) + '</div></div>' +
+          '<div class="glance-row"><div class="k">Area</div><div class="v">' + escapeHTML(dash(d.neighborhood)) + '</div></div>';
+      } else {
+        glanceRows =
+          '<div class="glance-row full"><div class="k">Listing Price</div><div class="v">' + escapeHTML(formatUSD(d.listPrice) || '—') + '</div></div>' +
+          (d.daysOnMarket !== '' ? '<div class="glance-row"><div class="k">Days on Market</div><div class="v">' + escapeHTML(d.daysOnMarket) + '</div></div>' : '') +
+          '<div class="glance-row"><div class="k">Area</div><div class="v">' + escapeHTML(dash(d.neighborhood)) + '</div></div>';
+      }
+
+      // Cover CTAs.
+      // New Construction: no buttons — the building plans + design board
+      // flow as their own pages after the cover, no button needed.
+      // On-Market: single "View Listing" link to the source listing.
+      let ctas = '';
+      if (!isNewCon && d.listingUrl) {
+        ctas =
+          '<div class="ctas single">' +
+            '<a class="cta-btn" href="' + escapeHTML(d.listingUrl) + '" target="_blank" rel="noopener">View Listing</a>' +
+          '</div>';
+      }
+
+      // Build the extra pages that flow after the cover (only for New Construction).
+      //  - IMAGE upload → one extra page rendered as <img> on screen.
+      //  - PDF upload   → NO on-screen preview; the original PDF is merged
+      //                   straight into the downloaded PDF at save time
+      //                   via pdf-lib. This is the change that fixed the
+      //                   "plans/design board never appear" bug: we no
+      //                   longer try to rasterize PDFs at upload time,
+      //                   so there's no PDF.js worker to fail.
+      function extraPageHtml(eyebrow, file) {
+        if (!file || !file.blob) return '';
+        const isPdf = (file.type === 'application/pdf') || /\.pdf$/i.test(file.name || '');
+        if (isPdf) return ''; // PDFs are appended at download time, not previewed inline.
+        const src = blobToUrl(file.blob);
+        if (!src) return '';
+        return (
+          '<section class="extra-page">' +
+            '<header class="extra-page-head">' +
+              '<div class="extra-page-eyebrow">' + escapeHTML(eyebrow) + '</div>' +
+              '<div class="extra-page-addr">' + escapeHTML(d.address || '') + '</div>' +
+            '</header>' +
+            '<img class="extra-page-image" src="' + src + '" alt="' + escapeHTML(eyebrow) + '" />' +
+          '</section>'
+        );
+      }
+      // Notice card listing what'll be merged into the downloaded PDF but
+      // isn't previewed on screen (i.e., uploaded PDFs).
+      function attachedNoticeHtml() {
+        if (!isNewCon) return '';
+        const items = [];
+        const fmt = (label, f) => {
+          if (!f || !f.blob) return null;
+          const isPdf = (f.type === 'application/pdf') || /\.pdf$/i.test(f.name || '');
+          if (!isPdf) return null;
+          const mb = (f.blob.size / (1024 * 1024)).toFixed(1);
+          return '<li><strong>' + escapeHTML(label) + ':</strong> ' + escapeHTML(f.name || '') + ' (' + mb + 'MB)</li>';
+        };
+        const a = fmt('Building Plans', d.plans);
+        const b = fmt('Design Board', d.designBoard);
+        if (a) items.push(a);
+        if (b) items.push(b);
+        if (!items.length) return '';
+        return (
+          '<aside class="attached-notice">' +
+            '<div class="an-head">Appended to PDF Download</div>' +
+            '<ul>' + items.join('') + '</ul>' +
+            '<div class="an-foot">These PDFs aren\'t previewed on screen — they\'re merged into the final document when you click <em>Save as PDF</em>.</div>' +
+          '</aside>'
+        );
+      }
+      const extraPages = isNewCon
+        ? (extraPageHtml('Building Plans', d.plans) + extraPageHtml('Design Board', d.designBoard) + attachedNoticeHtml())
+        : '';
+
+      const heroHtml = heroSrc
+        ? '<div class="hero"><img src="' + heroSrc + '" alt="' + escapeHTML(d.address) + '" /></div>'
+        : '<div class="hero empty">No image provided</div>';
+
+      const baths = d.bathrooms;
+      const cityState = d.cityStateZip || '';
+
+      output.innerHTML =
+        '<article class="pager">' +
+          '<header class="pager-head">' +
+            '<div class="brand-mark"><img src="assets/icon-512.png" alt="Victory Formation Ventures" /></div>' +
+            '<div class="head-right">' +
+              '<div class="head-eyebrow">' + escapeHTML(headEyebrow) + '</div>' +
+              '<div class="head-sub">' + escapeHTML(headSub) + '</div>' +
+            '</div>' +
+          '</header>' +
+
+          heroHtml +
+
+          '<section class="address">' +
+            '<h1>' + escapeHTML(d.address) + '</h1>' +
+            '<div class="sub">' +
+              escapeHTML(cityState) +
+              (cityState && d.neighborhood ? '<span class="dot">•</span>' : '') +
+              escapeHTML(d.neighborhood || '') +
+            '</div>' +
+          '</section>' +
+
+          '<section class="stats">' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.bedrooms)) + '</div><div class="label">Bedrooms</div></div>' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(baths)) + '</div><div class="label">Bathrooms</div></div>' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.squareFeet)) + '</div><div class="label">Square Feet</div></div>' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.garage)) + '</div><div class="label">Car Garage</div></div>' +
+          '</section>' +
+
+          (highlightsHtml
+            ? '<section class="two-col">' +
+                '<div class="highlights">' +
+                  '<h3 class="col-head">Property Highlights</h3>' +
+                  '<ul>' + highlightsHtml + '</ul>' +
+                '</div>' +
+                '<div class="glance">' +
+                  '<h3 class="col-head">At a Glance</h3>' +
+                  '<div class="glance-rows">' + glanceRows + '</div>' +
+                '</div>' +
+              '</section>'
+            : '<section><div class="glance" style="max-width:380px;margin:0 auto;">' +
+                '<h3 class="col-head">At a Glance</h3>' +
+                '<div class="glance-rows">' + glanceRows + '</div>' +
+              '</div></section>'
+          ) +
+
+          ctas +
+
+          (d.client
+            ? '<section class="prepared">' +
+                '<div class="label">Prepared For</div>' +
+                '<div class="name">' + escapeHTML(d.client) + '</div>' +
+              '</section>'
+            : '') +
+
+          (isNewCon
+            ? '<div class="pager-foot">Confidential · Off-Market · Not For Public Distribution</div>'
+            : '<div class="pager-foot">Information sourced from public MLS. Verify all details independently.</div>'
+          ) +
+        '</article>' +
+        extraPages;
+    }
+
+    // ============================================================
+    // Land Acquisition variant
+    //   Same brand styling (dark theme, Aboreto, header layout) as
+    //   the Sales one-pager, but renders LAND data: lot size, zoning,
+    //   topography, flood zone, setbacks/dimensions, asking + contract
+    //   price, due diligence + closing dates, comps.
+    //   Input: payload built by the Land One-Pager modal in index.html,
+    //   with d.mode === 'land'.
+    // ============================================================
+    function renderLandPager(d) {
+      const heroSrc = blobToUrl(d.photo && d.photo.blob);
+      const headEyebrow = 'Victory Formation Ventures';
+      const headSub     = 'Land Acquisition Opportunity';
+
+      // Build the "lot details" bullet list from setbacks + dimensions.
+      // Any field that's empty is dropped so the list stays clean for
+      // intake rows that don't have every measurement filled in.
+      function lotBullet(label, val) {
+        if (!val) return '';
+        return '<li>' + escapeHTML(label) + ' — ' + escapeHTML(val) + '</li>';
+      }
+      const sb = d.setbacks   || {};
+      const dm = d.dimensions || {};
+      const lotItems = [
+        lotBullet('Front setback',     sb.front    ? sb.front + ' ft'    : ''),
+        lotBullet('Rear setback',      sb.rear     ? sb.rear + ' ft'     : ''),
+        lotBullet('Interior setback',  sb.interior ? sb.interior + ' ft' : ''),
+        lotBullet('Road-side setback', sb.road     ? sb.road + ' ft'     : ''),
+        lotBullet('Frontage',          dm.front     ? dm.front + ' ft'     : ''),
+        lotBullet('Side (left)',       dm.sideLeft  ? dm.sideLeft + ' ft'  : ''),
+        lotBullet('Rear width',        dm.rear      ? dm.rear + ' ft'      : ''),
+        lotBullet('Side (right)',      dm.sideRight ? dm.sideRight + ' ft' : ''),
+        d.variance ? lotBullet('Variance needed', d.variance) : '',
+      ].filter(Boolean).join('');
+
+      // "At a Glance" rows — prices + dates.
+      const glanceRows =
+        '<div class="glance-row full"><div class="k">Asking Price</div><div class="v">'   + escapeHTML(formatUSD(d.askingPrice)   || '—') + '</div></div>' +
+        '<div class="glance-row full"><div class="k">Contract Price</div><div class="v">' + escapeHTML(formatUSD(d.contractPrice) || '—') + '</div></div>' +
+        (d.underContract ? '<div class="glance-row"><div class="k">Under Contract</div><div class="v">' + escapeHTML(d.underContract) + '</div></div>' : '') +
+        (d.ddEnd         ? '<div class="glance-row"><div class="k">DD End</div><div class="v">'         + escapeHTML(d.ddEnd)         + '</div></div>' : '') +
+        (d.closing       ? '<div class="glance-row"><div class="k">Closing</div><div class="v">'        + escapeHTML(d.closing)       + '</div></div>' : '');
+
+      // Optional comps section below the two-col block.
+      const compsHtml = (d.compInArea || d.bestComp || d.cma || d.landComps)
+        ? '<section class="comps-section">' +
+            '<h3 class="col-head">Comparables</h3>' +
+            '<div class="comps-grid">' +
+              (d.bestComp    ? '<div class="comp-row"><div class="k">Best Comp</div><div class="v">'      + escapeHTML(d.bestComp)    + '</div></div>' : '') +
+              (d.cma         ? '<div class="comp-row"><div class="k">CMA</div><div class="v">'            + escapeHTML(d.cma)         + '</div></div>' : '') +
+              (d.compInArea  ? '<div class="comp-row full"><div class="k">Comp in Area</div><div class="v">' + escapeHTML(d.compInArea) + '</div></div>' : '') +
+              (d.landComps   ? '<div class="comp-row full"><div class="k">Land Comps</div><div class="v">'   + escapeHTML(d.landComps)  + '</div></div>' : '') +
+            '</div>' +
+          '</section>'
+        : '';
+
+      const heroHtml = heroSrc
+        ? '<div class="hero"><img src="' + heroSrc + '" alt="' + escapeHTML(d.address) + '" /></div>'
+        : '<div class="hero empty">No lot photo provided</div>';
+
+      output.innerHTML =
+        '<article class="pager">' +
+          '<header class="pager-head">' +
+            '<div class="brand-mark"><img src="assets/icon-512.png" alt="Victory Formation Ventures" /></div>' +
+            '<div class="head-right">' +
+              '<div class="head-eyebrow">' + escapeHTML(headEyebrow) + '</div>' +
+              '<div class="head-sub">' + escapeHTML(headSub) + '</div>' +
+            '</div>' +
+          '</header>' +
+
+          heroHtml +
+
+          '<section class="address">' +
+            '<h1>' + escapeHTML(d.address || 'Property') + '</h1>' +
+            '<div class="sub">' + escapeHTML(d.neighborhood || '') + '</div>' +
+          '</section>' +
+
+          '<section class="stats">' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.lotSize))    + '</div><div class="label">Lot Size</div></div>' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.zoning))     + '</div><div class="label">Zoning</div></div>' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.topography)) + '</div><div class="label">Topography</div></div>' +
+            '<div class="stat"><div class="num">' + escapeHTML(dash(d.floodZone))  + '</div><div class="label">Flood Zone</div></div>' +
+          '</section>' +
+
+          (lotItems
+            ? '<section class="two-col">' +
+                '<div class="highlights">' +
+                  '<h3 class="col-head">Lot Details</h3>' +
+                  '<ul>' + lotItems + '</ul>' +
+                '</div>' +
+                '<div class="glance">' +
+                  '<h3 class="col-head">At a Glance</h3>' +
+                  '<div class="glance-rows">' + glanceRows + '</div>' +
+                '</div>' +
+              '</section>'
+            : '<section><div class="glance" style="max-width:380px;margin:0 auto;">' +
+                '<h3 class="col-head">At a Glance</h3>' +
+                '<div class="glance-rows">' + glanceRows + '</div>' +
+              '</div></section>'
+          ) +
+
+          compsHtml +
+
+          (d.notes
+            ? '<section class="prepared">' +
+                '<div class="label">Additional Notes</div>' +
+                '<div class="name" style="font-family:var(--font-body);font-size:13px;font-weight:300;letter-spacing:.02em;line-height:1.6;text-transform:none;">' +
+                  escapeHTML(d.notes) +
+                '</div>' +
+              '</section>'
+            : '') +
+
+          (d.agent
+            ? '<section class="prepared">' +
+                '<div class="label">Prepared By</div>' +
+                '<div class="name">' + escapeHTML(d.agent) + '</div>' +
+              '</section>'
+            : '') +
+
+          '<div class="pager-foot">Confidential · Land Acquisition · Not For Public Distribution</div>' +
+        '</article>';
+    }
+
+    const printBtn = document.getElementById('print-btn');
+    const statusEl = document.getElementById('tb-status');
+
+    function setStatus(text, level) {
+      statusEl.textContent = text;
+      statusEl.classList.remove('warn', 'err');
+      if (level === 'warn') statusEl.classList.add('warn');
+      else if (level === 'err') statusEl.classList.add('err');
+    }
+
+    // ----------------------------------------------------------
+    // PDF generation: html2canvas captures the cover; pdf-lib assembles
+    // the final document.
+    //
+    // The crucial difference from the prior html2canvas + jsPDF approach:
+    // uploaded PDFs (plans, design board) are NOT rasterized at any
+    // point. pdf-lib loads them as PDFDocuments and copies their pages
+    // directly into the output PDF — vector-perfect, no rendering, no
+    // PDF.js worker, no possibility of the "timeout after 60 seconds"
+    // hang we kept hitting.
+    // ----------------------------------------------------------
+    let libsPromise = null;
+    function loadPdfLibs() {
+      if (libsPromise) return libsPromise;
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          const s = document.createElement('script');
+          s.src = src;
+          s.onload  = () => resolve();
+          s.onerror = () => reject(new Error('Failed to load ' + src));
+          document.head.appendChild(s);
+        });
+      }
+      libsPromise = Promise.all([
+        loadScript('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js'),
+        loadScript('https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js'),
+      ]).then(() => {
+        if (!window.html2canvas) throw new Error('html2canvas not available');
+        if (!window.PDFLib || !window.PDFLib.PDFDocument) throw new Error('pdf-lib not available');
+        return {
+          html2canvas: window.html2canvas,
+          PDFDocument: window.PDFLib.PDFDocument,
+          rgb: window.PDFLib.rgb,
+        };
+      });
+      return libsPromise;
+    }
+
+    function cleanFilename(s) {
+      return String(s || 'property').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 60) || 'property';
+    }
+
+    // Letter page in PDF points: 612 × 792 (72 dpi).
+    const PAGE_W_PT = 612;
+    const PAGE_H_PT = 792;
+
+    // Center-fit an image into a page, preserving aspect ratio.
+    function fitInto(imgW, imgH, pageW, pageH) {
+      const imgRatio = imgW / imgH;
+      const pageRatio = pageW / pageH;
+      if (imgRatio >= pageRatio) {
+        const w = pageW;
+        const h = pageW / imgRatio;
+        return { x: 0, y: (pageH - h) / 2, w, h };
+      } else {
+        const h = pageH;
+        const w = pageH * imgRatio;
+        return { x: (pageW - w) / 2, y: 0, w, h };
+      }
+    }
+
+    // Read a Blob as an ArrayBuffer (with Safari-compatible fallback).
+    function blobToArrayBuffer(blob) {
+      if (blob.arrayBuffer) return blob.arrayBuffer();
+      return new Promise((resolve, reject) => {
+        const fr = new FileReader();
+        fr.onload  = () => resolve(fr.result);
+        fr.onerror = () => reject(fr.error || new Error('FileReader failed'));
+        fr.readAsArrayBuffer(blob);
+      });
+    }
+
+    // Trigger a browser download of a Blob.
+    function downloadBlob(blob, filename) {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        try { document.body.removeChild(a); } catch (_) {}
+        URL.revokeObjectURL(url);
+      }, 1000);
+    }
+
+    // Add an image-like (image File OR rendered canvas blob) onto a new
+    // page of the output PDF.
+    //   bgColor: 'black' for the cover (matches the cover's dark design);
+    //            'white' for everything else so uploaded plans/design
+    //            boards don't get a black bar around them.
+    async function addImagePage(out, rgb, imgBytes, mimeHint, bgColor) {
+      let img;
+      const isPng = /png/i.test(mimeHint || '');
+      if (isPng) {
+        img = await out.embedPng(imgBytes);
+      } else {
+        // Default to JPEG; embedJpg fails on non-JPEG data but we control
+        // the cover capture, and any uploaded image we route here was
+        // canvas-converted to JPEG just above.
+        try {
+          img = await out.embedJpg(imgBytes);
+        } catch (_) {
+          img = await out.embedPng(imgBytes);
+        }
+      }
+      const page = out.addPage([PAGE_W_PT, PAGE_H_PT]);
+      const isBlack = bgColor === 'black';
+      page.drawRectangle({
+        x: 0, y: 0, width: PAGE_W_PT, height: PAGE_H_PT,
+        color: isBlack ? rgb(0, 0, 0) : rgb(1, 1, 1),
+      });
+      const fit = fitInto(img.width, img.height, PAGE_W_PT, PAGE_H_PT);
+      page.drawImage(img, { x: fit.x, y: fit.y, width: fit.w, height: fit.h });
+    }
+
+    // Convert an uploaded File/Blob into bytes for embedding.
+    async function fileToImageBytes(file) {
+      // If it's a JPEG, use as-is.
+      const isJpeg = /jpeg|jpg/i.test(file.type) || /\.(jpe?g)$/i.test(file.name || '');
+      const isPng  = /png/i.test(file.type)        || /\.png$/i.test(file.name || '');
+      if (isJpeg || isPng) {
+        const buf = await blobToArrayBuffer(file.blob);
+        return { bytes: buf, mime: isPng ? 'image/png' : 'image/jpeg' };
+      }
+      // For other image formats (avif, webp, heic), draw onto a canvas
+      // and re-encode as JPEG so pdf-lib can embed it.
+      const url = URL.createObjectURL(file.blob);
+      try {
+        const img = await new Promise((res, rej) => {
+          const i = new Image();
+          i.onload = () => res(i);
+          i.onerror = () => rej(new Error('image decode failed: ' + (file.name || '')));
+          i.src = url;
+        });
+        const canvas = document.createElement('canvas');
+        canvas.width = img.naturalWidth || img.width;
+        canvas.height = img.naturalHeight || img.height;
+        canvas.getContext('2d').drawImage(img, 0, 0);
+        const blob = await new Promise((res, rej) =>
+          canvas.toBlob((b) => b ? res(b) : rej(new Error('canvas.toBlob null')), 'image/jpeg', 0.92)
+        );
+        return { bytes: await blobToArrayBuffer(blob), mime: 'image/jpeg' };
+      } finally {
+        URL.revokeObjectURL(url);
+      }
+    }
+
+    async function downloadAsPdf(payload) {
+      const originalLabel = printBtn.textContent;
+      printBtn.disabled = true;
+      printBtn.textContent = 'Building…';
+      setStatus('Loading PDF engine…');
+      try {
+        const { html2canvas, PDFDocument, rgb } = await loadPdfLibs();
+
+        // ---------- 1. Capture the cover via html2canvas ----------
+        const coverEl = document.querySelector('.pager');
+        if (!coverEl) throw new Error('Cover element missing');
+        setStatus('Rendering cover…');
+        const canvas = await html2canvas(coverEl, {
+          scale: 2,
+          backgroundColor: '#000000',
+          useCORS: true,
+          logging: false,
+        });
+        const coverJpegBlob = await new Promise((res, rej) =>
+          canvas.toBlob((b) => b ? res(b) : rej(new Error('cover canvas.toBlob returned null')), 'image/jpeg', 0.92)
+        );
+        const coverBytes = await blobToArrayBuffer(coverJpegBlob);
+
+        // ---------- 2. Build the output PDF with pdf-lib ----------
+        setStatus('Assembling PDF…');
+        const out = await PDFDocument.create();
+        await addImagePage(out, rgb, coverBytes, 'image/jpeg', 'black');
+
+        // ---------- 3. Append plans + design board ----------
+        // For each: if PDF, embed pages and scale to Letter (rotating
+        // to landscape if the source page is wider than tall). If image,
+        // embed as a new Letter page.
+        //
+        // Why normalize to Letter: source PDFs often come at huge
+        // architectural sheet sizes (24×36, 30×42), which made the cover
+        // look tiny in the output. Scaling every page to Letter gives a
+        // uniform document that prints/views consistently.
+        async function appendAttachment(file, label) {
+          if (!file || !file.blob) return;
+          const isPdf = (file.type === 'application/pdf') || /\.pdf$/i.test(file.name || '');
+          if (isPdf) {
+            setStatus('Merging ' + label + '…');
+            const bytes = await blobToArrayBuffer(file.blob);
+            const src = await PDFDocument.load(bytes, { ignoreEncryption: true });
+            const srcPages = src.getPages();
+
+            // We embed each source page with an EXPLICIT bounding box
+            // taken from the CropBox (falling back to MediaBox). Some
+            // CAD/architectural exports use a MediaBox much larger than
+            // the visible content area, with the content positioned
+            // somewhere inside that box. The previous `embedPdf` call
+            // used MediaBox dimensions for sizing, so the visible
+            // content ended up offset to the bottom-left of the output
+            // page and partially clipped. Explicit cropbox bounds fix
+            // that by telling pdf-lib exactly which region of the source
+            // is the "real" page.
+            for (let i = 0; i < srcPages.length; i++) {
+              const srcPage = srcPages[i];
+
+              // Prefer CropBox (visible area), fall back to MediaBox.
+              // pdf-lib returns boxes as { x, y, width, height }.
+              let box;
+              try { box = srcPage.getCropBox(); }
+              catch (_) { box = srcPage.getMediaBox(); }
+              if (!box || !box.width || !box.height) {
+                box = srcPage.getMediaBox();
+              }
+
+              const bbox = {
+                left:   box.x,
+                bottom: box.y,
+                right:  box.x + box.width,
+                top:    box.y + box.height,
+              };
+
+              // embedPage(srcPage, bbox?) returns a PDFEmbeddedPage
+              // whose width/height equal the bbox dimensions (not the
+              // MediaBox), and whose drawn output is the contents of
+              // that exact region — no offset, no clipping.
+              const emb = await out.embedPage(srcPage, bbox);
+
+              const isLandscape = box.width > box.height;
+              // Letter portrait = 612×792; Letter landscape = 792×612.
+              const pageW = isLandscape ? PAGE_H_PT : PAGE_W_PT;
+              const pageH = isLandscape ? PAGE_W_PT : PAGE_H_PT;
+              const page = out.addPage([pageW, pageH]);
+              // White background for appended pages — the source PDF
+              // (plans, design board) has its own native background
+              // (usually white) and we don't want a black bar showing
+              // through any letterboxing.
+              page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: rgb(1, 1, 1) });
+              const fit = fitInto(box.width, box.height, pageW, pageH);
+              page.drawPage(emb, { x: fit.x, y: fit.y, width: fit.w, height: fit.h });
+            }
+            console.log('[one-pager] merged ' + label + ': ' + srcPages.length + ' page(s), scaled to Letter (cropbox-aware)');
+          } else {
+            setStatus('Embedding ' + label + '…');
+            const { bytes, mime } = await fileToImageBytes(file);
+            await addImagePage(out, rgb, bytes, mime, 'white');
+            console.log('[one-pager] embedded ' + label + ' as image');
+          }
+        }
+        await appendAttachment(payload.plans,       'Building Plans');
+        await appendAttachment(payload.designBoard, 'Design Board');
+
+        // ---------- 4. Save + download ----------
+        setStatus('Saving…');
+        const pdfBytes = await out.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const filename = 'One-Pager-' + cleanFilename(payload && payload.address) + '.pdf';
+        downloadBlob(blob, filename);
+        setStatus('Saved: ' + filename + ' (' + out.getPageCount() + ' pages)');
+      } catch (err) {
+        console.error('PDF generation failed:', err);
+        setStatus('PDF failed: ' + (err && err.message ? err.message : 'unknown error'), 'err');
+      } finally {
+        printBtn.disabled = false;
+        printBtn.textContent = originalLabel;
+      }
+    }
+
+    // We need the payload available to name the file; renderOnePager
+    // is called with `d`, so we capture it for the click handler.
+    let __payload = null;
+    printBtn.addEventListener('click', () => downloadAsPdf(__payload));
+
+    // Wait until every image inside the rendered page has actually painted.
+    // Then `document.fonts.ready` lets Aboreto + Montserrat settle before
+    // the print engine snapshots the document.
+    async function whenReady() {
+      const imgs = Array.from(document.querySelectorAll('img'));
+      await Promise.all(imgs.map((img) =>
+        img.complete && img.naturalWidth ? Promise.resolve()
+        : new Promise((res) => { img.onload = img.onerror = res; })
+      ));
+      if (document.fonts && document.fonts.ready) {
+        await document.fonts.ready;
+      }
+      // small grace period so layout fully settles
+      await new Promise((r) => setTimeout(r, 300));
+    }
+
+    // Kick everything off
+    (async () => {
+      setStatus('Waiting for data…');
+      const d = await loadPayload((i, max) => {
+        const elapsedSec = Math.round((i + 1) * 300 / 1000);
+        if (i >= 30 && i < 60) setStatus('Still working… ' + elapsedSec + 's');
+        else if (i >= 60 && i < 120) setStatus('Processing large files… ' + elapsedSec + 's');
+        else if (i >= 120) setStatus('Waiting on dashboard… ' + elapsedSec + 's');
+      });
+      if (!d || !d.mode) {
+        renderEmpty();
+        setStatus('No data');
+        return;
+      }
+
+      setStatus('Rendering…');
+      __payload = d;     // captured for the Save-as-PDF click handler
+      if (d.mode === 'land') {
+        renderLandPager(d);
+      } else {
+        renderOnePager(d);
+      }
+      await whenReady();
+
+      // Surface how many pages are in the rendered output so the user can
+      // immediately tell whether plans + design board made it through.
+      const extraCount = document.querySelectorAll('.extra-page').length;
+      const summary = (1 + extraCount) + ' page' + (extraCount === 0 ? '' : 's') +
+        (extraCount > 0 ? ' (cover + ' + extraCount + ' extra)' : ' (cover only)');
+
+      // Show a clean, minimal status when things are working.
+      // Only surface file receipts + warnings if there's an actual
+      // failure — diagnostic clutter is only useful when debugging.
+      if (d.warnings && d.warnings.length) {
+        const parts = ['Ready · ' + summary, '⚠  ' + d.warnings.join('  |  ')];
+        if (d.fileReceipts && d.fileReceipts.length) {
+          parts.splice(1, 0, d.fileReceipts.join('  ·  '));
+        }
+        setStatus(parts.join('   '), 'warn');
+      } else {
+        setStatus('Ready · ' + summary);
+      }
+      printBtn.disabled = false;
+    })();
+  </script>
+</body>
+</html>

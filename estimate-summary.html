@@ -1,0 +1,505 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custom Home Cost Estimate — Victory Formation Ventures</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:  #ffffff;
+    --ink:    #111;
+    --muted:  #4a4a4a;
+    --dim:    #888;
+    --rule:   #d6d6d6;
+    --panel:  #f5f5f5;
+    --font-display: 'Aboreto', 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'Mulish', 'Inter', Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #1a1a1a; }
+  body { font-family: var(--font-body); color: var(--ink); padding: 24px 12px 60px; }
+
+  /* Toolbar */
+  .toolbar { position: fixed; top: 16px; right: 16px; z-index: 100; display: flex; gap: 10px; align-items: center; }
+  .toolbar .btn {
+    font-family: var(--font-body); font-size: 11px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    padding: 10px 20px; background: transparent; color: #fff;
+    border: 1px solid #fff; cursor: pointer; text-decoration: none;
+    display: inline-block;
+  }
+  .toolbar .btn.primary { background: #fff; color: #000; }
+  .toolbar .btn:hover { opacity: 0.85; }
+  .toolbar .status {
+    font-family: var(--font-body); font-size: 10px;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: #ccc; margin-right: 8px;
+  }
+  .toolbar .deal-picker {
+    font-family: var(--font-body); font-size: 11px;
+    background: #000; color: #fff; border: 1px solid #fff;
+    padding: 9px 14px;
+  }
+
+  /* Page */
+  .page {
+    width: 8.5in; min-height: 11in;
+    background: var(--paper); color: var(--ink);
+    padding: 0.5in 0.55in;
+    margin: 0 auto;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding-bottom: 10pt;
+    border-bottom: 1px solid var(--ink);
+    margin-bottom: 14pt;
+  }
+  .header .brand-block { flex: 1; }
+  .header .arch { width: 40px; display: block; margin-bottom: 6pt; }
+  .header .brand {
+    font-family: var(--font-display); font-size: 13pt;
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: var(--ink); margin-bottom: 4pt;
+  }
+  .header .brand-sub {
+    font-family: var(--font-body); font-size: 9pt;
+    letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted);
+  }
+  .header .meta {
+    text-align: right; font-family: var(--font-body);
+    font-size: 9pt; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); line-height: 1.6;
+  }
+
+  /* Title */
+  .title-block { text-align: center; margin-bottom: 14pt; }
+  .title-block .eyebrow {
+    font-family: var(--font-body); font-size: 8pt;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4pt;
+  }
+  .title-block h1 {
+    font-family: var(--font-display); font-size: 18pt;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink); font-weight: 400; line-height: 1.15;
+  }
+  .title-block .scenario {
+    font-family: var(--font-body); font-size: 10pt;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted); margin-top: 5pt;
+  }
+
+  /* Section header */
+  h2 {
+    font-family: var(--font-body); font-size: 9pt; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); padding-bottom: 4pt;
+    border-bottom: 1px solid var(--ink); margin: 0 0 7pt;
+  }
+  section { margin-bottom: 12pt; }
+
+  /* Hero tiles */
+  .hero-returns {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 8pt; margin-bottom: 14pt;
+  }
+  .hero-tile {
+    border: 1px solid var(--rule); padding: 10pt 10pt;
+    text-align: center; background: var(--panel);
+  }
+  .hero-tile .label {
+    font-family: var(--font-body); font-size: 7.5pt;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 4pt;
+  }
+  .hero-tile .val {
+    font-family: var(--font-display); font-size: 17pt;
+    color: var(--ink); letter-spacing: 0.02em;
+  }
+
+  /* KV grid */
+  .kv-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2pt 20pt; }
+  .kv-grid.two { grid-template-columns: repeat(2, 1fr); }
+  .kv {
+    display: flex; justify-content: space-between;
+    padding: 3pt 0; border-bottom: 1px dotted #ddd;
+    font-size: 9pt;
+  }
+  .kv .k { color: var(--muted); letter-spacing: 0.02em; }
+  .kv .v { color: var(--ink); font-weight: 600; text-align: right; }
+
+  /* Notes / disclaimer */
+  .disclaimer {
+    padding: 9pt 12pt; background: var(--panel);
+    border: 1px solid var(--rule);
+    font-size: 9pt; line-height: 1.5; color: var(--muted);
+    font-style: italic;
+  }
+
+  /* Empty state */
+  .empty-state { padding: 80pt 40pt; text-align: center; color: var(--muted); }
+  .empty-state h2 {
+    border: none; font-family: var(--font-display); font-size: 20pt;
+    letter-spacing: 0.10em; text-transform: uppercase;
+    color: var(--ink); padding: 0; margin: 0 0 12pt;
+  }
+  .empty-state p { font-size: 11pt; line-height: 1.6; max-width: 400pt; margin: 0 auto 24pt; }
+  .empty-state select {
+    font-family: var(--font-body); font-size: 13pt;
+    background: #fff; color: var(--ink); border: 1px solid var(--ink);
+    padding: 12pt 20pt; min-width: 300pt;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 16pt; padding-top: 8pt;
+    border-top: 1px solid var(--rule);
+    display: flex; justify-content: space-between;
+    font-family: var(--font-body); font-size: 7.5pt;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim);
+  }
+
+  @page { size: letter portrait; margin: 0; }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .toolbar { display: none !important; }
+    .page { box-shadow: none; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="status" id="tb-status">Loading…</span>
+  <select class="deal-picker" id="tb-deal-picker" hidden></select>
+  <button class="btn primary" type="button" id="btn-print">Print / Save PDF</button>
+  <a class="btn" href="index.html#customrep">← Dashboard</a>
+</div>
+
+<div class="page" id="page">
+  <div class="empty-state" id="empty-state">
+    <h2>Custom Home Cost Estimate</h2>
+    <p>Pick a logged estimate below to see a printable, Victory Formation-branded one-page summary suitable for handing to a client.</p>
+    <select id="empty-picker"><option value="">Loading estimates…</option></select>
+  </div>
+
+  <div id="statement-body" hidden>
+    <div class="header">
+      <div class="brand-block">
+        <img class="arch" src="assets/icon-arch-black.png" alt="" />
+        <div class="brand">Victory Formation Ventures</div>
+        <div class="brand-sub">Custom Home Owner's Representation</div>
+      </div>
+      <div class="meta">
+        <div>Cost Estimate</div>
+        <div>Prepared · <span id="meta-issued">—</span></div>
+      </div>
+    </div>
+
+    <div class="title-block">
+      <div class="eyebrow">Preliminary Custom Home Budget</div>
+      <h1 id="stmt-address">—</h1>
+      <div class="scenario"><span id="stmt-client">—</span> &middot; <span id="stmt-estimate">—</span></div>
+    </div>
+
+    <div class="hero-returns">
+      <div class="hero-tile"><div class="label">Total Project Cost</div><div class="val" id="t-tpc">—</div></div>
+      <div class="hero-tile"><div class="label">Blended $ / SF</div><div class="val" id="t-blended">—</div></div>
+      <div class="hero-tile"><div class="label">Loan Amount</div><div class="val" id="t-loan">—</div></div>
+      <div class="hero-tile"><div class="label">Owner Equity</div><div class="val" id="t-equity">—</div></div>
+    </div>
+
+    <section>
+      <h2>Hard Costs</h2>
+      <div class="kv-grid two">
+        <div class="kv"><span class="k">Build $ / SF × Sq Footage</span><span class="v" id="k-base-build">—</span></div>
+        <div class="kv"><span class="k">Pool</span><span class="v" id="k-pool">—</span></div>
+      </div>
+      <div class="kv-grid" style="margin-top:4pt;">
+        <div class="kv" style="border-bottom:1px solid #111;"><span class="k">Sq Footage</span><span class="v" id="k-sqft">—</span></div>
+        <div class="kv" style="border-bottom:1px solid #111;"><span class="k">Build $ / SF</span><span class="v" id="k-build-psf">—</span></div>
+        <div class="kv" style="border-bottom:1px solid #111;"><span class="k"><strong>Total Hard Costs</strong></span><span class="v" id="k-total-hard">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Soft Costs</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Architect Fee</span><span class="v" id="k-architect">—</span></div>
+        <div class="kv"><span class="k">Designer Fee</span><span class="v" id="k-designer">—</span></div>
+        <div class="kv"><span class="k">Builder Fee (<span id="k-builder-pct">—</span>)</span><span class="v" id="k-builder-amt">—</span></div>
+        <div class="kv"><span class="k">Owner's Rep Fee (<span id="k-orep-pct">—</span>)</span><span class="v" id="k-orep-amt">—</span></div>
+        <div class="kv"><span class="k">Construction Interest</span><span class="v" id="k-interest">—</span></div>
+        <div class="kv"><span class="k">Bank Fee</span><span class="v" id="k-bank">—</span></div>
+      </div>
+      <div class="kv-grid" style="margin-top:4pt;">
+        <div class="kv" style="border-bottom:1px solid #111;"><span class="k">&nbsp;</span><span class="v">&nbsp;</span></div>
+        <div class="kv" style="border-bottom:1px solid #111;"><span class="k">&nbsp;</span><span class="v">&nbsp;</span></div>
+        <div class="kv" style="border-bottom:1px solid #111;"><span class="k"><strong>Total Soft Costs</strong></span><span class="v" id="k-total-soft">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Financing</h2>
+      <div class="kv-grid">
+        <div class="kv"><span class="k">Capital Mode</span><span class="v" id="k-cap-mode">—</span></div>
+        <div class="kv"><span class="k">Construction Period</span><span class="v" id="k-constr-mo">—</span></div>
+        <div class="kv"><span class="k">Interest Rate</span><span class="v" id="k-rate">—</span></div>
+        <div class="kv"><span class="k">Bank Fee Rate</span><span class="v" id="k-bank-pct">—</span></div>
+        <div class="kv"><span class="k">Owner Equity (Land)</span><span class="v" id="k-owner-eq">—</span></div>
+        <div class="kv"><span class="k">Loan Amount</span><span class="v" id="k-loan-amt">—</span></div>
+        <div class="kv"><span class="k">Owner Equity Required</span><span class="v" id="k-equity-req">—</span></div>
+        <div class="kv"><span class="k">Computed LTC</span><span class="v" id="k-ltc">—</span></div>
+        <div class="kv"><span class="k">Computed LTV</span><span class="v" id="k-ltv">—</span></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Notes</h2>
+      <div class="disclaimer">
+        This estimate is a preliminary budget prepared by Victory Formation Ventures on the assumptions above.
+        Actual construction costs, financing terms, and timeline may vary based on final plans, selections,
+        market conditions, and lender terms at closing. Owner's Rep Fee is Victory Formation's engagement fee
+        (5% of hard construction costs, paid across the build). Not a lending commitment or contractor bid.
+      </div>
+    </section>
+
+    <div class="footer">
+      <div>Victory Formation Ventures · Custom Home Rep · Confidential</div>
+      <div id="foot-generated">Generated · —</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // --- CONFIG ---
+  // Fill CHE_LOG_SHEET_ID after setup (see docs/che-setup.md)
+  const CHE_LOG_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+  const STATUS_EL = document.getElementById('tb-status');
+  function setStatus(t) { STATUS_EL.textContent = t; }
+
+  const params = new URLSearchParams(location.search);
+  let SELECTED = params.get('est') || '';
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function moneyDetailed(n) {
+    const v = parseFloat(n);
+    if (!isFinite(v) || v === 0) return '—';
+    return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function money(n) {
+    const v = parseFloat(n);
+    if (!isFinite(v) || v === 0) return '—';
+    if (Math.abs(v) >= 1000000) return '$' + (v / 1000000).toFixed(2) + 'M';
+    if (Math.abs(v) >= 10000)   return '$' + (v / 1000).toFixed(0) + 'k';
+    return '$' + v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function pct(n) {
+    const v = parseFloat(n);
+    if (!isFinite(v) || v === 0) return '—';
+    return v.toFixed(2) + '%';
+  }
+  function num(n) {
+    const v = parseFloat(n); if (!isFinite(v)) return '—';
+    return v.toLocaleString('en-US', { maximumFractionDigits: 0 });
+  }
+  function txt(s) { return s == null || String(s).trim() === '' ? '—' : String(s).trim(); }
+  function fmtLongDate(d) { return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }); }
+
+  function gvizUrl(sheetId, tab) {
+    return 'https://docs.google.com/spreadsheets/d/' + sheetId +
+           '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(tab || 'Form Responses 1') +
+           '&t=' + Date.now();
+  }
+  function parseGviz(text) {
+    const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+    if (!m) throw new Error('Unexpected gviz response');
+    const data = JSON.parse(m[1]);
+    if (data.status !== 'ok') throw new Error('gviz error: ' + data.status);
+    return data.table || { cols: [], rows: [] };
+  }
+  function gvizString(cell) { if (!cell) return ''; if (cell.f != null) return String(cell.f); if (cell.v != null) return String(cell.v); return ''; }
+  function gvizNumber(cell) {
+    if (!cell || cell.v == null) return 0;
+    if (typeof cell.v === 'number') return cell.v;
+    const n = parseFloat(String(cell.v).replace(/[$,\s%]/g, ''));
+    return isNaN(n) ? 0 : n;
+  }
+  function findCol(cols, ...cands) {
+    const norm = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const labels = cols.map(c => norm(c.label));
+    for (const c of cands) { const i = labels.indexOf(norm(c)); if (i >= 0) return i; }
+    for (const c of cands) {
+      const t = norm(c);
+      const i = labels.findIndex(l => l.indexOf(t) >= 0 || t.indexOf(l) >= 0);
+      if (i >= 0) return i;
+    }
+    return -1;
+  }
+
+  async function loadEstimates() {
+    if (/PASTE_/.test(CHE_LOG_SHEET_ID)) {
+      setStatus('Sheet not wired yet');
+      document.getElementById('empty-state').innerHTML =
+        '<h2>Sheet not connected</h2><p>Once the Cost Estimate Log sheet is set up (see docs/che-setup.md) and Gabe fills the sheet ID here, this page will list every logged estimate. For now, use the estimator modal on the dashboard to run scenarios live.</p>';
+      return null;
+    }
+    setStatus('Loading estimates…');
+    try {
+      const res = await fetch(gvizUrl(CHE_LOG_SHEET_ID, 'Form Responses 1'), { cache: 'no-store' });
+      return parseGviz(await res.text());
+    } catch (err) {
+      setStatus('Load failed');
+      console.error(err); return null;
+    }
+  }
+
+  function populatePickers(table) {
+    const cols = table.cols || [];
+    const nameIx  = findCol(cols, 'estimate_name', 'Estimate Name');
+    const clientIx= findCol(cols, 'client_name', 'Client Name');
+    const addrIx  = findCol(cols, 'property_address', 'Address');
+    const options = (table.rows || []).map((r, i) => {
+      const c = r.c || [];
+      const name = nameIx >= 0 ? gvizString(c[nameIx]) : '';
+      const addr = addrIx >= 0 ? gvizString(c[addrIx]) : '';
+      const client = clientIx >= 0 ? gvizString(c[clientIx]) : '';
+      const label = [name, client, addr].filter(Boolean).join(' · ') || '(unnamed)';
+      return { key: 'i:' + i, label };
+    });
+    const optHtml = '<option value="">— Pick an estimate —</option>' +
+      options.map(o => '<option value="' + esc(o.key) + '"' +
+        (o.key === SELECTED ? ' selected' : '') + '>' + esc(o.label) + '</option>').join('');
+    const tbP = document.getElementById('tb-deal-picker');
+    const emP = document.getElementById('empty-picker');
+    if (tbP) { tbP.innerHTML = optHtml; tbP.hidden = false; }
+    if (emP) emP.innerHTML = optHtml;
+    [tbP, emP].forEach(el => {
+      if (!el) return;
+      el.addEventListener('change', () => {
+        if (!el.value) return;
+        location.href = location.pathname + '?est=' + encodeURIComponent(el.value);
+      });
+    });
+  }
+
+  function render(table) {
+    const cols = table.cols || [];
+    const ix = {
+      name:  findCol(cols, 'estimate_name'),
+      client:findCol(cols, 'client_name'),
+      addr:  findCol(cols, 'property_address'),
+      buildPsf: findCol(cols, 'build_psf'),
+      sqft:  findCol(cols, 'sqft'),
+      pool:  findCol(cols, 'pool_cost'),
+      arch:  findCol(cols, 'architect_fee'),
+      dsn:   findCol(cols, 'designer_fee'),
+      bldPct:findCol(cols, 'builder_fee_pct'),
+      orPct: findCol(cols, 'owner_rep_fee_pct'),
+      mo:    findCol(cols, 'construction_months'),
+      rate:  findCol(cols, 'interest_rate'),
+      bkPct: findCol(cols, 'bank_fee_pct'),
+      ownEq: findCol(cols, 'owner_equity'),
+      mode:  findCol(cols, 'capital_mode'),
+      base:  findCol(cols, 'base_build'),
+      hard:  findCol(cols, 'total_hard'),
+      bldAmt:findCol(cols, 'builder_fee_amt'),
+      orAmt: findCol(cols, 'owner_rep_fee_amt'),
+      cint:  findCol(cols, 'construction_interest'),
+      bkAmt: findCol(cols, 'bank_fee_amt'),
+      soft:  findCol(cols, 'total_soft'),
+      tpc:   findCol(cols, 'total_project_cost'),
+      loan:  findCol(cols, 'loan_amount'),
+      eqReq: findCol(cols, 'owner_equity_required'),
+      ltc:   findCol(cols, 'computed_ltc'),
+      ltv:   findCol(cols, 'computed_ltv'),
+      blended:findCol(cols, 'blended_psf')
+    };
+    const rows = (table.rows || []).map(r => r.c || []);
+    let est = null;
+    if (/^i:\d+$/.test(SELECTED)) {
+      const i = Number(SELECTED.slice(2));
+      est = rows[i] || null;
+    }
+    if (!est) {
+      setStatus('Estimate not found');
+      document.getElementById('empty-state').innerHTML =
+        '<h2>Estimate Not Found</h2><p>Pick a different one from the dropdown below.</p>' +
+        document.getElementById('empty-picker').outerHTML;
+      return;
+    }
+    document.getElementById('empty-state').hidden = true;
+    document.getElementById('statement-body').hidden = false;
+
+    const v = (i) => i >= 0 ? est[i] : null;
+    const g = (i) => gvizString(v(i));
+    const n = (i) => gvizNumber(v(i));
+
+    const name = g(ix.name), client = g(ix.client), addr = g(ix.addr);
+    document.title = 'Cost Estimate — ' + (name || addr || 'Client');
+    document.getElementById('stmt-address').textContent = addr || '(no address)';
+    document.getElementById('stmt-client').textContent = client || '—';
+    document.getElementById('stmt-estimate').textContent = name || '—';
+    document.getElementById('meta-issued').textContent = fmtLongDate(new Date());
+    document.getElementById('foot-generated').textContent = 'Generated · ' + fmtLongDate(new Date());
+
+    // Hero
+    document.getElementById('t-tpc').textContent      = money(n(ix.tpc));
+    document.getElementById('t-blended').textContent  = n(ix.blended) ? '$' + num(n(ix.blended)) : '—';
+    document.getElementById('t-loan').textContent     = money(n(ix.loan));
+    document.getElementById('t-equity').textContent   = money(n(ix.eqReq));
+
+    // Hard costs
+    document.getElementById('k-base-build').textContent  = moneyDetailed(n(ix.base));
+    document.getElementById('k-pool').textContent        = moneyDetailed(n(ix.pool));
+    document.getElementById('k-sqft').textContent        = num(n(ix.sqft)) + ' SF';
+    document.getElementById('k-build-psf').textContent   = '$' + num(n(ix.buildPsf)) + ' / SF';
+    document.getElementById('k-total-hard').textContent  = moneyDetailed(n(ix.hard));
+
+    // Soft costs
+    document.getElementById('k-architect').textContent   = moneyDetailed(n(ix.arch));
+    document.getElementById('k-designer').textContent    = moneyDetailed(n(ix.dsn));
+    document.getElementById('k-builder-amt').textContent = moneyDetailed(n(ix.bldAmt));
+    document.getElementById('k-builder-pct').textContent = pct(n(ix.bldPct));
+    document.getElementById('k-orep-amt').textContent    = moneyDetailed(n(ix.orAmt));
+    document.getElementById('k-orep-pct').textContent    = pct(n(ix.orPct));
+    document.getElementById('k-interest').textContent    = moneyDetailed(n(ix.cint));
+    document.getElementById('k-bank').textContent        = moneyDetailed(n(ix.bkAmt));
+    document.getElementById('k-total-soft').textContent  = moneyDetailed(n(ix.soft));
+
+    // Financing
+    document.getElementById('k-cap-mode').textContent    = txt(g(ix.mode));
+    document.getElementById('k-constr-mo').textContent   = num(n(ix.mo)) + ' months';
+    document.getElementById('k-rate').textContent        = pct(n(ix.rate));
+    document.getElementById('k-bank-pct').textContent    = pct(n(ix.bkPct));
+    document.getElementById('k-owner-eq').textContent    = moneyDetailed(n(ix.ownEq));
+    document.getElementById('k-loan-amt').textContent    = moneyDetailed(n(ix.loan));
+    document.getElementById('k-equity-req').textContent  = moneyDetailed(n(ix.eqReq));
+    document.getElementById('k-ltc').textContent         = pct(n(ix.ltc));
+    document.getElementById('k-ltv').textContent         = pct(n(ix.ltv));
+
+    setStatus('Ready to print');
+  }
+
+  document.getElementById('btn-print').addEventListener('click', () => window.print());
+
+  (async function main() {
+    const t = await loadEstimates();
+    if (!t) return;
+    populatePickers(t);
+    if (SELECTED) render(t); else setStatus('Pick an estimate');
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1400" />
+  <title>Instagram Story · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --paper:        #000000;
+      --ink:          #ffffff;
+      --ink-muted:    #b8b8b8;
+      --rule:         #3a3a3a;
+      --accent:       #ffffff;
+      --accent-soft:  #6a6a6a;
+      --gold:         #eae2d3; /* Warm ivory / bone — replaced gold */
+      --bg:           #1a1a1a;
+      --panel:        #0f0f0f;
+      --panel-edge:   #2a2a2a;
+
+      --font-body:    'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:      'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+      /* Instagram Story is 1080 × 1920 (9:16) */
+      --story-w: 1080px;
+      --story-h: 1920px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); }
+    body {
+      font-family: var(--font-ui);
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button { font: inherit; }
+    input, select, textarea {
+      font: inherit;
+      color: #ffffff;
+      background: #111;
+      border: 1px solid var(--panel-edge);
+      padding: 8px 10px;
+      width: 100%;
+      border-radius: 0;
+    }
+    input:focus, select:focus, textarea:focus { outline: 1px solid var(--accent-soft); outline-offset: -1px; }
+    label { display: block; margin-bottom: 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #b8b8b8; }
+
+    /* ===== Toolbar ===== */
+    .toolbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: #000; border-bottom: 1px solid var(--panel-edge);
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 18px; z-index: 200;
+    }
+    .toolbar .brand {
+      font-family: var(--font-display); font-size: 13px;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: #ffffff;
+    }
+    .toolbar .brand small {
+      display: block; font-family: var(--font-ui); font-size: 9px;
+      letter-spacing: .2em; color: #b8b8b8; font-weight: 500;
+      margin-top: 2px;
+    }
+    .toolbar .spacer { flex: 1; }
+    .tb-btn {
+      font-family: var(--font-ui); font-size: 11px; text-transform: uppercase; letter-spacing: .15em;
+      padding: 9px 16px; cursor: pointer;
+      border: 1px solid #ffffff; background: #ffffff; color: #000;
+      font-weight: 600; text-decoration: none; display: inline-block;
+    }
+    .tb-btn:hover { opacity: .85; }
+    .tb-btn.ghost { background: transparent; color: #ffffff; }
+    .tb-btn:disabled { opacity: .5; cursor: default; }
+    .tb-status { font-size: 10px; color: #b8b8b8; text-transform: uppercase; letter-spacing: .15em; }
+    .tb-status.ok { color: #9ec39e; }
+    .tb-status.err { color: #d99; }
+
+    /* ===== Layout ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      padding-top: 56px;
+      min-height: 100vh;
+    }
+
+    /* ===== Editor sidebar ===== */
+    .editor {
+      background: #0a0a0a;
+      border-right: 1px solid var(--panel-edge);
+      padding: 18px 18px 80px;
+      position: sticky; top: 56px; align-self: start;
+      height: calc(100vh - 56px); overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .editor h2 {
+      font-family: var(--font-display); font-size: 12px;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: #ffffff; margin: 0;
+    }
+    .editor p.note { font-size: 11px; color: #b8b8b8; margin: 6px 0 14px; line-height: 1.5; }
+    details.section {
+      border: 1px solid #1f1f1f;
+      margin-bottom: 8px;
+      background: #0e0e0e;
+    }
+    details.section[open] { background: #111; }
+    details.section > summary {
+      list-style: none; cursor: pointer;
+      padding: 10px 12px;
+      font-size: 11px; text-transform: uppercase; letter-spacing: .18em;
+      color: #ffffff; font-weight: 600;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    details.section > summary::after { content: '＋'; color: var(--accent-soft); font-size: 14px; }
+    details.section[open] > summary::after { content: '−'; }
+    details.section > .body { padding: 8px 12px 14px; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .field { margin-bottom: 10px; }
+    .field.full { grid-column: 1 / -1; }
+    .filepick {
+      padding: 7px 9px; border: 1px dashed #444; background: #111;
+      font-size: 11px; color: #b8b8b8; cursor: pointer;
+    }
+    .filepick input[type=file] { display: none; }
+    .filepick.has-file { border-style: solid; border-color: #4a4a4a; color: #ddd; }
+
+    /* ===== Stage (right) ===== */
+    .stage {
+      padding: 30px 30px 60px;
+      display: flex; justify-content: center;
+      background: var(--bg);
+      overflow: auto;
+    }
+    /* Wrapper scales the pixel-accurate 1080×1920 stage down for display */
+    .stage-scale {
+      /* At 380px sidebar and typical viewports, scale ~0.30 = 324×576 preview.
+         Actual capture element is at full res underneath. */
+      transform: scale(0.32);
+      transform-origin: top center;
+      width: var(--story-w);
+      height: var(--story-h);
+      /* Keep the visible area proportional after scaling. Without this
+         the layout thinks the wrapper is still 1080×1920 tall and creates
+         massive whitespace. */
+      margin-bottom: calc(-1 * var(--story-h) * 0.68);
+    }
+
+    /* =================================================================
+       STORY CANVAS — pixel-accurate 1080 × 1920. What renders here is
+       what html2canvas captures. All sizes are in real IG-story pixels.
+       ================================================================= */
+    .story {
+      position: relative;
+      width: var(--story-w);
+      height: var(--story-h);
+      background: #111;
+      overflow: hidden;
+      font-family: var(--font-body);
+      color: #fff;
+    }
+    .story .hero-photo {
+      position: absolute; inset: 0;
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+    .story .overlay {
+      position: absolute; inset: 0;
+      /* Even shadow that reads well behind white type. Deeper at top+bottom
+         so the arch + contact block stay legible on bright photos. */
+      background:
+        linear-gradient(180deg,
+          rgba(0,0,0,.55) 0%,
+          rgba(0,0,0,.30) 22%,
+          rgba(0,0,0,.15) 42%,
+          rgba(0,0,0,.15) 58%,
+          rgba(0,0,0,.35) 78%,
+          rgba(0,0,0,.60) 100%
+        );
+    }
+    .story .content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      padding: 120px 90px 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+    /* --- Arch (replaces the OPEN HOUSE · TODAY pill from the mockup) --- */
+    .story .arch {
+      display: block;
+      width: 130px; height: 130px;
+      object-fit: contain;
+      margin: 0 0 44px;
+      filter: drop-shadow(0 2px 12px rgba(0,0,0,.4));
+    }
+    /* --- Headline: OPEN HOUSE --- */
+    .story .headline {
+      font-family: var(--font-display);
+      font-size: 118px;
+      letter-spacing: .04em;
+      line-height: 1;
+      margin: 0 0 30px;
+      text-transform: uppercase;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,.35);
+    }
+    /* --- Time line (ivory accent) --- */
+    .story .timeline {
+      font-family: var(--font-display);
+      font-size: 36px;
+      letter-spacing: .18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin: 0 0 50px;
+      white-space: nowrap;
+    }
+    /* --- Divider rules --- */
+    .story .rule {
+      width: 340px;
+      height: 1px;
+      background: rgba(255,255,255,.55);
+      margin: 0 auto;
+    }
+    /* --- Address block --- */
+    .story .addr-block {
+      padding: 46px 0 46px;
+    }
+    .story .address {
+      font-family: var(--font-display);
+      font-size: 72px;
+      letter-spacing: .02em;
+      line-height: 1.05;
+      margin: 0 0 18px;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,.35);
+    }
+    .story .city {
+      font-family: var(--font-body);
+      font-size: 30px;
+      letter-spacing: .16em;
+      color: rgba(255,255,255,.9);
+      text-transform: none;
+      margin: 0;
+      font-weight: 400;
+    }
+    /* --- Agent block (bottom) --- */
+    .story .agent-block {
+      padding-top: 46px;
+    }
+    .story .agent-name {
+      font-family: var(--font-body);
+      font-size: 26px;
+      letter-spacing: .38em;
+      text-transform: uppercase;
+      color: #fff;
+      font-weight: 500;
+      margin: 0 0 14px;
+    }
+    .story .contact {
+      font-family: var(--font-body);
+      font-size: 24px;
+      letter-spacing: .1em;
+      color: rgba(255,255,255,.85);
+      font-weight: 400;
+    }
+    .story .contact .sep {
+      display: inline-block;
+      margin: 0 14px;
+      color: rgba(255,255,255,.55);
+    }
+
+    /* No-photo state */
+    .story.no-photo .hero-photo {
+      background: linear-gradient(160deg, #2a2a2a, #101010 60%, #000);
+    }
+    .story.no-photo::after {
+      content: 'Upload a hero photo →';
+      position: absolute; inset: 0;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding-top: 48px;
+      color: rgba(255,255,255,.35);
+      font-size: 22px; letter-spacing: .2em; text-transform: uppercase;
+      z-index: 1;
+      font-family: var(--font-body);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="brand">Victory Formation Ventures <small>Instagram Story · Open House</small></div>
+    <div class="spacer"></div>
+    <span class="tb-status" id="status"></span>
+    <button class="tb-btn ghost" id="reset-btn" type="button">Reset</button>
+    <button class="tb-btn" id="download-btn" type="button">Download PNG</button>
+    <a class="tb-btn ghost" href="index.html">← Dashboard</a>
+  </div>
+
+  <div class="layout">
+
+    <!-- ============================ EDITOR ============================ -->
+    <aside class="editor">
+      <h2>Story Settings</h2>
+      <p class="note">Fill in the property, time, and agent. Upload a hero photo. Click <b>Download PNG</b> to save a 1080×1920 image ready to post to Instagram Stories.</p>
+
+      <details class="section" open>
+        <summary>Property</summary>
+        <div class="body">
+          <div class="field full">
+            <label for="f-address">Address (street + number)</label>
+            <input id="f-address" type="text" value="2003 Sweetbriar Ave" />
+          </div>
+          <div class="field full">
+            <label for="f-city">City, State</label>
+            <input id="f-city" type="text" value="Austin, TX" />
+          </div>
+        </div>
+      </details>
+
+      <details class="section" open>
+        <summary>Open House Time</summary>
+        <div class="body">
+          <div class="field full">
+            <label for="f-day">Day Label</label>
+            <input id="f-day" type="text" value="TODAY" />
+            <p class="note" style="margin:6px 0 0;">e.g. TODAY, SATURDAY, SUN 6/9</p>
+          </div>
+          <div class="grid-2">
+            <div class="field">
+              <label for="f-start">Start Time</label>
+              <input id="f-start" type="text" value="2:00 PM" />
+            </div>
+            <div class="field">
+              <label for="f-end">End Time</label>
+              <input id="f-end" type="text" value="4:00 PM" />
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <details class="section" open>
+        <summary>Agent Contact</summary>
+        <div class="body">
+          <div class="field full">
+            <label for="f-agent">Agent Name</label>
+            <input id="f-agent" type="text" value="Gabe Jeudy-Lally" />
+          </div>
+          <div class="field full">
+            <label for="f-phone">Phone</label>
+            <input id="f-phone" type="text" value="(737) 600-5101" />
+          </div>
+          <div class="field full">
+            <label for="f-web">Website</label>
+            <input id="f-web" type="text" value="victoryformationventures.com" />
+          </div>
+        </div>
+      </details>
+
+      <details class="section" open>
+        <summary>Hero Photo</summary>
+        <div class="body">
+          <label class="filepick" id="photo-picker">
+            <span id="photo-picker-label">Click to upload property photo…</span>
+            <input id="f-photo" type="file" accept="image/*" />
+          </label>
+          <p class="note" style="margin:8px 0 0;">Any JPG/PNG. Portrait or landscape both work — image fills the story vertically.</p>
+        </div>
+      </details>
+    </aside>
+
+    <!-- ============================ STAGE ============================ -->
+    <div class="stage">
+      <div class="stage-scale">
+        <div class="story no-photo" id="story">
+          <div class="hero-photo" id="hero-photo"></div>
+          <div class="overlay"></div>
+          <div class="content">
+            <img class="arch" src="assets/icon-arch-transparent.png" alt="" aria-hidden="true" crossorigin="anonymous" />
+            <h1 class="headline">OPEN HOUSE</h1>
+            <div class="timeline" id="v-timeline">TODAY · 2:00 – 4:00 PM</div>
+            <div class="rule"></div>
+            <div class="addr-block">
+              <div class="address" id="v-address">2003 Sweetbriar Ave</div>
+              <div class="city" id="v-city">Austin, TX</div>
+            </div>
+            <div class="rule"></div>
+            <div class="agent-block">
+              <div class="agent-name" id="v-agent">GABE JEUDY-LALLY</div>
+              <div class="contact">
+                <span id="v-phone">(737) 600-5101</span>
+                <span class="sep">·</span>
+                <span id="v-web">victoryformationventures.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    /* ==============================================================
+       Instagram Story generator — Victory Formation Ventures
+       Live binds form → preview and exports 1080×1920 PNG via
+       html2canvas. Preview element is at true 1080×1920 CSS pixels;
+       a wrapper transform: scale() shrinks the display without
+       affecting the capture size.
+       ============================================================== */
+
+    const $ = (id) => document.getElementById(id);
+    const state = {
+      address: '2003 Sweetbriar Ave',
+      city:    'Austin, TX',
+      day:     'TODAY',
+      start:   '2:00 PM',
+      end:     '4:00 PM',
+      agent:   'Gabe Jeudy-Lally',
+      phone:   '(737) 600-5101',
+      web:     'victoryformationventures.com',
+      photoDataUrl: null
+    };
+
+    // ---------------- LocalStorage save/load ----------------
+    const STORAGE_KEY = 'vfv.story.v1';
+    function save() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(_) {}
+    }
+    function load() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        Object.assign(state, parsed);
+      } catch(_) {}
+    }
+
+    // ---------------- Bind form <-> state ----------------
+    function bindText(inputId, stateKey) {
+      const el = $(inputId);
+      el.value = state[stateKey] ?? '';
+      el.addEventListener('input', () => {
+        state[stateKey] = el.value;
+        render();
+        save();
+      });
+    }
+
+    function render() {
+      // Time line: "DAY · START – END"
+      const start = (state.start || '').trim();
+      const end   = (state.end || '').trim();
+      const day   = (state.day || '').trim().toUpperCase();
+      const timeStr = start && end ? `${start} – ${end}` : (start || end);
+      $('v-timeline').textContent = [day, timeStr].filter(Boolean).join(' · ');
+
+      $('v-address').textContent = state.address || '';
+      $('v-city').textContent    = state.city || '';
+      $('v-agent').textContent   = (state.agent || '').toUpperCase();
+      $('v-phone').textContent   = state.phone || '';
+      $('v-web').textContent     = state.web || '';
+
+      const heroEl = $('hero-photo');
+      const storyEl = $('story');
+      if (state.photoDataUrl) {
+        heroEl.style.backgroundImage = `url(${state.photoDataUrl})`;
+        storyEl.classList.remove('no-photo');
+      } else {
+        heroEl.style.backgroundImage = '';
+        storyEl.classList.add('no-photo');
+      }
+    }
+
+    // ---------------- Photo upload ----------------
+    function wirePhoto() {
+      const input = $('f-photo');
+      const picker = $('photo-picker');
+      const label  = $('photo-picker-label');
+      input.addEventListener('change', () => {
+        const file = input.files && input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          state.photoDataUrl = e.target.result;
+          picker.classList.add('has-file');
+          label.textContent = '✓ ' + file.name + ' — click to replace';
+          render();
+          save();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    // ---------------- Download PNG ----------------
+    function slugify(s) {
+      return String(s || 'story')
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '')
+        .slice(0, 50) || 'story';
+    }
+
+    async function downloadPng() {
+      const btn = $('download-btn');
+      const status = $('status');
+      btn.disabled = true;
+      status.className = 'tb-status';
+      status.textContent = 'Rendering…';
+
+      try {
+        const el = $('story');
+        // Capture at natural 1080×1920. Extra scale=1 keeps output crisp
+        // without doubling the file weight.
+        const canvas = await html2canvas(el, {
+          width: 1080,
+          height: 1920,
+          windowWidth: 1080,
+          windowHeight: 1920,
+          scale: 1,
+          backgroundColor: null,
+          useCORS: true,
+          logging: false
+        });
+
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          const slug = slugify(state.address);
+          a.href = url;
+          a.download = `vfv-open-house-${slug}.png`;
+          document.body.appendChild(a);
+          a.click();
+          setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 250);
+          status.className = 'tb-status ok';
+          status.textContent = 'Downloaded';
+          btn.disabled = false;
+        }, 'image/png');
+      } catch (err) {
+        console.error(err);
+        status.className = 'tb-status err';
+        status.textContent = 'Error: ' + (err.message || err);
+        btn.disabled = false;
+      }
+    }
+
+    // ---------------- Reset ----------------
+    function reset() {
+      if (!confirm('Reset all fields to Victory Formation defaults?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      location.reload();
+    }
+
+    // ---------------- Boot ----------------
+    load();
+    bindText('f-address', 'address');
+    bindText('f-city',    'city');
+    bindText('f-day',     'day');
+    bindText('f-start',   'start');
+    bindText('f-end',     'end');
+    bindText('f-agent',   'agent');
+    bindText('f-phone',   'phone');
+    bindText('f-web',     'web');
+    // Restore photo picker label if a photo was previously loaded
+    if (state.photoDataUrl) {
+      $('photo-picker').classList.add('has-file');
+      $('photo-picker-label').textContent = '✓ Photo loaded — click to replace';
+    }
+    wirePhoto();
+    render();
+
+    $('download-btn').addEventListener('click', downloadPng);
+    $('reset-btn').addEventListener('click', reset);
+  </script>
+</body>
+</html>

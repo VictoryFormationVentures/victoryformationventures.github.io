@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1000" />
+  <title>Property Intake · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --bg-elev-2:       #141414;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --tracking-wide:   0.18em;
+      --tracking-x-wide: 0.22em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell { max-width: 1000px; margin: 0 auto; padding: 20px 28px 60px; }
+    .page-toolbar {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .page-toolbar .brand {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .page-toolbar .spacer { flex: 1; }
+    .page-toolbar a.back {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+
+    .modal-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 22px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .modal-title-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-eyebrow {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: 0.08em;
+      text-transform: uppercase; line-height: 1;
+      margin: 0; font-weight: 400;
+    }
+    .modal-body { padding: 0; }
+    .modal-foot {
+      padding: 22px 0 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 22px;
+      display: flex; align-items: center; gap: 14px; justify-content: flex-end;
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 28px; }
+    legend {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 16px; padding: 0;
+    }
+    .form-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    label {
+      display: block; font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-bottom: 6px;
+    }
+    label .req { color: var(--text); margin-left: 2px; }
+    input[type=text], input[type=email], input[type=date],
+    input[type=number], input[type=tel], input[type=url],
+    select, textarea {
+      width: 100%; font: inherit; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--bg);
+      border: 1px solid var(--rule-strong); padding: 11px 12px;
+      transition: border-color .15s, background .15s;
+      -webkit-appearance: none; appearance: none; border-radius: 0;
+    }
+    textarea { resize: vertical; min-height: 70px; line-height: 1.45; }
+    input[type=date] { color-scheme: dark; }
+    select {
+      background-image:
+        linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
+        linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+      background-position: calc(100% - 18px) 50%, calc(100% - 13px) 50%;
+      background-size: 5px 5px, 5px 5px;
+      background-repeat: no-repeat;
+      padding-right: 32px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--text); background: var(--bg-elev-2);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    .currency { position: relative; }
+    .currency::before {
+      content: '$';
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 14px;
+    }
+    .currency input { padding-left: 24px; }
+
+    .btn {
+      font: inherit; padding: 13px 26px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      border: 1px solid var(--text); background: var(--text); color: var(--bg);
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .btn:hover { background: transparent; color: var(--text); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent; color: var(--text-muted);
+      border-color: var(--rule-strong);
+    }
+    .btn.ghost:hover { color: var(--text); border-color: var(--text); background: transparent; }
+    .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    .form-status {
+      margin: 18px 0;
+      padding: 12px 14px;
+      font-size: 12px;
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      color: var(--text-muted);
+      display: none;
+    }
+    .form-status.show { display: block; }
+    .form-status.ok  { color: #b6e3c5; border-color: #1f3a2a; }
+    .form-status.err { color: #f4b9b9; border-color: #4a1f1f; }
+    .form-status.warn { color: #e8d49a; border-color: #4a3a1f; }
+
+    /* Radio pill group (Flood Zone, Needs Variance) */
+    .radio-group { display: flex; gap: 8px; flex-wrap: wrap; }
+    .radio-group label {
+      flex: 1 1 90px; min-width: 80px;
+      position: relative; display: block; cursor: pointer;
+      margin-bottom: 0;
+    }
+    .radio-group input[type=radio] { position: absolute; opacity: 0; pointer-events: none; }
+    .radio-group .radio-pill {
+      display: block; text-align: center;
+      padding: 12px 12px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      color: var(--text-muted); background: var(--bg);
+      border: 1px solid var(--rule-strong);
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .radio-group input[type=radio]:checked + .radio-pill {
+      color: var(--text); background: var(--bg-elev-2); border-color: var(--text);
+    }
+    .radio-group input[type=radio]:focus-visible + .radio-pill {
+      outline: 2px solid var(--text); outline-offset: 2px;
+    }
+
+    /* 4-column tight grid for Setbacks / Lot Dimensions */
+    .form-grid-4 { display: grid; gap: 12px 14px; grid-template-columns: repeat(4, 1fr); }
+    @media (max-width: 600px) { .form-grid-4 { grid-template-columns: repeat(2, 1fr); } }
+
+    @media print { .page-toolbar, .modal-foot { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div id="intake-modal-overlay" aria-hidden="false">
+  <div class="page-shell" id="intake-modal">
+    <div class="page-toolbar">
+      <a href="land.html" class="brand">
+        <img src="assets/icon-arch-transparent.png" alt="" />
+        Victory Formation Ventures · Property Intake
+      </a>
+      <div class="spacer"></div>
+      <a href="land.html" class="back">← Land Acquisition</a>
+    </div>
+
+    <header class="modal-head">
+      <div class="modal-title-group">
+        <span class="modal-eyebrow">Land Acquisition</span>
+        <h2 class="modal-title" id="intake-modal-title">Property Intake</h2>
+      </div>
+    </header>
+
+    <form class="modal-body" id="intake-form" autocomplete="off" novalidate>
+
+      <fieldset>
+        <legend>Agent Info</legend>
+        <div class="form-grid">
+          <div>
+            <label for="if-agent">Agent Name <span class="req">*</span></label>
+            <select id="if-agent" name="agent" required>
+              <option value="" disabled selected>Select agent…</option>
+              <option value="Gabe Jeudy-Lally">Gabe Jeudy-Lally</option>
+              <option value="Gabe Jeudy">Gabe Jeudy</option>
+              <option value="Partner Hibbett">Partner Hibbett (unlicensed)</option>
+            </select>
+          </div>
+          <div>
+            <label for="if-date-submitted">Date Submitted</label>
+            <input id="if-date-submitted" name="date_submitted" type="date" />
+          </div>
+          <div>
+            <label for="if-status">Pipeline Status</label>
+            <select id="if-status" name="status">
+              <option value="">— Select status —</option>
+              <option value="Active">Active</option>
+              <option value="Under Contract">Under Contract</option>
+              <option value="First Right of Refusal">First Right of Refusal</option>
+              <option value="Fell Out of Contract">Fell Out of Contract</option>
+              <option value="Closed">Closed</option>
+            </select>
+            <p class="form-hint" style="margin-top:4px; font-size:11px; color:var(--text-dim);">Routes the card to Under Contract, FRoR, or Fell Out bucket. Leave blank for new intakes.</p>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Property Information</legend>
+        <div class="form-grid">
+          <div class="full">
+            <label for="if-address">Property Address <span class="req">*</span></label>
+            <input id="if-address" name="property_address" type="text" required placeholder="123 Main St, Austin, TX 78701" />
+          </div>
+          <div class="full">
+            <label for="if-neighborhood">Neighborhood / Area <span class="req">*</span></label>
+            <input id="if-neighborhood" name="neighborhood" type="text" required placeholder="e.g. 12 South, Tarrytown" />
+          </div>
+          <div>
+            <label for="if-asking">Asking Price</label>
+            <div class="currency"><input id="if-asking" name="asking_price" type="number" inputmode="decimal" min="0" step="1" placeholder="0" /></div>
+          </div>
+          <div>
+            <label for="if-contract">Contract Price</label>
+            <div class="currency"><input id="if-contract" name="contract_price" type="number" inputmode="decimal" min="0" step="1" placeholder="0" /></div>
+          </div>
+          <div>
+            <label for="if-first-contact">First Contact Date</label>
+            <input id="if-first-contact" name="first_contact_date" type="date" />
+          </div>
+          <div>
+            <label for="if-under-contract">Date Under Contract</label>
+            <input id="if-under-contract" name="date_under_contract" type="date" />
+          </div>
+          <div>
+            <label for="if-llc-deadline">LLC Formation Deadline</label>
+            <input id="if-llc-deadline" name="llc_formation_deadline" type="date" />
+          </div>
+          <div>
+            <label for="if-em-deadline">Earnest Money Deadline</label>
+            <input id="if-em-deadline" name="earnest_money_deadline" type="date" />
+          </div>
+          <div>
+            <label for="if-dd-end">Due Diligence Deadline</label>
+            <input id="if-dd-end" name="due_diligence_end" type="date" />
+          </div>
+          <div>
+            <label for="if-closing">Closing Date</label>
+            <input id="if-closing" name="closing_date" type="date" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Lot Details</legend>
+        <div class="form-grid">
+          <div>
+            <label for="if-lot-size">Lot Size</label>
+            <input id="if-lot-size" name="lot_size" type="number" inputmode="decimal" min="0" step="0.01" placeholder="0.25" />
+          </div>
+          <div>
+            <label for="if-topography">Topography</label>
+            <input id="if-topography" name="topography" type="text" placeholder="e.g. Flat, Sloped" />
+          </div>
+          <div>
+            <label for="if-zoning">Zoning</label>
+            <input id="if-zoning" name="zoning" type="text" placeholder="e.g. R6, RS5" />
+          </div>
+          <div>
+            <label>Flood Zone</label>
+            <div class="radio-group">
+              <label><input type="radio" name="flood_zone" value="No" /><span class="radio-pill">No</span></label>
+              <label><input type="radio" name="flood_zone" value="Yes" /><span class="radio-pill">Yes</span></label>
+              <label><input type="radio" name="flood_zone" value="Partial" /><span class="radio-pill">Partial</span></label>
+            </div>
+          </div>
+          <div class="full">
+            <label>Needs Variance?</label>
+            <div class="radio-group">
+              <label><input type="radio" name="needs_variance" value="No" /><span class="radio-pill">No</span></label>
+              <label><input type="radio" name="needs_variance" value="Yes" /><span class="radio-pill">Yes</span></label>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Setbacks (ft)</legend>
+        <div class="form-grid-4">
+          <div>
+            <label for="if-sb-front">Front</label>
+            <input id="if-sb-front" name="setback_front" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+          <div>
+            <label for="if-sb-rear">Rear</label>
+            <input id="if-sb-rear" name="setback_rear" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+          <div>
+            <label for="if-sb-interior">Interior</label>
+            <input id="if-sb-interior" name="setback_interior" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+          <div>
+            <label for="if-sb-roadside">Road Side</label>
+            <input id="if-sb-roadside" name="setback_road_side" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Lot Dimensions (ft)</legend>
+        <div class="form-grid-4">
+          <div>
+            <label for="if-dim-front">Front</label>
+            <input id="if-dim-front" name="dim_front" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+          <div>
+            <label for="if-dim-side-left">Side Left</label>
+            <input id="if-dim-side-left" name="dim_side_left" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+          <div>
+            <label for="if-dim-rear">Rear</label>
+            <input id="if-dim-rear" name="dim_rear" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+          <div>
+            <label for="if-dim-side-right">Side Right</label>
+            <input id="if-dim-side-right" name="dim_side_right" type="number" inputmode="decimal" min="0" step="0.1" placeholder="0" />
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Comps &amp; Analysis</legend>
+        <div class="form-grid">
+          <div class="full">
+            <label for="if-comps-area">Comps in Area</label>
+            <textarea id="if-comps-area" name="comps_in_area" rows="2" placeholder="Paste link…"></textarea>
+          </div>
+          <div>
+            <label for="if-best-comp">Best Comp</label>
+            <input id="if-best-comp" name="best_comp" type="text" placeholder="Paste link…" />
+          </div>
+          <div>
+            <label for="if-cma">CMA</label>
+            <input id="if-cma" name="cma" type="text" placeholder="Paste link…" />
+          </div>
+          <div class="full">
+            <label for="if-land-comps">Land Comps</label>
+            <textarea id="if-land-comps" name="land_comps" rows="2" placeholder="List land comparable properties…"></textarea>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Notes</legend>
+        <div class="form-grid">
+          <div class="full">
+            <label for="if-notes">Additional Notes</label>
+            <textarea id="if-notes" name="additional_notes" rows="3" placeholder="Any additional information about this property…"></textarea>
+          </div>
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="form-status" id="intake-form-status" role="status" aria-live="polite"></div>
+
+    <footer class="modal-foot">
+      <button class="btn" type="submit" form="intake-form" id="submit-intake">Submit Property Intake</button>
+    </footer>
+
+  </div><!-- /.page-shell -->
+  </div><!-- /overlay wrapper -->
+
+  <script>
+    (function () {
+      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+
+      const FIELD_MAP = {
+        agent:                "entry.1406468642",
+        date_submitted:       "entry.811071528",
+        status:               "entry.625853108",
+        property_address:     "entry.2060471301",
+        neighborhood:         "entry.497192192",
+        asking_price:         "entry.26953202",
+        contract_price:       "entry.1151681388",
+        first_contact_date:   "entry.279169809",
+        date_under_contract:  "entry.1544531142",
+        llc_formation_deadline: "entry.1127281078",
+        earnest_money_deadline: "entry.697653472",
+        due_diligence_end:    "entry.1539335063",
+        closing_date:         "entry.1158654140",
+        lot_size:             "entry.1752724272",
+        topography:           "entry.948257365",
+        zoning:               "entry.1130006636",
+        flood_zone:           "entry.2062074012",
+        needs_variance:       "entry.1523033016",
+        setback_front:        "entry.1250603440",
+        setback_rear:         "entry.239126080",
+        setback_interior:     "entry.478428742",
+        setback_road_side:    "entry.1590227857",
+        dim_front:            "entry.600692936",
+        dim_side_left:        "entry.1792671877",
+        dim_rear:             "entry.1463933808",
+        dim_side_right:       "entry.1275076615",
+        comps_in_area:        "entry.1112465023",
+        best_comp:            "entry.62013106",
+        cma:                  "entry.584799947",
+        land_comps:           "entry.1974105103",
+        additional_notes:     "entry.981491876",
+      };
+
+      const overlay   = document.getElementById('intake-modal-overlay');
+      const modal     = document.getElementById('intake-modal');
+      const form      = document.getElementById('intake-form');
+      const statusEl  = document.getElementById('intake-form-status');
+      const openBtn   = document.getElementById('open-intake-modal') || document.querySelector('[data-launches="open-intake-modal"]');
+      const closeBtn  = document.getElementById('close-intake-modal');
+      const cancelBtn = document.getElementById('cancel-intake');
+      const submitBtn = document.getElementById('submit-intake');
+      const dateSubmittedInput = document.getElementById('if-date-submitted');
+
+      if (!overlay || !form) return;
+
+      let lastFocus = null;
+
+      function focusables() {
+        return modal.querySelectorAll(
+          'a[href], input:not([disabled]):not([type=hidden]), select:not([disabled]), ' +
+          'textarea:not([disabled]), button:not([disabled])'
+        );
+      }
+
+      function openModal() {
+        lastFocus = document.activeElement;
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        clearStatus();
+        if (dateSubmittedInput && !dateSubmittedInput.value) {
+          dateSubmittedInput.value = new Date().toISOString().slice(0, 10);
+        }
+        requestAnimationFrame(() => {
+          const first = focusables()[0];
+          if (first) first.focus();
+        });
+      }
+
+      function closeModal() {
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
+      }
+
+      function setStatus(kind, msg) {
+        statusEl.className = 'form-status show ' + kind;
+        statusEl.textContent = msg;
+      }
+      function clearStatus() {
+        statusEl.className = 'form-status';
+        statusEl.textContent = '';
+      }
+
+      if (openBtn)   openBtn.addEventListener('click', openModal);
+      // Only wire close/backdrop/escape if we're actually running inside the
+      // admin modal — otherwise Escape or a stray click would blank the page.
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+        if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (overlay.getAttribute('aria-hidden') !== 'false') return;
+          if (e.key === 'Escape') { e.preventDefault(); closeModal(); return; }
+          if (e.key === 'Tab') {
+            const f = Array.from(focusables());
+            if (f.length === 0) return;
+            const first = f[0];
+            const last  = f[f.length - 1];
+            if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+            else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        });
+      }
+
+      // Pre-fill Date Submitted with today on load (mirrors openModal behavior).
+      if (dateSubmittedInput && !dateSubmittedInput.value) {
+        dateSubmittedInput.value = new Date().toISOString().slice(0, 10);
+      }
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearStatus();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const placeholder = Object.values(FIELD_MAP).some((v) => v.indexOf('.') !== -1 && /[A-Z_]/.test(v.split('.')[1]));
+        if (!FORM_URL || placeholder) {
+          setStatus(
+            'warn',
+            'Property Intake is not connected to a backend yet. ' +
+            'Create the Google Form, paste the /formResponse URL and entry IDs ' +
+            'into the FIELD_MAP at the bottom of index.html, then push.'
+          );
+          return;
+        }
+
+        submitBtn.disabled = true;
+        const originalLabel = submitBtn.textContent;
+        submitBtn.textContent = 'Submitting…';
+
+        try {
+          // Google Form number-type questions reject any value with commas,
+          // dollar signs, or letters. Sanitize known numeric fields — strip
+          // everything except digits + one decimal — and skip if empty.
+          const NUMERIC_FIELDS = new Set([
+            'asking_price', 'contract_price', 'lot_size',
+            'setback_front', 'setback_rear', 'setback_interior', 'setback_road_side',
+            'dim_front', 'dim_side_left', 'dim_rear', 'dim_side_right'
+          ]);
+          const cleanNumber = (v) => {
+            const s = String(v || '').replace(/[^\d.]/g, '');
+            // Collapse multiple dots to one (keep the first)
+            const parts = s.split('.');
+            return parts.length <= 1 ? s : parts[0] + '.' + parts.slice(1).join('');
+          };
+          const fd = new FormData(form);
+          const body = new URLSearchParams();
+          for (const [k, v] of fd.entries()) {
+            const entry = FIELD_MAP[k];
+            if (!entry) continue;
+            let val = String(v || '').trim();
+            if (!val) continue;      // skip empty — form question stays blank
+            if (NUMERIC_FIELDS.has(k)) {
+              val = cleanNumber(val);
+              if (!val) continue;    // user typed only text like "acres" → skip
+            }
+            body.append(entry, val);
+          }
+
+          await fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body });
+
+          setStatus('ok', 'Submitted. Check the Land Acquisition Intake sheet to confirm.');
+          form.reset();
+          if (dateSubmittedInput) {
+            dateSubmittedInput.value = new Date().toISOString().slice(0, 10);
+          }
+        } catch (err) {
+          setStatus('err', 'Network error: ' + (err && err.message ? err.message : err));
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

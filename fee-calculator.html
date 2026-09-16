@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1000" />
+  <title>Fee Calculator · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --bg-elev-2:       #141414;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --tracking-wide:   0.18em;
+      --tracking-x-wide: 0.22em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    .page-shell { max-width: 900px; margin: 0 auto; padding: 20px 28px 60px; }
+    .page-toolbar {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .page-toolbar .brand {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .page-toolbar .spacer { flex: 1; }
+    .page-toolbar a.back {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+
+    .modal-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 8px 0 22px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 24px;
+    }
+    .modal-title-group { display: flex; flex-direction: column; gap: 6px; }
+    .modal-eyebrow {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+    }
+    .modal-title {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: 0.08em;
+      text-transform: uppercase; line-height: 1;
+      margin: 0; font-weight: 400;
+    }
+    .modal-body { padding: 0; }
+    .modal-foot {
+      padding: 22px 0 0;
+      border-top: 1px solid var(--rule);
+      margin-top: 22px;
+      display: flex; align-items: center; gap: 14px; justify-content: flex-end;
+    }
+
+    fieldset { border: 0; padding: 0; margin: 0 0 28px; }
+    legend {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 16px; padding: 0;
+    }
+    .form-grid { display: grid; gap: 16px; grid-template-columns: 1fr 1fr; }
+    .form-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
+    label {
+      display: block; font-size: 10px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin-bottom: 6px;
+    }
+    label .req { color: var(--text); margin-left: 2px; }
+    input[type=text], input[type=email], input[type=date],
+    input[type=number], input[type=tel], input[type=url],
+    select, textarea {
+      width: 100%; font: inherit; font-size: 14px; font-weight: 300;
+      color: var(--text); background: var(--bg);
+      border: 1px solid var(--rule-strong); padding: 11px 12px;
+      transition: border-color .15s, background .15s;
+      -webkit-appearance: none; appearance: none; border-radius: 0;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: var(--text); background: var(--bg-elev-2);
+    }
+    input::placeholder, textarea::placeholder { color: var(--text-dim); }
+
+    .currency { position: relative; }
+    .currency::before {
+      content: '$';
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 14px;
+    }
+    .currency input { padding-left: 24px; }
+
+    .btn {
+      font: inherit; padding: 13px 26px; font-size: 11px;
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      border: 1px solid var(--text); background: var(--text); color: var(--bg);
+      cursor: pointer; transition: background .15s, color .15s;
+    }
+    .btn:hover { background: transparent; color: var(--text); }
+    .btn:disabled { opacity: .5; cursor: not-allowed; }
+    .btn.ghost {
+      background: transparent; color: var(--text-muted);
+      border-color: var(--rule-strong);
+    }
+    .btn.ghost:hover { color: var(--text); border-color: var(--text); background: transparent; }
+    .btn:focus-visible { outline: 2px solid var(--text); outline-offset: 2px; }
+
+    /* Calc-readout / reference (copied from index.html) */
+    .calc-readout {
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      margin-top: 4px;
+    }
+    .calc-readout .class-header {
+      padding: 24px 28px 22px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .calc-readout .class-eyebrow {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 10px;
+    }
+    .calc-readout .class-name {
+      font-family: var(--font-display); font-size: 28px;
+      letter-spacing: 0.08em; text-transform: uppercase; line-height: 1;
+      color: var(--text);
+    }
+    .calc-readout .class-name.idle { color: var(--text-dim); font-size: 18px; }
+    .calc-readout .class-meta {
+      margin-top: 12px; font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+    }
+    .calc-readout .class-meta strong {
+      color: var(--text); font-weight: 400; margin: 0 4px;
+    }
+    .calc-readout .breakdown { padding: 6px 28px 22px; }
+    .calc-readout .row {
+      display: grid; grid-template-columns: 1fr auto auto;
+      gap: 18px; align-items: baseline;
+      padding: 14px 0; border-bottom: 1px solid var(--rule);
+    }
+    .calc-readout .row:last-child { border-bottom: 0; }
+    .calc-readout .row .label {
+      font-size: 11px; color: var(--text-muted);
+      text-transform: uppercase; letter-spacing: var(--tracking-wide);
+      margin: 0;
+    }
+    .calc-readout .row .amt {
+      font-family: var(--font-display); font-size: 18px;
+      letter-spacing: 0.04em; color: var(--text);
+      text-align: right; font-variant-numeric: tabular-nums;
+    }
+    .calc-readout .row .pct {
+      font-size: 11px; color: var(--text-dim);
+      letter-spacing: var(--tracking-wide);
+      width: 56px; text-align: right; font-variant-numeric: tabular-nums;
+    }
+    .calc-readout .row.total {
+      border-top: 1px solid var(--rule-strong);
+      border-bottom: 0; margin-top: 4px; padding-top: 18px;
+    }
+    .calc-readout .row.total .label { color: var(--text); }
+    .calc-readout .row.total .amt { font-size: 22px; }
+    .calc-readout .row.sold {
+      background: var(--bg-elev);
+      margin: 12px -28px -22px;
+      padding: 16px 28px;
+      border-top: 1px solid var(--rule);
+      grid-template-columns: 1fr auto;
+    }
+    .calc-readout .row.sold .label { color: var(--text); }
+    .calc-readout .row.sold .amt { font-size: 22px; }
+
+    .calc-reference {
+      margin-top: 18px; border: 1px solid var(--rule);
+      background: transparent;
+    }
+    .calc-reference .ref-head {
+      font-size: 10px; color: var(--text-dim);
+      text-transform: uppercase; letter-spacing: var(--tracking-x-wide);
+      padding: 12px 16px; border-bottom: 1px solid var(--rule);
+    }
+    .calc-reference table {
+      width: 100%; border-collapse: collapse;
+      font-size: 11px; color: var(--text-muted);
+    }
+    .calc-reference th, .calc-reference td {
+      padding: 9px 16px; text-align: left;
+      letter-spacing: var(--tracking-wide); text-transform: uppercase;
+    }
+    .calc-reference th {
+      color: var(--text-dim); font-weight: 400; font-size: 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .calc-reference td:first-child { color: var(--text); }
+    .calc-reference tr.active td { color: var(--text); background: var(--bg-elev); }
+
+    @media print {
+      .page-toolbar, .modal-foot { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- These two IDs are required by the shared controller — the IIFE bails
+       at `if (!overlay || !form) return;` without them. -->
+  <div id="feecalc-modal-overlay" aria-hidden="false">
+  <div class="page-shell" id="feecalc-modal">
+    <div class="page-toolbar">
+      <a href="land.html" class="brand">
+        <img src="assets/icon-arch-transparent.png" alt="" />
+        Victory Formation Ventures · Fee Calculator
+      </a>
+      <div class="spacer"></div>
+      <a href="land.html" class="back">← Land Acquisition</a>
+    </div>
+
+    <header class="modal-head">
+      <div class="modal-title-group">
+        <span class="modal-eyebrow">Land Acquisition</span>
+        <h2 class="modal-title" id="feecalc-modal-title">Fee Calculator</h2>
+      </div>
+    </header>
+
+    <form class="modal-body" id="feecalc-form" autocomplete="off" novalidate onsubmit="return false;">
+      <fieldset>
+        <legend>Inputs</legend>
+        <div class="form-grid">
+          <div>
+            <label for="fc-contract">Under Contract Price</label>
+            <div class="currency"><input id="fc-contract" name="contract" type="number" inputmode="decimal" min="0" step="1" placeholder="0" /></div>
+          </div>
+          <div>
+            <label for="fc-mrc">MRC — Most Recent Comparable</label>
+            <div class="currency"><input id="fc-mrc" name="mrc" type="number" inputmode="decimal" min="0" step="1" placeholder="0" /></div>
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Deal Analysis</legend>
+        <div class="calc-readout" id="fc-readout">
+          <div class="class-header">
+            <div class="class-eyebrow">Deal Class</div>
+            <div class="class-name idle" id="fc-class-name">Enter values above</div>
+            <div class="class-meta" id="fc-class-meta">
+              MRC Differential <strong id="fc-mrc-diff">—</strong> · Commission Rate <strong id="fc-rate">—</strong>
+            </div>
+          </div>
+          <div class="breakdown">
+            <div class="row">
+              <span class="label">Acquisition Agent</span>
+              <span class="amt" id="fc-agent-amt">$0</span>
+              <span class="pct" id="fc-agent-pct">—</span>
+            </div>
+            <div class="row">
+              <span class="label">Company</span>
+              <span class="amt" id="fc-company-amt">$0</span>
+              <span class="pct" id="fc-company-pct">—</span>
+            </div>
+            <div class="row total">
+              <span class="label">Total Land Acquisition Fee</span>
+              <span class="amt" id="fc-total-amt">$0</span>
+              <span class="pct" id="fc-total-pct">—</span>
+            </div>
+            <div class="row sold">
+              <span class="label">Sold Price (Contract + Fee)</span>
+              <span class="amt" id="fc-sold-amt">$0</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="calc-reference" aria-label="Deal class reference">
+          <div class="ref-head">MRC Differential &amp; Commission Schedule</div>
+          <table>
+            <thead>
+              <tr><th>Class</th><th>MRC Diff</th><th>Total</th><th>Agent</th><th>Company</th></tr>
+            </thead>
+            <tbody>
+              <tr data-class="A"><td>Class A · Great Deal</td><td>≤ 3%</td><td>5.00%</td><td>3.25%</td><td>1.75%</td></tr>
+              <tr data-class="B"><td>Class B · Good Deal</td><td>3.01 – 6%</td><td>4.00%</td><td>2.50%</td><td>1.50%</td></tr>
+              <tr data-class="C"><td>Class C · Average</td><td>6.01 – 9%</td><td>3.00%</td><td>2.00%</td><td>1.00%</td></tr>
+              <tr data-class="D"><td>Class D · Below Average</td><td>≥ 9.01%</td><td>2.00%</td><td>1.00%</td><td>1.00%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </fieldset>
+    </form>
+
+    <div class="modal-foot">
+      <button type="button" class="btn ghost" id="clear-feecalc">Clear</button>
+    </div>
+
+  </div><!-- /.page-shell -->
+  </div><!-- /overlay wrapper -->
+
+  <script>
+    (function () {
+      const overlay   = document.getElementById('feecalc-modal-overlay');
+      const modal     = document.getElementById('feecalc-modal');
+      const form      = document.getElementById('feecalc-form');
+      const openBtn   = document.getElementById('open-feecalc-modal') || document.querySelector('[data-launches="open-feecalc-modal"]');
+      const closeBtn  = document.getElementById('close-feecalc-modal');
+      const doneBtn   = document.getElementById('close-feecalc-done');
+      const clearBtn  = document.getElementById('clear-feecalc');
+      const contractInput = document.getElementById('fc-contract');
+      const mrcInput      = document.getElementById('fc-mrc');
+
+      if (!overlay || !form) return;
+
+      let lastFocus = null;
+
+      function focusables() {
+        return modal.querySelectorAll(
+          'a[href], input:not([disabled]):not([type=hidden]), select:not([disabled]), ' +
+          'textarea:not([disabled]), button:not([disabled])'
+        );
+      }
+
+      function openModal() {
+        lastFocus = document.activeElement;
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        recalc();
+        requestAnimationFrame(() => {
+          contractInput.focus();
+          contractInput.select();
+        });
+      }
+
+      function closeModal() {
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+
+      const fmtUSD = (n) => {
+        if (!isFinite(n) || n === 0) return '$0';
+        return '$' + Math.round(n).toLocaleString('en-US');
+      };
+      const fmtPct = (n) => {
+        if (!isFinite(n)) return '—';
+        return (n * 100).toFixed(2) + '%';
+      };
+
+      function classify(contract, mrc) {
+        if (!contract || contract <= 0) return null;
+        const diff = Math.abs(contract - mrc) / contract;
+        const isUnderMrc = contract < mrc;
+        if (isUnderMrc || diff <= 0.03) {
+          return { key: 'A', name: 'Class A · Great Deal',          rate: 0.05, agent: 0.0325, company: 0.0175, diff: isUnderMrc ? 0 : diff };
+        }
+        if (diff <= 0.06) {
+          return { key: 'B', name: 'Class B · Good Deal',           rate: 0.04, agent: 0.0250, company: 0.0150, diff: diff };
+        }
+        if (diff <= 0.09) {
+          return { key: 'C', name: 'Class C · Average Deal',        rate: 0.03, agent: 0.0200, company: 0.0100, diff: diff };
+        }
+        return   { key: 'D', name: 'Class D · Below Average Deal',  rate: 0.02, agent: 0.0100, company: 0.0100, diff: diff };
+      }
+
+      const nameEl    = document.getElementById('fc-class-name');
+      const diffEl    = document.getElementById('fc-mrc-diff');
+      const rateEl    = document.getElementById('fc-rate');
+      const agentAmt  = document.getElementById('fc-agent-amt');
+      const agentPct  = document.getElementById('fc-agent-pct');
+      const companyAmt= document.getElementById('fc-company-amt');
+      const companyPct= document.getElementById('fc-company-pct');
+      const totalAmt  = document.getElementById('fc-total-amt');
+      const totalPct  = document.getElementById('fc-total-pct');
+      const soldAmt   = document.getElementById('fc-sold-amt');
+      const refRows   = modal.querySelectorAll('.calc-reference tbody tr');
+
+      function recalc() {
+        const contract = Number(contractInput.value) || 0;
+        const mrc      = Number(mrcInput.value)      || 0;
+
+        refRows.forEach((r) => r.classList.remove('active'));
+
+        const result = classify(contract, mrc);
+
+        if (!result) {
+          nameEl.textContent = 'Enter values above';
+          nameEl.classList.add('idle');
+          diffEl.textContent = '—';
+          rateEl.textContent = '—';
+          agentAmt.textContent   = '$0';   agentPct.textContent   = '—';
+          companyAmt.textContent = '$0';   companyPct.textContent = '—';
+          totalAmt.textContent   = '$0';   totalPct.textContent   = '—';
+          soldAmt.textContent    = '$0';
+          return;
+        }
+
+        nameEl.textContent = result.name;
+        nameEl.classList.remove('idle');
+        diffEl.textContent = fmtPct(result.diff);
+        rateEl.textContent = fmtPct(result.rate);
+
+        const agentFee   = contract * result.agent;
+        const companyFee = contract * result.company;
+        const totalFee   = agentFee + companyFee;
+        const sold       = contract + totalFee;
+
+        agentAmt.textContent   = fmtUSD(agentFee);
+        agentPct.textContent   = fmtPct(result.agent);
+        companyAmt.textContent = fmtUSD(companyFee);
+        companyPct.textContent = fmtPct(result.company);
+        totalAmt.textContent   = fmtUSD(totalFee);
+        totalPct.textContent   = fmtPct(result.rate);
+        soldAmt.textContent    = fmtUSD(sold);
+
+        const activeRow = modal.querySelector('.calc-reference tbody tr[data-class="' + result.key + '"]');
+        if (activeRow) activeRow.classList.add('active');
+      }
+
+      openBtn  && openBtn.addEventListener('click', openModal);
+      clearBtn && clearBtn.addEventListener('click', () => {
+        contractInput.value = '';
+        mrcInput.value = '';
+        recalc();
+        contractInput.focus();
+      });
+
+      // Skip the modal open/close plumbing on the standalone page — closeModal()
+      // would hide the entire page shell (since the overlay wraps it). Only wire
+      // these if we're actually running inside the admin modal (has a close btn).
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeModal);
+        doneBtn  && doneBtn.addEventListener('click', closeModal);
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') closeModal();
+        });
+        modal.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab') return;
+          const items = focusables();
+          if (!items.length) return;
+          const first = items[0], last = items[items.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+        });
+      }
+
+      contractInput.addEventListener('input', recalc);
+      mrcInput.addEventListener('input', recalc);
+
+      // Initial paint
+      recalc();
+      requestAnimationFrame(() => contractInput && contractInput.focus());
+    })();
+  </script>
+</body>
+</html>

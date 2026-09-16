@@ -1,0 +1,25 @@
+# macOS junk
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Logs / temp
+*.log
+*.tmp
+node_modules/
+
+# Secrets — never commit deployment URLs or API keys directly.
+# If you need a per-environment SHEETS_API_URL, put it in a local .env
+# or in a separate untracked config.local.js.
+.env
+.env.*
+config.local.js
+secrets/

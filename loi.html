@@ -1,0 +1,516 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Letter of Intent · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=EB+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper:        #ffffff;
+      --ink:          #111111;
+      --ink-muted:    #4a4a4a;
+      --rule:         #d6cdb1;
+      --accent:       #8a7a4b;
+      --bg:           #1a1a1a;
+
+      --font-body:    'EB Garamond', 'Georgia', 'Times New Roman', serif;
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+      --font-heading: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+      /* US Letter portrait at 96 DPI = 816 × 1056. */
+      --page-w: 816px;
+      --page-h: 1056px;
+      --page-pad: 72px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); }
+    body {
+      font-family: var(--font-body);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* Floating toolbar — not part of the printed/exported PDF. */
+    .toolbar {
+      position: fixed; top: 16px; right: 16px;
+      display: flex; gap: 10px;
+      z-index: 100;
+      align-items: flex-start;
+      max-width: calc(100vw - 32px);
+    }
+    .toolbar .tb-status {
+      font-family: var(--font-heading);
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #c5c5c5;
+      margin-right: 6px; padding-top: 10px;
+      max-width: 360px;
+      white-space: normal; line-height: 1.5;
+      text-align: right;
+    }
+    .toolbar .tb-status.err  { color: #f4b9b9; }
+    .toolbar .tb-status.warn { color: #e8d49a; }
+    .toolbar .tb-btn {
+      font-family: var(--font-heading);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      padding: 12px 22px;
+      color: #ffffff; background: transparent;
+      border: 1px solid #ffffff;
+      cursor: pointer; text-decoration: none;
+      display: inline-block;
+    }
+    .toolbar .tb-btn.primary { background: #ffffff; color: #000000; }
+    .toolbar .tb-btn:hover { opacity: .85; }
+    .toolbar .tb-btn:disabled { opacity: .4; cursor: wait; }
+
+    .doc {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 28px;
+      padding: 32px 16px 80px;
+    }
+
+    .loi-page {
+      width: var(--page-w);
+      height: var(--page-h);
+      background: var(--paper);
+      color: var(--ink);
+      padding: var(--page-pad) var(--page-pad) 56px;
+      position: relative;
+      box-shadow: 0 6px 28px rgba(0,0,0,0.45);
+      font-size: 14.5px;
+      line-height: 1.5;
+      font-weight: 400;
+      overflow: hidden;
+    }
+
+    /* Logo + brand block at the top of the page */
+    .loi-page .head {
+      text-align: center;
+      margin-bottom: 26px;
+    }
+    .loi-page .head .arch {
+      width: 78px; height: 78px;
+      display: block;
+      margin: 0 auto 10px;
+    }
+    .loi-page .head .arch img { width: 100%; height: 100%; display: block; }
+    .loi-page .head .brand {
+      font-family: var(--font-display);
+      font-size: 17px;
+      letter-spacing: 0.36em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .loi-page .head .brand-sub {
+      font-family: var(--font-heading);
+      font-size: 9.5px;
+      letter-spacing: 0.28em;
+      color: var(--ink-muted);
+      margin-top: 5px;
+      text-transform: uppercase;
+    }
+    .loi-page .head .rule {
+      width: 56px;
+      border-bottom: 1.2px solid var(--accent);
+      margin: 16px auto 0;
+    }
+
+    /* Letter body */
+    .loi-page h1.loi-title {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 17px;
+      text-decoration: underline;
+      margin: 0 0 16px;
+      color: var(--ink);
+    }
+    .loi-page .prop-line {
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 17px;
+      margin: 0 0 10px;
+    }
+    .loi-page .date-line {
+      font-size: 13.5px;
+      margin: 0 0 16px;
+    }
+    .loi-page .greeting {
+      font-weight: 600;
+      margin: 0 0 10px;
+    }
+    .loi-page p {
+      margin: 0 0 12px;
+    }
+    .loi-page p strong { font-weight: 600; }
+
+    /* Proposed Terms section */
+    .loi-page .terms-head {
+      font-weight: 700;
+      margin: 2px 0 10px;
+    }
+    .loi-page .terms {
+      margin: 0 0 14px 16px;
+      font-weight: 500;
+      line-height: 1.75;
+    }
+    .loi-page .terms .row .k { font-weight: 700; }
+
+    .loi-page .post-occ {
+      margin: 14px 0 14px;
+    }
+    .loi-page .post-occ .label {
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* Additional Terms / Notes — free-form section below the terms grid.
+       Preserves user line breaks (whitespace: pre-wrap) so a bulleted list
+       or numbered items typed in the form come out with their formatting. */
+    .loi-page .notes-block {
+      margin: 18px 0 8px;
+    }
+    .loi-page .notes-block .notes-head {
+      font-weight: 700;
+      text-decoration: underline;
+      margin-bottom: 6px;
+    }
+    .loi-page .notes-block .notes-body {
+      white-space: pre-wrap;
+      line-height: 1.65;
+    }
+
+    /* Signature area — two columns (Buyer left, Seller right).
+       Standard LOI/contract convention. Fits on the page even when the
+       Additional Terms block is populated. */
+    .loi-page .sig-columns {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    .loi-page .sig-col .sig-label {
+      font-weight: 700;
+      text-decoration: underline;
+      margin-bottom: 10px;
+    }
+    .loi-page .sig-col .sig-entity {
+      font-weight: 500;
+      margin-bottom: 34px;    /* space for hand-signature above the line */
+      min-height: 16px;
+    }
+    .loi-page .sig-col .sig-line {
+      border-bottom: 1.2px solid var(--ink);
+      margin-bottom: 6px;
+    }
+    .loi-page .sig-col .sig-by {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      margin-bottom: 4px;
+    }
+    .loi-page .sig-col .sig-date {
+      font-size: 12.5px;
+      color: var(--ink-muted);
+      margin-top: 10px;
+    }
+
+    @page { size: letter portrait; margin: 0; }
+    @media print {
+      body { background: #fff !important; }
+      .toolbar { display: none !important; }
+      .doc { padding: 0; gap: 0; }
+      .loi-page { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="toolbar">
+  <span class="tb-status" id="tb-status">Loading…</span>
+  <button class="tb-btn" type="button" id="print-btn" disabled>Print</button>
+  <button class="tb-btn primary" type="button" id="pdf-btn" disabled>Download PDF</button>
+</div>
+
+<div class="doc" id="doc">
+  <!-- Page injected by JS after the payload is read from IDB. -->
+</div>
+
+<script>
+  // ---------------------------------------------------------------------------
+  // loi.html — output page for the Letter of Intent Generator.
+  // Reads the payload from IndexedDB ('vfv-dashboard' → 'loi' → 'current'),
+  // renders a Victory Formation-branded LOI, then triggers a PDF download via
+  // html2canvas + pdf-lib (same plumbing as the engagement letter).
+  // ---------------------------------------------------------------------------
+
+  const statusEl = document.getElementById('tb-status');
+  const pdfBtn   = document.getElementById('pdf-btn');
+  const printBtn = document.getElementById('print-btn');
+  const docEl    = document.getElementById('doc');
+
+  function setStatus(msg, level) {
+    statusEl.textContent = msg || '';
+    statusEl.className = 'tb-status' + (level ? ' ' + level : '');
+  }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+  }
+
+  // "2026-05-23" → "5/23/26" (matches the example LOI's date format)
+  function fmtDateShort(iso) {
+    if (!iso) return '[DATE]';
+    const d = new Date(iso + 'T12:00:00');
+    if (isNaN(d.getTime())) return iso;
+    const m = d.getMonth() + 1;
+    const day = d.getDate();
+    const yy = String(d.getFullYear()).slice(-2);
+    return m + '/' + day + '/' + yy;
+  }
+
+  function cleanFilename(s) {
+    return String(s || 'LOI').replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').slice(0, 50) || 'LOI';
+  }
+
+  // ----- IndexedDB helpers — version 4, store 'loi' -----
+  function idbOpen() {
+    return new Promise((resolve, reject) => {
+      const req = indexedDB.open('vfv-dashboard', 4);
+      req.onupgradeneeded = (e) => {
+        const db = e.target.result;
+        if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+        if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+        if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+        if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+      };
+      req.onsuccess = () => resolve(req.result);
+      req.onerror   = () => reject(req.error);
+    });
+  }
+  async function idbGet(key) {
+    const db = await idbOpen();
+    return new Promise((resolve, reject) => {
+      const tx = db.transaction('loi', 'readonly');
+      const rq = tx.objectStore('loi').get(key);
+      rq.onsuccess = () => resolve(rq.result);
+      rq.onerror   = () => reject(rq.error);
+    });
+  }
+
+  async function readPayload() {
+    const requestId = new URLSearchParams(location.search).get('req');
+    const deadline = Date.now() + 8000;
+    while (Date.now() < deadline) {
+      try {
+        const p = await idbGet('current');
+        if (p && (!requestId || p.requestId === requestId)) return p;
+      } catch (_) { /* DB might still be opening */ }
+      await new Promise((r) => setTimeout(r, 120));
+    }
+    return null;
+  }
+
+  function buildPage(p) {
+    const date     = fmtDateShort(p && p.date);
+    const recip    = esc(p && p.recipient)        || '[RECIPIENT]';
+    const propShrt = esc(p && p.propertyShort)    || '[PROPERTY]';
+    const propAddr = esc(p && p.propertyAddress)  || '[PROPERTY ADDRESS]';
+    const price    = esc(p && p.purchasePrice)    || '[PRICE]';
+    const earnest  = esc(p && p.earnest)          || '[EARNEST]';
+    const closing  = esc(p && p.closing)          || 'Negotiable';
+    const conting  = esc(p && p.contingencies)    || 'Negotiable';
+    const postOcc  = esc(p && p.postOccupancy)    || 'Negotiable';
+    const notes    = esc(p && p.notes)            || '';
+    const sPhone   = esc(p && p.senderPhone)      || '';
+    const sEmail   = esc(p && p.senderEmail)      || '';
+
+    return (
+      '<section class="loi-page">' +
+        '<div class="head">' +
+          '<div class="arch"><img src="assets/icon-arch-black.png" alt="Victory Formation Ventures" /></div>' +
+          '<div class="brand">Victory Formation Ventures</div>' +
+          '<div class="brand-sub">Austin, Texas</div>' +
+          '<div class="rule"></div>' +
+        '</div>' +
+
+        '<h1 class="loi-title">Formal Letter of Intent</h1>' +
+        '<div class="prop-line">' + propShrt + '</div>' +
+        '<div class="date-line">' + date + '</div>' +
+        '<div class="greeting">' + recip + ',</div>' +
+
+        '<p>We are seeking to purchase your property for development. Our proposed terms are outlined below.</p>' +
+
+        '<div class="terms-head">Proposed Terms:</div>' +
+        '<div class="terms">' +
+          '<div class="row"><span class="k">Purchase Price:</span> ' + price + '</div>' +
+          '<div class="row"><span class="k">Earnest Money:</span> ' + earnest + '</div>' +
+          '<div class="row"><span class="k">Closing Date:</span> ' + closing + '</div>' +
+          '<div class="row"><span class="k">Contingencies:</span> ' + conting + '</div>' +
+          '<div class="row"><span class="k">Property:</span> ' + propAddr + '</div>' +
+        '</div>' +
+
+        '<div class="post-occ"><span class="label">Post-Occupancy Period:</span> ' + postOcc + '.</div>' +
+
+        // Additional Terms block — only rendered when the user provided notes.
+        (notes
+          ? ('<div class="notes-block">' +
+               '<div class="notes-head">Additional Terms:</div>' +
+               '<div class="notes-body">' + notes + '</div>' +
+             '</div>')
+          : '') +
+
+        '<p>We do not intend to waste your time, and I&rsquo;d appreciate knowing your thoughts on the terms above. Please don&rsquo;t hesitate to contact me with any questions, comments, or if you would like me to formalize this in a written offer for your review.</p>' +
+
+        // Side-by-side Buyer / Seller signature blocks. Gabe is treated
+        // as the signer when the sender email is blank or starts with "gvj".
+        (function () {
+          const rawEmail = (p && p.senderEmail) ? String(p.senderEmail).toLowerCase() : '';
+          const isGabe = !rawEmail || rawEmail.startsWith('gvj');
+          return '<div class="sig-columns">' +
+            // Buyer (left)
+            '<div class="sig-col">' +
+              '<div class="sig-label">Buyer:</div>' +
+              '<div class="sig-entity">Victory Formation Ventures</div>' +
+              '<div class="sig-line"></div>' +
+              (isGabe ? '<div class="sig-by">Gabe Jeudy-Lally &middot; Founder</div>' : '<div class="sig-by">Authorized Signatory</div>') +
+              (sPhone ? '<div class="sig-by">' + sPhone + '</div>' : '') +
+              (sEmail ? '<div class="sig-by">' + sEmail + '</div>' : '') +
+              '<div class="sig-date">Date: ____________________</div>' +
+            '</div>' +
+            // Seller (right)
+            '<div class="sig-col">' +
+              '<div class="sig-label">Seller:</div>' +
+              '<div class="sig-entity">&nbsp;</div>' +
+              '<div class="sig-line"></div>' +
+              '<div class="sig-by">Print name</div>' +
+              '<div class="sig-date">Date: ____________________</div>' +
+            '</div>' +
+          '</div>';
+        })() +
+      '</section>'
+    );
+  }
+
+  // PDF export — html2canvas + pdf-lib (same as engagement letter)
+  const SCRIPT_HTML2CANVAS = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+  const SCRIPT_PDFLIB      = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      const s = document.createElement('script');
+      s.src = src; s.async = true;
+      s.onload  = () => resolve();
+      s.onerror = () => reject(new Error('Failed to load ' + src));
+      document.head.appendChild(s);
+    });
+  }
+  async function loadPdfLibs() {
+    if (!window.html2canvas) await loadScript(SCRIPT_HTML2CANVAS);
+    if (!window.PDFLib)      await loadScript(SCRIPT_PDFLIB);
+    if (!window.html2canvas) throw new Error('html2canvas not available');
+    if (!window.PDFLib || !window.PDFLib.PDFDocument) throw new Error('pdf-lib not available');
+    return { html2canvas: window.html2canvas, PDFDocument: window.PDFLib.PDFDocument, rgb: window.PDFLib.rgb };
+  }
+
+  function downloadBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(() => { try { document.body.removeChild(a); } catch (_) {} URL.revokeObjectURL(url); }, 1000);
+  }
+  function blobToArrayBuffer(blob) {
+    if (blob.arrayBuffer) return blob.arrayBuffer();
+    return new Promise((resolve, reject) => {
+      const fr = new FileReader();
+      fr.onload = () => resolve(fr.result);
+      fr.onerror = () => reject(fr.error);
+      fr.readAsArrayBuffer(blob);
+    });
+  }
+
+  const PAGE_W_PT = 612;  // US Letter portrait in PDF points
+  const PAGE_H_PT = 792;
+
+  async function buildPdf(payload) {
+    const originalLabel = pdfBtn.textContent;
+    pdfBtn.disabled = true;
+    pdfBtn.textContent = 'Building…';
+    setStatus('Loading PDF engine…');
+    try {
+      const { html2canvas, PDFDocument, rgb } = await loadPdfLibs();
+      const page = document.querySelector('.loi-page');
+      const out = await PDFDocument.create();
+      setStatus('Rendering…');
+      const canvas = await html2canvas(page, {
+        scale: 2,
+        backgroundColor: '#ffffff',
+        useCORS: true,
+        logging: false,
+      });
+      const jpegBlob = await new Promise((res, rej) =>
+        canvas.toBlob((b) => b ? res(b) : rej(new Error('canvas.toBlob null')), 'image/jpeg', 0.93)
+      );
+      const bytes = await blobToArrayBuffer(jpegBlob);
+      const img = await out.embedJpg(bytes);
+      const pdfPage = out.addPage([PAGE_W_PT, PAGE_H_PT]);
+      pdfPage.drawRectangle({ x: 0, y: 0, width: PAGE_W_PT, height: PAGE_H_PT, color: rgb(1, 1, 1) });
+      const ratio = canvas.width / canvas.height;
+      const pageRatio = PAGE_W_PT / PAGE_H_PT;
+      let w, h, x, y;
+      if (ratio >= pageRatio) {
+        w = PAGE_W_PT; h = PAGE_W_PT / ratio; x = 0; y = (PAGE_H_PT - h) / 2;
+      } else {
+        h = PAGE_H_PT; w = PAGE_H_PT * ratio; y = 0; x = (PAGE_W_PT - w) / 2;
+      }
+      pdfPage.drawImage(img, { x: x, y: y, width: w, height: h });
+
+      setStatus('Saving…');
+      const pdfBytes = await out.save();
+      const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+      const filename = 'Victory Formation-LOI-' + cleanFilename((payload && payload.propertyShort) || 'Property') + '.pdf';
+      downloadBlob(blob, filename);
+      setStatus('Saved: ' + filename);
+    } catch (err) {
+      console.error('LOI PDF build failed:', err);
+      setStatus('PDF failed: ' + (err && err.message ? err.message : 'unknown error'), 'err');
+    } finally {
+      pdfBtn.disabled = false;
+      pdfBtn.textContent = originalLabel;
+    }
+  }
+
+  let __payload = null;
+  pdfBtn.addEventListener('click', () => __payload && buildPdf(__payload));
+  printBtn.addEventListener('click', () => window.print());
+
+  (async function init() {
+    setStatus('Loading payload…');
+    const p = await readPayload();
+    __payload = p;
+    if (!p) {
+      setStatus('Could not load LOI data — open the modal from the dashboard and try again.', 'err');
+      return;
+    }
+    docEl.innerHTML = buildPage(p);
+    pdfBtn.disabled = false;
+    printBtn.disabled = false;
+    setStatus('Ready · downloading PDF…');
+    // Wait a tick so the logo image + fonts settle before snapshotting.
+    await new Promise((r) => setTimeout(r, 600));
+    buildPdf(p);
+  })();
+</script>
+</body>
+</html>

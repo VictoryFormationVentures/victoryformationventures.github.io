@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMA · Victory Formation Ventures</title>
+
+  <!-- Same brand fonts as the rest of the dashboard / feasibility docs -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- html2canvas + jsPDF for client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg:       #000000;
+      --bg-elev:  #0e0e0e;
+      --bg-elev2: #181818;
+      --text:     #ffffff;
+      --muted:    #b8b8b8;
+      --dim:      #777777;
+      --rule:     #2a2a2a;
+      --accent:   #d9c8a3;
+      --tracking-wide:  0.14em;
+      --tracking-xwide: 0.22em;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, .display { font-family: 'Aboreto', serif; font-weight: 400; }
+
+    /* Toolbar at the top — not part of PDF output */
+    .toolbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .toolbar-title {
+      font-family: 'Aboreto', serif;
+      font-size: 13px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+    }
+    .toolbar-actions { display: flex; gap: 12px; }
+    .btn-pdf, .btn-ghost {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border: 1px solid var(--text);
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+    }
+    .btn-pdf:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+    }
+    .status {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-right: 18px;
+    }
+
+    /* PDF pages — sized to letter landscape ratio (11 × 8.5 in = 1.294).
+       Using 1320 × 1020 px keeps things crisp at print resolution and
+       prevents the html2canvas → jsPDF squish that happened with 16:9. */
+    #cma-output { padding: 28px; }
+    .page {
+      width: 1320px;
+      height: 1020px;
+      margin: 0 auto 28px;
+      background: var(--bg);
+      color: var(--text);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px var(--rule);
+    }
+
+    /* ===== Cover page (Page 1) ===== */
+    .cover {
+      background-position: center;
+      background-size: cover;
+      background-color: var(--bg-elev);
+    }
+    .cover::after {
+      /* gradient overlay so the title remains legible on any photo */
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,
+        rgba(0,0,0,0.20) 0%,
+        rgba(0,0,0,0.10) 35%,
+        rgba(0,0,0,0.55) 100%);
+      pointer-events: none;
+    }
+    .cover-date {
+      position: absolute;
+      top: 40px; right: 50px;
+      font-size: 15px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      z-index: 2;
+    }
+    .cover-title {
+      position: absolute;
+      top: 270px; left: 80px;
+      font-size: 100px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      z-index: 2;
+      line-height: 1.0;
+      margin: 0;
+    }
+    .cover-address {
+      position: absolute;
+      top: 440px; left: 80px;   /* generous gap below COMPARABLES title */
+      font-family: 'Aboreto', serif;
+      font-size: 42px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+      z-index: 2;
+    }
+    .cover-company {
+      position: absolute;
+      bottom: 50px; left: 80px;
+      font-family: 'Aboreto', serif;
+      font-size: 16px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+      color: var(--text);
+      z-index: 2;
+    }
+    .cover-logo {
+      position: absolute;
+      bottom: 50px; right: 70px;
+      width: 110px;
+      height: 110px;
+      z-index: 2;
+      opacity: 0.95;
+    }
+
+    /* ===== Comparables pages (2..N) ===== */
+    .comps-page {
+      padding: 80px 90px 70px;
+      display: flex;
+      flex-direction: column;
+    }
+    .comps-header {
+      font-family: 'Aboreto', serif;
+      font-size: 38px;
+      letter-spacing: 0.04em;
+      margin-bottom: 60px;
+      color: var(--text);
+    }
+    .comps-header .dash { color: var(--accent); margin: 0 18px; }
+    .comps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      flex: 1;
+    }
+    .comps-grid.is-two   { grid-template-columns: repeat(2, 1fr); }
+    .comps-grid.is-one   { grid-template-columns: 1fr; max-width: 480px; }
+
+    .comp-card { display: flex; flex-direction: column; }
+    .comp-card .photo {
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      background: var(--bg-elev2);
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--rule);
+    }
+    .comp-card .address {
+      font-family: 'Aboreto', serif;
+      font-style: italic;
+      font-size: 26px;
+      letter-spacing: 0.01em;
+      margin: 22px 0 14px;
+      line-height: 1.15;
+    }
+    .comp-card .specs,
+    .comp-card .lot,
+    .comp-card .price,
+    .comp-card .status {
+      font-size: 14px;
+      color: var(--text);
+      letter-spacing: 0.02em;
+      margin: 4px 0;
+      line-height: 1.45;
+    }
+    .comp-card .status { color: var(--muted); }
+    .comp-card .lot   { color: var(--muted); }
+    .comp-card .comments {
+      font-size: 12.5px;
+      color: var(--muted);
+      font-style: italic;
+      letter-spacing: 0.01em;
+      line-height: 1.5;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--rule);
+    }
+    .comp-card .comments .label {
+      display: block;
+      font-style: normal;
+      font-family: 'Aboreto', serif;
+      font-size: 10px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    /* ===== Subject Property Summary (Page 2) =====
+       Hero photo on left, stats panel on right.
+       Uses flex w/ explicit pixel widths (instead of CSS Grid w/ fr units)
+       because html2canvas 1.4 doesn't render Grid layouts reliably — the
+       photo container ends up undersized and `background-size: cover`
+       distorts the image. Flex + explicit width keeps the photo at its
+       true aspect ratio. */
+    .summary-page {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+      height: 1020px;
+      width: 1320px;
+    }
+    .summary-photo {
+      width: 660px;
+      height: 1020px;
+      flex: 0 0 660px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: var(--bg-elev2);
+    }
+    .summary-content {
+      width: 660px;
+      flex: 0 0 660px;
+      padding: 80px 80px 70px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .summary-content .eyebrow {
+      font-family: 'Aboreto', serif;
+      font-size: 13px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .summary-content .address {
+      font-family: 'Aboreto', serif;
+      font-size: 38px;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      margin-bottom: 50px;
+      color: var(--text);
+    }
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 26px 30px;
+      margin-bottom: auto;
+    }
+    .summary-stat .k {
+      font-family: 'Aboreto', serif;
+      font-size: 11px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .summary-stat .v {
+      font-family: 'Aboreto', serif;
+      font-size: 26px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .summary-stat.full { grid-column: 1 / -1; }
+
+    /* ===== CMA comparison table (2nd-to-last page) ===== */
+    .cma-page {
+      padding: 70px 80px 70px;
+      display: flex;
+      flex-direction: column;
+    }
+    .cma-page .header {
+      font-family: 'Aboreto', serif;
+      font-size: 38px;
+      letter-spacing: 0.04em;
+      margin-bottom: 30px;
+    }
+    .cma-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      letter-spacing: 0.02em;
+    }
+    .cma-table th,
+    .cma-table td {
+      padding: 11px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .cma-table thead th {
+      font-family: 'Aboreto', serif;
+      font-size: 10.5px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--accent);
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 12px;
+    }
+    .cma-table td.addr {
+      font-family: 'Aboreto', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--text);
+      max-width: 200px;
+    }
+    .cma-table tbody tr.subject {
+      background: rgba(217, 200, 163, 0.06);
+    }
+    .cma-table tbody tr.subject td {
+      border-bottom: 1px solid var(--accent);
+    }
+    .cma-table tbody tr.subject td.addr {
+      color: var(--accent);
+    }
+    .cma-table td.section {
+      font-family: 'Aboreto', serif;
+      font-size: 10.5px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--muted);
+      padding-top: 18px;
+      padding-bottom: 6px;
+      border-bottom: none;
+    }
+    .cma-table td.muted { color: var(--muted); }
+
+    /* Tiny "VICTORY FORMATION" wordmark + arch logo bottom-right on each comp page */
+    .page-footer-brand {
+      position: absolute;
+      bottom: 24px; right: 36px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.85;
+      z-index: 2;
+    }
+    .page-footer-brand img {
+      width: 54px;
+      height: 54px;
+    }
+    .page-footer-brand .wordmark {
+      font-family: 'Aboreto', serif;
+      font-size: 9px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.3;
+    }
+
+    /* ===== Links page (final, optional) ===== */
+    .links-page {
+      padding: 80px 90px;
+    }
+    .links-page .header {
+      font-family: 'Aboreto', serif;
+      font-size: 30px;
+      letter-spacing: 0.04em;
+      margin-bottom: 50px;
+    }
+    .links-page .link-block {
+      margin-bottom: 32px;
+    }
+    .links-page .link-label {
+      font-family: 'Aboreto', serif;
+      font-size: 16px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-right: 14px;
+    }
+    .links-page .link-url {
+      font-size: 14px;
+      color: var(--accent);
+      text-decoration: underline;
+      word-break: break-all;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-title">CMA · Victory Formation Ventures</div>
+    <div class="toolbar-actions">
+      <span class="status" id="status"></span>
+      <button class="btn-ghost" type="button" onclick="window.close()">Close</button>
+      <button class="btn-pdf" type="button" id="download-btn" disabled>Download PDF</button>
+    </div>
+  </div>
+
+  <div id="cma-output"><!-- pages rendered here by JS --></div>
+
+  <script>
+    'use strict';
+
+    // ----- Read the "current" record written by the modal -----
+    function dbOpen() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open('vfv-cma', 1);
+        req.onupgradeneeded = () => {
+          const db = req.result;
+          if (!db.objectStoreNames.contains('cma')) {
+            db.createObjectStore('cma', { keyPath: 'id' });
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror   = () => reject(req.error);
+      });
+    }
+    async function dbGet() {
+      // Sales CMA writes/reads its own key in the shared 'cma' store so it
+      // doesn't collide with the Dev "Comparative's Presentation" record.
+      const db = await dbOpen();
+      return new Promise((resolve) => {
+        const tx = db.transaction('cma', 'readonly');
+        const req = tx.objectStore('cma').get('sales-current');
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror   = () => resolve(null);
+      });
+    }
+
+    // ----- Render -----
+    function esc(s) { return String(s || '').replace(/[<>&]/g, ch => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[ch])); }
+
+    function renderCompCard(c) {
+      const photoStyle = c.photo ? 'style="background-image:url(' + c.photo + ');"' : '';
+      return (
+        '<div class="comp-card">' +
+          '<div class="photo" ' + photoStyle + '></div>' +
+          '<div class="address">' + esc(c.address) + '</div>' +
+          (c.specs    ? '<div class="specs">'  + esc(c.specs)  + '</div>' : '') +
+          (c.lot      ? '<div class="lot">Lot: '   + esc(c.lot) + '</div>'   : '') +
+          (c.price    ? '<div class="price">'  + esc(c.price)  + '</div>' : '') +
+          (c.status   ? '<div class="status">' + esc(c.status) + '</div>' : '') +
+          (c.comments
+            ? '<div class="comments"><span class="label">Notes</span>' + esc(c.comments) + '</div>'
+            : '') +
+        '</div>'
+      );
+    }
+
+    // ---------- Subject Property Summary (Page 2) ----------
+    // Uses the hero photo as a half-page background panel on the left,
+    // stat tiles on the right.
+    function renderSubjectSummary(d) {
+      const s = d.subject || {};
+      const heroStyle = s.hero ? 'style="background-image:url(' + s.hero + ');"' : '';
+      const stat = (k, v) => (
+        '<div class="summary-stat">' +
+          '<div class="k">' + esc(k) + '</div>' +
+          '<div class="v">' + esc(v || '—') + '</div>' +
+        '</div>'
+      );
+      return (
+        '<section class="page summary-page">' +
+          '<div class="summary-photo" ' + heroStyle + '></div>' +
+          '<div class="summary-content">' +
+            '<div>' +
+              '<div class="eyebrow">Subject Property</div>' +
+              '<div class="address">' + esc(s.address || '') + '</div>' +
+              '<div class="summary-stats">' +
+                stat('Bedrooms',      s.beds) +
+                stat('Bathrooms',     s.baths) +
+                stat('Square Footage', s.sqft) +
+                stat('Pool',          s.pool) +
+                '<div class="summary-stat full">' +
+                  '<div class="k">Lot Size</div>' +
+                  '<div class="v">' + esc(s.lot || '—') + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    // ---------- CMA comparison table (2nd-to-last page) ----------
+    // Parses beds/baths/sqft from specs, $/sqft from price, DOM from status.
+    // Anything that doesn't match cleanly just shows '—'.
+    function parseSpecs(s) {
+      // "5 Bed 5/1 Bath 7100 Sq Ft" → { beds:'5', baths:'5/1', sqft:'7,100' }
+      const out = { beds: '', baths: '', sqft: '' };
+      if (!s) return out;
+      const beds  = s.match(/(\d+(?:\.\d+)?)\s*Bed/i);
+      const baths = s.match(/(\d+(?:\/\d+)?)\s*Bath/i);
+      const sqft  = s.match(/([\d,]+)\s*Sq\s*Ft/i);
+      if (beds)  out.beds  = beds[1];
+      if (baths) out.baths = baths[1];
+      if (sqft)  out.sqft  = sqft[1];
+      return out;
+    }
+    function parsePrice(s) {
+      // "$4,550,000 / $641 Per Sq Ft" → { price:'$4,550,000', psf:'$641' }
+      const out = { price: '', psf: '' };
+      if (!s) return out;
+      const parts = s.split('/').map(x => x.trim());
+      if (parts[0]) out.price = parts[0];
+      if (parts[1]) {
+        const m = parts[1].match(/\$?[\d,]+/);
+        out.psf = m ? (parts[1].trim().startsWith('$') ? m[0] : '$' + m[0]) : parts[1];
+      }
+      return out;
+    }
+    function parseStatus(s) {
+      // "Closed - 6/2/25 | DOM: 46" → { dom:'46', status:'Closed - 6/2/25' }
+      const out = { dom: '', status: s || '' };
+      if (!s) return out;
+      const dom = s.match(/DOM:?\s*(\d+)/i);
+      if (dom) {
+        out.dom = dom[1];
+        out.status = s.replace(/\s*\|?\s*DOM:?\s*\d+\s*/i, '').trim();
+      }
+      return out;
+    }
+
+    function compRow(c) {
+      const sp = parseSpecs(c.specs);
+      const pr = parsePrice(c.price);
+      const st = parseStatus(c.status);
+      return (
+        '<tr>' +
+          '<td class="addr">' + esc(c.address || '—') + '</td>' +
+          '<td>' + esc(sp.beds || '—')  + '</td>' +
+          '<td>' + esc(sp.baths || '—') + '</td>' +
+          '<td>' + esc(sp.sqft || '—')  + '</td>' +
+          '<td>' + esc(c.lot || '—')    + '</td>' +
+          '<td>' + esc(pr.price || '—') + '</td>' +
+          '<td>' + esc(pr.psf || '—')   + '</td>' +
+          '<td>' + esc(st.dom || '—')   + '</td>' +
+          '<td class="muted">' + esc(st.status || '—') + '</td>' +
+        '</tr>'
+      );
+    }
+
+    function renderCmaTable(d) {
+      const uc   = d.underContract || [];
+      const sold = d.sold || [];
+      if (!uc.length && !sold.length) return '';
+      const s = d.subject || {};
+      // Subject row — uses the subject summary fields directly (no parsing needed).
+      const subjectRow = (
+        '<tr class="subject">' +
+          '<td class="addr">' + esc(s.address || 'Subject') + '</td>' +
+          '<td>' + esc(s.beds  || '—') + '</td>' +
+          '<td>' + esc(s.baths || '—') + '</td>' +
+          '<td>' + esc(s.sqft  || '—') + '</td>' +
+          '<td>' + esc(s.lot   || '—') + '</td>' +
+          '<td>—</td>' +    // no list price for the subject by default
+          '<td>—</td>' +    // no $/sqft for the subject by default
+          '<td>—</td>' +    // no DOM for the subject
+          '<td class="muted">Subject</td>' +
+        '</tr>'
+      );
+      const ucSection = uc.length ? (
+        '<tr><td colspan="9" class="section">Under Contract</td></tr>' +
+        uc.map(compRow).join('')
+      ) : '';
+      const soldSection = sold.length ? (
+        '<tr><td colspan="9" class="section">Sold</td></tr>' +
+        sold.map(compRow).join('')
+      ) : '';
+      return (
+        '<section class="page cma-page">' +
+          '<div class="header">CMA</div>' +
+          '<table class="cma-table">' +
+            '<thead><tr>' +
+              '<th>Property</th>' +
+              '<th>Beds</th>' +
+              '<th>Baths</th>' +
+              '<th>Sq Ft</th>' +
+              '<th>Lot</th>' +
+              '<th>Price</th>' +
+              '<th>$ / Sq Ft</th>' +
+              '<th>DOM</th>' +
+              '<th>Status</th>' +
+            '</tr></thead>' +
+            '<tbody>' + subjectRow + ucSection + soldSection + '</tbody>' +
+          '</table>' +
+          '<div class="page-footer-brand">' +
+            '<div class="wordmark">The Victory Formation<br/>Company</div>' +
+            '<img src="assets/icon-arch-transparent.png" alt="" />' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function renderCompPage(title, status, comps) {
+      // status is "Under Contract" or "Sold"
+      if (!comps || comps.length === 0) return '';
+      const gridCls = comps.length === 1 ? 'is-one' : comps.length === 2 ? 'is-two' : '';
+      return (
+        '<section class="page comps-page">' +
+          '<div class="comps-header">' +
+            esc(title) + '<span class="dash">–</span>' + esc(status) +
+          '</div>' +
+          '<div class="comps-grid ' + gridCls + '">' +
+            comps.map(renderCompCard).join('') +
+          '</div>' +
+          '<div class="page-footer-brand">' +
+            '<div class="wordmark">The Victory Formation<br/>Company</div>' +
+            '<img src="assets/icon-arch-transparent.png" alt="" />' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function renderCover(d) {
+      const heroStyle = d.subject.hero
+        ? 'style="background-image:url(' + d.subject.hero + ');"'
+        : '';
+      return (
+        '<section class="page cover" ' + heroStyle + '>' +
+          (d.subject.date ? '<div class="cover-date">' + esc(d.subject.date) + '</div>' : '') +
+          '<h1 class="cover-title">COMPARABLES</h1>' +
+          '<div class="cover-address">' + esc(d.subject.address) + '</div>' +
+          '<div class="cover-company">Victory Formation Ventures</div>' +
+          '<img class="cover-logo" src="assets/icon-arch-transparent.png" alt="Victory Formation" />' +
+        '</section>'
+      );
+    }
+
+    function renderLinks(d) {
+      const hasComps = !!(d.links && d.links.comparables);
+      const hasCma   = !!(d.links && d.links.cma);
+      if (!hasComps && !hasCma) return '';
+      // data-url holds the raw URL — the PDF link-annotation pass reads
+      // it back, so Unlock MLS URLs land exactly as the user pasted them.
+      // (esc() output displays correctly on screen but we don't want
+      // entity-encoded ampersands going into the PDF link URL.)
+      const linkAttr = (u) => ' data-url="' + esc(u) + '"';
+      return (
+        '<section class="page links-page">' +
+          '<div class="header">Sources</div>' +
+          (hasComps ? (
+            '<div class="link-block">' +
+              '<span class="link-label">Comparables:</span> ' +
+              '<span class="link-url"' + linkAttr(d.links.comparables) + '>' + esc(d.links.comparables) + '</span>' +
+            '</div>'
+          ) : '') +
+          (hasCma ? (
+            '<div class="link-block">' +
+              '<span class="link-label">CMA:</span> ' +
+              '<span class="link-url"' + linkAttr(d.links.cma) + '>' + esc(d.links.cma) + '</span>' +
+            '</div>'
+          ) : '') +
+          '<div class="page-footer-brand">' +
+            '<div class="wordmark">The Victory Formation<br/>Company</div>' +
+            '<img src="assets/icon-arch-transparent.png" alt="" />' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    // Split sold comps so each page shows at most 3.
+    function chunkSold(soldArr) {
+      const chunks = [];
+      const arr = soldArr.slice();
+      while (arr.length) chunks.push(arr.splice(0, 3));
+      return chunks;
+    }
+
+    async function render() {
+      const data = await dbGet();
+      const out = document.getElementById('cma-output');
+      if (!data) {
+        out.innerHTML = '<p style="color:#b8b8b8;padding:40px;">No CMA data found. Open the CMA Generator from the dashboard and submit the form first.</p>';
+        return;
+      }
+
+      const parts = [];
+      parts.push(renderCover(data));
+      parts.push(renderSubjectSummary(data));
+      if (data.underContract && data.underContract.length) {
+        parts.push(renderCompPage('Comparables', 'Under Contract', data.underContract));
+      }
+      const soldChunks = chunkSold(data.sold || []);
+      soldChunks.forEach(chunk => parts.push(renderCompPage('Comparables', 'Sold', chunk)));
+      // CMA comparison table — second-to-last when links exist, else last.
+      const cmaHtml = renderCmaTable(data);
+      if (cmaHtml) parts.push(cmaHtml);
+      const linksHtml = renderLinks(data);
+      if (linksHtml) parts.push(linksHtml);
+
+      out.innerHTML = parts.join('');
+
+      // Once rendered, enable the download button
+      const btn = document.getElementById('download-btn');
+      btn.disabled = false;
+
+      btn.addEventListener('click', async () => {
+        btn.disabled = true;
+        const status = document.getElementById('status');
+        status.textContent = 'Rendering PDF…';
+
+        try {
+          const { jsPDF } = window.jspdf;
+          // Landscape letter — 11 x 8.5 in. Use 'in' units so we can map
+          // pixel positions inside each .page (1320×1020 px @ 96 dpi) to
+          // PDF inches via simple ratios: 1 in = 1320/11 = 120 px wide,
+          // and 1020/8.5 = 120 px tall (same scale).
+          const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: 'letter' });
+          const PAGE_PX_W = 1320, PAGE_PX_H = 1020;
+          const PAGE_IN_W = 11,   PAGE_IN_H = 8.5;
+          const pxToInX = (px) => (px / PAGE_PX_W) * PAGE_IN_W;
+          const pxToInY = (px) => (px / PAGE_PX_H) * PAGE_IN_H;
+
+          const pages = document.querySelectorAll('.page');
+          for (let i = 0; i < pages.length; i++) {
+            status.textContent = 'Rendering page ' + (i + 1) + ' of ' + pages.length + '…';
+            // scale: 3 (was 2) → ~360 DPI in the embedded JPEG, much
+            // sharper for hero photos and small text. JPEG quality 0.96
+            // keeps file size sane while almost eliminating compression
+            // artifacts. Result is roughly 2× the file size of the old
+            // output and meaningfully cleaner photos.
+            const canvas = await html2canvas(pages[i], {
+              backgroundColor: '#000000',
+              scale: 3,
+              useCORS: true,
+              logging: false,
+            });
+            const img = canvas.toDataURL('image/jpeg', 0.96);
+            if (i > 0) pdf.addPage('letter', 'landscape');
+            pdf.addImage(img, 'JPEG', 0, 0, PAGE_IN_W, PAGE_IN_H);
+
+            // ----- Overlay clickable link annotations -----
+            // html2canvas captures URL text as flat pixels — PDF viewers
+            // then OCR them and frequently truncate query strings, which is
+            // why Unlock MLS was opening "expired" pages. We add native PDF
+            // link annotations on top of each <a> / .link-url element so
+            // the click goes to the exact intended URL.
+            const pageRect = pages[i].getBoundingClientRect();
+            const linkEls = pages[i].querySelectorAll('a[href], .link-url[data-url]');
+            linkEls.forEach((el) => {
+              const r = el.getBoundingClientRect();
+              const url = el.getAttribute('href') || el.dataset.url;
+              if (!url) return;
+              const x = pxToInX(r.left - pageRect.left);
+              const y = pxToInY(r.top  - pageRect.top);
+              const w = pxToInX(r.width);
+              const h = pxToInY(r.height);
+              try { pdf.link(x, y, w, h, { url }); } catch (_) {}
+            });
+          }
+          const fileName = 'Victory Formation-CMA-' +
+            (data.subject.address || 'untitled').replace(/[^A-Za-z0-9]+/g, '-') +
+            '.pdf';
+          pdf.save(fileName);
+          status.textContent = 'Downloaded.';
+        } catch (err) {
+          console.error('PDF render failed', err);
+          status.textContent = 'PDF render failed — see console.';
+        } finally {
+          btn.disabled = false;
+          setTimeout(() => { document.getElementById('status').textContent = ''; }, 2500);
+        }
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>

@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Move-In Report · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:      #ffffff;
+      --ink:        #111;
+      --ink-muted:  #555;
+      --ink-soft:   #888;
+      --rule:       #d5d5d5;
+      --rule-light: #eee;
+      --band:       #f5f2ec;
+      --accent:     #111;
+      --err:        #b03535;
+      --ok:         #4a7548;
+
+      --font-body:    'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: #efece5;
+      font-family: var(--font-body);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    body { padding: 12px; }
+
+    /* ==================== Page wrapper ==================== */
+    .page {
+      max-width: 720px;
+      margin: 0 auto;
+      background: var(--paper);
+      padding: 24px 20px 100px;
+      box-shadow: 0 2px 12px rgba(0,0,0,.08);
+    }
+
+    /* ==================== Header ==================== */
+    header.brand {
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 18px;
+    }
+    header.brand img.arch { width: 48px; height: 48px; margin-bottom: 8px; }
+    header.brand .co-name {
+      font-family: var(--font-display);
+      font-size: 14px; letter-spacing: .28em; text-transform: uppercase;
+    }
+    header.brand .co-sub {
+      font-size: 9px; letter-spacing: .22em; color: var(--ink-muted);
+      text-transform: uppercase; margin-top: 3px; font-weight: 600;
+    }
+    header.brand h1 {
+      font-family: var(--font-display);
+      font-size: 26px; letter-spacing: .18em; text-transform: uppercase;
+      margin: 18px 0 4px; font-weight: 400;
+    }
+    header.brand .doc-sub {
+      font-size: 11px; letter-spacing: .18em; color: var(--ink-muted);
+      text-transform: uppercase; font-weight: 500;
+    }
+
+    /* ==================== Intro / instructions ==================== */
+    .intro {
+      background: #faf7f0;
+      border: 1px solid #ded7c3;
+      padding: 12px 14px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .intro p { margin: 0 0 8px; }
+    .intro p:last-child { margin-bottom: 0; }
+    .intro strong { color: var(--ink); }
+
+    /* ==================== Section titles ==================== */
+    h2.section {
+      font-family: var(--font-display);
+      font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+      margin: 22px 0 10px;
+      padding-bottom: 5px; border-bottom: 1px solid var(--rule);
+    }
+
+    /* ==================== Form fields ==================== */
+    .field {
+      display: flex; flex-direction: column;
+      margin-bottom: 14px;
+    }
+    .field label {
+      font-size: 10px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink-muted); font-weight: 700;
+      margin-bottom: 5px;
+    }
+    .field label .req { color: var(--err); margin-left: 3px; }
+    .field .hint {
+      font-size: 11px; color: var(--ink-soft); margin-top: 4px; line-height: 1.4;
+      font-style: italic;
+    }
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=url], select, textarea {
+      font-family: inherit;
+      font-size: 15px;
+      padding: 10px 12px;
+      border: 1px solid #b8b4a8;
+      background: #fff;
+      color: var(--ink);
+      width: 100%;
+      border-radius: 0;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+    select {
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'><path fill='%23555' d='M6 8l4 5 4-5z'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      background-size: 14px;
+      padding-right: 32px;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: 2px solid var(--ink);
+      outline-offset: -1px;
+      border-color: var(--ink);
+    }
+    textarea { min-height: 60px; resize: vertical; line-height: 1.45; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+    /* ==================== Rooms ==================== */
+    .room {
+      border: 1px solid var(--rule);
+      background: #fff;
+      margin-bottom: 12px;
+    }
+    .room > .room-head {
+      background: var(--band);
+      padding: 10px 14px;
+      font-family: var(--font-display);
+      font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+      border-bottom: 1px solid var(--rule);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .room > .room-body { padding: 12px 14px; }
+    .cond-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) {
+      .cond-row { grid-template-columns: 1fr; gap: 10px; }
+      .grid-2   { grid-template-columns: 1fr; }
+    }
+
+    /* ==================== Utility table ==================== */
+    .util-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 8px 12px; align-items: end;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--rule-light);
+    }
+    .util-row:last-child { border-bottom: 0; }
+    .util-row .lbl {
+      font-size: 12px; text-transform: uppercase; letter-spacing: .12em;
+      color: var(--ink-muted); font-weight: 700;
+      grid-column: 1 / -1;
+      margin-bottom: -2px;
+    }
+
+    /* ==================== Signature ==================== */
+    .sig-box {
+      background: #fdfbf5;
+      border: 1px solid #cabf9e;
+      padding: 14px;
+    }
+    .sig-legal {
+      font-size: 12px; line-height: 1.5;
+      color: var(--ink); margin-bottom: 14px;
+    }
+    .sig-inputs { display: grid; grid-template-columns: 2fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .sig-inputs { grid-template-columns: 1fr; } }
+    .sig-typed {
+      font-family: 'Aboreto', 'Cormorant Garamond', serif;
+      font-size: 26px; padding: 8px 12px;
+      letter-spacing: .02em;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    /* ==================== Legend ==================== */
+    .legend {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      font-size: 11px;
+      margin-top: 8px;
+    }
+    .legend span {
+      background: #fff; border: 1px solid var(--rule);
+      padding: 4px 8px; letter-spacing: .1em;
+    }
+    .legend span b {
+      display: inline-block; width: 18px; text-align: center;
+      background: var(--ink); color: #fff; padding: 1px 0;
+      margin-right: 6px; font-family: var(--font-display);
+    }
+
+    /* ==================== Submit ==================== */
+    .submit-bar {
+      position: sticky; bottom: 0;
+      background: linear-gradient(180deg, rgba(255,255,255,0), var(--paper) 25%);
+      padding: 24px 0 8px;
+      margin-top: 24px;
+    }
+    button.submit-btn {
+      display: block; width: 100%;
+      background: var(--ink); color: #fff;
+      font-family: var(--font-body);
+      font-size: 14px; font-weight: 700;
+      letter-spacing: .2em; text-transform: uppercase;
+      padding: 16px 20px;
+      border: 0; cursor: pointer;
+    }
+    button.submit-btn:disabled { background: #666; cursor: default; }
+    button.submit-btn:hover:enabled { opacity: .9; }
+
+    .form-status {
+      margin-top: 10px; padding: 12px 14px;
+      display: none; font-size: 13px; line-height: 1.5;
+    }
+    .form-status.show { display: block; }
+    .form-status.ok  { background: #eaf3e8; border: 1px solid #a8c6a2; color: #2a5a24; }
+    .form-status.err { background: #f5e2e2; border: 1px solid #c99; color: #7a2020; }
+    .form-status.warn{ background: #fbf3d8; border: 1px solid #d9c580; color: #6a5310; }
+
+    /* ==================== Success screen ==================== */
+    .success {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .success.show { display: block; }
+    .success .check {
+      font-size: 44px;
+      color: var(--ok);
+      display: inline-block;
+      width: 84px; height: 84px; line-height: 84px;
+      border: 2px solid var(--ok);
+      border-radius: 50%;
+      margin-bottom: 20px;
+    }
+    .success h2 {
+      font-family: var(--font-display);
+      font-size: 22px; letter-spacing: .2em; text-transform: uppercase;
+      margin: 0 0 10px;
+    }
+    .success p { font-size: 14px; line-height: 1.55; color: var(--ink-muted); max-width: 400px; margin: 0 auto 8px; }
+
+    /* ==================== SMS photo helper ==================== */
+    .photo-help {
+      background: #f5f2ec;
+      border: 1px solid var(--rule);
+      padding: 12px 14px;
+      margin-bottom: 12px;
+      font-size: 13px; line-height: 1.5;
+    }
+    .photo-help a {
+      display: inline-block;
+      margin-top: 6px;
+      background: var(--ink); color: #fff;
+      padding: 8px 14px;
+      text-decoration: none;
+      font-size: 12px; letter-spacing: .15em; text-transform: uppercase;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page" id="page">
+
+    <!-- Success screen (hidden until submit) -->
+    <div class="success" id="success-screen">
+      <div class="check">✓</div>
+      <h2>Report Submitted</h2>
+      <p>Thank you for completing the move-in inspection. A copy has been sent to your property manager.</p>
+      <p>You can close this page. If you noticed anything after clicking submit, text your property manager directly.</p>
+    </div>
+
+    <div id="form-wrap">
+      <!-- ==================== Brand header ==================== -->
+      <header class="brand">
+        <img class="arch" src="assets/icon-arch-black.png" alt="" />
+        <div class="co-name">Victory Formation Ventures</div>
+        <div class="co-sub">Property Management</div>
+        <h1>Move-In Report</h1>
+        <div class="doc-sub">Tenant walk-through inspection</div>
+      </header>
+
+      <!-- ==================== Intro ==================== -->
+      <div class="intro">
+        <p><strong>Welcome.</strong> Please walk through the property and record the condition of each room below. Anything you flag now will be considered pre-existing at move-out — this protects your security deposit.</p>
+        <p>If something is <strong>damaged, missing, or not working</strong>, take a photo on your phone and note it in the room's notes box. You can text photos directly to your property manager using the button below.</p>
+        <div class="legend">
+          <span><b>G</b> Good</span>
+          <span><b>F</b> Fair</span>
+          <span><b>P</b> Poor</span>
+          <span><b>D</b> Damaged</span>
+          <span><b>M</b> Missing</span>
+          <span><b>N/A</b> Not applicable</span>
+        </div>
+      </div>
+
+      <!-- ==================== Text-my-photos helper (populated from CONFIG) ==================== -->
+      <div class="photo-help" id="photo-help" style="display:none;">
+        <div><strong>Photos of damage:</strong> tap the button below to open a text message to your property manager. Attach any photos of items you flagged.</div>
+        <a href="#" id="photo-sms-btn">📷 Text photos to manager</a>
+      </div>
+
+      <form id="report-form" novalidate>
+
+        <!-- ==================== Property + Tenant Info ==================== -->
+        <h2 class="section">Property &amp; Tenant</h2>
+
+        <div class="field">
+          <label for="f-property">Property Address <span class="req">*</span></label>
+          <input id="f-property" name="property_address" type="text" required autocomplete="off" />
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="f-unit">Unit / Suite</label>
+            <input id="f-unit" name="unit" type="text" autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="f-inspection">Inspection Date <span class="req">*</span></label>
+            <input id="f-inspection" name="inspection_date" type="date" required />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-tenant">Tenant Name(s) <span class="req">*</span></label>
+          <input id="f-tenant" name="tenant_name" type="text" required autocomplete="off" />
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="f-email">Tenant Email <span class="req">*</span></label>
+            <input id="f-email" name="tenant_email" type="email" required autocomplete="off" />
+          </div>
+          <div class="field">
+            <label for="f-phone">Tenant Phone</label>
+            <input id="f-phone" name="tenant_phone" type="tel" autocomplete="off" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-lease-start">Lease Start Date</label>
+          <input id="f-lease-start" name="lease_start" type="date" />
+        </div>
+
+        <!-- ==================== ROOMS ==================== -->
+        <h2 class="section">Room-by-Room Condition</h2>
+
+        <!-- Rooms will be rendered by JS from the ROOMS array below.
+             This keeps the markup DRY and makes the form easy to edit. -->
+        <div id="rooms-container"></div>
+
+        <!-- ==================== Safety ==================== -->
+        <h2 class="section">Safety &amp; Detectors</h2>
+        <div class="field">
+          <label for="f-detectors">Smoke &amp; CO Detectors — All Working? <span class="req">*</span></label>
+          <select id="f-detectors" name="detectors_status" required>
+            <option value="">— Select —</option>
+            <option value="Yes — all working">Yes — all working, all locations</option>
+            <option value="Partial">Partial — some working, some issue (note below)</option>
+            <option value="No / Missing">No — missing or non-functional (note below)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="f-detectors-notes">Detector Notes / Locations</label>
+          <textarea id="f-detectors-notes" name="detectors_notes" placeholder="e.g. Master bedroom smoke detector chirping, hallway CO detector missing"></textarea>
+        </div>
+
+        <!-- ==================== Keys ==================== -->
+        <h2 class="section">Keys, Remotes &amp; Access</h2>
+        <div class="field">
+          <label for="f-keys-count">Number of Keys / Remotes / Fobs Received <span class="req">*</span></label>
+          <input id="f-keys-count" name="keys_count" type="text" required placeholder="e.g. 2 front door, 1 mailbox, 2 garage remotes" />
+        </div>
+        <div class="field">
+          <label for="f-alarm">Alarm / Gate Code(s) Received</label>
+          <input id="f-alarm" name="alarm_code" type="text" placeholder="Note that a code was provided (do NOT type the code itself)" />
+          <div class="hint">For security, do not type the actual code — just confirm you received it.</div>
+        </div>
+
+        <!-- ==================== Photos ==================== -->
+        <h2 class="section">Photos</h2>
+        <div class="field">
+          <label for="f-photo-link">Photo Album Link (optional)</label>
+          <input id="f-photo-link" name="photo_link" type="url" placeholder="iCloud, Google Photos, Dropbox, or Drive link" />
+          <div class="hint">Share a link to an album of your move-in photos. Or text photos directly to your property manager using the button at the top.</div>
+        </div>
+
+        <!-- ==================== Overall Notes ==================== -->
+        <h2 class="section">Additional Notes</h2>
+        <div class="field">
+          <label for="f-overall">Anything Not Covered Above</label>
+          <textarea id="f-overall" name="overall_notes" rows="4" placeholder="Anything else worth documenting? Special conditions, questions, requests…"></textarea>
+        </div>
+
+        <!-- ==================== Signature ==================== -->
+        <h2 class="section">Electronic Signature</h2>
+        <div class="sig-box">
+          <p class="sig-legal">
+            By typing my full legal name below, I acknowledge that: (1) I have inspected the premises at the property address noted above on the inspection date, (2) the conditions I have recorded in this report accurately reflect the state of the premises at the start of my tenancy, and (3) this typed name constitutes my valid electronic signature under applicable state and federal law (including the E-SIGN Act).
+          </p>
+          <div class="sig-inputs">
+            <div class="field" style="margin:0;">
+              <label for="f-sig-name">Type Your Full Legal Name <span class="req">*</span></label>
+              <input id="f-sig-name" name="signature_name" type="text" class="sig-typed" required autocomplete="off" />
+            </div>
+            <div class="field" style="margin:0;">
+              <label for="f-sig-date">Today's Date <span class="req">*</span></label>
+              <input id="f-sig-date" name="signature_date" type="date" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="submit-bar">
+          <button type="submit" class="submit-btn" id="submit-btn">Submit Move-In Report</button>
+          <div class="form-status" id="form-status"></div>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+
+  <script>
+    /* =====================================================
+       CONFIG — set these once, then leave alone
+       =====================================================
+       FORM_URL is the Google Form /formResponse endpoint.
+       FIELD_MAP maps our HTML field names → Google Form entry.NNN IDs.
+       MANAGER_PHONE is used for the "Text photos" button (sms: link).
+
+       If FORM_URL is empty, the form will show a friendly warning
+       instead of silently failing. */
+    const CONFIG = {
+      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      MANAGER_PHONE: "6158120066",   // Gabe Jeudy-Lally
+      MANAGER_EMAIL: "gvjbusiness@yahoo.com",
+      FIELD_MAP: {
+        property_address:     "entry.47758036",
+        unit:                 "entry.369791265",
+        inspection_date:      "entry.1054614890",
+        tenant_name:          "entry.1703714012",
+        tenant_email:         "entry.463748299",
+        tenant_phone:         "entry.222518187",
+        lease_start:          "entry.2126019407",
+
+        // Rooms
+        entry_condition:      "entry.1363602674", entry_notes:       "entry.2062598625",
+        living_condition:     "entry.1829119364", living_notes:      "entry.936095674",
+        dining_condition:     "entry.446584588",  dining_notes:      "entry.1309276032",
+        kitchen_condition:    "entry.984225349",  kitchen_notes:     "entry.1447360247",
+        appliances_condition: "entry.179613902",  appliances_notes:  "entry.521993285",
+        master_br_condition:  "entry.50041964",   master_br_notes:   "entry.1729028342",
+        bedroom2_condition:   "entry.1732723163", bedroom2_notes:    "entry.1459712389",
+        bedroom3_condition:   "entry.229818325",  bedroom3_notes:    "entry.639193718",
+        bedroom4_condition:   "entry.815407427",  bedroom4_notes:    "entry.1420274753",
+        bedroom5_condition:   "entry.1892022544", bedroom5_notes:    "entry.545142097",
+        master_bath_condition:"entry.348289735",  master_bath_notes: "entry.1452569235",
+        bath2_condition:      "entry.581057096",  bath2_notes:       "entry.506857347",
+        bath3_condition:      "entry.1694102837", bath3_notes:       "entry.873919847",
+        bath4_condition:      "entry.1223126886", bath4_notes:       "entry.472136231",
+        bath5_condition:      "entry.297591230",  bath5_notes:       "entry.117290335",
+        laundry_condition:    "entry.2052412938", laundry_notes:     "entry.1130676067",
+        garage_condition:     "entry.2020210625", garage_notes:      "entry.776247683",
+        exterior_condition:   "entry.358998621",  exterior_notes:    "entry.1875248875",
+
+        detectors_status:     "entry.1969396245",
+        detectors_notes:      "entry.1561651754",
+        keys_count:           "entry.770917749",
+        alarm_code:           "entry.1981182905",
+        photo_link:           "entry.1759761273",
+        overall_notes:        "entry.826594534",
+
+        signature_name:       "entry.344873002",
+        signature_date:       "entry.1092517243"
+      }
+    };
+
+    /* =====================================================
+       Rooms — declared here so the HTML stays clean.
+       Add/remove rooms by editing this array.
+       ===================================================== */
+    const ROOMS = [
+      { key: 'entry',       label: 'Entry / Foyer',                items: 'walls · floor · door · lights · outlets · closet' },
+      { key: 'living',      label: 'Living Room',                  items: 'walls · floor · ceiling · windows · blinds · lights · outlets · fireplace' },
+      { key: 'dining',      label: 'Dining Room',                  items: 'walls · floor · ceiling · windows · lights · outlets' },
+      { key: 'kitchen',     label: 'Kitchen (Structure)',          items: 'walls · floor · countertops · cabinets · sink · lights · outlets' },
+      { key: 'appliances',  label: 'Kitchen Appliances',           items: 'refrigerator · range · oven · microwave · dishwasher · disposal · vent hood' },
+      { key: 'master_br',   label: 'Master Bedroom',               items: 'walls · floor · ceiling · windows · blinds · lights · outlets · closet' },
+      { key: 'bedroom2',    label: 'Bedroom 2 (if applicable)',    items: 'walls · floor · windows · doors · lights · closet  (skip if N/A)' },
+      { key: 'bedroom3',    label: 'Bedroom 3 (if applicable)',    items: 'walls · floor · windows · doors · lights · closet  (skip if N/A)' },
+      { key: 'bedroom4',    label: 'Bedroom 4 (if applicable)',    items: 'walls · floor · windows · doors · lights · closet  (skip if N/A)' },
+      { key: 'bedroom5',    label: 'Bedroom 5 (if applicable)',    items: 'walls · floor · windows · doors · lights · closet  (skip if N/A)' },
+      { key: 'master_bath', label: 'Master Bathroom',              items: 'walls · floor · vanity · sink · toilet · tub / shower · exhaust · lights' },
+      { key: 'bath2',       label: 'Bathroom 2 (if applicable)',   items: 'walls · floor · vanity · toilet · tub / shower · lights  (skip if N/A)' },
+      { key: 'bath3',       label: 'Bathroom 3 (if applicable)',   items: 'walls · floor · vanity · toilet · tub / shower · lights  (skip if N/A)' },
+      { key: 'bath4',       label: 'Bathroom 4 (if applicable)',   items: 'walls · floor · vanity · toilet · tub / shower · lights  (skip if N/A)' },
+      { key: 'bath5',       label: 'Bathroom 5 (if applicable)',   items: 'walls · floor · vanity · toilet · tub / shower · lights  (skip if N/A)' },
+      { key: 'laundry',     label: 'Laundry (Washer & Dryer)',     items: 'walls · washer · dryer · hookups · vent  (skip if N/A)' },
+      { key: 'garage',      label: 'Garage / Water Heater / HVAC', items: 'garage door · opener · interior door · water heater · HVAC · panel  (skip if N/A)' },
+      { key: 'exterior',    label: 'Exterior / Yard / Deck',       items: 'front yard · back yard · fence · deck · siding · gutters · lighting' }
+    ];
+
+    const CONDITION_OPTIONS = [
+      { v: '',           l: '— Select condition —' },
+      { v: 'Good',       l: 'G — Good (as new, no visible wear)' },
+      { v: 'Fair',       l: 'F — Fair (normal wear)' },
+      { v: 'Poor',       l: 'P — Poor (heavy wear, functional)' },
+      { v: 'Damaged',    l: 'D — Damaged (needs repair)' },
+      { v: 'Missing',    l: 'M — Missing (not present)' },
+      { v: 'N/A',        l: 'N/A — Not applicable / skip' }
+    ];
+
+    /* =====================================================
+       Render the rooms
+       ===================================================== */
+    function renderRooms() {
+      const container = document.getElementById('rooms-container');
+      container.innerHTML = ROOMS.map(room => `
+        <div class="room" id="room-${room.key}">
+          <div class="room-head">
+            <span>${room.label}</span>
+          </div>
+          <div class="room-body">
+            <div class="field" style="margin-bottom:8px; font-size:11px; color:#666;">${room.items}</div>
+            <div class="cond-row">
+              <div class="field" style="margin:0;">
+                <label for="f-${room.key}-cond">Overall Condition</label>
+                <select id="f-${room.key}-cond" name="${room.key}_condition">
+                  ${CONDITION_OPTIONS.map(o => `<option value="${o.v}">${o.l}</option>`).join('')}
+                </select>
+              </div>
+              <div class="field" style="margin:0;">
+                <label for="f-${room.key}-notes">Notes / Issues</label>
+                <textarea id="f-${room.key}-notes" name="${room.key}_notes" placeholder="Anything wrong? Be specific."></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* =====================================================
+       Pre-fill from URL query params
+       =====================================================
+       Supported params:
+         ?property=1234+Main+St
+         &unit=B
+         &tenant=Jane+Doe
+         &email=jane@example.com
+         &phone=6155551234
+         &start=2026-08-01     (lease start date, YYYY-MM-DD)
+    */
+    function prefillFromQuery() {
+      const q = new URLSearchParams(location.search);
+      const set = (id, val) => { if (val) document.getElementById(id).value = val; };
+      set('f-property',      q.get('property'));
+      set('f-unit',          q.get('unit'));
+      set('f-tenant',        q.get('tenant'));
+      set('f-email',         q.get('email'));
+      set('f-phone',         q.get('phone'));
+      set('f-lease-start',   q.get('start'));
+
+      // Default inspection + signature date to today
+      const today = new Date().toISOString().slice(0, 10);
+      set('f-inspection',    q.get('inspection') || today);
+      set('f-sig-date',      today);
+    }
+
+    /* =====================================================
+       Text-photos SMS button
+       ===================================================== */
+    function wirePhotoHelp() {
+      if (!CONFIG.MANAGER_PHONE) return;
+      const helpEl = document.getElementById('photo-help');
+      const btn    = document.getElementById('photo-sms-btn');
+      const property = new URLSearchParams(location.search).get('property') || '';
+      const body = encodeURIComponent(
+        `Move-In photos for ${property || 'the property'}. Attaching photos of items I flagged in the report.`
+      );
+      // iOS uses &, Android uses ? in SMS URLs — this format works on both
+      btn.href = `sms:${CONFIG.MANAGER_PHONE}&body=${body}`;
+      helpEl.style.display = 'block';
+    }
+
+    /* =====================================================
+       Submit → Google Form
+       ===================================================== */
+    async function handleSubmit(e) {
+      e.preventDefault();
+      const form  = e.target;
+      const btn   = document.getElementById('submit-btn');
+      const stat  = document.getElementById('form-status');
+      stat.className = 'form-status';
+      stat.textContent = '';
+
+      // HTML5 validity
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      // Signature name must reasonably match tenant name (soft check)
+      const tenant = form.tenant_name.value.trim().toLowerCase();
+      const sig    = form.signature_name.value.trim().toLowerCase();
+      if (tenant && sig && !tenant.includes(sig.split(' ')[0]) && !sig.includes(tenant.split(' ')[0])) {
+        if (!confirm(`Your typed signature "${form.signature_name.value}" doesn't match the tenant name "${form.tenant_name.value}". Are you sure you want to submit?`)) {
+          return;
+        }
+      }
+
+      // Not wired to a Google Form yet?
+      if (!CONFIG.FORM_URL) {
+        stat.className = 'form-status show warn';
+        stat.textContent = 'This form is not yet connected to submissions. Please contact your property manager: ' + (CONFIG.MANAGER_EMAIL || CONFIG.MANAGER_PHONE);
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = 'Submitting…';
+
+      try {
+        const fd = new FormData(form);
+        const body = new URLSearchParams();
+        for (const [k, v] of fd.entries()) {
+          const entryId = CONFIG.FIELD_MAP[k];
+          if (entryId) body.append(entryId, v);
+        }
+        await fetch(CONFIG.FORM_URL, { method: 'POST', mode: 'no-cors', body });
+
+        // Show success screen
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('success-screen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error(err);
+        stat.className = 'form-status show err';
+        stat.textContent = 'Network error: ' + (err.message || err) + '. Please try again or contact your property manager.';
+        btn.disabled = false;
+        btn.textContent = 'Submit Move-In Report';
+      }
+    }
+
+    /* =====================================================
+       Boot
+       ===================================================== */
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRooms();
+      prefillFromQuery();
+      wirePhotoHelp();
+      document.getElementById('report-form').addEventListener('submit', handleSubmit);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Land CMA · Victory Formation Ventures</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- html2canvas + jsPDF for client-side PDF generation -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <style>
+    :root {
+      --bg:       #000000;
+      --bg-elev:  #0e0e0e;
+      --bg-elev2: #181818;
+      --text:     #ffffff;
+      --muted:    #b8b8b8;
+      --dim:      #777777;
+      --rule:     #2a2a2a;
+      --accent:   #d9c8a3;
+      --tracking-wide:  0.14em;
+      --tracking-xwide: 0.22em;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+      font-weight: 300;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, .display { font-family: 'Aboreto', serif; font-weight: 400; }
+
+    /* Toolbar — not part of PDF output */
+    .toolbar {
+      position: sticky; top: 0; z-index: 50;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .toolbar-title {
+      font-family: 'Aboreto', serif;
+      font-size: 13px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+    }
+    .toolbar-actions { display: flex; gap: 12px; align-items: center; }
+    .btn-pdf, .btn-ghost {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      padding: 10px 18px;
+      border: 1px solid var(--text);
+      background: var(--text);
+      color: var(--bg);
+      cursor: pointer;
+    }
+    .btn-pdf:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-ghost { background: transparent; color: var(--text); }
+    .status {
+      font-size: 11px;
+      color: var(--accent);
+      letter-spacing: 0.04em;
+      margin-right: 18px;
+    }
+
+    /* PDF pages — letter landscape 1320 × 1020 px (matches cma-sales.html) */
+    #cma-output { padding: 28px; }
+    .page {
+      width: 1320px;
+      height: 1020px;
+      margin: 0 auto 28px;
+      background: var(--bg);
+      color: var(--text);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 0 1px var(--rule);
+    }
+
+    /* ---------- Cover ---------- */
+    .cover {
+      background-position: center;
+      background-size: cover;
+      background-color: var(--bg-elev);
+    }
+    .cover::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,
+        rgba(0,0,0,0.25) 0%,
+        rgba(0,0,0,0.10) 35%,
+        rgba(0,0,0,0.60) 100%);
+      pointer-events: none;
+    }
+    .cover-date {
+      position: absolute; top: 40px; right: 50px;
+      font-size: 15px; letter-spacing: 0.06em;
+      color: var(--text); z-index: 2;
+    }
+    .cover-eyebrow {
+      position: absolute; top: 220px; left: 80px;
+      font-family: 'Aboreto', serif;
+      font-size: 18px; letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase; color: var(--accent);
+      z-index: 2;
+    }
+    .cover-title {
+      position: absolute; top: 260px; left: 80px;
+      font-size: 100px; letter-spacing: 0.04em;
+      color: var(--text); z-index: 2;
+      line-height: 1.0; margin: 0;
+    }
+    .cover-address {
+      position: absolute; top: 430px; left: 80px;
+      font-family: 'Aboreto', serif;
+      font-size: 42px; letter-spacing: 0.02em;
+      color: var(--text); z-index: 2;
+    }
+    .cover-company {
+      position: absolute; bottom: 50px; left: 80px;
+      font-family: 'Aboreto', serif;
+      font-size: 16px; letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase; color: var(--text); z-index: 2;
+    }
+    .cover-logo {
+      position: absolute; bottom: 50px; right: 70px;
+      width: 110px; height: 110px; z-index: 2; opacity: 0.95;
+    }
+
+    /* ---------- Subject Summary (Page 2) ---------- */
+    .summary-page {
+      display: flex; flex-direction: row;
+      padding: 0;
+      height: 1020px; width: 1320px;
+    }
+    .summary-photo {
+      width: 660px; height: 1020px;
+      flex: 0 0 660px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: var(--bg-elev2);
+    }
+    .summary-content {
+      width: 660px; flex: 0 0 660px;
+      padding: 80px 80px 70px;
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+    }
+    .summary-content .eyebrow {
+      font-family: 'Aboreto', serif;
+      font-size: 13px; letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase; color: var(--accent);
+      margin-bottom: 18px;
+    }
+    .summary-content .address {
+      font-family: 'Aboreto', serif;
+      font-size: 36px; line-height: 1.1;
+      letter-spacing: 0.02em;
+      margin-bottom: 60px;
+      color: var(--text);
+    }
+    .summary-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px 30px;
+      margin-bottom: auto;
+    }
+    .summary-stat .k {
+      font-family: 'Aboreto', serif;
+      font-size: 11px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .summary-stat .v {
+      font-family: 'Aboreto', serif;
+      font-size: 30px;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+    .summary-stat.full { grid-column: 1 / -1; }
+
+    /* ---------- Comps Page (Page 3) ---------- */
+    .comps-page {
+      padding: 70px 90px 70px;
+      display: flex;
+      flex-direction: column;
+    }
+    .comps-header {
+      font-family: 'Aboreto', serif;
+      font-size: 38px;
+      letter-spacing: 0.04em;
+      margin-bottom: 42px;
+      color: var(--text);
+    }
+    .comps-header .dash { color: var(--accent); margin: 0 18px; }
+    .comps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 30px;
+      flex: 1;
+    }
+    .comp-card { display: flex; flex-direction: column; }
+    .comp-card .photo {
+      width: 100%;
+      aspect-ratio: 16 / 11;
+      background: var(--bg-elev2);
+      background-size: cover;
+      background-position: center;
+      border: 1px solid var(--rule);
+    }
+    .comp-card .address {
+      font-family: 'Aboreto', serif;
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: 0.01em;
+      margin: 18px 0 12px;
+      line-height: 1.2;
+    }
+    .comp-card .price {
+      font-family: 'Aboreto', serif;
+      font-size: 20px;
+      color: var(--accent);
+      letter-spacing: 0.02em;
+      margin: 0 0 4px;
+    }
+    .comp-card .sold-date {
+      font-size: 12px; color: var(--muted);
+      letter-spacing: 0.04em;
+      margin: 0 0 12px;
+    }
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      letter-spacing: 0.02em;
+      margin-top: 4px;
+    }
+    .spec-table td {
+      padding: 5px 0;
+      border-bottom: 1px solid var(--rule);
+      vertical-align: top;
+    }
+    .spec-table td.k {
+      font-family: 'Aboreto', serif;
+      font-size: 10px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--muted);
+      width: 46%;
+    }
+    .spec-table td.v { color: var(--text); text-align: right; }
+    .comp-card .comments {
+      font-size: 11.5px;
+      color: var(--muted);
+      font-style: italic;
+      letter-spacing: 0.01em;
+      line-height: 1.45;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--rule);
+    }
+    .comp-card .comments .label {
+      display: block;
+      font-style: normal;
+      font-family: 'Aboreto', serif;
+      font-size: 10px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .page-footer-brand {
+      position: absolute;
+      bottom: 24px; right: 36px;
+      display: flex; align-items: center; gap: 12px;
+      opacity: 0.85; z-index: 2;
+    }
+    .page-footer-brand img { width: 54px; height: 54px; }
+    .page-footer-brand .wordmark {
+      font-family: 'Aboreto', serif;
+      font-size: 9px;
+      letter-spacing: var(--tracking-xwide);
+      text-transform: uppercase;
+      color: var(--muted);
+      text-align: right;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-title">Land CMA · Victory Formation Ventures</div>
+    <div class="toolbar-actions">
+      <span class="status" id="status"></span>
+      <button class="btn-ghost" type="button" onclick="window.close()">Close</button>
+      <button class="btn-pdf" type="button" id="download-btn" disabled>Download PDF</button>
+    </div>
+  </div>
+
+  <div id="cma-output"><!-- pages rendered here by JS --></div>
+
+  <script>
+    'use strict';
+
+    // ----- IDB (shared 'vfv-dashboard' v4) -----
+    function idbOpen() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open('vfv-dashboard', 4);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains('onepager'))   db.createObjectStore('onepager');
+          if (!db.objectStoreNames.contains('om'))         db.createObjectStore('om');
+          if (!db.objectStoreNames.contains('engagement')) db.createObjectStore('engagement');
+          if (!db.objectStoreNames.contains('loi'))        db.createObjectStore('loi');
+          if (!db.objectStoreNames.contains('landcma'))    db.createObjectStore('landcma');
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+    function idbGet(key) {
+      return idbOpen().then(db => new Promise((resolve) => {
+        const tx = db.transaction('landcma', 'readonly');
+        const req = tx.objectStore('landcma').get(key);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror   = () => resolve(null);
+      }));
+    }
+
+    // Poll for the payload — the form tab writes after opening this window.
+    async function waitForPayload(reqId, maxMs = 8000) {
+      const t0 = Date.now();
+      while (Date.now() - t0 < maxMs) {
+        const rec = await idbGet(reqId) || await idbGet('current');
+        if (rec) return rec;
+        await new Promise(r => setTimeout(r, 200));
+      }
+      return null;
+    }
+
+    // ----- Render helpers -----
+    function esc(s) { return String(s || '').replace(/[<>&]/g, ch => ({'<':'&lt;','>':'&gt;','&':'&amp;'}[ch])); }
+    function dash(s) { const t = String(s == null ? '' : s).trim(); return t ? esc(t) : '—'; }
+
+    function renderCover(d) {
+      const s = d.subject || {};
+      const heroStyle = s.hero ? 'style="background-image:url(' + s.hero + ');"' : '';
+      return (
+        '<section class="page cover" ' + heroStyle + '>' +
+          (s.date ? '<div class="cover-date">' + esc(s.date) + '</div>' : '') +
+          '<div class="cover-eyebrow">Land Comparables</div>' +
+          '<h1 class="cover-title">LAND CMA</h1>' +
+          '<div class="cover-address">' + esc(s.address || '') + '</div>' +
+          '<div class="cover-company">Victory Formation Ventures</div>' +
+          '<img class="cover-logo" src="assets/icon-arch-transparent.png" alt="Victory Formation" />' +
+        '</section>'
+      );
+    }
+
+    function renderSubjectSummary(d) {
+      const s = d.subject || {};
+      const heroStyle = s.hero ? 'style="background-image:url(' + s.hero + ');"' : '';
+      const stat = (k, v, cls) => (
+        '<div class="summary-stat' + (cls ? ' ' + cls : '') + '">' +
+          '<div class="k">' + esc(k) + '</div>' +
+          '<div class="v">' + dash(v) + '</div>' +
+        '</div>'
+      );
+      const acreageV = s.acreage ? (s.acreage + (/[a-zA-Z]/.test(s.acreage) ? '' : ' ac')) : '';
+      const frontageV = s.frontage ? (s.frontage + (/[a-zA-Z]/.test(s.frontage) ? '' : ' ft')) : '';
+      const depthV    = s.depth    ? (s.depth    + (/[a-zA-Z]/.test(s.depth)    ? '' : ' ft')) : '';
+      const slopeV    = s.slope    ? (s.slope    + (/[%a-zA-Z]/.test(s.slope)   ? '' : '%'))  : '';
+      return (
+        '<section class="page summary-page">' +
+          '<div class="summary-photo" ' + heroStyle + '></div>' +
+          '<div class="summary-content">' +
+            '<div>' +
+              '<div class="eyebrow">Subject Property</div>' +
+              '<div class="address">' + esc(s.address || '') + '</div>' +
+              '<div class="summary-stats">' +
+                stat('Acreage',    acreageV) +
+                stat('Frontage',   frontageV) +
+                stat('Depth',      depthV) +
+                stat('Slope',      slopeV) +
+                stat('Flood Zone', s.flood, 'full') +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    function renderCompCard(c) {
+      const photoStyle = c.photo ? 'style="background-image:url(' + c.photo + ');"' : '';
+      const withUnit = (v, unit) => v ? (v + (/[%a-zA-Z]/.test(v) ? '' : unit)) : '';
+      return (
+        '<div class="comp-card">' +
+          '<div class="photo" ' + photoStyle + '></div>' +
+          '<div class="address">' + esc(c.address || '—') + '</div>' +
+          (c.price    ? '<div class="price">'     + esc(c.price)    + '</div>' : '') +
+          (c.soldDate ? '<div class="sold-date">Sold ' + esc(c.soldDate) + '</div>' : '') +
+          '<table class="spec-table">' +
+            '<tr><td class="k">Acreage</td><td class="v">'    + dash(withUnit(c.acreage,  ' ac')) + '</td></tr>' +
+            '<tr><td class="k">Frontage</td><td class="v">'   + dash(withUnit(c.frontage, ' ft')) + '</td></tr>' +
+            '<tr><td class="k">Depth</td><td class="v">'      + dash(withUnit(c.depth,    ' ft')) + '</td></tr>' +
+            '<tr><td class="k">Slope</td><td class="v">'      + dash(withUnit(c.slope,    '%'))   + '</td></tr>' +
+            '<tr><td class="k">Flood Zone</td><td class="v">' + dash(c.flood) + '</td></tr>' +
+          '</table>' +
+          (c.comments
+            ? '<div class="comments"><span class="label">Notes</span>' + esc(c.comments) + '</div>'
+            : '') +
+        '</div>'
+      );
+    }
+
+    function renderCompsPage(d) {
+      const comps = (d.comps || []).slice(0, 3);
+      return (
+        '<section class="page comps-page">' +
+          '<div class="comps-header">Comparables<span class="dash">–</span>Sold</div>' +
+          '<div class="comps-grid">' +
+            comps.map(renderCompCard).join('') +
+          '</div>' +
+          '<div class="page-footer-brand">' +
+            '<div class="wordmark">The Victory Formation<br/>Company</div>' +
+            '<img src="assets/icon-arch-transparent.png" alt="" />' +
+          '</div>' +
+        '</section>'
+      );
+    }
+
+    async function render() {
+      const params  = new URLSearchParams(location.search);
+      const reqId   = params.get('req') || 'current';
+      const status  = document.getElementById('status');
+      status.textContent = 'Loading…';
+
+      const data = await waitForPayload(reqId);
+      const out  = document.getElementById('cma-output');
+      if (!data) {
+        out.innerHTML = '<p style="color:#b8b8b8;padding:40px;">No Land CMA data found. Open the Land CMA Generator from the Land dashboard and submit the form first.</p>';
+        status.textContent = '';
+        return;
+      }
+
+      out.innerHTML = renderCover(data) + renderSubjectSummary(data) + renderCompsPage(data);
+
+      const btn = document.getElementById('download-btn');
+      btn.disabled = false;
+      status.textContent = 'Ready.';
+
+      // Auto-download once the DOM has settled + a beat for background images.
+      setTimeout(() => { generatePdf(data); }, 600);
+
+      btn.addEventListener('click', () => generatePdf(data));
+    }
+
+    async function generatePdf(data) {
+      const btn    = document.getElementById('download-btn');
+      const status = document.getElementById('status');
+      btn.disabled = true;
+      status.textContent = 'Rendering PDF…';
+
+      try {
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF({ orientation: 'landscape', unit: 'in', format: 'letter' });
+        const PAGE_IN_W = 11, PAGE_IN_H = 8.5;
+
+        const pages = document.querySelectorAll('.page');
+        for (let i = 0; i < pages.length; i++) {
+          status.textContent = 'Rendering page ' + (i + 1) + ' of ' + pages.length + '…';
+          const canvas = await html2canvas(pages[i], {
+            backgroundColor: '#000000',
+            scale: 3,
+            useCORS: true,
+            logging: false,
+          });
+          const img = canvas.toDataURL('image/jpeg', 0.96);
+          if (i > 0) pdf.addPage('letter', 'landscape');
+          pdf.addImage(img, 'JPEG', 0, 0, PAGE_IN_W, PAGE_IN_H);
+        }
+
+        const addr = (data.subject && data.subject.address) || 'untitled';
+        const fileName = 'Land-CMA-' + addr.replace(/[^A-Za-z0-9]+/g, '-') + '.pdf';
+        pdf.save(fileName);
+        status.textContent = 'Downloaded.';
+      } catch (err) {
+        console.error('PDF render failed', err);
+        status.textContent = 'PDF render failed — see console.';
+      } finally {
+        btn.disabled = false;
+        setTimeout(() => { document.getElementById('status').textContent = ''; }, 2500);
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>

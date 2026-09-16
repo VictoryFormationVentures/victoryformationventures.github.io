@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1000" />
+  <title>Tenant Move-In Report · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper:      #ffffff;
+      --ink:        #111;
+      --ink-muted:  #555;
+      --ink-soft:   #888;
+      --rule:       #d5d5d5;
+      --rule-light: #eee;
+      --band:       #f5f2ec;
+      --ok:         #4a7548;
+      --warn:       #8a6d1e;
+      --poor:       #a4491d;
+      --dmg:        #a4291d;
+
+      --font-body:    'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:      'Inter', 'Helvetica Neue', Arial, sans-serif;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #222; }
+    body { font-family: var(--font-ui); color: #fff; }
+
+    /* Toolbar */
+    .toolbar {
+      position: sticky; top: 0; z-index: 100;
+      background: #000; border-bottom: 1px solid #2a2a2a;
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 16px; flex-wrap: wrap;
+    }
+    .toolbar .brand {
+      font-family: var(--font-display); font-size: 13px;
+      letter-spacing: .25em; text-transform: uppercase; color: #fff;
+    }
+    .toolbar .spacer { flex: 1; }
+    .tb-btn {
+      font-family: var(--font-ui); font-size: 11px; text-transform: uppercase;
+      letter-spacing: .15em; padding: 8px 14px; cursor: pointer;
+      border: 1px solid #fff; background: #fff; color: #000;
+      font-weight: 600; text-decoration: none;
+    }
+    .tb-btn.ghost { background: transparent; color: #fff; }
+    .tb-status { font-size: 10px; color: #b8b8b8; text-transform: uppercase; letter-spacing: .15em; }
+    .tb-status.ok  { color: #9ec39e; }
+    .tb-status.err { color: #d99; }
+
+    /* Page */
+    .stage { padding: 32px 20px 60px; display: flex; justify-content: center; }
+    .page {
+      max-width: 900px; width: 100%;
+      background: var(--paper); color: var(--ink);
+      padding: 40px 44px 60px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.5);
+    }
+    .empty, .loading {
+      padding: 80px 20px; text-align: center;
+      color: var(--ink-muted); font-size: 13px; line-height: 1.6;
+    }
+    .empty h2, .loading h2 {
+      font-family: var(--font-display); font-size: 18px;
+      letter-spacing: .2em; text-transform: uppercase;
+      color: var(--ink); margin: 0 0 12px;
+    }
+
+    /* Header */
+    .page-head {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-bottom: 18px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 22px;
+    }
+    .page-head .brand-left {
+      display: flex; align-items: center; gap: 14px;
+    }
+    .page-head .co {
+      font-family: var(--font-display); font-size: 15px;
+      letter-spacing: .28em; text-transform: uppercase;
+    }
+    .page-head .co small {
+      display: block; font-family: var(--font-body); font-size: 8.5px;
+      letter-spacing: .22em; color: var(--ink-muted);
+      font-weight: 600; margin-top: 3px; text-transform: uppercase;
+    }
+    .page-head .arch { width: 40px; height: 40px; object-fit: contain; }
+    .page-head .doc-title {
+      text-align: right; font-family: var(--font-display);
+      font-size: 13px; letter-spacing: .22em; text-transform: uppercase;
+    }
+    .page-head .doc-title small {
+      display: block; font-family: var(--font-body); font-size: 8px;
+      letter-spacing: .16em; color: var(--ink-muted);
+      font-weight: 600; margin-top: 3px; text-transform: uppercase;
+    }
+
+    /* Property + tenant grid */
+    h1.prop-title {
+      font-family: var(--font-display); font-size: 22px;
+      letter-spacing: .06em; text-transform: uppercase;
+      margin: 0 0 8px; line-height: 1.15;
+    }
+    .prop-sub {
+      font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink-muted); font-weight: 600;
+    }
+    .info-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 10px 18px; margin: 18px 0 22px;
+      padding: 14px 16px; border: 1px solid var(--rule); background: #fafafa;
+    }
+    .info-field .lbl {
+      display: block; font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink-soft); font-weight: 700; margin-bottom: 2px;
+    }
+    .info-field .val { color: var(--ink); font-size: 12px; font-weight: 500; }
+
+    /* Room table */
+    h2.section {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: .22em; text-transform: uppercase;
+      margin: 22px 0 10px;
+      padding-bottom: 5px; border-bottom: 1px solid var(--rule);
+    }
+    table.rooms { width: 100%; border-collapse: collapse; }
+    table.rooms th {
+      text-align: left; padding: 8px 10px;
+      font-family: var(--font-body); font-weight: 700;
+      font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
+      color: var(--ink-muted);
+      background: #f5f2ec; border-bottom: 1px solid var(--rule);
+    }
+    table.rooms td {
+      padding: 8px 10px; font-size: 12px;
+      border-bottom: 1px solid var(--rule-light); vertical-align: top;
+    }
+    table.rooms td.room {
+      font-weight: 700; font-size: 10.5px;
+      letter-spacing: .1em; text-transform: uppercase;
+      width: 28%;
+    }
+    table.rooms td.cond { width: 14%; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; font-size: 10px; }
+    table.rooms td.cond.good     { color: var(--ok);   }
+    table.rooms td.cond.fair     { color: var(--warn); }
+    table.rooms td.cond.poor     { color: var(--poor); }
+    table.rooms td.cond.damaged  { color: var(--dmg);  }
+    table.rooms td.cond.missing  { color: var(--dmg);  }
+    table.rooms td.notes { color: var(--ink); line-height: 1.45; }
+    table.rooms td.notes:empty::before, table.rooms td.notes.blank::before { content: '—'; color: #bbb; }
+
+    /* Safety + keys stacked */
+    .card {
+      border: 1px solid var(--rule); background: #fafafa;
+      padding: 12px 16px; margin-bottom: 12px;
+    }
+    .card h4 {
+      margin: 0 0 8px; font-family: var(--font-display);
+      font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--ink-muted);
+    }
+    .card .row { font-size: 12px; margin-bottom: 4px; }
+    .card .lbl { display: inline-block; min-width: 130px;
+      font-size: 9px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--ink-soft); font-weight: 700; margin-right: 6px; }
+
+    /* Notes */
+    .notes-block {
+      padding: 12px 16px; background: #fafafa; border: 1px solid var(--rule);
+      font-size: 12px; line-height: 1.55; white-space: pre-wrap; color: var(--ink);
+    }
+
+    /* Signature */
+    .sig-block {
+      padding: 14px 16px; background: #fdfbf5; border: 1px solid #cabf9e;
+    }
+    .sig-block .note {
+      font-size: 11px; line-height: 1.5; color: var(--ink-muted);
+      margin: 0 0 10px;
+    }
+    .sig-block .typed {
+      font-family: 'Times New Roman', serif; font-size: 22px;
+      letter-spacing: .02em; color: var(--ink);
+    }
+    .sig-block .date { font-size: 11px; color: var(--ink-muted); margin-top: 6px; }
+
+    .page-foot {
+      margin-top: 28px; padding-top: 14px; border-top: 1px solid var(--rule);
+      display: flex; justify-content: space-between; font-size: 9.5px;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--ink-muted);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="brand">Victory Formation Ventures · Tenant Move-In Report</div>
+    <div class="spacer"></div>
+    <span class="tb-status" id="status"></span>
+    <button class="tb-btn" id="print-btn" type="button" disabled>Print / Save PDF</button>
+    <a class="tb-btn ghost" href="index.html#propmgmt">← Dashboard</a>
+  </div>
+
+  <div class="stage">
+    <div class="page" id="page">
+      <div class="loading">
+        <h2>Loading Report</h2>
+        <p>Fetching move-in submission…</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* =====================================================
+       Tenant Move-In Report viewer
+       URL: ?email=X (preferred), or ?name=X, or ?property=X
+       Fetches the Move-In Reports sheet, finds the row, renders.
+       ===================================================== */
+
+    const CONFIG = {
+      SHEET_ID:  "1pD3iSQpwhnlCbn8Cgyl2_bH3kPyFTMY-ROONcGTFbDc",
+      SHEET_TAB: "Form Responses 1"
+    };
+
+    const esc = (s) => String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    function fmtDate(d) {
+      if (!(d instanceof Date) || isNaN(d)) return '';
+      return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+    function parseGvizString(cell) {
+      if (!cell) return '';
+      if (cell.f != null) return String(cell.f);
+      if (cell.v != null) return String(cell.v);
+      return '';
+    }
+    function parseGvizDate(cell) {
+      if (!cell || cell.v == null) return null;
+      const v = cell.v;
+      if (v instanceof Date) return v;
+      if (typeof v === 'string' && /^Date\(/.test(v)) {
+        const m = v.match(/Date\((\d+),(\d+),(\d+)/);
+        if (m) return new Date(+m[1], +m[2], +m[3]);
+      }
+      const d = new Date(v);
+      return isNaN(d.getTime()) ? null : d;
+    }
+    function parseGvizEnvelope(text) {
+      const m = text.match(/setResponse\(([\s\S]+)\)\s*;?\s*$/);
+      if (!m) throw new Error('gviz response format unexpected');
+      const data = JSON.parse(m[1]);
+      if (data.status !== 'ok') throw new Error('gviz: ' + (data.errors?.[0]?.detailed_message || data.status));
+      return data.table || { cols: [], rows: [] };
+    }
+
+    // Same 18 rooms as the tenant form
+    const ROOMS = [
+      ['entry',       'Entry / Foyer'],
+      ['living',      'Living Room'],
+      ['dining',      'Dining Room'],
+      ['kitchen',     'Kitchen (Structure)'],
+      ['appliances',  'Kitchen Appliances'],
+      ['master_br',   'Master Bedroom'],
+      ['bedroom2',    'Bedroom 2'],
+      ['bedroom3',    'Bedroom 3'],
+      ['bedroom4',    'Bedroom 4'],
+      ['bedroom5',    'Bedroom 5'],
+      ['master_bath', 'Master Bathroom'],
+      ['bath2',       'Bathroom 2'],
+      ['bath3',       'Bathroom 3'],
+      ['bath4',       'Bathroom 4'],
+      ['bath5',       'Bathroom 5'],
+      ['laundry',     'Laundry (Washer & Dryer)'],
+      ['garage',      'Garage / Water Heater / HVAC'],
+      ['exterior',    'Exterior / Yard / Deck']
+    ];
+
+    /* URL params + boot */
+    const params = new URLSearchParams(location.search);
+    const wantEmail = (params.get('email') || '').trim().toLowerCase();
+    const wantName  = (params.get('name')  || '').trim().toLowerCase();
+    const wantProperty = (params.get('property') || '').trim().toLowerCase();
+
+    (async function () {
+      const pageEl = document.getElementById('page');
+      const statusEl = document.getElementById('status');
+      const printBtn = document.getElementById('print-btn');
+      if (!wantEmail && !wantName && !wantProperty) {
+        pageEl.innerHTML = '<div class="empty"><h2>Missing parameters</h2><p>Open this page from a tenant row on the dashboard. The URL must include <code>?email=…</code>, <code>?name=…</code>, or <code>?property=…</code>.</p></div>';
+        return;
+      }
+      statusEl.textContent = 'Loading…';
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/' + CONFIG.SHEET_ID +
+          '/gviz/tq?tqx=out:json&headers=1&sheet=' + encodeURIComponent(CONFIG.SHEET_TAB) +
+          '&t=' + Date.now();
+        const res = await fetch(url, { cache: 'no-store' });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const table = parseGvizEnvelope(await res.text());
+        const row = findRow(table);
+        if (!row) {
+          pageEl.innerHTML = '<div class="empty"><h2>No report found</h2><p>No move-in report has been submitted for this tenant yet.<br>Send them the link from Property Management → Files.</p></div>';
+          statusEl.textContent = '';
+          return;
+        }
+        pageEl.innerHTML = renderReport(row);
+        statusEl.className = 'tb-status ok';
+        statusEl.textContent = 'Loaded';
+        printBtn.disabled = false;
+        printBtn.addEventListener('click', () => window.print());
+      } catch (err) {
+        console.error(err);
+        pageEl.innerHTML = '<div class="empty"><h2>Could not load</h2><p>' + esc(err.message || err) + '</p></div>';
+        statusEl.className = 'tb-status err';
+        statusEl.textContent = 'Error';
+      }
+    })();
+
+    function findRow(table) {
+      const cols = table.cols || [];
+      const rows = table.rows || [];
+      const norm = (s) => String(s || '').toLowerCase().trim();
+      const emailIx = cols.findIndex(c => /email/i.test(c.label));
+      const nameIx  = cols.findIndex(c => /tenant.?name/i.test(c.label));
+      const propIx  = cols.findIndex(c => /property.?address/i.test(c.label));
+      const tsIx    = cols.findIndex(c => /timestamp/i.test(c.label));
+      // Match — prefer email, then name, then property. Latest timestamp wins.
+      const candidates = rows.filter(r => {
+        const c = r.c || [];
+        if (wantEmail && emailIx >= 0 && norm(parseGvizString(c[emailIx])) === wantEmail) return true;
+        if (wantName  && nameIx  >= 0 && norm(parseGvizString(c[nameIx]))  === wantName)  return true;
+        if (wantProperty && propIx >= 0 && norm(parseGvizString(c[propIx])) === wantProperty) return true;
+        return false;
+      });
+      if (candidates.length === 0) return null;
+      candidates.sort((a, b) => {
+        const at = tsIx >= 0 ? (parseGvizDate(a.c?.[tsIx])?.getTime() || 0) : 0;
+        const bt = tsIx >= 0 ? (parseGvizDate(b.c?.[tsIx])?.getTime() || 0) : 0;
+        return bt - at;
+      });
+      // Return a normalized row object with { label: value } access
+      const out = {};
+      const winner = candidates[0].c || [];
+      cols.forEach((col, i) => {
+        const cell = winner[i];
+        const label = (col.label || col.id || '').trim();
+        out[label] = parseGvizString(cell);
+        // Special: keep raw for dates + timestamp
+        if (/date/i.test(label) || /timestamp/i.test(label)) {
+          out['_date_' + label] = parseGvizDate(cell);
+        }
+      });
+      return out;
+    }
+
+    function get(row, ...candidates) {
+      const norm = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '');
+      const keys = Object.keys(row);
+      for (const c of candidates) {
+        const nc = norm(c);
+        const k = keys.find(k => norm(k) === nc);
+        if (k) return row[k] || '';
+      }
+      // fallback: contains
+      for (const c of candidates) {
+        const nc = norm(c);
+        const k = keys.find(k => norm(k).indexOf(nc) >= 0);
+        if (k) return row[k] || '';
+      }
+      return '';
+    }
+    function getDate(row, ...candidates) {
+      const val = get(row, ...candidates);
+      if (!val) return null;
+      const d = new Date(val);
+      return isNaN(d) ? null : d;
+    }
+
+    function condClass(v) {
+      const s = String(v || '').toLowerCase();
+      if (s.indexOf('good') >= 0) return 'good';
+      if (s.indexOf('fair') >= 0) return 'fair';
+      if (s.indexOf('poor') >= 0) return 'poor';
+      if (s.indexOf('damag') >= 0) return 'damaged';
+      if (s.indexOf('miss') >= 0)  return 'missing';
+      return '';
+    }
+
+    function renderReport(row) {
+      const today = new Date();
+      const property   = get(row, 'property_address', 'Property Address');
+      const unit       = get(row, 'unit', 'Unit');
+      const tenant     = get(row, 'tenant_name', 'Tenant Name');
+      const email      = get(row, 'tenant_email', 'Tenant Email');
+      const phone      = get(row, 'tenant_phone', 'Tenant Phone');
+      const inspection = getDate(row, 'inspection_date', 'Inspection Date');
+      const leaseStart = getDate(row, 'lease_start', 'Lease Start');
+      const sigName    = get(row, 'signature_name', 'Signature Name');
+      const sigDate    = get(row, 'signature_date', 'Signature Date');
+      const submitted  = row['_date_Timestamp'] || null;
+      const detectors  = get(row, 'detectors_status', 'Detectors Status');
+      const detectorsNotes = get(row, 'detectors_notes');
+      const keysCount  = get(row, 'keys_count');
+      const alarm      = get(row, 'alarm_code');
+      const photoLink  = get(row, 'photo_link');
+      const overallNotes = get(row, 'overall_notes');
+
+      // Build room rows — skip rooms with no data
+      const roomRows = ROOMS.map(([key, label]) => {
+        const cond = get(row, key + '_condition', key + ' condition');
+        const notes = get(row, key + '_notes', key + ' notes');
+        if (!cond && !notes) return '';
+        const cls = condClass(cond);
+        return `
+          <tr>
+            <td class="room">${esc(label)}</td>
+            <td class="cond ${cls}">${esc(cond) || '—'}</td>
+            <td class="notes${!notes ? ' blank' : ''}">${esc(notes)}</td>
+          </tr>
+        `;
+      }).filter(Boolean).join('');
+
+      return `
+        <div class="page-head">
+          <div class="brand-left">
+            <img class="arch" src="assets/icon-arch-black.png" alt="" />
+            <div class="co">Victory Formation Ventures<small>Property Management</small></div>
+          </div>
+          <div class="doc-title">Move-In Report<small>Submitted ${esc(fmtDate(submitted) || fmtDate(inspection) || '—')}</small></div>
+        </div>
+
+        <h1 class="prop-title">${esc(property)}${unit ? ' · Unit ' + esc(unit) : ''}</h1>
+        <div class="prop-sub">${esc(tenant)}</div>
+
+        <div class="info-grid">
+          <div class="info-field"><span class="lbl">Tenant Email</span><span class="val">${esc(email) || '—'}</span></div>
+          <div class="info-field"><span class="lbl">Tenant Phone</span><span class="val">${esc(phone) || '—'}</span></div>
+          <div class="info-field"><span class="lbl">Lease Start</span><span class="val">${esc(fmtDate(leaseStart)) || '—'}</span></div>
+          <div class="info-field"><span class="lbl">Inspection Date</span><span class="val">${esc(fmtDate(inspection)) || '—'}</span></div>
+          <div class="info-field"><span class="lbl">Submitted</span><span class="val">${esc(fmtDate(submitted)) || '—'}</span></div>
+        </div>
+
+        <h2 class="section">Room-by-Room Condition</h2>
+        ${roomRows
+          ? `<table class="rooms"><thead><tr><th>Room</th><th>Condition</th><th>Notes / Issues</th></tr></thead><tbody>${roomRows}</tbody></table>`
+          : '<p style="font-size:12px; color:var(--ink-muted);"><em>No rooms recorded.</em></p>'}
+
+        <h2 class="section">Safety, Keys &amp; Access</h2>
+        <div class="card">
+          <div class="row"><span class="lbl">Smoke &amp; CO Detectors</span>${esc(detectors) || '—'}${detectorsNotes ? ' — ' + esc(detectorsNotes) : ''}</div>
+          <div class="row"><span class="lbl">Keys / Remotes / Fobs</span>${esc(keysCount) || '—'}</div>
+          <div class="row"><span class="lbl">Alarm / Gate Codes</span>${esc(alarm) || '—'}</div>
+          <div class="row"><span class="lbl">Photo Album Link</span>${photoLink ? '<a href="' + esc(photoLink) + '" target="_blank" style="color:var(--ink); border-bottom:1px solid var(--ink);">' + esc(photoLink) + '</a>' : '—'}</div>
+        </div>
+
+        ${overallNotes ? `<h2 class="section">Additional Notes</h2><div class="notes-block">${esc(overallNotes)}</div>` : ''}
+
+        <h2 class="section">Electronic Signature</h2>
+        <div class="sig-block">
+          <p class="note">Tenant typed the following as their electronic signature under the E-SIGN Act:</p>
+          <div class="typed">${esc(sigName) || '—'}</div>
+          <div class="date">Signed on ${esc(sigDate) || '—'}</div>
+        </div>
+
+        <div class="page-foot">
+          <div>Victory Formation Ventures · Property Management</div>
+          <div>Viewed ${esc(fmtDate(today))}</div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

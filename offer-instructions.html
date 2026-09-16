@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1200" />
+  <title>Offer Instructions · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Paper is now pure black; arch logo (mask-based) renders in --ink white.
+         Gold accent is gone — replaced with white + neutral greys. */
+      --paper:        #000000;
+      --paper-tint:   #0a0a0a;
+      --ink:          #ffffff;
+      --ink-muted:    #b8b8b8;
+      --rule:         #3a3a3a;
+      --accent:       #ffffff;
+      --accent-soft:  #6a6a6a;
+      --bg:           #1a1a1a;
+      --panel:        #0f0f0f;
+      --panel-edge:   #2a2a2a;
+
+      --font-body:    'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display: 'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:      'Inter', 'Helvetica Neue', Arial, sans-serif;
+
+      /* US Letter portrait at 96 DPI = 816 × 1056 */
+      --page-w: 816px;
+      --page-h: 1056px;
+      --page-pad: 48px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); }
+    body {
+      font-family: var(--font-ui);
+      color: #ffffff;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+    button { font: inherit; }
+    a { color: inherit; }
+    input, select, textarea {
+      font: inherit;
+      color: #ffffff;
+      background: #111;
+      border: 1px solid var(--panel-edge);
+      padding: 7px 9px;
+      width: 100%;
+      border-radius: 0;
+    }
+    input:focus, select:focus, textarea:focus { outline: 1px solid var(--accent-soft); outline-offset: -1px; }
+    textarea { resize: vertical; min-height: 70px; font-size: 12px; line-height: 1.5; }
+    label { display: block; margin-bottom: 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #b8b8b8; }
+
+    /* ===== Toolbar ===== */
+    .toolbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: #000; border-bottom: 1px solid var(--panel-edge);
+      display: flex; align-items: center; gap: 14px;
+      padding: 0 18px; z-index: 200;
+    }
+    .toolbar .brand {
+      font-family: var(--font-display); font-size: 13px;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: #ffffff;
+    }
+    .toolbar .brand small {
+      display: block; font-family: var(--font-ui); font-size: 9px;
+      letter-spacing: .2em; color: #b8b8b8; font-weight: 500;
+      margin-top: 2px;
+    }
+    .toolbar .spacer { flex: 1; }
+    .tb-btn {
+      font-family: var(--font-ui); font-size: 11px; text-transform: uppercase; letter-spacing: .15em;
+      padding: 9px 16px; cursor: pointer;
+      border: 1px solid #ffffff; background: #ffffff; color: #000;
+      font-weight: 600; text-decoration: none; display: inline-block;
+    }
+    .tb-btn:hover { opacity: .85; }
+    .tb-btn.ghost { background: transparent; color: #ffffff; }
+    .tb-status { font-size: 10px; color: #b8b8b8; text-transform: uppercase; letter-spacing: .15em; }
+    .tb-status.ok { color: #9ec39e; }
+    .tb-status.err { color: #d99; }
+
+    /* ===== Layout ===== */
+    .layout {
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      padding-top: 56px;
+      min-height: 100vh;
+    }
+
+    /* ===== Editor sidebar ===== */
+    .editor {
+      background: #0a0a0a;
+      border-right: 1px solid var(--panel-edge);
+      padding: 18px 18px 80px;
+      position: sticky; top: 56px; align-self: start;
+      height: calc(100vh - 56px); overflow-y: auto;
+      scrollbar-width: thin;
+    }
+    .editor h2 {
+      font-family: var(--font-display); font-size: 12px;
+      letter-spacing: .25em; text-transform: uppercase;
+      color: #ffffff; margin: 0;
+    }
+    .editor p.note { font-size: 11px; color: #b8b8b8; margin: 6px 0 14px; line-height: 1.5; }
+    details.section {
+      border: 1px solid #1f1f1f;
+      margin-bottom: 8px;
+      background: #0e0e0e;
+    }
+    details.section[open] { background: #111; }
+    details.section > summary {
+      list-style: none; cursor: pointer;
+      padding: 10px 12px;
+      font-size: 11px; text-transform: uppercase; letter-spacing: .18em;
+      color: var(--accent-soft); font-weight: 600;
+      display: flex; align-items: center; gap: 8px;
+    }
+    details.section > summary::-webkit-details-marker { display: none; }
+    details.section > summary::before {
+      content: '+'; color: #b8b8b8; font-weight: 400; width: 12px;
+      font-family: var(--font-ui); font-size: 14px;
+    }
+    details.section[open] > summary::before { content: '−'; }
+    details.section .body { padding: 4px 12px 14px; }
+    .row { display: grid; gap: 10px; margin-bottom: 10px; }
+    .row.two { grid-template-columns: 1fr 1fr; }
+    .row.three { grid-template-columns: 1fr 1fr 1fr; }
+    .mini-btn {
+      font-size: 10px; padding: 5px 9px;
+      background: transparent; color: #b8b8b8;
+      border: 1px solid var(--panel-edge); cursor: pointer;
+      text-transform: uppercase; letter-spacing: .12em;
+      font-family: var(--font-ui);
+    }
+    .mini-btn:hover { color: #ffffff; border-color: #b8b8b8; }
+    .mini-btn.danger { color: #d99; border-color: #5a3030; }
+    .list-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+
+    /* ===== Preview pane ===== */
+    .preview {
+      padding: 32px 24px 80px;
+      display: flex; justify-content: center;
+      background: var(--bg);
+    }
+
+    /* ===== Paper page ===== */
+    .page {
+      width: var(--page-w);
+      height: var(--page-h);
+      background: var(--paper);
+      color: var(--ink);
+      padding: var(--page-pad);
+      font-family: var(--font-body);
+      font-size: 12px;
+      line-height: 1.42;
+      box-shadow: 0 8px 30px rgba(0,0,0,.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ----- Head: logo + wordmark ----- */
+    .page-head {
+      text-align: center;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--rule);
+      margin-bottom: 14px;
+    }
+    .page-head .arch {
+      display: block;
+      width: 40px; height: 40px;
+      margin: 0 auto 4px;
+      /* Direct img — PNG already has a white arch on transparent bg.
+         This prints reliably; the prior CSS-mask approach was being
+         stripped by Chrome's print pipeline and showing a white box. */
+      object-fit: contain;
+    }
+    .page-head .wm {
+      font-family: var(--font-display);
+      font-size: 12px;
+      letter-spacing: .32em;
+      color: var(--ink);
+      text-transform: uppercase;
+    }
+    .page-head .wm small {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 7.5px;
+      letter-spacing: .25em;
+      color: var(--accent);
+      margin-top: 3px;
+      font-weight: 600;
+    }
+
+    /* ----- Title ----- */
+    .doc-title {
+      text-align: center;
+      margin: 4px 0 14px;
+    }
+    .doc-title h1 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      letter-spacing: .04em;
+      margin: 0;
+      font-weight: 400;
+      color: var(--ink);
+    }
+    .doc-title .sub {
+      font-family: var(--font-body);
+      font-style: italic;
+      font-size: 11px;
+      color: var(--ink-muted);
+      margin-top: 3px;
+    }
+
+    /* ----- Body sections ----- */
+    .sec { margin-bottom: 8px; }
+    .sec h2 {
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 3px;
+    }
+    .sec p { margin: 0 0 2px; }
+    .sec .inline-label { font-weight: 700; }
+    .sec ul {
+      list-style: none; padding: 0; margin: 2px 0 0 14px;
+    }
+    .sec ul li {
+      position: relative; padding-left: 12px; margin-bottom: 1px;
+    }
+    .sec ul li::before {
+      content: '•';
+      position: absolute; left: 0; top: -1px;
+      color: var(--accent);
+      font-size: 14px;
+    }
+    .sec.checklist ul li::before {
+      content: '❏';
+      color: var(--ink);
+      font-size: 11px;
+      top: 1px;
+    }
+    .sec a.email { color: var(--accent); border-bottom: 1px solid var(--accent-soft); text-decoration: none; padding-bottom: 1px; }
+
+    .block-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .block { font-size: 11.5px; line-height: 1.4; }
+    .block h3 {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0 0 3px;
+      text-transform: none;
+      letter-spacing: 0;
+    }
+    .block .line { color: var(--ink); margin-bottom: 1px; }
+    .block .line .k { color: var(--ink-muted); margin-right: 4px; }
+
+    /* ----- Footer rule + brand line ----- */
+    .page-foot {
+      position: absolute;
+      left: var(--page-pad); right: var(--page-pad);
+      bottom: 20px;
+      border-top: 1px solid var(--rule);
+      padding-top: 6px;
+      font-family: var(--font-body);
+      font-size: 8.5px;
+      color: var(--ink-muted);
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .page-foot .brand-wm {
+      font-family: var(--font-display); letter-spacing: .28em; color: var(--ink);
+    }
+
+    /* ===== Print stylesheet ===== */
+    /* Force background colors to print — otherwise Chrome strips the
+       black paper. -webkit and standard property both included. */
+    .page, .page * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    @page { size: letter portrait; margin: 0; }
+    @media print {
+      html, body { background: #000; }
+      .toolbar, .editor { display: none !important; }
+      .layout { grid-template-columns: 1fr; padding-top: 0; }
+      .preview { padding: 0; background: #000; }
+      .page {
+        box-shadow: none !important;
+        width: 8.5in !important;
+        height: 11in !important;
+        page-break-after: auto;
+      }
+    }
+
+    .editor::-webkit-scrollbar { width: 8px; }
+    .editor::-webkit-scrollbar-thumb { background: #2a2a2a; }
+    .editor::-webkit-scrollbar-track { background: #0a0a0a; }
+  </style>
+</head>
+<body>
+  <!-- ===== TOOLBAR ===== -->
+  <header class="toolbar">
+    <div class="brand">
+      Victory Formation Ventures
+      <small>Offer Instructions Generator</small>
+    </div>
+    <div class="spacer"></div>
+    <span class="tb-status" id="status">Ready</span>
+    <button class="tb-btn ghost" id="btn-sample">Load Sample (610 Westboro)</button>
+    <button class="tb-btn ghost" id="btn-clear">Clear</button>
+    <button class="tb-btn" id="btn-print">Generate PDF</button>
+    <a class="tb-btn ghost" href="index.html#panel-sales">← Dashboard</a>
+  </header>
+
+  <div class="layout">
+    <!-- ===== FORM ===== -->
+    <aside class="editor" id="editor">
+      <h2>Offer Instructions</h2>
+      <p class="note">Fill out the form. The document updates as you type. When ready, click <b>Generate PDF</b>, choose <b>Save as PDF</b> in the print dialog, and email it to your buyer agent list.</p>
+      <div id="form-root"></div>
+      <p class="note" style="margin-top:16px;">Auto-saves to this browser. Your fields will be here next time.</p>
+    </aside>
+
+    <!-- ===== PREVIEW ===== -->
+    <main class="preview">
+      <article class="page" id="page"></article>
+    </main>
+  </div>
+
+  <script>
+    // ============================================================
+    // AGENT ROSTER  -----------------------------------------------
+    // Pulled from the central Team Roster Google Sheet (gviz JSON)
+    // so adding a teammate on the Dashboard auto-flows into this
+    // picker. Falls back to a Gabe-only baseline if the sheet isn't
+    // reachable (offline, sheet not yet configured, etc.).
+    //
+    // To wire the live sheet: set TEAM_CONFIG values to match the
+    // Dashboard's TEAM_CONFIG (Sheet ID + tab name). See docs/team-setup.md.
+    // ============================================================
+    const TEAM_CONFIG = {
+      SHEET_ID:  "18TAk4nYhNACQao-X2VelyraVq-xWUIPeD12I2w3hF4Q",
+      SHEET_TAB: "Form Responses 1"
+    };
+
+    let AGENTS = [
+      {
+        id:      'gabe',
+        name:    'Gabe Jeudy-Lally',
+        license: '',
+        email:   'gvjbusiness@yahoo.com',
+        phone:   '(737) 600-5101',
+        divisions: ['sales','land','customrep','development']
+      }
+    ];
+
+    async function loadAgentsFromSheet() {
+      if (!TEAM_CONFIG.SHEET_ID) return;
+      const url = "https://docs.google.com/spreadsheets/d/" + TEAM_CONFIG.SHEET_ID
+                + "/gviz/tq?tqx=out:json&headers=1&sheet=" + encodeURIComponent(TEAM_CONFIG.SHEET_TAB);
+      try {
+        const res = await fetch(url);
+        const txt = await res.text();
+        const json = JSON.parse(txt.replace(/^[^{]+/, '').replace(/[^}]+$/, ''));
+        const cols = (json.table.cols || []).map(c => (c.label || '').trim().toLowerCase());
+        const rows = (json.table.rows || []).map(r => (r.c || []).map(c => c == null ? '' : (c.f || c.v || '')));
+        const idx = (label) => cols.indexOf(label.toLowerCase());
+        const yes = (v) => /^(yes|y|true|1|x|✓)$/i.test(String(v || '').trim());
+        const fetched = rows.map((r, i) => {
+          const name = idx('name') >= 0 ? String(r[idx('name')] || '').trim() : '';
+          if (!name) return null;
+          // Skip inactive
+          if (idx('active') >= 0 && !yes(r[idx('active')])) return null;
+          // Only include agents in sales-related divisions (Offer Instructions is a sales/listing tool)
+          const inSales = idx('div_sales') < 0 || yes(r[idx('div_sales')]);
+          if (!inSales) return null;
+          const divs = [];
+          ['sales','land','customrep','development'].forEach(d => {
+            const ci = idx('div_' + d);
+            if (ci >= 0 && yes(r[ci])) divs.push(d);
+          });
+          return {
+            id: name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + i,
+            name: name,
+            license: idx('license') >= 0 ? String(r[idx('license')] || '').trim() : '',
+            email:   idx('email')   >= 0 ? String(r[idx('email')]   || '').trim() : '',
+            phone:   idx('phone')   >= 0 ? String(r[idx('phone')]   || '').trim() : '',
+            divisions: divs
+          };
+        }).filter(Boolean);
+
+        if (fetched.length > 0) {
+          AGENTS = fetched;
+          // Re-render the form to refresh the agent picker
+          if (typeof renderForm === 'function') renderForm();
+          if (typeof rerender === 'function')   rerender({ fast: true });
+        }
+      } catch (err) {
+        console.warn('[OFFER-INSTRUCTIONS] roster fetch failed, using fallback:', err);
+      }
+    }
+
+    // Victory Formation brokerage defaults — used to seed the editable
+    // contract-info form on first load. Once the user edits a field,
+    // their override is persisted to localStorage and overrides this.
+    // Compass Texas LLC is the licensed brokerage; Victory Formation
+    // is the sales team hung under Compass. The Listing Company on
+    // any Victory Formation listing therefore = Compass, not Victory Formation.
+    const BROKERAGE = {
+      company: 'Compass Texas LLC',
+      dba:     '',                                 // no DBA — Compass is the legal name
+      address: '2206 21st Ave S, Austin, TX 78701',
+      license: '264416',
+      phone:   '(737) 600-5101'
+    };
+
+    // ============================================================
+    // STATE  -----------------------------------------------------
+    // ============================================================
+    // v2 bumped 2026-07-12: BROKERAGE swapped to Compass Texas LLC
+    // and title company defaults to Premier Escrow LLC. Bumping the key
+    // discards stale saved state so users get the new defaults.
+    const STORAGE_KEY = 'vfv.offerInstructions.v2';
+
+    const DEFAULT_STATE = {
+      property: {
+        address: '',                 // e.g. "610 Westboro"
+        instructionLine: 'Please submit offers on TREC Documents',
+        seller: '',
+      },
+      utilities: ['', '', ''],       // Electric, Water, Gas (free-text per row)
+      convey: [''],                  // items DO convey
+      noConvey: [''],                // items DO NOT convey
+      offer: {
+        reviewWhen: 'As they are received; please give 24 hours for offer expiration',
+        closingDate: 'ASAP',
+        submitTo: '',                // email — defaults to selected agent's email
+      },
+      docs: [
+        'Pre-Approval Letter',
+        'Confirmation of Agency Status',
+        'Property Condition Exemption',
+        '*VA/FHA Loan Addendum (if applicable)',
+        '*Personal Interest Disclosure (if applicable)'
+      ],
+      title: {
+        // Premier Escrow LLC is Victory Formation's default closing partner.
+        // Override per-deal if a different escrow/title is used.
+        company:  'Premier Escrow LLC',
+        address:  '4301 Hillsboro Pike, Suite 300, Austin, TX 78701',
+        contact:  'Dylan Potter',
+        phone:    '(737) 600-5101',
+        days:     '5'                // earnest money days
+      },
+      // Editable "Information to Include in Contract" block.
+      // Firm fields default from BROKERAGE; licensee fields default
+      // from the picked agent (auto-filled when the agent changes).
+      contract: {
+        firmCompany:    BROKERAGE.company,
+        firmDba:        BROKERAGE.dba,
+        firmAddress:    BROKERAGE.address,
+        firmLicense:    BROKERAGE.license,
+        firmPhone:      BROKERAGE.phone,
+        licenseeName:   '',
+        licenseeLicense:'',
+        licenseeEmail:  '',
+        licenseePhone:  ''
+      },
+      agentId: 'gabe'
+    };
+
+    let state = loadState() || clone(DEFAULT_STATE);
+
+    function clone(o) { return JSON.parse(JSON.stringify(o)); }
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        return deepMerge(clone(DEFAULT_STATE), JSON.parse(raw));
+      } catch { return null; }
+    }
+    function saveState() {
+      try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); setStatus('Saved', 'ok'); }
+      catch (e) { setStatus('Save failed: ' + e.message, 'err'); }
+    }
+    function deepMerge(base, over) {
+      for (const k in over) {
+        if (over[k] && typeof over[k] === 'object' && !Array.isArray(over[k])) {
+          base[k] = deepMerge(base[k] || {}, over[k]);
+        } else if (over[k] !== undefined) base[k] = over[k];
+      }
+      return base;
+    }
+    let statusTimer = null;
+    function setStatus(msg, cls = '') {
+      const el = document.getElementById('status');
+      el.textContent = msg;
+      el.className = 'tb-status' + (cls ? ' ' + cls : '');
+      if (statusTimer) clearTimeout(statusTimer);
+      statusTimer = setTimeout(() => { el.textContent = 'Ready'; el.className = 'tb-status'; }, 2400);
+    }
+    function getAgent() {
+      return AGENTS.find(a => a.id === state.agentId) || AGENTS[0];
+    }
+    function escapeHTML(s) {
+      if (s == null) return '';
+      return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+    }
+
+    // ============================================================
+    // FORM RENDER  -----------------------------------------------
+    // ============================================================
+    function el(tag, attrs = {}, ...kids) {
+      const e = document.createElement(tag);
+      for (const k in attrs) {
+        if (k === 'class') e.className = attrs[k];
+        else if (k === 'on') for (const ev in attrs.on) e.addEventListener(ev, attrs.on[ev]);
+        else if (k === 'style') Object.assign(e.style, attrs[k]);
+        else e.setAttribute(k, attrs[k]);
+      }
+      for (const k of kids.flat()) {
+        if (k == null) continue;
+        e.appendChild(typeof k === 'string' ? document.createTextNode(k) : k);
+      }
+      return e;
+    }
+    function getPath(o, p) { return p.split('.').reduce((x, k) => x == null ? undefined : x[k], o); }
+    function setPath(o, p, v) {
+      const ks = p.split('.'); let cur = o;
+      for (let i = 0; i < ks.length - 1; i++) { if (cur[ks[i]] == null) cur[ks[i]] = {}; cur = cur[ks[i]]; }
+      cur[ks[ks.length - 1]] = v;
+    }
+    function section(title, kids, open = false) {
+      const d = el('details', { class: 'section', ...(open ? { open: '' } : {}) });
+      d.appendChild(el('summary', {}, title));
+      d.appendChild(el('div', { class: 'body' }, ...kids));
+      return d;
+    }
+    function textRow(path, lbl, opts = {}) {
+      const input = el('input', {
+        type: opts.type || 'text', value: getPath(state, path) ?? '',
+        ...(opts.placeholder ? { placeholder: opts.placeholder } : {}),
+        on: { input: (e) => { setPath(state, path, e.target.value); rerender(); } }
+      });
+      return el('div', { class: 'row' }, el('label', {}, lbl), input);
+    }
+    function textareaRow(path, lbl) {
+      const ta = el('textarea', { rows: '3', on: { input: (e) => { setPath(state, path, e.target.value); rerender(); } } }, getPath(state, path) ?? '');
+      return el('div', { class: 'row' }, el('label', {}, lbl), ta);
+    }
+    function listEditor(path, lbl, placeholder = '') {
+      const wrap = el('div', { class: 'row' }, el('label', {}, lbl));
+      const arr = (getPath(state, path) || []).slice();
+      arr.forEach((v, i) => {
+        const inp = el('input', { type: 'text', value: v, ...(placeholder ? { placeholder } : {}), on: { input: (e) => { const a = getPath(state, path).slice(); a[i] = e.target.value; setPath(state, path, a); rerender({ skipForm: true }); } } });
+        const rm = el('button', { class: 'mini-btn danger', type: 'button', on: { click: () => { const a = getPath(state, path).slice(); a.splice(i, 1); setPath(state, path, a); rerender(); } } }, '×');
+        wrap.appendChild(el('div', { class: 'list-row' }, inp, rm));
+      });
+      const add = el('button', { class: 'mini-btn', type: 'button', on: { click: () => { const a = (getPath(state, path) || []).slice(); a.push(''); setPath(state, path, a); rerender(); } } }, '+ Add');
+      wrap.appendChild(add);
+      return wrap;
+    }
+    function agentPicker() {
+      const sel = el('select', { on: { change: (e) => {
+        state.agentId = e.target.value;
+        const a = getAgent();
+        // Auto-fill submit-to email if empty
+        if (!state.offer.submitTo) state.offer.submitTo = a.email;
+        // Picking an agent populates the contract licensee block.
+        // (Overrides any prior values — user can re-edit after.)
+        state.contract.licenseeName    = a.name    || '';
+        state.contract.licenseeLicense = a.license || '';
+        state.contract.licenseeEmail   = a.email   || '';
+        state.contract.licenseePhone   = a.phone   || '';
+        renderForm();   // refresh inputs to show new values
+        rerender();
+      } } });
+      AGENTS.forEach(a => {
+        const o = el('option', { value: a.id, ...(state.agentId === a.id ? { selected: 'selected' } : {}) }, a.name);
+        sel.appendChild(o);
+      });
+      const more = el('option', { value: '', disabled: 'disabled' }, '— more agents coming —');
+      sel.appendChild(more);
+      return el('div', { class: 'row' }, el('label', {}, 'Listing Agent'), sel);
+    }
+
+    function renderForm() {
+      const root = document.getElementById('form-root');
+      root.innerHTML = '';
+      root.appendChild(section('Property', [
+        textRow('property.address', 'Property address', { placeholder: '610 Westboro' }),
+        textRow('property.seller', 'Seller (entity)', { placeholder: 'BBH Construction, Inc.' }),
+        textRow('property.instructionLine', 'Title subline', { placeholder: 'Please submit offers on TREC Documents' })
+      ], true));
+      root.appendChild(section('Utilities', [
+        textRow('utilities.0', 'Electric provider', { placeholder: 'NES (electric)' }),
+        textRow('utilities.1', 'Water provider',    { placeholder: 'Metro (water)' }),
+        textRow('utilities.2', 'Gas provider',      { placeholder: 'Piedmont (Spire) (gas)' })
+      ]));
+      root.appendChild(section('What conveys', [
+        listEditor('convey',   'Items that DO convey',     'Refrigerator'),
+        listEditor('noConvey', 'Items that DO NOT convey', 'Any personal items/trash')
+      ]));
+      root.appendChild(section('Offer instructions', [
+        textRow('offer.reviewWhen', 'Offers reviewed when'),
+        textRow('offer.closingDate', 'Preferred closing date'),
+        textRow('offer.submitTo', 'Submit offers to (email)', { placeholder: 'gvjbusiness@yahoo.com' })
+      ]));
+      root.appendChild(section('Required documents', [
+        listEditor('docs', 'Checklist items', 'Pre-Approval Letter')
+      ]));
+      root.appendChild(section('Title company & earnest money', [
+        textRow('title.company', 'Title company'),
+        textRow('title.address', 'Title company address'),
+        textRow('title.contact', 'Title contact name'),
+        textRow('title.phone', 'Title contact phone'),
+        textRow('title.days', 'Days to provide EM', { type: 'number', placeholder: '5' })
+      ]));
+      root.appendChild(section('Listing agent', [
+        agentPicker()
+      ], true));
+      root.appendChild(section('Information to Include in Contract', [
+        // Firm block — defaults from BROKERAGE; edits persist per project.
+        textRow('contract.firmCompany',  'Listing Company'),
+        textRow('contract.firmDba',      'DBA (shown in parens after company)'),
+        textRow('contract.firmAddress',  'Listing Firm Address'),
+        textRow('contract.firmLicense',  'Firm License #'),
+        textRow('contract.firmPhone',    'Firm Phone'),
+        // Licensee block — auto-populated by the Listing Agent picker above.
+        // You can override any field here if you need a one-off variation.
+        textRow('contract.licenseeName',    'Listing Licensee (Agent name)'),
+        textRow('contract.licenseeLicense', 'Licensee License #'),
+        textRow('contract.licenseeEmail',   'Licensee Email'),
+        textRow('contract.licenseePhone',   'Licensee Phone')
+      ]));
+    }
+
+    // ============================================================
+    // PAGE (PREVIEW) RENDER  -------------------------------------
+    // ============================================================
+    function bulletList(items, klass = '') {
+      const safe = items.filter(x => x && String(x).trim() !== '');
+      if (safe.length === 0) return '<p style="color:var(--ink-muted); font-style:italic;">—</p>';
+      return '<ul' + (klass ? ` class="${klass}"` : '') + '>' + safe.map(x => `<li>${escapeHTML(x)}</li>`).join('') + '</ul>';
+    }
+    function renderPage() {
+      const a = getAgent();
+      const submitTo = state.offer.submitTo || a.email || '';
+      const propTitle = state.property.address || '[Property Address]';
+      const sub = state.property.instructionLine || '';
+      return `
+        <div class="page-head">
+          <img class="arch" src="assets/icon-arch-transparent.png" alt="" aria-hidden="true" />
+          <div class="wm">Victory Formation Ventures</div>
+        </div>
+
+        <div class="doc-title">
+          <h1>Offer Instructions  |  ${escapeHTML(propTitle)}</h1>
+          ${sub ? `<div class="sub">${escapeHTML(sub)}</div>` : ''}
+        </div>
+
+        <div class="sec">
+          <p><span class="inline-label">Seller:</span> ${escapeHTML(state.property.seller || '—')}</p>
+        </div>
+
+        <div class="sec">
+          <h2>Utilities Info:</h2>
+          ${bulletList(state.utilities)}
+        </div>
+
+        <div class="sec">
+          <h2>Items that DO Convey with the Home:</h2>
+          ${bulletList(state.convey)}
+        </div>
+
+        <div class="sec">
+          <h2>Items that DO NOT Convey with the Home:</h2>
+          ${bulletList(state.noConvey)}
+        </div>
+
+        <div class="sec">
+          <h2>Offer Instructions:</h2>
+          <p><span class="inline-label">Offers to be Reviewed:</span> ${escapeHTML(state.offer.reviewWhen || '—')}</p>
+          <p><span class="inline-label">Preferred Closing Date:</span> ${escapeHTML(state.offer.closingDate || '—')}</p>
+          <p><span class="inline-label">Please submit offers to:</span> ${submitTo ? `<a class="email" href="mailto:${escapeHTML(submitTo)}">${escapeHTML(submitTo)}</a>` : '—'}</p>
+        </div>
+
+        <div class="sec checklist">
+          <h2>Please submit with Purchase and Sale Agreement:</h2>
+          ${bulletList(state.docs, 'checklist')}
+        </div>
+
+        <div class="sec">
+          <h2>Information to Include in Contract:</h2>
+          <div class="block">
+            <div class="line"><span class="k">Listing Company:</span> ${escapeHTML(state.contract.firmCompany || '—')}${state.contract.firmDba ? ' (' + escapeHTML(state.contract.firmDba) + ')' : ''}</div>
+            <div class="line"><span class="k">Listing Firm Address:</span> ${escapeHTML(state.contract.firmAddress || '—')}</div>
+            ${state.contract.firmLicense ? `<div class="line"><span class="k">Firm License Number:</span> ${escapeHTML(state.contract.firmLicense)}</div>` : ''}
+            <div class="line"><span class="k">Firm Telephone Number:</span> ${escapeHTML(state.contract.firmPhone || '—')}</div>
+            <div class="line"><span class="k">Listing Licensee:</span> ${escapeHTML(state.contract.licenseeName || a.name || '—')}</div>
+            ${state.contract.licenseeLicense ? `<div class="line"><span class="k">Listing License Number:</span> ${escapeHTML(state.contract.licenseeLicense)}</div>` : ''}
+            <div class="line"><span class="k">Licensee Email:</span> ${state.contract.licenseeEmail ? `<a class="email" href="mailto:${escapeHTML(state.contract.licenseeEmail)}">${escapeHTML(state.contract.licenseeEmail)}</a>` : '—'}</div>
+            <div class="line"><span class="k">Licensee Phone:</span> ${escapeHTML(state.contract.licenseePhone || '—')}</div>
+          </div>
+        </div>
+
+        <div class="sec">
+          <h2>Sellers' Title Company and Earnest Money to be provided within ${escapeHTML(state.title.days || '5')} days and held by:</h2>
+          <p>${escapeHTML(state.title.company || '—')}${state.title.address ? ', ' + escapeHTML(state.title.address) : ''}</p>
+          ${state.title.contact || state.title.phone ? `<p>Contact: ${escapeHTML(state.title.contact)}${state.title.phone ? ' | ' + escapeHTML(state.title.phone) : ''}</p>` : ''}
+        </div>
+
+        <div class="page-foot">
+          <span></span>
+          <span class="brand-wm">VICTORY FORMATION VENTURES</span>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // RENDER LOOP  -----------------------------------------------
+    // ============================================================
+    let rerenderTimer = null;
+    function rerender(opts = {}) {
+      if (rerenderTimer) clearTimeout(rerenderTimer);
+      rerenderTimer = setTimeout(() => {
+        document.getElementById('page').innerHTML = renderPage();
+        saveState();
+      }, opts.fast ? 0 : 80);
+    }
+
+    // ============================================================
+    // SAMPLE (610 Westboro)  -------------------------------------
+    // ============================================================
+    const SAMPLE = {
+      property: {
+        address: '610 Westboro',
+        instructionLine: 'Please submit offers on TREC Documents',
+        seller: 'BBH Construction, Inc.',
+      },
+      utilities: ['NES (electric)', 'Metro (water)', 'Piedmont (Spire) (gas)'],
+      convey:    ['Refrigerator'],
+      noConvey:  ['Any personal items/trash'],
+      offer: {
+        reviewWhen:  'As they are received; please give 24 hours for offer expiration',
+        closingDate: 'ASAP',
+        submitTo:    AGENTS[0].email
+      },
+      docs: [
+        'Pre-Approval Letter',
+        'Confirmation of Agency Status',
+        'Property Condition Exemption',
+        '*VA/FHA Loan Addendum (if applicable)',
+        '*Personal Interest Disclosure (if applicable)'
+      ],
+      title: {
+        company: 'The Row Title & Escrow',
+        address: '20 Music Square W #200, Austin, TX 78701',
+        contact: 'Jennifer Ghanem',
+        phone:   '(737) 600-5101',
+        days:    '5'
+      },
+      agentId: AGENTS[0].id
+    };
+
+    // ============================================================
+    // INIT  ------------------------------------------------------
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      // Backfill the contract licensee block from the active agent if blank.
+      // Keeps existing user overrides intact; only fills empty slots.
+      (function seedLicenseeFromAgent() {
+        const a = getAgent();
+        if (!a) return;
+        if (!state.contract.licenseeName)    state.contract.licenseeName    = a.name    || '';
+        if (!state.contract.licenseeLicense) state.contract.licenseeLicense = a.license || '';
+        if (!state.contract.licenseeEmail)   state.contract.licenseeEmail   = a.email   || '';
+        if (!state.contract.licenseePhone)   state.contract.licenseePhone   = a.phone   || '';
+      })();
+
+      renderForm();
+      rerender({ fast: true });
+      // Fire-and-forget: roster will refresh the picker once the sheet returns
+      loadAgentsFromSheet();
+
+      document.getElementById('btn-print').addEventListener('click', () => {
+        setStatus('Opening print dialog…', 'ok');
+        setTimeout(() => window.print(), 200);
+      });
+      document.getElementById('btn-clear').addEventListener('click', () => {
+        if (!confirm('Clear all fields and start over?')) return;
+        state = clone(DEFAULT_STATE);
+        renderForm(); rerender({ fast: true });
+      });
+      document.getElementById('btn-sample').addEventListener('click', () => {
+        state = deepMerge(clone(DEFAULT_STATE), clone(SAMPLE));
+        renderForm(); rerender({ fast: true });
+        setStatus('Loaded 610 Westboro sample', 'ok');
+      });
+    });
+  </script>
+</body>
+</html>

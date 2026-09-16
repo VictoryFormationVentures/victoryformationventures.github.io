@@ -1,0 +1,1837 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=1400" />
+  <title>Underwriting Model · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#000000" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:              #000;
+      --bg-elev:         #0a0a0a;
+      --panel:           #0f0f0f;
+      --panel-edge:      #2a2a2a;
+      --rule:            #2a2a2a;
+      --rule-strong:     #3a3a3a;
+      --text:            #ffffff;
+      --text-muted:      #b8b8b8;
+      --text-dim:        #6a6a6a;
+      --accent:          #eae2d3;
+      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-display:    'Aboreto', 'Cormorant Garamond', serif;
+      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --tracking-wide:   0.18em;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font-body); }
+    button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    /* Standalone page shell */
+    .page-shell {
+      max-width: 1400px; margin: 0 auto; padding: 20px 28px 60px;
+    }
+    .page-toolbar {
+      display: flex; align-items: center; gap: 16px;
+      padding-bottom: 16px; border-bottom: 1px solid var(--rule);
+      margin-bottom: 20px;
+    }
+    .page-toolbar .brand {
+      font-family: var(--font-display); font-size: 14px;
+      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
+    .page-toolbar .spacer { flex: 1; }
+    .page-toolbar a.back {
+      font-family: var(--font-body); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
+      padding: 6px 12px; border: 1px solid var(--panel-edge);
+    }
+    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+
+    /* Section styling shared with modal panels */
+    .modal-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+      padding-bottom: 14px; border-bottom: 1px solid var(--rule); margin-bottom: 14px;
+    }
+    .modal-title-group .modal-eyebrow {
+      font-size: 9px; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--text-dim); font-weight: 600;
+    }
+    .modal-title {
+      font-family: var(--font-display); font-size: 22px;
+      letter-spacing: .12em; text-transform: uppercase; margin: 4px 0 0;
+      font-weight: 400; color: #fff;
+    }
+    .modal-foot {
+      display: flex; justify-content: flex-end; gap: 10px;
+      padding-top: 18px; margin-top: 24px; border-top: 1px solid var(--rule);
+    }
+    .btn {
+      font-family: var(--font-body); font-size: 11px;
+      letter-spacing: .18em; text-transform: uppercase; font-weight: 600;
+      padding: 10px 20px; cursor: pointer;
+      border: 1px solid #fff; background: #fff; color: #000;
+    }
+    .btn.ghost { background: transparent; color: #fff; }
+    .btn:hover { opacity: .85; }
+
+    .form-status {
+      margin: 0 32px 18px;
+      padding: 12px 14px;
+      font-size: 12px;
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      color: var(--text-muted);
+      display: none;
+    }
+    .uw-tabbar {
+      display: flex;
+      gap: 0;
+      border-bottom: 1px solid var(--rule);
+      padding: 0 32px;
+      background: var(--bg);
+    }
+    .uw-tab {
+      background: transparent;
+      border: 0;
+      padding: 14px 22px 16px;
+      color: var(--text-dim);
+      font-family: var(--font-body);
+      font-weight: 300;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      cursor: pointer;
+      position: relative;
+      transition: color .2s;
+    }
+    .uw-tab:hover { color: var(--text-muted); }
+    .uw-tab[aria-selected="true"] { color: var(--text); }
+    .uw-tab[aria-selected="true"]::after {
+      content: "";
+      position: absolute; left: 22px; right: 22px; bottom: -1px;
+      height: 1px;
+      background: var(--text);
+    }
+    .uw-panel { display: none; padding: 24px 32px 8px; }
+    .uw-panel[aria-hidden="false"] { display: block; }
+    .uw-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .uw-section { margin-bottom: 22px; }
+    .uw-section-head {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      margin-bottom: 12px;
+    }
+    .uw-section-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr 1fr;
+    }
+    .uw-section-grid .full { grid-column: 1 / -1; }
+    .uw-field label {
+      display: block;
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      margin-bottom: 4px;
+    }
+    .uw-field input, .uw-field select {
+      width: 100%;
+      font: inherit; font-size: 13px; font-weight: 300;
+      color: var(--text);
+      background: var(--bg);
+      border: 1px solid var(--rule-strong);
+      padding: 9px 11px;
+      transition: border-color .15s, background .15s;
+      -webkit-appearance: none; appearance: none;
+      border-radius: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .uw-field input:focus, .uw-field select:focus {
+      outline: none;
+      border-color: var(--text);
+      background: var(--bg-elev-2);
+    }
+    .uw-field .suffix {
+      position: relative;
+    }
+    .uw-field .suffix::after {
+      content: attr(data-suffix);
+      position: absolute; right: 11px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 11px; pointer-events: none;
+    }
+    .uw-field .suffix input { padding-right: 32px; }
+    .uw-field .prefix-dollar {
+      position: relative;
+    }
+    .uw-field .prefix-dollar::before {
+      content: '$';
+      position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+      color: var(--text-dim); font-size: 12px; pointer-events: none;
+    }
+    .uw-field .prefix-dollar input { padding-left: 22px; }
+    .uw-outcard {
+      border: 1px solid var(--rule-strong);
+      background: var(--bg);
+      margin-bottom: 14px;
+    }
+    .uw-outcard .out-head {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      padding: 14px 22px 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .uw-outcard .out-body { padding: 8px 22px 16px; }
+    .uw-outcard .out-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      padding: 9px 0;
+      border-bottom: 1px solid var(--rule);
+      align-items: baseline;
+    }
+    .uw-outcard .out-row:last-child { border-bottom: 0; }
+    .uw-outcard .out-row .k {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+    }
+    .uw-outcard .out-row .v {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .uw-outcard .out-row.hi { background: var(--bg-elev); margin: 0 -22px; padding: 12px 22px; }
+    .uw-outcard .out-row.hi .k { color: var(--text); }
+    .uw-outcard .out-row.hi .v { font-size: 18px; }
+    .uw-outcard .out-row.neg .v { color: #d97a7a; }
+    .uw-outcard .out-row.pos .v { color: #a4d5ad; }
+    .uw-draw-summary {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      padding: 16px 22px;
+      border: 1px solid var(--rule);
+      background: var(--bg-elev);
+      margin-bottom: 18px;
+    }
+    .uw-draw-summary .ds-cell .k {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      margin-bottom: 4px;
+    }
+    .uw-draw-summary .ds-cell .v {
+      font-family: var(--font-display);
+      font-size: 14px;
+      letter-spacing: 0.04em;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .uw-draw-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11px;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+    }
+    .uw-draw-table th {
+      text-align: right;
+      padding: 8px 10px;
+      font-weight: 400;
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      border-bottom: 1px solid var(--rule);
+      background: var(--bg-elev);
+      position: sticky; top: 0;
+    }
+    .uw-draw-table th:first-child, .uw-draw-table td:first-child { text-align: left; }
+    .uw-draw-table th:nth-child(2), .uw-draw-table td:nth-child(2) { text-align: left; }
+    .uw-draw-table td {
+      padding: 7px 10px;
+      border-bottom: 1px solid var(--rule);
+    }
+    .uw-draw-table tr.inactive td { color: var(--text-dim); }
+    .uw-draw-table tr.totals td {
+      background: var(--bg-elev);
+      font-weight: 400;
+      border-top: 1px solid var(--rule-strong);
+      border-bottom: 0;
+      padding: 10px;
+      color: var(--text);
+    }
+    .uw-draw-table-wrap {
+      max-height: 480px;
+      overflow-y: auto;
+      border: 1px solid var(--rule);
+    }
+    .uw-draw-table .status-pill {
+      display: inline-block;
+      padding: 2px 6px;
+      font-size: 8px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      border: 1px solid var(--rule-strong);
+      color: var(--text-muted);
+    }
+    .uw-draw-table .status-pill.construction { color: #e8c068; border-color: rgba(232,192,104,0.3); }
+    .uw-draw-table .status-pill.sale         { color: #a4d5ad; border-color: rgba(164,213,173,0.3); }
+    .uw-sens-head {
+      font-size: 12px;
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-x-wide);
+      margin: 24px 0 12px;
+      font-family: var(--font-display);
+    }
+    .uw-sens-head:first-child { margin-top: 0; }
+    .uw-sens-sub {
+      font-size: 10px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      margin-bottom: 10px;
+    }
+    .uw-sens-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-variant-numeric: tabular-nums;
+    }
+    .uw-sens-table th, .uw-sens-table td {
+      padding: 10px 8px;
+      text-align: center;
+      font-size: 11px;
+      border: 1px solid var(--rule);
+    }
+    .uw-sens-table th {
+      font-weight: 400;
+      font-size: 9px;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wide);
+      background: var(--bg-elev);
+    }
+    .uw-sens-table th.corner {
+      color: var(--text-muted);
+      font-size: 9px;
+    }
+    .uw-sens-table td.label {
+      background: var(--bg-elev);
+      color: var(--text-dim);
+      font-size: 10px;
+      letter-spacing: var(--tracking-wide);
+    }
+    .uw-sens-table td.cell {
+      font-family: var(--font-display);
+      font-size: 13px;
+      color: var(--text);
+      letter-spacing: 0.03em;
+    }
+    .uw-sens-table td.cell.center { outline: 1px solid var(--text); outline-offset: -2px; }
+    .uw-sens-table td.cell.neg { background: rgba(217,122,122,0.15); color: #f0a8a8; }
+    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #e8c068; }
+    .uw-sens-table td.cell.mid { background: rgba(164,213,173,0.08); color: #c6ddc8; }
+    .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #b6e3c5; }
+    .uw-error-row {
+      margin: 0 32px 12px;
+      padding: 10px 14px;
+      border: 1px solid #4a3a1f;
+      color: #e8d49a;
+      font-size: 12px;
+    }
+    .deal-empty, .deal-error {
+      padding: 26px;
+      border: 1px solid var(--rule);
+      background: var(--bg-elev);
+      color: var(--text-muted);
+      font-size: 12px;
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      text-align: center;
+    }
+
+    /* ==================================================================
+       PRINT — presentation-style dark PDF that matches the dashboard.
+       Full-bleed black pages, ivory accents, Aboreto for display type.
+       Strips form-field chrome so inputs read as clean data points.
+       ================================================================== */
+    @media print {
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      /* Use @page margins so EVERY page (not just page 1) gets consistent
+         top/bottom breathing room. Previously we had margin: 0 + shell
+         padding, which only padded page 1 — content on page 2 butted against
+         the top edge of the printable area. */
+      @page { size: letter portrait; margin: 0.6in 0.55in; }
+      html, body {
+        background: #000 !important; color: #fff !important;
+        font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+        font-size: 10pt;
+      }
+      /* Hide chrome + inactive tabs */
+      .page-toolbar, .modal-foot, .uw-tabbar, .uw-error-row { display: none !important; }
+      .uw-panel[aria-hidden="true"] { display: none !important; }
+      /* Full-bleed dark background inside the page margins */
+      #uw-modal-overlay { background: #000 !important; padding: 0 !important; }
+      .page-shell {
+        max-width: none !important; margin: 0 !important;
+        padding: 0 !important;
+        background: #000 !important;
+      }
+
+      /* --- COVER HEADER — brand-forward slide banner --- */
+      .modal-head {
+        border-bottom: 1px solid #eae2d3 !important;
+        padding: 0 0 16px !important;
+        margin: 0 0 20px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+      }
+      .modal-title-group { text-align: center !important; }
+      .modal-title-group .modal-eyebrow {
+        color: #eae2d3 !important;
+        font-size: 8pt !important;
+        letter-spacing: .32em !important;
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+      .modal-title {
+        color: #fff !important;
+        font-family: 'Aboreto', 'Times New Roman', serif !important;
+        font-size: 22pt !important;
+        margin: 8px 0 0 !important;
+        letter-spacing: .16em;
+        font-weight: 400;
+      }
+
+      /* --- PROPERTY BANNER (address + neighborhood) — presentation-style hero --- */
+      .uw-panel > .uw-section:first-child {
+        background: #0f0f0f !important;
+        border: 1px solid #eae2d3 !important;
+        padding: 16px 22px !important;
+        margin-bottom: 22px !important;
+        display: grid !important;
+        grid-template-columns: 2fr 1fr !important;
+        gap: 24px !important;
+      }
+      .uw-panel > .uw-section:first-child .uw-field {
+        border: 0 !important; padding: 0 !important; display: block !important;
+      }
+      .uw-panel > .uw-section:first-child label {
+        color: #8a8579 !important; font-size: 8pt !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important; letter-spacing: .28em !important;
+        margin-bottom: 6px !important; display: block !important;
+      }
+      .uw-panel > .uw-section:first-child input {
+        background: transparent !important; border: 0 !important; padding: 0 !important;
+        color: #fff !important;
+        font-family: 'Aboreto', 'Times New Roman', serif !important;
+        font-size: 16pt !important; font-weight: 400 !important;
+        text-align: left !important; letter-spacing: .06em;
+        width: 100% !important;
+      }
+
+      /* --- BODY: SINGLE COLUMN at print (screen keeps 2-col inputs/outputs).
+         Letter portrait is only ~6.5" wide, and a 2-col body with 2-col sub-
+         grids inside was crushing labels into 4 narrow columns and wrapping
+         them across lines. Print stacks everything full-width instead. --- */
+      .uw-grid {
+        display: block !important;
+      }
+      .uw-inputs, .uw-outputs {
+        display: block !important;
+        width: 100% !important;
+      }
+      .uw-section { margin-bottom: 22px !important; break-inside: avoid; page-break-inside: avoid; }
+      .uw-section-head {
+        font-family: 'Aboreto', 'Times New Roman', serif !important;
+        font-weight: 400 !important; font-size: 13pt !important;
+        color: #eae2d3 !important;
+        text-transform: uppercase; letter-spacing: .26em;
+        border-bottom: 1px solid #eae2d3 !important;
+        padding-bottom: 7px !important; margin-bottom: 12px !important;
+      }
+      .uw-section-grid {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0 40px !important;
+      }
+
+      /* --- INPUTS → Label : Value rows, dark, no form chrome --- */
+      .uw-field {
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        gap: 16px !important;
+        align-items: baseline !important;
+        padding: 7px 0 !important;
+        border-bottom: 1px solid #2a2a2a !important;
+      }
+      .uw-field.full { grid-column: 1 / -1 !important; }
+      .uw-field label {
+        color: #8a8579 !important; font-size: 8.5pt !important;
+        text-transform: uppercase !important; letter-spacing: .12em !important;
+        margin: 0 !important; font-weight: 500 !important;
+      }
+      .uw-field input, .uw-field select {
+        background: transparent !important; border: 0 !important; padding: 0 !important;
+        color: #fff !important;
+        font-family: 'Mulish', sans-serif !important;
+        font-size: 11pt !important; font-weight: 600 !important;
+        text-align: right !important; width: auto !important; min-width: 0 !important;
+        -webkit-appearance: none !important; appearance: none !important;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: .02em;
+      }
+      /* Prefix $ / suffix % — inline with the number, ivory */
+      .uw-field .prefix-dollar { display: inline !important; position: static !important; padding: 0 !important; }
+      .uw-field .prefix-dollar::before {
+        position: static !important; transform: none !important;
+        color: #eae2d3 !important; font-size: 10pt !important; margin-right: 2px;
+      }
+      .uw-field .prefix-dollar input { padding: 0 !important; display: inline !important; width: auto !important; }
+      .uw-field .suffix { display: inline !important; position: static !important; padding: 0 !important; }
+      .uw-field .suffix::after {
+        position: static !important; transform: none !important;
+        color: #eae2d3 !important; font-size: 9pt !important; margin-left: 2px;
+      }
+      .uw-field .suffix input { padding: 0 !important; display: inline !important; width: auto !important; }
+
+      /* Derived capital line under Capital Structure */
+      #uw-cap-derived {
+        grid-column: 1 / -1 !important;
+        background: #0f0f0f !important;
+        border: 1px solid #2a2a2a !important;
+        padding: 6px 10px !important; margin-top: 8px !important;
+        border-bottom: 1px solid #2a2a2a !important;
+      }
+      #uw-cap-derived > div {
+        color: #eae2d3 !important; font-size: 8.5pt !important;
+        letter-spacing: .1em; line-height: 1.6 !important;
+      }
+
+      /* --- OUTPUT CARDS → full-width presentation cards with ivory accents --- */
+      /* Force a clean page break before outputs so results start on their own
+         page — prevents the awkward "half of Returns on page 1, half on page 2"
+         behavior that made the old print feel unorganized. */
+      .uw-outputs {
+        margin-top: 24px !important;
+        padding-top: 8px !important;
+        break-before: page !important;
+        page-break-before: always !important;
+      }
+      /* Belt-and-suspenders — make sure the body's black shows through in the
+         @page margins on browsers that respect it (Chrome does with the
+         color-adjust hint above). If a browser paints white margins anyway,
+         the content area is still on-brand and legible. */
+      html { background: #000 !important; }
+      .uw-outcard {
+        border: 1px solid #eae2d3 !important;
+        background: #0a0a0a !important;
+        margin-bottom: 16px !important;
+        break-inside: avoid; page-break-inside: avoid;
+        width: 100% !important;
+      }
+      .uw-outcard .out-head {
+        background: #eae2d3 !important; color: #000 !important;
+        padding: 8px 16px !important;
+        font-family: 'Aboreto', serif !important;
+        font-size: 11pt !important; font-weight: 400 !important;
+        letter-spacing: .24em; border-bottom: 0 !important;
+        text-transform: uppercase;
+      }
+      .uw-outcard .out-body {
+        padding: 8px 16px 12px !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 0 32px !important;
+      }
+      .uw-outcard .out-row {
+        padding: 6px 0 !important;
+        border-bottom: 1px solid #2a2a2a !important;
+      }
+      .uw-outcard .out-row.hi { grid-column: 1 / -1 !important; }
+      .uw-outcard .out-row .k {
+        color: #8a8579 !important; font-size: 8.5pt !important;
+        text-transform: uppercase !important; letter-spacing: .12em !important;
+        font-weight: 500;
+      }
+      .uw-outcard .out-row .v {
+        font-family: 'Mulish', sans-serif !important;
+        font-size: 11pt !important; font-weight: 600 !important;
+        color: #fff !important; letter-spacing: .02em !important;
+      }
+      /* Highlighted totals — Gross Profit / Net Revenue / Total Project Cost */
+      .uw-outcard .out-row.hi {
+        background: #14120e !important;
+        margin: 6px -14px !important;
+        padding: 10px 14px !important;
+        border-top: 1px solid #eae2d3 !important;
+        border-bottom: 1px solid #eae2d3 !important;
+      }
+      .uw-outcard .out-row.hi .k { color: #eae2d3 !important; font-weight: 700 !important; }
+      .uw-outcard .out-row.hi .v {
+        font-family: 'Aboreto', serif !important;
+        font-size: 16pt !important; font-weight: 400 !important;
+        letter-spacing: .04em;
+      }
+
+      /* --- DRAW SCHEDULE + SENSITIVITY (if printed while active) --- */
+      .uw-draw-summary {
+        background: #0f0f0f !important;
+        border: 1px solid #eae2d3 !important;
+        padding: 14px 18px !important; margin-bottom: 14px !important;
+        gap: 12px !important;
+      }
+      .uw-draw-summary .ds-cell .k {
+        color: #8a8579 !important; font-size: 8pt !important;
+        letter-spacing: .18em !important;
+      }
+      .uw-draw-summary .ds-cell .v {
+        color: #fff !important; font-family: 'Aboreto', serif !important;
+        font-size: 13pt !important;
+      }
+      .uw-draw-table {
+        font-size: 8.5pt !important; color: #fff !important;
+        border-color: #2a2a2a !important;
+      }
+      .uw-draw-table th {
+        color: #eae2d3 !important; font-size: 8pt !important;
+        letter-spacing: .16em !important;
+      }
+      .uw-draw-table td { border-color: #2a2a2a !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- These two IDs (uw-modal-overlay, uw-modal) are required by the shared
+       UW controller script (extracted from the admin dashboard's modal).
+       The script bails at `if (!overlay || !modal) return;` without them. -->
+  <div id="uw-modal-overlay" aria-hidden="false">
+  <div class="page-shell" id="uw-modal">
+    <div class="page-toolbar">
+      <a href="land.html" class="brand">
+        <img src="assets/icon-arch-transparent.png" alt="" />
+        Victory Formation Ventures · Underwriting Model
+      </a>
+      <div class="spacer"></div>
+      <a href="land.html" class="back">← Land Acquisition</a>
+    </div>
+
+
+      <header class="modal-head">
+        <div class="modal-title-group">
+          <span class="modal-eyebrow">Development</span>
+          <h2 class="modal-title" id="uw-modal-title">Underwriting Model</h2>
+        </div>
+        </header>
+
+      <nav class="uw-tabbar" role="tablist" aria-label="Underwriting Model sections">
+        <button class="uw-tab" role="tab" data-uw-tab="model"  aria-selected="true">Underwriting</button>
+        <button class="uw-tab" role="tab" data-uw-tab="draws"  aria-selected="false">Draw Schedule</button>
+        <button class="uw-tab" role="tab" data-uw-tab="sens"   aria-selected="false">Sensitivity</button>
+      </nav>
+
+      <div class="uw-error-row" id="uw-error" hidden></div>
+
+      <!-- ========== Underwriting tab ========== -->
+      <div class="uw-panel" data-uw-panel="model" aria-hidden="false">
+        <div class="uw-section uw-section-grid" style="grid-template-columns: 1fr 1fr;">
+          <div class="uw-field">
+            <label for="uw-address">Property Address</label>
+            <input id="uw-address" type="text" placeholder="123 Main St, Austin, TX" />
+          </div>
+          <div class="uw-field">
+            <label for="uw-neighborhood">Neighborhood</label>
+            <input id="uw-neighborhood" type="text" placeholder="Westlake" />
+          </div>
+        </div>
+
+        <div class="uw-grid">
+
+          <!-- LEFT COLUMN: INPUTS -->
+          <div class="uw-inputs">
+
+            <div class="uw-section">
+              <div class="uw-section-head">Project Inputs</div>
+              <div class="uw-section-grid">
+                <div class="uw-field"><label for="uw-num-homes">Number of Homes</label><input id="uw-num-homes" type="number" min="0" step="1" /></div>
+                <div class="uw-field"><label for="uw-sqft">Sq Footage / Home</label><input id="uw-sqft" type="number" min="0" step="1" /></div>
+                <div class="uw-field"><label for="uw-build-psf">Build $ / Sq Ft</label><div class="prefix-dollar"><input id="uw-build-psf" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-sale-psf">Target Sale $ / Sq Ft</label><div class="prefix-dollar"><input id="uw-sale-psf" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-constr-mo">Construction (Months)</label><input id="uw-constr-mo" type="number" min="0" step="1" /></div>
+                <div class="uw-field"><label for="uw-sale-mo">Sale Period (Months)</label><input id="uw-sale-mo" type="number" min="0" step="1" /></div>
+                <div class="uw-field"><label for="uw-num-investors">Number of Investors</label><input id="uw-num-investors" type="number" min="0" step="1" /></div>
+              </div>
+            </div>
+
+            <div class="uw-section">
+              <div class="uw-section-head">Key Assumptions</div>
+              <div class="uw-section-grid">
+                <div class="uw-field"><label for="uw-overrun">Construction Overrun</label><div class="suffix" data-suffix="%"><input id="uw-overrun" type="number" min="0" step="0.1" value="3.5" /></div></div>
+                <div class="uw-field"><label for="uw-realtor">Realtor Commission</label><div class="suffix" data-suffix="%"><input id="uw-realtor" type="number" min="0" step="0.1" value="6" /></div></div>
+                <div class="uw-field"><label for="uw-bank-fee">Bank Fee</label><div class="suffix" data-suffix="%"><input id="uw-bank-fee" type="number" min="0" step="0.1" value="1" /></div></div>
+                <div class="uw-field"><label for="uw-rate">Interest Rate (Annual)</label><div class="suffix" data-suffix="%"><input id="uw-rate" type="number" min="0" step="0.1" value="8" /></div></div>
+                <div class="uw-field"><label for="uw-dev-fee">Developer Fee</label><div class="suffix" data-suffix="%"><input id="uw-dev-fee" type="number" min="0" step="0.1" value="3" /></div></div>
+                <div class="uw-field"><label for="uw-pref-return">Investor Preferred Return</label><div class="suffix" data-suffix="%"><input id="uw-pref-return" type="number" min="0" step="0.1" value="20" /></div></div>
+              </div>
+            </div>
+
+            <div class="uw-section">
+              <div class="uw-section-head">Capital Structure</div>
+              <div class="uw-section-grid">
+                <div class="uw-field full">
+                  <label for="uw-cap-mode">Mode</label>
+                  <select id="uw-cap-mode">
+                    <option value="LTC">% of Total Cost (LTC)</option>
+                    <option value="LandSoft">% of Land + Soft Costs</option>
+                    <option value="LTV">% of Sales Price (LTV)</option>
+                  </select>
+                </div>
+                <div class="uw-field" id="uw-ltc-wrap">
+                  <label for="uw-ltc">LTC Ratio</label>
+                  <select id="uw-ltc">
+                    <option value="0.10">90% LTC (10% equity)</option>
+                    <option value="0.15">85% LTC (15% equity)</option>
+                    <option value="0.20" selected>80% LTC (20% equity)</option>
+                    <option value="0.25">75% LTC (25% equity)</option>
+                    <option value="Custom">Custom</option>
+                  </select>
+                </div>
+                <div class="uw-field" id="uw-ltc-custom-wrap" hidden>
+                  <label for="uw-ltc-custom">Custom Equity</label>
+                  <div class="suffix" data-suffix="%"><input id="uw-ltc-custom" type="number" min="0" max="100" step="0.5" value="20" /></div>
+                </div>
+                <div class="uw-field" id="uw-ltv-wrap" hidden>
+                  <label for="uw-ltv-target">Target LTV</label>
+                  <div class="suffix" data-suffix="%"><input id="uw-ltv-target" type="number" min="0" max="100" step="0.5" value="70" /></div>
+                </div>
+                <div class="uw-field full" id="uw-cap-derived" style="margin-top:4px;">
+                  <div style="font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:var(--tracking-wide); line-height:1.7;">
+                    Derived &nbsp;·&nbsp; LTC <span id="uw-cap-ltc" style="color:var(--text-muted);">—</span>
+                    &nbsp;·&nbsp; LTV <span id="uw-cap-ltv" style="color:var(--text-muted);">—</span>
+                    &nbsp;·&nbsp; Equity <span id="uw-cap-eq" style="color:var(--text-muted);">—</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="uw-section">
+              <div class="uw-section-head">Project Costs</div>
+              <div class="uw-section-grid">
+                <div class="uw-field"><label for="uw-lot-cost">Lot Cost</label><div class="prefix-dollar"><input id="uw-lot-cost" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-owner-equity">Owner Equity Into Land</label><div class="prefix-dollar"><input id="uw-owner-equity" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-taxes">Annual Taxes</label><div class="prefix-dollar"><input id="uw-taxes" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-title">Title / Closing Costs</label><div class="prefix-dollar"><input id="uw-title" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-pool">Pool Cost</label><div class="prefix-dollar"><input id="uw-pool" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field"><label for="uw-designer">Designer Fee</label><div class="prefix-dollar"><input id="uw-designer" type="number" min="0" step="1" /></div></div>
+                <div class="uw-field full"><label for="uw-architect">Architect Fee</label><div class="prefix-dollar"><input id="uw-architect" type="number" min="0" step="1" /></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: OUTPUTS -->
+          <div class="uw-outputs">
+
+            <div class="uw-outcard">
+              <div class="out-head">Returns & Analysis</div>
+              <div class="out-body">
+                <div class="out-row hi"><span class="k">Gross Profit</span><span class="v" id="uw-out-profit">$0</span></div>
+                <div class="out-row"><span class="k">Profit Margin</span><span class="v" id="uw-out-margin">0.00%</span></div>
+                <div class="out-row"><span class="k">Return on Equity (ROE)</span><span class="v" id="uw-out-roe">0.00%</span></div>
+                <div class="out-row"><span class="k">Return on Cost (ROC)</span><span class="v" id="uw-out-roc">0.00%</span></div>
+                <div class="out-row"><span class="k">Annualized ROE</span><span class="v" id="uw-out-roe-ann">0.00%</span></div>
+                <div class="out-row"><span class="k">Profit per Home</span><span class="v" id="uw-out-pph">$0</span></div>
+                <div class="out-row"><span class="k">Developer Net Profit</span><span class="v" id="uw-out-dev-net">$0</span></div>
+                <div class="out-row"><span class="k">Break-Even Sale $/SF</span><span class="v" id="uw-out-break-even">$0</span></div>
+              </div>
+            </div>
+
+            <div class="uw-outcard">
+              <div class="out-head">Financing & Sizing</div>
+              <div class="out-body">
+                <div class="out-row hi"><span class="k">Total Project Cost</span><span class="v" id="uw-out-tpc">$0</span></div>
+                <div class="out-row"><span class="k">Developer Fee</span><span class="v" id="uw-out-dev-fee">$0</span></div>
+                <div class="out-row"><span class="k">Equity Invested</span><span class="v" id="uw-out-equity">$0</span></div>
+                <div class="out-row"><span class="k">Equity per Investor</span><span class="v" id="uw-out-equity-per">$0</span></div>
+                <div class="out-row"><span class="k">Loan Amount</span><span class="v" id="uw-out-loan">$0</span></div>
+                <div class="out-row"><span class="k">Land Loan</span><span class="v" id="uw-out-land-loan">$0</span></div>
+                <div class="out-row"><span class="k">Loan-to-Cost (LTC)</span><span class="v" id="uw-out-ltc">0.00%</span></div>
+                <div class="out-row"><span class="k">Loan-to-Value (vs Sales)</span><span class="v" id="uw-out-ltv">0.00%</span></div>
+                <div class="out-row"><span class="k">Investor Preferred Return</span><span class="v" id="uw-out-pref">$0</span></div>
+                <div class="out-row"><span class="k">Total Capital Required</span><span class="v" id="uw-out-cap-req">$0</span></div>
+              </div>
+            </div>
+
+            <div class="uw-outcard">
+              <div class="out-head">Revenue</div>
+              <div class="out-body">
+                <div class="out-row"><span class="k">Sales Price / Home</span><span class="v" id="uw-out-pph-price">$0</span></div>
+                <div class="out-row"><span class="k">Gross Sales (Project)</span><span class="v" id="uw-out-gross-sales">$0</span></div>
+                <div class="out-row"><span class="k">Realtor Commission</span><span class="v" id="uw-out-realtor">$0</span></div>
+                <div class="out-row hi"><span class="k">Net Revenue</span><span class="v" id="uw-out-net-rev">$0</span></div>
+                <div class="out-row"><span class="k">Construction Interest</span><span class="v" id="uw-out-interest">$0</span></div>
+                <div class="out-row"><span class="k">Bank Fees</span><span class="v" id="uw-out-bank-fees">$0</span></div>
+                <div class="out-row"><span class="k">Total Project Costs</span><span class="v" id="uw-out-tpc2">$0</span></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== Draw Schedule tab ========== -->
+      <div class="uw-panel" data-uw-panel="draws" aria-hidden="true">
+        <div class="uw-draw-summary">
+          <div class="ds-cell"><div class="k">Loan Amount</div><div class="v" id="uw-ds-loan">$0</div></div>
+          <div class="ds-cell"><div class="k">Annual Rate</div><div class="v" id="uw-ds-rate">0.00%</div></div>
+          <div class="ds-cell"><div class="k">Monthly Rate</div><div class="v" id="uw-ds-rate-mo">0.00%</div></div>
+          <div class="ds-cell"><div class="k">Construction Months</div><div class="v" id="uw-ds-constr">0</div></div>
+          <div class="ds-cell"><div class="k">Sale Months</div><div class="v" id="uw-ds-sale">0</div></div>
+          <div class="ds-cell"><div class="k">Total Hold (Months)</div><div class="v" id="uw-ds-hold">0</div></div>
+          <div class="ds-cell"><div class="k">Land Loan @ Closing</div><div class="v" id="uw-ds-land">$0</div></div>
+          <div class="ds-cell"><div class="k">Construction Loan</div><div class="v" id="uw-ds-constr-loan">$0</div></div>
+          <div class="ds-cell"><div class="k">Constr. Compound Factor (k_c)</div><div class="v" id="uw-ds-kc">0.0000</div></div>
+          <div class="ds-cell"><div class="k">Land Compound Factor (k_L)</div><div class="v" id="uw-ds-kL">0.0000</div></div>
+        </div>
+
+        <div class="uw-draw-table-wrap">
+          <table class="uw-draw-table">
+            <thead>
+              <tr>
+                <th>Month</th>
+                <th>Status</th>
+                <th>Draw %</th>
+                <th>Draw $</th>
+                <th>Begin Bal</th>
+                <th>Interest</th>
+                <th>End Bal</th>
+              </tr>
+            </thead>
+            <tbody id="uw-ds-tbody"></tbody>
+          </table>
+        </div>
+
+        <p style="margin-top:14px; font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:var(--tracking-wide);">
+          Monthly compounding · Land loan drawn at Month 1, construction loan distributed evenly across construction months · Interest rolls into principal until sale closes.
+        </p>
+      </div>
+
+      <!-- ========== Sensitivity tab ========== -->
+      <div class="uw-panel" data-uw-panel="sens" aria-hidden="true">
+        <div class="uw-sens-head">Profit Margin</div>
+        <div class="uw-sens-sub">Build $ / SF (rows) × Sale $ / SF (columns), ±10% around base case</div>
+        <table class="uw-sens-table" id="uw-sens-margin"></table>
+
+        <div class="uw-sens-head">Return on Equity (ROE)</div>
+        <div class="uw-sens-sub">Build $ / SF (rows) × Sale $ / SF (columns), ±10% around base case</div>
+        <table class="uw-sens-table" id="uw-sens-roe"></table>
+
+        <p style="margin-top:18px; font-size:10px; color:var(--text-dim); text-transform:uppercase; letter-spacing:var(--tracking-wide);">
+          Sensitivity uses the active Capital Structure mode. All other inputs are held constant at the values on the Underwriting tab.
+        </p>
+      </div>
+
+      <footer class="modal-foot">
+        <button class="btn ghost" type="button" id="uw-reset">Reset to Defaults</button>
+        <button class="btn" type="button" id="uw-save-pdf">Save PDF</button>
+        <button class="btn" type="button" id="uw-text-gabe">Text Gabe</button>
+      </footer>
+
+  </div><!-- /page-shell #uw-modal -->
+  </div><!-- /#uw-modal-overlay -->
+
+  <script>
+    (function () {
+    (function () {
+      const overlay   = document.getElementById('uw-modal-overlay');
+      const modal     = document.getElementById('uw-modal');
+      const openBtn   = document.getElementById('open-uw-modal');
+      const closeBtn  = document.getElementById('close-uw-modal');
+      const doneBtn   = document.getElementById('close-uw-done');
+      const resetBtn  = document.getElementById('uw-reset');
+      const errEl     = document.getElementById('uw-error');
+      if (!overlay || !modal) return;
+
+      const LS_KEY = 'uw-model:v1';
+
+      // ---- input elements ----
+      const inputs = {
+        address:        document.getElementById('uw-address'),
+        neighborhood:   document.getElementById('uw-neighborhood'),
+        numHomes:       document.getElementById('uw-num-homes'),
+        sqft:           document.getElementById('uw-sqft'),
+        buildPsf:       document.getElementById('uw-build-psf'),
+        salePsf:        document.getElementById('uw-sale-psf'),
+        constrMo:       document.getElementById('uw-constr-mo'),
+        saleMo:         document.getElementById('uw-sale-mo'),
+        numInvestors:   document.getElementById('uw-num-investors'),
+        overrun:        document.getElementById('uw-overrun'),
+        realtor:        document.getElementById('uw-realtor'),
+        bankFee:        document.getElementById('uw-bank-fee'),
+        rate:           document.getElementById('uw-rate'),
+        devFee:         document.getElementById('uw-dev-fee'),
+        prefReturn:     document.getElementById('uw-pref-return'),
+        capMode:        document.getElementById('uw-cap-mode'),
+        ltc:            document.getElementById('uw-ltc'),
+        ltcCustom:      document.getElementById('uw-ltc-custom'),
+        ltvTarget:      document.getElementById('uw-ltv-target'),
+        lotCost:        document.getElementById('uw-lot-cost'),
+        ownerEquity:    document.getElementById('uw-owner-equity'),
+        taxes:          document.getElementById('uw-taxes'),
+        title:          document.getElementById('uw-title'),
+        pool:           document.getElementById('uw-pool'),
+        designer:       document.getElementById('uw-designer'),
+        architect:      document.getElementById('uw-architect'),
+      };
+      const ltcWrap       = document.getElementById('uw-ltc-wrap');
+      const ltcCustomWrap = document.getElementById('uw-ltc-custom-wrap');
+      const ltvWrap       = document.getElementById('uw-ltv-wrap');
+
+      // ---- output elements ----
+      const out = (id) => document.getElementById(id);
+
+      // ---- formatters ----
+      const usd0 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+      const usd2 = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 2 });
+      function fmtUSD(n) {
+        if (!isFinite(n)) return '$0';
+        return usd0.format(n);
+      }
+      function fmtUSD2(n) {
+        if (!isFinite(n)) return '$0.00';
+        return usd2.format(n);
+      }
+      function fmtPct(p, d = 2) {
+        if (!isFinite(p)) return '0.00%';
+        return (p * 100).toFixed(d) + '%';
+      }
+      function num(el) {
+        const v = parseFloat(el && el.value);
+        return isNaN(v) ? 0 : v;
+      }
+      function pct(el) {
+        // input is in %, convert to fraction (e.g. "8" → 0.08).
+        return num(el) / 100;
+      }
+
+      // ---- LTC equity % derivation ----
+      function ltcEquityFrac() {
+        const v = inputs.ltc.value;
+        if (v === 'Custom') return pct(inputs.ltcCustom);
+        const f = parseFloat(v);
+        return isNaN(f) ? 0.20 : f;
+      }
+
+      // ---- Draw schedule + compound factors ----
+      // Returns { months: [{m, status, drawPct, drawDollars, beginBal, interest, endBal}],
+      //           totalInterest, kc, kL, landLoan, constrLoan }
+      function computeDrawSchedule({ constrMo, saleMo, monthlyRate, totalLoan, landLoan }) {
+        const totalHold = constrMo + saleMo;
+        const constrLoan = Math.max(0, totalLoan - landLoan);
+        const months = [];
+        let beginBal = 0;
+        let totalInterest = 0;
+
+        for (let m = 1; m <= totalHold; m++) {
+          const status = m <= constrMo ? 'Construction' :
+                         m <= totalHold ? 'Sale' : 'Inactive';
+          const drawPct = (constrMo > 0 && m <= constrMo) ? (1 / constrMo) : 0;
+          let drawDollars = (status === 'Construction') ? drawPct * constrLoan : 0;
+          if (m === 1) drawDollars += landLoan; // land loan @ month 1
+          const interest = (status !== 'Inactive') ? beginBal * monthlyRate : 0;
+          const endBal = beginBal + drawDollars + interest;
+          months.push({ m, status, drawPct, drawDollars, beginBal, interest, endBal });
+          totalInterest += interest;
+          beginBal = endBal;
+        }
+
+        // Compound factors (independent of loan amount — depend only on rate + months)
+        // k_c = Σ drawPct_m × ((1+r_m)^(hold-m) - 1)   (per month draw, compounded to end of hold)
+        // k_L = (1+r_m)^(hold-1) - 1                    (land loan compounded for entire hold)
+        let kc = 0;
+        for (let m = 1; m <= totalHold; m++) {
+          const dPct = (constrMo > 0 && m <= constrMo) ? (1 / constrMo) : 0;
+          const cf  = Math.max(0, Math.pow(1 + monthlyRate, Math.max(totalHold - m, 0)) - 1);
+          kc += dPct * cf;
+        }
+        const kL = Math.pow(1 + monthlyRate, Math.max(totalHold - 1, 0)) - 1;
+
+        return { months, totalInterest, kc, kL, landLoan, constrLoan, totalHold };
+      }
+
+      // ---- Total project cost solver ----
+      // Inputs.c26 = subtotal hard costs (incl. developer fee). Returns
+      // the equilibrium F20 given the active capital mode + factors.
+      //
+      // LandSoft (Mode 1): equity fixed →
+      //   F20 = (C26 − E·ICF + landLoan·(kL−kc)) / (1 − ICF)
+      // LTC (Mode 2): equity = eq%·F20 →
+      //   F20 = (C26 + landLoan·(kL−kc)) / (1 − (1−eq%)·ICF)
+      // LTV (Mode 3): loan is fixed at ltv%·grossSales (no self-reference
+      //   on F20 → no closed-form solver, just direct addition).
+      //   F20 = C26 + loan·ICF + landLoan·(kL−kc)
+      function solveTotalProjectCost({ c26, landLoan, kc, kL, bankFeePct, capMode,
+                                       equityFixed, equityFrac, ltvLoan }) {
+        const ICF = bankFeePct + kc;
+        const adj = landLoan * (kL - kc);
+        if (capMode === 'LandSoft') {
+          if (1 - ICF === 0) return 0;
+          return (c26 - equityFixed * ICF + adj) / (1 - ICF);
+        }
+        if (capMode === 'LTV') {
+          return c26 + (ltvLoan || 0) * ICF + adj;
+        }
+        // LTC (default)
+        const denom = 1 - (1 - equityFrac) * ICF;
+        if (denom === 0) return 0;
+        return (c26 + adj) / denom;
+      }
+
+      // ---- Main model computation ----
+      // Returns a flat object with every derived value ready to render.
+      function compute(state) {
+        const numHomes = state.numHomes;
+        const sqft     = state.sqft;
+        const buildPsf = state.buildPsf;
+        const salePsf  = state.salePsf;
+        const constrMo = state.constrMo;
+        const saleMo   = state.saleMo;
+        const totalHold = constrMo + saleMo;
+        const monthlyRate = state.rate / 12;
+
+        // Hard costs (before financing)
+        const totalBuild  = sqft * buildPsf * numHomes;
+        const overrun     = totalBuild * state.overrunPct;
+        const devFeeBase  = state.lotCost + totalBuild + overrun;
+        const devFee      = devFeeBase * state.devFeePct;
+        const c26 = state.lotCost + totalBuild + overrun + state.taxes + state.title +
+                    state.pool + state.designer + state.architect + devFee;
+
+        // Land loan = MAX(0, Lot - Owner Equity into Land)
+        const landLoan = Math.max(0, state.lotCost - state.ownerEquity);
+
+        // Compound factors only depend on rate + months — compute now,
+        // BEFORE we know the total cost.
+        const dummy = computeDrawSchedule({
+          constrMo, saleMo, monthlyRate, totalLoan: 0, landLoan: 0,
+        });
+        const { kc, kL } = dummy;
+
+        // Mode 1 equity (Land+Soft) is fixed regardless of total cost.
+        const equityFixed = state.ownerEquity + state.taxes + state.title;
+        const equityFrac  = ltcEquityFrac();
+
+        // Mode 3 (LTV) — loan is sized to a target % of expected sales.
+        // Compute grossSales first so we can hand the loan to the solver.
+        const salePerHomePreview = state.salePsf * state.sqft;
+        const grossSalesPreview  = salePerHomePreview * state.numHomes;
+        const ltvFrac = (state.ltvTarget || 0) / 100;
+        const ltvLoan = state.capMode === 'LTV' ? ltvFrac * grossSalesPreview : 0;
+
+        const tpc = solveTotalProjectCost({
+          c26, landLoan, kc, kL,
+          bankFeePct: state.bankFeePct,
+          capMode: state.capMode,
+          equityFixed, equityFrac, ltvLoan,
+        });
+
+        // Now derive equity, loan, etc.
+        let equity, loan;
+        if (state.capMode === 'LandSoft') {
+          equity = equityFixed;
+          loan   = tpc - equity;
+        } else if (state.capMode === 'LTV') {
+          loan   = ltvLoan;
+          equity = tpc - loan;
+        } else {
+          equity = tpc * equityFrac;
+          loan   = tpc - equity;
+        }
+        const bankFees = loan * state.bankFeePct;
+
+        // Recompute draw schedule with the actual loan amounts to fill
+        // the monthly table on the Draw Schedule tab.
+        const ds = computeDrawSchedule({
+          constrMo, saleMo, monthlyRate, totalLoan: loan, landLoan,
+        });
+
+        // Bank interest using closed-form check (should match ds.totalInterest)
+        const interest = loan === 0 ? 0 :
+          (loan - landLoan) * kc + landLoan * kL;
+
+        // Revenue
+        const salePerHome = salePsf * sqft;
+        const grossSales  = salePerHome * numHomes;
+        const realtor     = grossSales * state.realtorPct;
+        const netRevenue  = grossSales - realtor;
+
+        // Returns
+        const grossProfit = netRevenue - (c26 + bankFees + interest);  // = netRev - C29
+        const profitMargin = grossSales === 0 ? 0 : grossProfit / grossSales;
+        const roe = equity === 0 ? 0 : grossProfit / equity;
+        const roc = tpc === 0 ? 0 : grossProfit / tpc;
+        const roeAnn = (equity === 0 || totalHold === 0) ? 0 :
+          Math.pow(1 + roe, 12 / totalHold) - 1;
+        const profitPerHome = numHomes === 0 ? 0 : grossProfit / numHomes;
+        const prefDollars = equity * state.prefReturnPct;
+        const totalCapRequired = equity + prefDollars;
+        const devNet = grossProfit - prefDollars;
+        const ltc = tpc === 0 ? 0 : loan / tpc;
+        const ltv = grossSales === 0 ? 0 : loan / grossSales;
+        const equityPerInvestor = state.numInvestors === 0 ? 0 : equity / state.numInvestors;
+        const breakEven = (sqft === 0 || numHomes === 0) ? 0 :
+          tpc / (sqft * numHomes * (1 - state.realtorPct));
+
+        return {
+          // Costs
+          totalBuild, overrun, devFee, c26,
+          bankFees, interest,
+          totalCosts: c26 + bankFees + interest,
+          // Loans
+          landLoan, loan, ltc, ltv,
+          equity, equityPerInvestor,
+          // Revenue
+          salePerHome, grossSales, realtor, netRevenue,
+          // Returns
+          grossProfit, profitMargin, roe, roc, roeAnn, profitPerHome,
+          prefDollars, totalCapRequired, devNet, breakEven,
+          // For draw tab
+          monthlyRate, totalHold, constrMo, saleMo,
+          drawSchedule: ds,
+          tpc,
+          // For sensitivity
+          equityFixed, equityFrac, ICF: state.bankFeePct + kc, kc, kL,
+        };
+      }
+
+      // ---- Read inputs into a flat state object ----
+      function readState() {
+        return {
+          address: inputs.address.value,
+          neighborhood: inputs.neighborhood.value,
+          numHomes: num(inputs.numHomes),
+          sqft: num(inputs.sqft),
+          buildPsf: num(inputs.buildPsf),
+          salePsf: num(inputs.salePsf),
+          constrMo: num(inputs.constrMo),
+          saleMo: num(inputs.saleMo),
+          numInvestors: num(inputs.numInvestors),
+          overrunPct: pct(inputs.overrun),
+          realtorPct: pct(inputs.realtor),
+          bankFeePct: pct(inputs.bankFee),
+          rate: pct(inputs.rate),
+          devFeePct: pct(inputs.devFee),
+          prefReturnPct: pct(inputs.prefReturn),
+          capMode: inputs.capMode.value,
+          ltc: inputs.ltc.value,
+          ltcCustom: num(inputs.ltcCustom),
+          ltvTarget: num(inputs.ltvTarget),
+          lotCost: num(inputs.lotCost),
+          ownerEquity: num(inputs.ownerEquity),
+          taxes: num(inputs.taxes),
+          title: num(inputs.title),
+          pool: num(inputs.pool),
+          designer: num(inputs.designer),
+          architect: num(inputs.architect),
+        };
+      }
+
+      function saveState(state) {
+        try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (_) {}
+      }
+      function loadState() {
+        try {
+          const raw = localStorage.getItem(LS_KEY);
+          if (!raw) return null;
+          return JSON.parse(raw);
+        } catch (_) { return null; }
+      }
+      function applyState(s) {
+        if (!s) return;
+        if (inputs.address.value === '' && s.address)           inputs.address.value = s.address;
+        if (inputs.neighborhood.value === '' && s.neighborhood) inputs.neighborhood.value = s.neighborhood;
+        const map = [
+          ['numHomes', 'numHomes'], ['sqft', 'sqft'], ['buildPsf', 'buildPsf'],
+          ['salePsf', 'salePsf'], ['constrMo', 'constrMo'], ['saleMo', 'saleMo'],
+          ['numInvestors', 'numInvestors'],
+          ['overrunPct', 'overrun', 100], ['realtorPct', 'realtor', 100],
+          ['bankFeePct', 'bankFee', 100], ['rate', 'rate', 100],
+          ['devFeePct', 'devFee', 100], ['prefReturnPct', 'prefReturn', 100],
+          ['lotCost', 'lotCost'], ['ownerEquity', 'ownerEquity'],
+          ['taxes', 'taxes'], ['title', 'title'],
+          ['pool', 'pool'], ['designer', 'designer'], ['architect', 'architect'],
+          ['ltcCustom', 'ltcCustom'],
+          ['ltvTarget', 'ltvTarget'],
+        ];
+        for (const [k, inputKey, mul = 1] of map) {
+          if (typeof s[k] === 'number' && !isNaN(s[k])) {
+            // Round to kill JS float-math artifacts like 0.035 * 100 = 3.5000000000000004.
+            const raw = mul === 100 ? (s[k] * 100) : s[k];
+            let v = Number(raw.toFixed(6)).toString();
+            // Strip trailing zeros ONLY when there's a decimal point ("3.500" → "3.5"),
+            // otherwise "7000" would become "7". Then remove any orphan trailing dot.
+            if (v.indexOf('.') >= 0) v = v.replace(/0+$/, '').replace(/\.$/, '');
+            inputs[inputKey].value = v;
+          }
+        }
+        if (s.capMode) inputs.capMode.value = s.capMode;
+        if (s.ltc)     inputs.ltc.value = s.ltc;
+      }
+
+      // ---- Render outputs ----
+      function render() {
+        const state = readState();
+        const r = compute(state);
+
+        // Show/hide mode-specific fields. Each capital mode reveals
+        // exactly the inputs that affect it (and hides the rest).
+        const mode = state.capMode;
+        ltcWrap.hidden        = mode !== 'LTC';
+        ltcCustomWrap.hidden  = mode !== 'LTC' || inputs.ltc.value !== 'Custom';
+        ltvWrap.hidden        = mode !== 'LTV';
+
+        // Always show derived LTC / LTV / Equity beneath the capital
+        // structure section so the agent can cross-reference.
+        const ltcDisp = out('uw-cap-ltc');
+        const ltvDisp = out('uw-cap-ltv');
+        const eqDisp  = out('uw-cap-eq');
+        if (ltcDisp) ltcDisp.textContent = fmtPct(r.ltc);
+        if (ltvDisp) ltvDisp.textContent = fmtPct(r.ltv);
+        if (eqDisp)  eqDisp.textContent  = fmtUSD(r.equity);
+
+        // Show warning if Owner Equity > Lot Cost
+        if (state.ownerEquity > state.lotCost && state.lotCost > 0) {
+          errEl.hidden = false;
+          errEl.textContent = 'Owner Equity Into Land exceeds Lot Cost — Land Loan is capped at $0.';
+        } else {
+          errEl.hidden = true;
+          errEl.textContent = '';
+        }
+
+        // ---- Returns & Analysis ----
+        out('uw-out-profit').textContent      = fmtUSD(r.grossProfit);
+        out('uw-out-margin').textContent      = fmtPct(r.profitMargin);
+        out('uw-out-roe').textContent         = fmtPct(r.roe);
+        out('uw-out-roc').textContent         = fmtPct(r.roc);
+        out('uw-out-roe-ann').textContent     = fmtPct(r.roeAnn);
+        out('uw-out-pph').textContent         = fmtUSD(r.profitPerHome);
+        out('uw-out-dev-net').textContent     = fmtUSD(r.devNet);
+        out('uw-out-break-even').textContent  = fmtUSD2(r.breakEven);
+
+        // Negative profit styling
+        out('uw-out-profit').closest('.out-row').classList.toggle('neg', r.grossProfit < 0);
+        out('uw-out-profit').closest('.out-row').classList.toggle('pos', r.grossProfit > 0);
+
+        // ---- Financing ----
+        out('uw-out-tpc').textContent           = fmtUSD(r.tpc);
+        out('uw-out-dev-fee').textContent       = fmtUSD(r.devFee);
+        out('uw-out-equity').textContent        = fmtUSD(r.equity);
+        out('uw-out-equity-per').textContent    = fmtUSD(r.equityPerInvestor);
+        out('uw-out-loan').textContent          = fmtUSD(r.loan);
+        out('uw-out-land-loan').textContent     = fmtUSD(r.landLoan);
+        out('uw-out-ltc').textContent           = fmtPct(r.ltc);
+        out('uw-out-ltv').textContent           = fmtPct(r.ltv);
+        out('uw-out-pref').textContent          = fmtUSD(r.prefDollars);
+        out('uw-out-cap-req').textContent       = fmtUSD(r.totalCapRequired);
+
+        // ---- Revenue ----
+        out('uw-out-pph-price').textContent     = fmtUSD(r.salePerHome);
+        out('uw-out-gross-sales').textContent   = fmtUSD(r.grossSales);
+        out('uw-out-realtor').textContent       = fmtUSD(r.realtor);
+        out('uw-out-net-rev').textContent       = fmtUSD(r.netRevenue);
+        out('uw-out-interest').textContent      = fmtUSD(r.interest);
+        out('uw-out-bank-fees').textContent     = fmtUSD(r.bankFees);
+        out('uw-out-tpc2').textContent          = fmtUSD(r.totalCosts);
+
+        // ---- Draw Schedule tab ----
+        renderDrawSchedule(state, r);
+
+        // ---- Sensitivity tab ----
+        renderSensitivity(state, r);
+
+        // Persist
+        saveState(state);
+      }
+
+      function renderDrawSchedule(state, r) {
+        out('uw-ds-loan').textContent       = fmtUSD(r.loan);
+        out('uw-ds-rate').textContent       = fmtPct(state.rate);
+        out('uw-ds-rate-mo').textContent    = fmtPct(r.monthlyRate, 4);
+        out('uw-ds-constr').textContent     = state.constrMo;
+        out('uw-ds-sale').textContent       = state.saleMo;
+        out('uw-ds-hold').textContent       = r.totalHold;
+        out('uw-ds-land').textContent       = fmtUSD(r.landLoan);
+        out('uw-ds-constr-loan').textContent= fmtUSD(r.drawSchedule.constrLoan);
+        out('uw-ds-kc').textContent         = (r.kc).toFixed(4);
+        out('uw-ds-kL').textContent         = (r.kL).toFixed(4);
+
+        const tbody = out('uw-ds-tbody');
+        if (!tbody) return;
+        if (!r.drawSchedule.months.length) {
+          tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:var(--text-dim); padding:24px;">Enter construction + sale months to see schedule</td></tr>';
+          return;
+        }
+        const rows = r.drawSchedule.months.map((mo) => {
+          const cls = mo.status === 'Inactive' ? 'inactive' : '';
+          const pill = (mo.status === 'Construction' || mo.status === 'Sale')
+            ? '<span class="status-pill ' + mo.status.toLowerCase() + '">' + mo.status + '</span>'
+            : '<span class="status-pill">—</span>';
+          return (
+            '<tr class="' + cls + '">' +
+              '<td>' + mo.m + '</td>' +
+              '<td>' + pill + '</td>' +
+              '<td>' + (mo.drawPct * 100).toFixed(2) + '%</td>' +
+              '<td>' + fmtUSD(mo.drawDollars) + '</td>' +
+              '<td>' + fmtUSD(mo.beginBal) + '</td>' +
+              '<td>' + fmtUSD(mo.interest) + '</td>' +
+              '<td>' + fmtUSD(mo.endBal) + '</td>' +
+            '</tr>'
+          );
+        }).join('');
+        const totalDraws = r.drawSchedule.months.reduce((a, b) => a + b.drawDollars, 0);
+        const totalInt   = r.drawSchedule.totalInterest;
+        const finalBal   = r.drawSchedule.months.length ?
+          r.drawSchedule.months[r.drawSchedule.months.length - 1].endBal : 0;
+        tbody.innerHTML = rows +
+          '<tr class="totals">' +
+            '<td colspan="3">Totals</td>' +
+            '<td>' + fmtUSD(totalDraws) + '</td>' +
+            '<td></td>' +
+            '<td>' + fmtUSD(totalInt) + '</td>' +
+            '<td>' + fmtUSD(finalBal) + '</td>' +
+          '</tr>';
+      }
+
+      function renderSensitivity(state, r) {
+        const deltas = [-0.10, -0.05, 0, 0.05, 0.10];
+        const buildBase = state.buildPsf;
+        const saleBase  = state.salePsf;
+        const buildCol = deltas.map((d) => Math.round(buildBase * (1 + d)));
+        const saleCol  = deltas.map((d) => Math.round(saleBase  * (1 + d)));
+
+        // For each cell, recompute Profit Margin and ROE with the
+        // adjusted build $/SF (row) and sale $/SF (column). Holds
+        // every other input constant at the current values.
+        function recomputeAt(buildPsf, salePsf) {
+          const s2 = Object.assign({}, state, { buildPsf, salePsf });
+          return compute(s2);
+        }
+
+        function colorClass(val) {
+          if (!isFinite(val) || val === 0) return '';
+          if (val < 0)        return 'neg';
+          if (val < 0.05)     return 'low';
+          if (val < 0.10)     return 'mid';
+          return 'hi';
+        }
+
+        function buildGrid(tableId, valueFn) {
+          const t = document.getElementById(tableId);
+          if (!t) return;
+          let html = '<thead><tr><th class="corner">Build $/SF ↓ &nbsp; Sale $/SF →</th>';
+          saleCol.forEach((sp) => { html += '<th>' + fmtUSD(sp) + '</th>'; });
+          html += '</tr></thead><tbody>';
+          buildCol.forEach((bp, ri) => {
+            html += '<tr><td class="label">' + fmtUSD(bp) + '</td>';
+            saleCol.forEach((sp, ci) => {
+              const cellR = recomputeAt(bp, sp);
+              const v = valueFn(cellR);
+              const center = (ri === 2 && ci === 2) ? ' center' : '';
+              const cls = colorClass(v);
+              html += '<td class="cell ' + cls + center + '">' + fmtPct(v) + '</td>';
+            });
+            html += '</tr>';
+          });
+          html += '</tbody>';
+          t.innerHTML = html;
+        }
+
+        buildGrid('uw-sens-margin', (rr) => rr.profitMargin);
+        buildGrid('uw-sens-roe',    (rr) => rr.roe);
+      }
+
+      // ---- Internal sub-tab switcher ----
+      modal.querySelector('.uw-tabbar').addEventListener('click', (e) => {
+        const tab = e.target.closest('.uw-tab');
+        if (!tab) return;
+        const key = tab.dataset.uwTab;
+        modal.querySelectorAll('.uw-tab').forEach((t) => {
+          t.setAttribute('aria-selected', t === tab ? 'true' : 'false');
+        });
+        modal.querySelectorAll('.uw-panel').forEach((p) => {
+          p.setAttribute('aria-hidden', p.dataset.uwPanel === key ? 'false' : 'true');
+        });
+      });
+
+      // ---- Modal open/close ----
+      let lastFocus = null;
+      function openModal() {
+        lastFocus = document.activeElement;
+        overlay.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('modal-open');
+        // Hydrate from localStorage on first open
+        const saved = loadState();
+        if (saved) applyState(saved);
+        render();
+        requestAnimationFrame(() => inputs.numHomes.focus());
+      }
+      function closeModal() {
+        overlay.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+        if (lastFocus && lastFocus.focus) lastFocus.focus();
+      }
+      // Skip the modal open/close plumbing on the standalone page — closeModal()
+      // would hide the entire page shell (since the overlay wraps it). Only wire
+      // these if we're actually running inside the admin modal (has a close btn).
+      if (closeBtn) {
+        overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && overlay.getAttribute('aria-hidden') === 'false') closeModal();
+        });
+        doneBtn && doneBtn.addEventListener('click', closeModal);
+      }
+
+      // ---- Log This Deal → posts current snapshot to Google Form ----
+      // Each click captures: every input + every computed output + an
+      // ISO timestamp + a free-text "scenario name" so the same property
+      // can be logged multiple times (e.g. "Base", "Stretch", "Conservative").
+      //
+      // SETUP REQUIRED (see message to Gabe):
+      //  1. Create a Google Form titled "Victory Formation — Underwriting Deal Log"
+      //     with the fields listed in the message below.
+      //  2. Link it to a new sheet, share "Anyone with link can view".
+      //  3. Get a pre-filled link with all fields populated with distinct
+      //     test values, paste back. I'll fill UW_LOG_FORM_URL +
+      //     UW_LOG_FIELD_MAP below.
+      const UW_LOG_FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const UW_LOG_FIELD_MAP = {
+        scenario_name:          "entry.1625514809",
+        property_address:       "entry.1419711313",
+        neighborhood:           "entry.1844261007",
+        notes:                  "entry.204451091",
+        num_homes:              "entry.373107140",
+        sqft:                   "entry.1070548076",
+        build_psf:              "entry.637582628",
+        sale_psf:               "entry.1101241958",
+        construction_months:    "entry.1117431495",
+        sale_months:            "entry.533084319",
+        num_investors:          "entry.1877577166",
+        overrun_pct:            "entry.946526961",
+        realtor_pct:            "entry.1837656836",
+        bank_fee_pct:           "entry.410542814",
+        interest_rate:          "entry.723591261",
+        developer_fee_pct:      "entry.306884679",
+        preferred_return_pct:   "entry.520613219",
+        capital_mode:           "entry.839618654",
+        ltc_ratio:              "entry.1814457941",
+        ltv_target_pct:         "entry.1375826071",
+        lot_cost:               "entry.2117635858",
+        owner_equity_into_land: "entry.777918728",
+        annual_taxes:           "entry.347744152",
+        title_closing:          "entry.1080706681",
+        pool_cost:              "entry.1109136",
+        designer_fee:           "entry.641099620",
+        architect_fee:          "entry.1150242143",
+        total_project_cost:     "entry.867121106",
+        equity_invested:        "entry.2052691783",
+        equity_per_investor:    "entry.730629948",
+        loan_amount:            "entry.1349418419",
+        land_loan:              "entry.1878678244",
+        computed_ltc:           "entry.684631895",
+        computed_ltv:           "entry.1529950121",
+        gross_profit:           "entry.1024566360",
+        profit_margin:          "entry.1663520367",
+        roe:                    "entry.35404603",
+        roc:                    "entry.1761346202",
+        annualized_roe:         "entry.1036817140",
+        profit_per_home:        "entry.1722713110",
+        developer_net:          "entry.907270732",
+        break_even_psf:         "entry.139258",
+        net_revenue:            "entry.206645773",
+        construction_interest:  "entry.479785309",
+        bank_fees:              "entry.784547750",
+      };
+
+      const logStatusEl = document.getElementById('uw-log-status');
+      const logBtn      = document.getElementById('uw-log-deal');
+
+      function logStatus(level, msg) {
+        if (!logStatusEl) return;
+        logStatusEl.classList.add('show');
+        logStatusEl.classList.remove('ok', 'err', 'warn');
+        if (level && level !== 'info') logStatusEl.classList.add(level);
+        logStatusEl.textContent = msg;
+      }
+      function clearLogStatus() {
+        if (!logStatusEl) return;
+        logStatusEl.classList.remove('show', 'ok', 'err', 'warn');
+        logStatusEl.textContent = '';
+      }
+
+      logBtn && logBtn.addEventListener('click', async () => {
+        clearLogStatus();
+        const state = readState();
+        const r = compute(state);
+
+        // Require an address so the log entry is identifiable.
+        if (!state.address || !state.address.trim()) {
+          logStatus('warn', 'Add a Property Address before logging — every entry in the log is keyed by address.');
+          return;
+        }
+
+        // Guard against logging an empty calculator. The Google Form has
+        // validation on numeric questions, so a "0" payload silently
+        // drops most fields and the OM ends up with a blank model page.
+        // Require the inputs that actually drive the model.
+        const missing = [];
+        if (!state.numHomes) missing.push('Number of Homes');
+        if (!state.sqft)     missing.push('Sq Footage / Home');
+        if (!state.buildPsf) missing.push('Build $/SF');
+        if (!state.salePsf)  missing.push('Target Sale $/SF');
+        if (!state.lotCost)  missing.push('Lot Cost');
+        if (missing.length) {
+          logStatus('warn',
+            'Fill the calculator before logging — these fields are required so the OM pages don\'t come out blank: ' +
+            missing.join(', '));
+          return;
+        }
+
+        // Optional scenario name to differentiate multiple runs of the same property.
+        const scenarioName = prompt(
+          'Name this scenario (optional — e.g. "Base", "Stretch", "Conservative"). Leave blank for "Base".',
+          ''
+        );
+        // User clicked Cancel — abort.
+        if (scenarioName === null) return;
+        const scenario = (scenarioName || '').trim() || 'Base';
+
+        // Optional notes — also via prompt, since we don't want yet
+        // another nested modal. Skippable.
+        const notes = prompt('Notes for this scenario (optional):', '') || '';
+
+        // Gate the actual POST behind whether the form is wired up.
+        const formReady = !/PASTE_/.test(UW_LOG_FORM_URL) &&
+                          !Object.values(UW_LOG_FIELD_MAP).some((v) => /PASTE_/.test(v));
+        if (!formReady) {
+          logStatus('warn',
+            'Form not wired up yet — create the Google Form first, then send the pre-filled link to the dashboard developer.');
+          return;
+        }
+
+        // Build the POST body. Convert decimal fractions to whole-number
+        // percent strings (so sheet rows are readable: "8" instead of "0.08").
+        const body = new FormData();
+        const payload = {
+          scenario_name:        scenario,
+          property_address:     state.address,
+          neighborhood:         state.neighborhood,
+          notes:                notes,
+          num_homes:            state.numHomes,
+          sqft:                 state.sqft,
+          build_psf:            state.buildPsf,
+          sale_psf:             state.salePsf,
+          construction_months:  state.constrMo,
+          sale_months:          state.saleMo,
+          num_investors:        state.numInvestors,
+          overrun_pct:          (state.overrunPct * 100).toFixed(2),
+          realtor_pct:          (state.realtorPct * 100).toFixed(2),
+          bank_fee_pct:         (state.bankFeePct * 100).toFixed(2),
+          interest_rate:        (state.rate * 100).toFixed(2),
+          developer_fee_pct:    (state.devFeePct * 100).toFixed(2),
+          preferred_return_pct: (state.prefReturnPct * 100).toFixed(2),
+          capital_mode:         state.capMode,
+          ltc_ratio:            state.ltc,
+          ltv_target_pct:       state.ltvTarget,
+          lot_cost:             state.lotCost,
+          owner_equity_into_land: state.ownerEquity,
+          annual_taxes:         state.taxes,
+          title_closing:        state.title,
+          pool_cost:            state.pool,
+          designer_fee:         state.designer,
+          architect_fee:        state.architect,
+          total_project_cost:   Math.round(r.tpc),
+          equity_invested:      Math.round(r.equity),
+          equity_per_investor:  Math.round(r.equityPerInvestor),
+          loan_amount:          Math.round(r.loan),
+          land_loan:            Math.round(r.landLoan),
+          computed_ltc:         (r.ltc * 100).toFixed(2),
+          computed_ltv:         (r.ltv * 100).toFixed(2),
+          gross_profit:         Math.round(r.grossProfit),
+          profit_margin:        (r.profitMargin * 100).toFixed(2),
+          roe:                  (r.roe * 100).toFixed(2),
+          roc:                  (r.roc * 100).toFixed(2),
+          annualized_roe:       (r.roeAnn * 100).toFixed(2),
+          profit_per_home:      Math.round(r.profitPerHome),
+          developer_net:        Math.round(r.devNet),
+          break_even_psf:       (r.breakEven).toFixed(2),
+          net_revenue:          Math.round(r.netRevenue),
+          construction_interest:Math.round(r.interest),
+          bank_fees:            Math.round(r.bankFees),
+        };
+        for (const [key, entryId] of Object.entries(UW_LOG_FIELD_MAP)) {
+          if (/PASTE_/.test(entryId)) continue;
+          if (payload[key] == null) continue;
+          body.append(entryId, String(payload[key]));
+        }
+
+        const originalLabel = logBtn.textContent;
+        logBtn.disabled = true;
+        logBtn.textContent = 'Logging…';
+
+        try {
+          await fetch(UW_LOG_FORM_URL, { method: 'POST', mode: 'no-cors', body: body });
+          logStatus('ok', '✓ Logged "' + scenario + '" for ' + state.address + ' to the Deal Log sheet.');
+          logBtn.textContent = 'Logged ✓';
+          setTimeout(() => { logBtn.textContent = originalLabel; }, 2400);
+        } catch (err) {
+          console.error('UW log failed:', err);
+          logStatus('err', 'Network error: ' + (err && err.message ? err.message : err));
+          logBtn.textContent = originalLabel;
+        } finally {
+          logBtn.disabled = false;
+        }
+      });
+
+      // ---- Reset to defaults ----
+      resetBtn.addEventListener('click', () => {
+        if (!confirm('Clear all inputs and reset assumptions to defaults?')) return;
+        try { localStorage.removeItem(LS_KEY); } catch (_) {}
+        // Wipe all inputs
+        Object.values(inputs).forEach((el) => { if (el && 'value' in el) el.value = ''; });
+        // Defaults
+        inputs.overrun.value = 3.5;
+        inputs.realtor.value = 6;
+        inputs.bankFee.value = 1;
+        inputs.rate.value = 8;
+        inputs.devFee.value = 3;
+        inputs.prefReturn.value = 20;
+        inputs.capMode.value = 'LTC';
+        inputs.ltc.value = '0.20';
+        inputs.ltcCustom.value = 20;
+        inputs.ltvTarget.value = 70;
+        render();
+      });
+
+      // ---- Live recalc on any input change ----
+      Object.values(inputs).forEach((el) => {
+        if (!el) return;
+        el.addEventListener('input', render);
+        el.addEventListener('change', render);
+      });
+
+      // First paint
+      const saved = loadState();
+      if (saved) applyState(saved);
+      render();
+    })();
+    })();
+
+    /* =========================================================
+       TEXT GABE — snapshot the UW view as a PDF, then either:
+       - Share via the OS share sheet with the PDF file attached
+         (iOS/Android: user picks Messages → PDF auto-attaches;
+         phone number (737) 600-5101 is in the shared text so they
+         paste it into recipients)
+       - Otherwise: download the PDF locally + open an sms: link
+         so the user can attach manually
+       ========================================================= */
+    (function () {
+      const GABE_NUM  = '7376005101';
+      const GABE_FMT  = '(737) 600-5101';
+      const H2C_URL   = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      const PDFLIB_URL = 'https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';
+      const btn = document.getElementById('uw-text-gabe');
+      if (!btn) return;
+
+      function loadScript(src) {
+        return new Promise((resolve, reject) => {
+          if (document.querySelector('script[src="' + src + '"]')) return resolve();
+          const s = document.createElement('script');
+          s.src = src; s.async = true;
+          s.onload = () => resolve();
+          s.onerror = () => reject(new Error('Failed to load ' + src));
+          document.head.appendChild(s);
+        });
+      }
+
+      // html2canvas has a well-known issue where <input> values render with
+      // the text baseline shifted a few pixels lower than the browser paints
+      // it — this clips the bottom of digits. We work around by injecting a
+      // print-only style right before snapshotting that adds bottom padding
+      // to every input, then removing the style right after.
+      function _installH2cInputFix() {
+        const s = document.createElement('style');
+        s.id = '_h2c-input-fix';
+        s.textContent =
+          '.uw-field input, .uw-field select, ' +
+          '.uw-panel > .uw-section:first-child input { ' +
+          '  padding-top: 12px !important; padding-bottom: 12px !important; ' +
+          '  line-height: 1.2 !important; ' +
+          '} ' +
+          '.uw-field .prefix-dollar::before, .uw-field .suffix::after { ' +
+          '  top: 46% !important; ' +
+          '}';
+        document.head.appendChild(s);
+      }
+      function _removeH2cInputFix() {
+        const s = document.getElementById('_h2c-input-fix');
+        if (s && s.parentNode) s.parentNode.removeChild(s);
+      }
+
+      async function buildPdfBlob() {
+        if (!window.html2canvas) await loadScript(H2C_URL);
+        if (!window.PDFLib) await loadScript(PDFLIB_URL);
+        const source = document.getElementById('uw-modal');
+        const hides = document.querySelectorAll('.page-toolbar, .modal-foot');
+        hides.forEach(el => { el.dataset._prevDisplay = el.style.display; el.style.display = 'none'; });
+        _installH2cInputFix();
+        let canvas;
+        try {
+          canvas = await window.html2canvas(source, {
+            scale: 2, backgroundColor: '#000000', useCORS: true, logging: false
+          });
+        } finally {
+          _removeH2cInputFix();
+          hides.forEach(el => { el.style.display = el.dataset._prevDisplay || ''; delete el.dataset._prevDisplay; });
+        }
+        const { PDFDocument } = window.PDFLib;
+        const pdf = await PDFDocument.create();
+        const pngBytes = await (await fetch(canvas.toDataURL('image/png'))).arrayBuffer();
+        const img = await pdf.embedPng(pngBytes);
+        // Fit to letter portrait, black background, small margin
+        const pageW = 612, pageH = 792;
+        const margin = 20;
+        const ratio = img.width / img.height;
+        const contentH = pageH - margin * 2, contentW = pageW - margin * 2;
+        let drawW = contentW, drawH = contentW / ratio;
+        if (drawH > contentH) { drawH = contentH; drawW = contentH * ratio; }
+        const page = pdf.addPage([pageW, pageH]);
+        page.drawRectangle({ x: 0, y: 0, width: pageW, height: pageH, color: window.PDFLib.rgb(0,0,0) });
+        page.drawImage(img, {
+          x: (pageW - drawW) / 2, y: (pageH - drawH) / 2,
+          width: drawW, height: drawH
+        });
+        const bytes = await pdf.save();
+        return new Blob([bytes], { type: 'application/pdf' });
+      }
+      window._uwBuildPdfBlob = buildPdfBlob;
+      window._uwAddrTag = () => ((document.getElementById('uw-address') || {}).value || 'Underwriting').trim() || 'Underwriting';
+
+      function addrTag() {
+        const a = (document.getElementById('uw-address') || {}).value || 'Underwriting';
+        return a.trim() || 'Underwriting';
+      }
+
+      function fallbackDownloadAndSms(blob) {
+        const filename = 'UW-' + addrTag().replace(/[^\w-]+/g,'-') + '.pdf';
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url; a.download = filename;
+        document.body.appendChild(a); a.click();
+        setTimeout(() => { try { document.body.removeChild(a); } catch(_){} URL.revokeObjectURL(url); }, 500);
+        // Give the download a beat, then open Messages
+        setTimeout(() => { location.href = 'sms:' + GABE_NUM; }, 400);
+      }
+
+      // Detect true mobile (iPhone / iPad / Android). Desktop macOS Chrome
+      // technically supports navigator.share, but when the share sheet opens
+      // and the user picks Messages, macOS often silently fails to launch
+      // Messages.app with the file. So on desktop we skip the share sheet
+      // and go straight to the download + sms: flow, which is deterministic.
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+      // Small toast to tell the user what happened after download.
+      function toast(msg) {
+        const t = document.createElement('div');
+        t.textContent = msg;
+        t.style.cssText = 'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#eae2d3;color:#000;font-family:Mulish,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:14px 22px;border:1px solid #000;box-shadow:0 12px 40px rgba(0,0,0,.4);z-index:100000;max-width:520px;text-align:center;';
+        document.body.appendChild(t);
+        setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; }, 5500);
+        setTimeout(() => { try { document.body.removeChild(t); } catch(_){} }, 6000);
+      }
+
+      // Save PDF button — same PDF-snapshot flow as Text Gabe, just download only.
+      const saveBtn = document.getElementById('uw-save-pdf');
+      if (saveBtn) saveBtn.addEventListener('click', async () => {
+        const orig = saveBtn.textContent;
+        saveBtn.disabled = true;
+        saveBtn.textContent = 'Preparing PDF…';
+        try {
+          const blob = await buildPdfBlob();
+          const filename = 'UW-' + addrTag().replace(/[^\w-]+/g,'-') + '.pdf';
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = filename;
+          document.body.appendChild(a); a.click();
+          setTimeout(() => { try { document.body.removeChild(a); } catch(_){} URL.revokeObjectURL(url); }, 500);
+          toast('✓ PDF saved to Downloads (' + filename + ')');
+        } catch (err) {
+          console.error('Save PDF failed:', err);
+          alert('Could not build PDF: ' + (err.message || err));
+        } finally {
+          saveBtn.disabled = false;
+          saveBtn.textContent = orig;
+        }
+      });
+
+      btn.addEventListener('click', async () => {
+        const original = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = 'Preparing PDF…';
+        try {
+          const blob = await buildPdfBlob();
+          const filename = 'UW-' + addrTag().replace(/[^\w-]+/g,'-') + '.pdf';
+          if (isMobile && navigator.canShare) {
+            const file = new File([blob], filename, { type: 'application/pdf' });
+            if (navigator.canShare({ files: [file] })) {
+              const shareText = 'Underwriting Model — ' + addrTag() + '\nText to Gabe: ' + GABE_FMT;
+              await navigator.share({ files: [file], text: shareText, title: 'Victory Formation UW · ' + addrTag() });
+              return;
+            }
+          }
+          // Desktop path — download the PDF, then open Messages.
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = filename;
+          document.body.appendChild(a); a.click();
+          setTimeout(() => { try { document.body.removeChild(a); } catch(_){} URL.revokeObjectURL(url); }, 500);
+          toast('✓ PDF saved to Downloads (' + filename + '). Opening Messages — drag the PDF into the conversation to attach it.');
+          setTimeout(() => { location.href = 'sms:' + GABE_NUM; }, 800);
+        } catch (err) {
+          if (err && err.name !== 'AbortError') {
+            console.error('Text Gabe failed:', err);
+            alert('Could not build PDF: ' + (err.message || err) + '\n\nOpening a plain text to Gabe instead.');
+            location.href = 'sms:' + GABE_NUM;
+          }
+        } finally {
+          btn.disabled = false;
+          btn.textContent = original;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
