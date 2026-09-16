@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Move-In Report · Victory Formation Ventures</title>
@@ -460,47 +445,47 @@
        If FORM_URL is empty, the form will show a friendly warning
        instead of silently failing. */
     const CONFIG = {
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSfY9NbYEfSq7tP_SZlAiwbzN35fubjVeLUGb8O_-M1DXqyzrQ/formResponse",
       MANAGER_PHONE: "6158120066",   // Gabe Jeudy-Lally
       MANAGER_EMAIL: "gvjbusiness@yahoo.com",
       FIELD_MAP: {
-        property_address:     "entry.47758036",
-        unit:                 "entry.369791265",
-        inspection_date:      "entry.1054614890",
-        tenant_name:          "entry.1703714012",
-        tenant_email:         "entry.463748299",
-        tenant_phone:         "entry.222518187",
-        lease_start:          "entry.2126019407",
+        property_address:     "entry.1071007311",
+        unit:                 "entry.1331856543",
+        inspection_date:      "entry.1732101403",
+        tenant_name:          "entry.1622893302",
+        tenant_email:         "entry.2001903558",
+        tenant_phone:         "entry.1827396466",
+        lease_start:          "entry.434226957",
 
         // Rooms
-        entry_condition:      "entry.1363602674", entry_notes:       "entry.2062598625",
-        living_condition:     "entry.1829119364", living_notes:      "entry.936095674",
-        dining_condition:     "entry.446584588",  dining_notes:      "entry.1309276032",
-        kitchen_condition:    "entry.984225349",  kitchen_notes:     "entry.1447360247",
-        appliances_condition: "entry.179613902",  appliances_notes:  "entry.521993285",
-        master_br_condition:  "entry.50041964",   master_br_notes:   "entry.1729028342",
-        bedroom2_condition:   "entry.1732723163", bedroom2_notes:    "entry.1459712389",
-        bedroom3_condition:   "entry.229818325",  bedroom3_notes:    "entry.639193718",
-        bedroom4_condition:   "entry.815407427",  bedroom4_notes:    "entry.1420274753",
-        bedroom5_condition:   "entry.1892022544", bedroom5_notes:    "entry.545142097",
-        master_bath_condition:"entry.348289735",  master_bath_notes: "entry.1452569235",
-        bath2_condition:      "entry.581057096",  bath2_notes:       "entry.506857347",
-        bath3_condition:      "entry.1694102837", bath3_notes:       "entry.873919847",
-        bath4_condition:      "entry.1223126886", bath4_notes:       "entry.472136231",
-        bath5_condition:      "entry.297591230",  bath5_notes:       "entry.117290335",
-        laundry_condition:    "entry.2052412938", laundry_notes:     "entry.1130676067",
-        garage_condition:     "entry.2020210625", garage_notes:      "entry.776247683",
-        exterior_condition:   "entry.358998621",  exterior_notes:    "entry.1875248875",
+        entry_condition:      "entry.2098320515", entry_notes:       "entry.998035870",
+        living_condition:     "entry.371894920", living_notes:      "entry.1897145987",
+        dining_condition:     "entry.1521924429",  dining_notes:      "entry.2099848232",
+        kitchen_condition:    "entry.1301398309",  kitchen_notes:     "entry.542600714",
+        appliances_condition: "entry.1594650529",  appliances_notes:  "entry.1165830910",
+        master_br_condition:  "entry.2140978154",   master_br_notes:   "entry.2050792988",
+        bedroom2_condition:   "entry.2092881600", bedroom2_notes:    "entry.361636934",
+        bedroom3_condition:   "entry.578650639",  bedroom3_notes:    "entry.1458754217",
+        bedroom4_condition:   "entry.297304281",  bedroom4_notes:    "entry.528260067",
+        bedroom5_condition:   "entry.1422083654", bedroom5_notes:    "entry.1994338843",
+        master_bath_condition:"entry.598140403",  master_bath_notes: "entry.453727204",
+        bath2_condition:      "entry.487993137",  bath2_notes:       "entry.1567029198",
+        bath3_condition:      "entry.2056232399", bath3_notes:       "entry.2023279394",
+        bath4_condition:      "entry.5540028", bath4_notes:       "entry.1846470515",
+        bath5_condition:      "entry.537089996",  bath5_notes:       "entry.11525611",
+        laundry_condition:    "entry.151903324", laundry_notes:     "entry.1028944150",
+        garage_condition:     "entry.778737182", garage_notes:      "entry.386616353",
+        exterior_condition:   "entry.1820169604",  exterior_notes:    "entry.1614715303",
 
-        detectors_status:     "entry.1969396245",
-        detectors_notes:      "entry.1561651754",
-        keys_count:           "entry.770917749",
-        alarm_code:           "entry.1981182905",
-        photo_link:           "entry.1759761273",
-        overall_notes:        "entry.826594534",
+        detectors_status:     "entry.1709811909",
+        detectors_notes:      "entry.664595512",
+        keys_count:           "entry.2054538153",
+        alarm_code:           "entry.643967427",
+        photo_link:           "entry.2031722975",
+        overall_notes:        "entry.1322639816",
 
-        signature_name:       "entry.344873002",
-        signature_date:       "entry.1092517243"
+        signature_name:       "entry.1271083449",
+        signature_date:       "entry.1397151477"
       }
     };
 

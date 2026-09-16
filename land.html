@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Land Acquisition · Victory Formation Ventures</title>
@@ -1760,7 +1745,7 @@
 
     /* ==== Agent tabs (inside Hot Leads panel) + per-agent lock ==== */
     window.CURRENT_LAND_AGENT = 'Gabe Jeudy-Lally';
-    const TEAM_ROSTER_SHEET_ID = 'PASTE_YOUR_SHEET_ID';
+    const TEAM_ROSTER_SHEET_ID = '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8';
     const HL_UNLOCK_KEY = 'vfv.landHotLeadsUnlock';
     const HL_UNLOCK_HOURS = 24;
     // Passcode fallbacks — used if the Team Roster sheet doesn't have a
@@ -1879,87 +1864,87 @@
 
     /* ==== Inline modals — open/close + form submit ==== */
     const HOTLEAD_FORM = {
-      URL: 'https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse',
+      URL: 'https://docs.google.com/forms/d/e/1FAIpQLSdBqOhsEX0VqfbTe-j4qkrPX6iihVjNi5kIsVIJKfWwZdBRgw/formResponse',
       MAP: {
-        lead_id:          'entry.291200275',
-        property_address: 'entry.1984008242',
-        neighborhood:     'entry.1821165108',
-        estimated_value:  'entry.490726122',
-        owner_name:       'entry.804207928',
-        owner_phone:      'entry.1448884889',
-        owner_email:      'entry.765425665',
-        source:           'entry.1537712599',
-        referred_by:      'entry.1527182080',
-        heat_level:       'entry.1920898389',
-        status:           'entry.722485795',
-        land_agent:       'entry.1626956243',
-        last_touch:       'entry.790662111',
-        next_action_date: 'entry.1203406933',
-        next_action:      'entry.331176128',
-        notes:            'entry.478377521'
+        lead_id:          'entry.447983291',
+        property_address: 'entry.35194812',
+        neighborhood:     'entry.320987518',
+        estimated_value:  'entry.1343503820',
+        owner_name:       'entry.91314851',
+        owner_phone:      'entry.405529891',
+        owner_email:      'entry.1215812748',
+        source:           'entry.634382081',
+        referred_by:      'entry.1890213554',
+        heat_level:       'entry.995247176',
+        status:           'entry.1718502476',
+        land_agent:       'entry.1861757472',
+        last_touch:       'entry.59686264',
+        next_action_date: 'entry.642060918',
+        next_action:      'entry.357874860',
+        notes:            'entry.364536235'
       }
     };
     // Land Intake form — same URL/field IDs as the admin dashboard's
     // "Submit Property Intake" modal. Used by the pipeline Update flow.
     const INTAKE_FORM = {
-      URL: 'https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse',
+      URL: 'https://docs.google.com/forms/d/e/1FAIpQLSccwMHuGhP-B5pfFKD0i6x_gVXrA59mrr_ML9vXJS-pn2NQcg/formResponse',
       MAP: {
-        agent:                  'entry.1406468642',
-        date_submitted:         'entry.811071528',
-        status:                 'entry.625853108',
-        property_address:       'entry.2060471301',
-        neighborhood:           'entry.497192192',
-        asking_price:           'entry.26953202',
-        contract_price:         'entry.1151681388',
-        first_contact_date:     'entry.279169809',
-        date_under_contract:    'entry.1544531142',
-        llc_formation_deadline: 'entry.1127281078',
-        earnest_money_deadline: 'entry.697653472',
-        due_diligence_end:      'entry.1539335063',
-        closing_date:           'entry.1158654140',
-        lot_size:               'entry.1752724272',
-        topography:             'entry.948257365',
-        zoning:                 'entry.1130006636',
-        flood_zone:             'entry.2062074012',
-        needs_variance:         'entry.1523033016',
-        setback_front:          'entry.1250603440',
-        setback_rear:           'entry.239126080',
-        setback_interior:       'entry.478428742',
-        setback_road_side:      'entry.1590227857',
-        dim_front:              'entry.600692936',
-        dim_side_left:          'entry.1792671877',
-        dim_rear:               'entry.1463933808',
-        dim_side_right:         'entry.1275076615',
-        comps_in_area:          'entry.1112465023',
-        best_comp:              'entry.62013106',
-        cma:                    'entry.584799947',
-        land_comps:             'entry.1974105103',
-        additional_notes:       'entry.981491876'
+        agent:                  'entry.2059026467',
+        date_submitted:         'entry.566875316',
+        status:                 'entry.837303352',
+        property_address:       'entry.425014635',
+        neighborhood:           'entry.845083763',
+        asking_price:           'entry.1924452488',
+        contract_price:         'entry.330968495',
+        first_contact_date:     'entry.1044339454',
+        date_under_contract:    'entry.1334409721',
+        llc_formation_deadline: 'entry.2003825564',
+        earnest_money_deadline: 'entry.828847818',
+        due_diligence_end:      'entry.2143710840',
+        closing_date:           'entry.732539849',
+        lot_size:               'entry.1768400260',
+        topography:             'entry.1857106668',
+        zoning:                 'entry.1405946408',
+        flood_zone:             'entry.142547059',
+        needs_variance:         'entry.1447243959',
+        setback_front:          'entry.2089231644',
+        setback_rear:           'entry.1204064373',
+        setback_interior:       'entry.1403569721',
+        setback_road_side:      'entry.1501297225',
+        dim_front:              'entry.471096684',
+        dim_side_left:          'entry.783257600',
+        dim_rear:               'entry.705925634',
+        dim_side_right:         'entry.198682171',
+        comps_in_area:          'entry.218045930',
+        best_comp:              'entry.254909175',
+        cma:                    'entry.2073702481',
+        land_comps:             'entry.1976912567',
+        additional_notes:       'entry.1372876368'
       }
     };
     const BUYBOX_FORM = {
-      URL: 'https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse',
+      URL: 'https://docs.google.com/forms/d/e/1FAIpQLSfiyCUjuy9tC4arjDDpxmYOe6HjAunGAIqGZQteaa11qzY1_Q/formResponse',
       MAP: {
-        buy_box_id:       'entry.795908468',
-        builder_name:     'entry.1300019770',
-        status:           'entry.1529921140',
-        priority:         'entry.1512519823',
-        city:             'entry.1924244242',
-        state:            'entry.1054798501',
-        suburbs:          'entry.86669680',
-        min_price:        'entry.319787932',
-        max_price:        'entry.624652553',
-        suburb_pricing:   'entry.2072242054',
-        min_lot_sqft:     'entry.1205892179',
-        max_lot_sqft:     'entry.1373049132',
-        min_frontage_ft:  'entry.21264700',
-        max_frontage_ft:  'entry.1139799128',
-        min_depth_ft:     'entry.401848341',
-        max_depth_ft:     'entry.109297835',
-        must_haves:       'entry.1415481583',
-        deal_breakers:    'entry.1825351676',
-        notes:            'entry.2039447586',
-        logged_by:        'entry.887775077'
+        buy_box_id:       'entry.1510849593',
+        builder_name:     'entry.159559515',
+        status:           'entry.1683685398',
+        priority:         'entry.1152673143',
+        city:             'entry.1165093266',
+        state:            'entry.1415006198',
+        suburbs:          'entry.1261045431',
+        min_price:        'entry.1437038863',
+        max_price:        'entry.130376417',
+        suburb_pricing:   'entry.548007288',
+        min_lot_sqft:     'entry.1942932749',
+        max_lot_sqft:     'entry.982587841',
+        min_frontage_ft:  'entry.1028736765',
+        max_frontage_ft:  'entry.306180960',
+        min_depth_ft:     'entry.1501848089',
+        max_depth_ft:     'entry.416650160',
+        must_haves:       'entry.1406028528',
+        deal_breakers:    'entry.1993316588',
+        notes:            'entry.451841604',
+        logged_by:        'entry.467515612'
       }
     };
     function _newId(prefix) {
@@ -2367,7 +2352,7 @@
     async function _populateBuilderDatalist() {
       const combined = new Map();     // name(lower) → { name, type, sub }
       try {
-        const url = 'https://docs.google.com/spreadsheets/d/PASTE_YOUR_SHEET_ID' +
+        const url = 'https://docs.google.com/spreadsheets/d/17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8' +
           '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
         const res = await fetch(url, { cache: 'no-store' });
         if (res.ok) {
@@ -2494,9 +2479,9 @@
        Only Hot Leads filters by CURRENT_LAND_AGENT.
        ========================================================= */
     const SHEETS = {
-      LAND_INTAKE: 'PASTE_YOUR_SHEET_ID',
-      BUYBOX:      'PASTE_YOUR_SHEET_ID',
-      HOTLEAD:     'PASTE_YOUR_SHEET_ID'
+      LAND_INTAKE: '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8',
+      BUYBOX:      '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8',
+      HOTLEAD:     '17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8'
     };
 
     const esc = (s) => String(s == null ? '' : s)

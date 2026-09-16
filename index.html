@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Victory Formation Ventures — Internal Dashboard</title>
@@ -9845,8 +9830,8 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //  gviz returns an auth wall and the fetch errors.
     // ============================================================
     (function () {
-      const SHEET_ID   = "PASTE_YOUR_SHEET_ID";
-      const SHEET_TAB  = "Dashboard";
+      const SHEET_ID   = "1pG7YZDEjJmhgAVnhA4tQt6nxsuhNbQ4Dyv8CRFG6J_Q";
+      const SHEET_TAB  = "Form Responses 1";
       const STATS_CSV_URL =
         "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
         "/gviz/tq?tqx=out:json&headers=1&sheet=" + encodeURIComponent(SHEET_TAB);
@@ -10459,7 +10444,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //      LAND_SHEET_TAB to match.
     // ============================================================
     (function () {
-      const LAND_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
+      const LAND_SHEET_ID  = "17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8";
       const LAND_SHEET_TAB = "Form Responses 1";
 
       // Three pipeline sections — Active (Under Contract), First Right of
@@ -10986,8 +10971,8 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //   Current Stage, Hard Cost Estimate, Notes
     // ============================================================
     (function () {
-      const CUSTOMREP_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
-      const CUSTOMREP_SHEET_TAB = "Form_Responses";
+      const CUSTOMREP_SHEET_ID  = "1pjp-dh4EFw7vXRSSKM3KjVL7hT1vdWLyF79-t_anuiQ";
+      const CUSTOMREP_SHEET_TAB = "Form Responses 1";
 
       const listEl = document.getElementById('customrep-pipeline-list');
       const metaEl = document.getElementById('customrep-pipeline-meta');
@@ -11392,7 +11377,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //   Current Stage, Notes
     // ============================================================
     (function () {
-      const DEV_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
+      const DEV_SHEET_ID  = "1O3agDlzUXmwJLnPTmdn--eag-zeL7zKbdbLYebucBTw";
       const DEV_SHEET_TAB = "Form Responses 1";
 
       const listEl     = document.getElementById('dev-pipeline-list');
@@ -11884,7 +11869,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       // ---- Fetch logged deals from the Underwriting Deal Log sheet ----
       // Same gviz JSON pattern as the rest of the dashboard. Each row in
       // the sheet = one click of "Log This Deal" in the Underwriting modal.
-      const UW_LOG_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
+      const UW_LOG_SHEET_ID  = "1X85b3ApnoqsKrQze-gVESTSgiaOCz1U-pqiYXWoAeeA";
       const UW_LOG_SHEET_TAB = "Form Responses 1";
       const UW_LOG_URL =
         "https://docs.google.com/spreadsheets/d/" + UW_LOG_SHEET_ID +
@@ -14453,53 +14438,53 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       //  3. Get a pre-filled link with all fields populated with distinct
       //     test values, paste back. I'll fill UW_LOG_FORM_URL +
       //     UW_LOG_FIELD_MAP below.
-      const UW_LOG_FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const UW_LOG_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdRFpOr2YHa5_vCL35gxMViLQdE3oU6-aYX3FcB8N8nMvON4w/formResponse";
       const UW_LOG_FIELD_MAP = {
-        scenario_name:          "entry.1625514809",
-        property_address:       "entry.1419711313",
-        neighborhood:           "entry.1844261007",
-        notes:                  "entry.204451091",
-        num_homes:              "entry.373107140",
-        sqft:                   "entry.1070548076",
-        build_psf:              "entry.637582628",
-        sale_psf:               "entry.1101241958",
-        construction_months:    "entry.1117431495",
-        sale_months:            "entry.533084319",
-        num_investors:          "entry.1877577166",
-        overrun_pct:            "entry.946526961",
-        realtor_pct:            "entry.1837656836",
-        bank_fee_pct:           "entry.410542814",
-        interest_rate:          "entry.723591261",
-        developer_fee_pct:      "entry.306884679",
-        preferred_return_pct:   "entry.520613219",
-        capital_mode:           "entry.839618654",
-        ltc_ratio:              "entry.1814457941",
-        ltv_target_pct:         "entry.1375826071",
-        lot_cost:               "entry.2117635858",
-        owner_equity_into_land: "entry.777918728",
-        annual_taxes:           "entry.347744152",
-        title_closing:          "entry.1080706681",
-        pool_cost:              "entry.1109136",
-        designer_fee:           "entry.641099620",
-        architect_fee:          "entry.1150242143",
-        total_project_cost:     "entry.867121106",
-        equity_invested:        "entry.2052691783",
-        equity_per_investor:    "entry.730629948",
-        loan_amount:            "entry.1349418419",
-        land_loan:              "entry.1878678244",
-        computed_ltc:           "entry.684631895",
-        computed_ltv:           "entry.1529950121",
-        gross_profit:           "entry.1024566360",
-        profit_margin:          "entry.1663520367",
-        roe:                    "entry.35404603",
-        roc:                    "entry.1761346202",
-        annualized_roe:         "entry.1036817140",
-        profit_per_home:        "entry.1722713110",
-        developer_net:          "entry.907270732",
-        break_even_psf:         "entry.139258",
-        net_revenue:            "entry.206645773",
-        construction_interest:  "entry.479785309",
-        bank_fees:              "entry.784547750",
+        scenario_name:          "entry.2036918590",
+        property_address:       "entry.1279555053",
+        neighborhood:           "entry.1697050731",
+        notes:                  "entry.1359615690",
+        num_homes:              "entry.1957324861",
+        sqft:                   "entry.1928896769",
+        build_psf:              "entry.1998759825",
+        sale_psf:               "entry.1905722391",
+        construction_months:    "entry.471924617",
+        sale_months:            "entry.1411296673",
+        num_investors:          "entry.2088031100",
+        overrun_pct:            "entry.611351603",
+        realtor_pct:            "entry.1071711614",
+        bank_fee_pct:           "entry.947628032",
+        interest_rate:          "entry.1059545479",
+        developer_fee_pct:      "entry.1209407699",
+        preferred_return_pct:   "entry.1800997740",
+        capital_mode:           "entry.249082022",
+        ltc_ratio:              "entry.568745010",
+        ltv_target_pct:         "entry.705720791",
+        lot_cost:               "entry.1501013461",
+        owner_equity_into_land: "entry.632728076",
+        annual_taxes:           "entry.8853791",
+        title_closing:          "entry.127893168",
+        pool_cost:              "entry.1868936680",
+        designer_fee:           "entry.2019854722",
+        architect_fee:          "entry.1737278433",
+        total_project_cost:     "entry.1357361595",
+        equity_invested:        "entry.208071469",
+        equity_per_investor:    "entry.2046743566",
+        loan_amount:            "entry.1023304348",
+        land_loan:              "entry.1211648576",
+        computed_ltc:           "entry.996632544",
+        computed_ltv:           "entry.895493552",
+        gross_profit:           "entry.1953408556",
+        profit_margin:          "entry.1489651847",
+        roe:                    "entry.850996327",
+        roc:                    "entry.1020045180",
+        annualized_roe:         "entry.674974989",
+        profit_per_home:        "entry.520068676",
+        developer_net:          "entry.2074567075",
+        break_even_psf:         "entry.1544478869",
+        net_revenue:            "entry.374016980",
+        construction_interest:  "entry.902050262",
+        bank_fees:              "entry.828452397",
       };
 
       const logStatusEl = document.getElementById('uw-log-status');
@@ -14692,25 +14677,25 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //      (replace /viewform with /formResponse in the URL).
     // ============================================================
     (function () {
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfEWBibteLGxQvZAYniWp6ci2lrKE3g3DE4i5o5batZLo-pFw/formResponse";
 
       // Mapped from the pre-filled link's entry.NNN params in form-question order.
       const FIELD_MAP = {
-        listing_address:          "entry.193342253",
-        short_label:              "entry.890599563",
-        bedrooms:                 "entry.714953027",
-        full_bathrooms:           "entry.480025202",
-        half_bathrooms:           "entry.1869637318",
-        square_footage:           "entry.609729977",
-        garage:                   "entry.336338971",
-        features:                 "entry.905389307",
-        price:                    "entry.1157852215",
-        completion:               "entry.451582373",
-        builder:                  "entry.403192281",
-        area:                     "entry.751729195",
-        one_pager_available:      "entry.398846306",
-        building_plans_available: "entry.1855974832",
-        design_board_available:   "entry.284726757",
+        listing_address:          "entry.1506309746",
+        short_label:              "entry.693373316",
+        bedrooms:                 "entry.166851483",
+        full_bathrooms:           "entry.1179770593",
+        half_bathrooms:           "entry.1767428462",
+        square_footage:           "entry.1474535104",
+        garage:                   "entry.1183577018",
+        features:                 "entry.2138603975",
+        price:                    "entry.1717816109",
+        completion:               "entry.994531685",
+        builder:                  "entry.738876883",
+        area:                     "entry.397331936",
+        one_pager_available:      "entry.1738612011",
+        building_plans_available: "entry.2102866683",
+        design_board_available:   "entry.2083505128",
       };
 
       const overlay   = document.getElementById('newlisting-modal-overlay');
@@ -14828,24 +14813,24 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //    appears within a few seconds.
     // ============================================================
     (function () {
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScOul8oAUZZ7_rA73FmFldmDpnqhC2n5lGlfP_rlhi2Ap22ZA/formResponse";
 
       // Entry IDs mapped from Gabe's pre-filled link, in form-question order.
       const FIELD_MAP = {
-        property_address:        "entry.1484590953",
-        short_label:             "entry.83769786",
-        architect:               "entry.1328380332",
-        designer:                "entry.1874445141",
-        builder:                 "entry.1124556673",
-        construction_start_date: "entry.648172310",   // 1st date
-        projected_co_date:       "entry.1945807552",  // 2nd date
-        listed_date:             "entry.630909392",   // 3rd date
-        sold_date:               "entry.2126863825",  // 4th date
-        total_project_cost:      "entry.1185604840",
-        equity_raised:           "entry.931377560",
-        target_sales_price:      "entry.58016712",
-        current_stage:           "entry.281419658",
-        notes:                   "entry.1371022317",
+        property_address:        "entry.43302208",
+        short_label:             "entry.448861505",
+        architect:               "entry.1399554543",
+        designer:                "entry.331741173",
+        builder:                 "entry.1476610947",
+        construction_start_date: "entry.1587873503",   // 1st date
+        projected_co_date:       "entry.1810885853",  // 2nd date
+        listed_date:             "entry.1365528881",   // 3rd date
+        sold_date:               "entry.840129808",  // 4th date
+        total_project_cost:      "entry.1362928720",
+        equity_raised:           "entry.1000965576",
+        target_sales_price:      "entry.1010915660",
+        current_stage:           "entry.1105350231",
+        notes:                   "entry.968703994",
       };
 
       const overlay   = document.getElementById('devintake-modal-overlay');
@@ -15246,42 +15231,42 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       // CHE_LOG_FORM_URL, and CHE_LOG_FIELD_MAP after Gabe sends
       // back the sheet ID, formResponse URL, and pre-filled entry IDs.
       // ============================================================
-      const CHE_LOG_SHEET_ID = "PASTE_YOUR_SHEET_ID";
-      const CHE_LOG_FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const CHE_LOG_SHEET_ID = "12H1o7Eug-oroNuCugsNEXthbvzH2ssQ1dsD1kH9vf-8";
+      const CHE_LOG_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLScA07DvWBF-loXjpA-KKG3EBKhuiW01L8G9zn1ICnqmcmZhjg/formResponse";
       const CHE_LOG_FIELD_MAP = {
-        estimate_name:         "entry.523009227",
-        client_name:           "entry.1779157025",
-        property_address:      "entry.725172538",
-        build_psf:             "entry.1222485453",
-        sqft:                  "entry.465251011",
-        pool_cost:             "entry.15279569",
-        architect_fee:         "entry.807123712",
-        designer_fee:          "entry.374143421",
-        taxes:                 "entry.778005721",
-        closing_cost:          "entry.1702119944",
-        builder_fee_pct:       "entry.116422430",
-        owner_rep_fee_pct:     "entry.1505134654",
-        construction_months:   "entry.1571794083",
-        interest_rate:         "entry.132247855",
-        bank_fee_pct:          "entry.979591128",
-        owner_equity:          "entry.1495334210",
-        capital_mode:          "entry.760620938",
-        ltc_ratio:             "entry.2137979662",
-        ltv_target:            "entry.823561849",
-        appraised_value:       "entry.448202715",
-        base_build:            "entry.1227789176",
-        total_hard:            "entry.929919831",
-        builder_fee_amt:       "entry.1139517554",
-        owner_rep_fee_amt:     "entry.673028598",
-        construction_interest: "entry.633685053",
-        bank_fee_amt:          "entry.1946563565",
-        total_soft:            "entry.20964490",
-        total_project_cost:    "entry.388990458",
-        loan_amount:           "entry.1204545957",
-        owner_equity_required: "entry.1527874426",
-        computed_ltc:          "entry.2088598804",
-        computed_ltv:          "entry.819266346",
-        blended_psf:           "entry.943243065"
+        estimate_name:         "entry.236605917",
+        client_name:           "entry.2139165294",
+        property_address:      "entry.213307375",
+        build_psf:             "entry.856300320",
+        sqft:                  "entry.80669547",
+        pool_cost:             "entry.256159384",
+        architect_fee:         "entry.1682299984",
+        designer_fee:          "entry.2125758638",
+        taxes:                 "entry.394177725",
+        closing_cost:          "entry.1423683702",
+        builder_fee_pct:       "entry.287479628",
+        owner_rep_fee_pct:     "entry.1745288996",
+        construction_months:   "entry.2026418440",
+        interest_rate:         "entry.1182157724",
+        bank_fee_pct:          "entry.1763965196",
+        owner_equity:          "entry.631045270",
+        capital_mode:          "entry.1913037675",
+        ltc_ratio:             "entry.130693011",
+        ltv_target:            "entry.380027262",
+        appraised_value:       "entry.527614393",
+        base_build:            "entry.127875658",
+        total_hard:            "entry.2001922047",
+        builder_fee_amt:       "entry.1568119811",
+        owner_rep_fee_amt:     "entry.1221191337",
+        construction_interest: "entry.720898283",
+        bank_fee_amt:          "entry.188221383",
+        total_soft:            "entry.1811753781",
+        total_project_cost:    "entry.808768040",
+        loan_amount:           "entry.994524558",
+        owner_equity_required: "entry.126807548",
+        computed_ltc:          "entry.1461506636",
+        computed_ltv:          "entry.966228234",
+        blended_psf:           "entry.423273270"
       };
 
       const logStatusEl = document.getElementById('che-log-status');
@@ -15393,23 +15378,23 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     (function () {
       // Form's /formResponse endpoint (derived from the /viewform URL
       // in Gabe's pre-filled link).
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSc00JR2Bxu3mJ5bSkivEuhgs7Vpe4g-N7WQSU_0uc-_VYtnFQ/formResponse";
 
       // Mapped from the pre-filled link's entry.NNNNNN= params, in
       // form-question order (Google emits entries in question order so
       // the URL ordering tells us which entry ID belongs to which field).
       const FIELD_MAP = {
-        client_name:           "entry.85794970",
-        address:               "entry.1484590953",
-        architect:             "entry.1328380332",
-        designer:              "entry.1874445141",
-        builder:               "entry.1124556673",
-        engagement_start_date: "entry.648172310",   // 1st date Q
-        projected_start_date:  "entry.630909392",   // 2nd date Q
-        projected_co_date:     "entry.1945807552",  // 3rd date Q
-        current_stage:         "entry.281419658",
-        hard_cost_estimate:    "entry.470369564",
-        notes:                 "entry.1371022317",
+        client_name:           "entry.143938542",
+        address:               "entry.1494161056",
+        architect:             "entry.1065267447",
+        designer:              "entry.1502685557",
+        builder:               "entry.1570411879",
+        engagement_start_date: "entry.578994676",   // 1st date Q
+        projected_start_date:  "entry.1121993002",   // 2nd date Q
+        projected_co_date:     "entry.2047416350",  // 3rd date Q
+        current_stage:         "entry.1797097968",
+        hard_cost_estimate:    "entry.1782147851",
+        notes:                 "entry.62255284",
       };
       // Expose for the pipeline delete button (lives in a different IIFE)
       window._customrepIntakeCfg = { FORM_URL, FIELD_MAP };
@@ -15573,40 +15558,40 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //   4. Get the pre-filled link, paste the entry IDs into FIELD_MAP below.
     // ============================================================
     (function () {
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSccwMHuGhP-B5pfFKD0i6x_gVXrA59mrr_ML9vXJS-pn2NQcg/formResponse";
 
       const FIELD_MAP = {
-        agent:                "entry.1406468642",
-        date_submitted:       "entry.811071528",
-        status:               "entry.625853108",
-        property_address:     "entry.2060471301",
-        neighborhood:         "entry.497192192",
-        asking_price:         "entry.26953202",
-        contract_price:       "entry.1151681388",
-        first_contact_date:   "entry.279169809",
-        date_under_contract:  "entry.1544531142",
-        llc_formation_deadline: "entry.1127281078",
-        earnest_money_deadline: "entry.697653472",
-        due_diligence_end:    "entry.1539335063",
-        closing_date:         "entry.1158654140",
-        lot_size:             "entry.1752724272",
-        topography:           "entry.948257365",
-        zoning:               "entry.1130006636",
-        flood_zone:           "entry.2062074012",
-        needs_variance:       "entry.1523033016",
-        setback_front:        "entry.1250603440",
-        setback_rear:         "entry.239126080",
-        setback_interior:     "entry.478428742",
-        setback_road_side:    "entry.1590227857",
-        dim_front:            "entry.600692936",
-        dim_side_left:        "entry.1792671877",
-        dim_rear:             "entry.1463933808",
-        dim_side_right:       "entry.1275076615",
-        comps_in_area:        "entry.1112465023",
-        best_comp:            "entry.62013106",
-        cma:                  "entry.584799947",
-        land_comps:           "entry.1974105103",
-        additional_notes:     "entry.981491876",
+        agent:                "entry.2059026467",
+        date_submitted:       "entry.566875316",
+        status:               "entry.837303352",
+        property_address:     "entry.425014635",
+        neighborhood:         "entry.845083763",
+        asking_price:         "entry.1924452488",
+        contract_price:       "entry.330968495",
+        first_contact_date:   "entry.1044339454",
+        date_under_contract:  "entry.1334409721",
+        llc_formation_deadline: "entry.2003825564",
+        earnest_money_deadline: "entry.828847818",
+        due_diligence_end:    "entry.2143710840",
+        closing_date:         "entry.732539849",
+        lot_size:             "entry.1768400260",
+        topography:           "entry.1857106668",
+        zoning:               "entry.1405946408",
+        flood_zone:           "entry.142547059",
+        needs_variance:       "entry.1447243959",
+        setback_front:        "entry.2089231644",
+        setback_rear:         "entry.1204064373",
+        setback_interior:     "entry.1403569721",
+        setback_road_side:    "entry.1501297225",
+        dim_front:            "entry.471096684",
+        dim_side_left:        "entry.783257600",
+        dim_rear:             "entry.705925634",
+        dim_side_right:       "entry.198682171",
+        comps_in_area:        "entry.218045930",
+        best_comp:            "entry.254909175",
+        cma:                  "entry.2073702481",
+        land_comps:           "entry.1976912567",
+        additional_notes:     "entry.1372876368",
       };
 
       const overlay   = document.getElementById('intake-modal-overlay');
@@ -15765,7 +15750,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // Re-uses the existing LAND_SHEET_ID + Form Responses 1 tab.
     // ============================================================
     (function () {
-      const LAND_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
+      const LAND_SHEET_ID  = "17QNUKxy-SKqGL86ev9XY53YTStNARrKJwf4REUNfEB8";
       const LAND_SHEET_TAB = "Form Responses 1";
       const STATS_URL =
         "https://docs.google.com/spreadsheets/d/" + LAND_SHEET_ID +
@@ -16163,13 +16148,13 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // ============================================================
     (function () {
       // ----- Backend config (Google Form for master Open House log) -----
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfBuOWiVVQVfDClC89gsgiWDADsyWJWcinp-yAEZcqIXKBZzA/formResponse";
       const FIELD_MAP = {
-        property_address: "entry.901945291",
-        agent:            "entry.235271748",
-        full_name:        "entry.650535805",
-        email:            "entry.1256359805",
-        phone:            "entry.1135110564",
+        property_address: "entry.1894434431",
+        agent:            "entry.1255525201",
+        full_name:        "entry.2130673919",
+        email:            "entry.395493644",
+        phone:            "entry.244214787",
       };
 
       // ----- Persistence keys -----
@@ -16552,7 +16537,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       // so an existing listing can be "filled out" via the Log a New
       // Listing form without needing a code edit.
       // ----------------------------------------------------------
-      const LISTINGS_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+      const LISTINGS_SHEET_ID = "1mVkiwjehekcIOmZDyxZjgKfY5pWEWN2UBzN4boou2II";
       // gviz auto-falls-back to the first sheet when the tab name is
       // missing, so this default works whether Gabe kept the default
       // "Form Responses 1" or renamed to "Form_Responses" etc.
@@ -16817,23 +16802,23 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // ============================================================
     (function () {
       // Google Form's /formResponse endpoint — anyone can POST, no auth needed.
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe2THkMtpSVoMM4wQOqBsns0Fy7fQsVze0QQt0DORhtvZ399g/formResponse";
 
       // Map our friendly form field names → Google Form's entry.NNN IDs.
       // To regenerate: form ⋮ menu → Get pre-filled link → fill placeholders →
       // Get link → the URL contains entry.NNN=value pairs.
       const FIELD_MAP = {
-        agent:                   'entry.1153957354',
-        agent_email:             'entry.482372652',
-        date_of_closing:         'entry.1679525932',
-        property_address:        'entry.1716998286',
-        side:                    'entry.1654616245',
-        closing_attorney:        'entry.670492195',
-        transaction_coordinator: 'entry.287208090',
-        sales_price:             'entry.1036024591',
-        gross_commission:        'entry.1386990860',
-        net_to_agent:            'entry.422963887',
-        net_to_brokerage:        'entry.1200991005'
+        agent:                   'entry.1317869777',
+        agent_email:             'entry.1286978423',
+        date_of_closing:         'entry.1348965291',
+        property_address:        'entry.778317245',
+        side:                    'entry.861025734',
+        closing_attorney:        'entry.548542052',
+        transaction_coordinator: 'entry.1340620554',
+        sales_price:             'entry.399032970',
+        gross_commission:        'entry.340910706',
+        net_to_agent:            'entry.1182911722',
+        net_to_brokerage:        'entry.375020008'
       };
 
       const overlay   = document.getElementById('commission-modal-overlay');
@@ -16971,22 +16956,22 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // To wire it up: see docs/team-setup.md.
     // ============================================================
     const TEAM_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "14wQ2gCNFu99WC2IbE2as7FiTA9G0EkBLmdSFbLnVzjo",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSfak5cW3apVypJC9HhahRHFzdMheKhMtBb60X8rQ4bsoaMhjg/formResponse",
       FIELD_MAP: {
-        name:            "entry.2094539824",
-        title:           "entry.1054453008",
-        role:            "entry.174528440",
-        active:          "entry.585398137",
-        email:           "entry.1800868288",
-        phone:           "entry.1806146703",
-        photo:           "entry.1093224950",
-        license:         "entry.1571714360",
-        div_sales:       "entry.1215128792",
-        div_land:        "entry.1719015844",
-        div_customrep:   "entry.976902181",
-        div_development: "entry.1889308194",
+        name:            "entry.1276639051",
+        title:           "entry.1069346849",
+        role:            "entry.1982215612",
+        active:          "entry.362912481",
+        email:           "entry.1164577506",
+        phone:           "entry.2003755837",
+        photo:           "entry.368952023",
+        license:         "entry.257345585",
+        div_sales:       "entry.1907257522",
+        div_land:        "entry.14730385",
+        div_customrep:   "entry.1154194865",
+        div_development: "entry.1722829646",
         div_propmgmt:    ""    // ← paste entry ID after adding "div_propmgmt" question to the Team Roster Google Form
       }
     };
@@ -17545,70 +17530,70 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // To wire up: see docs/active-deals-setup.md.
     // ============================================================
     const BUYERDEAL_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1gnS-0j8wgLYpHMmHhKDRu7FKzY7LS9m0iywv0OAjpys",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSff8-6iTRkZyjj8CxlAl77uqTrrhCzJXvsXGeEkpRn-yWpADg/formResponse",
       FIELD_MAP: {
-        agent:                  "entry.1696481611",
-        client:                 "entry.1466200575",
-        property_address:       "entry.1183878754",
-        listing_agent:          "entry.679959161",
-        listing_brokerage:      "entry.940986083",
-        contract_price:         "entry.1736223358",
-        earnest_money:          "entry.736364939",
-        date_under_contract:    "entry.791501097",
-        dd_end:                 "entry.1911838705",
+        agent:                  "entry.321552643",
+        client:                 "entry.616861000",
+        property_address:       "entry.1620607690",
+        listing_agent:          "entry.68069414",
+        listing_brokerage:      "entry.1015861486",
+        contract_price:         "entry.414910523",
+        earnest_money:          "entry.1714460927",
+        date_under_contract:    "entry.1123566550",
+        dd_end:                 "entry.65213555",
         // closing_date now uses the entry ID formerly assigned to
         // appraisal_date (you renamed that field rather than deleting
         // it — the column was renamed too, so the dashboard's findCol
         // by header label picks up the live one).
-        closing_date:           "entry.751987567",
-        stage:                  "entry.1189355390",
-        notes:                  "entry.1813365625",
+        closing_date:           "entry.1283206113",
+        stage:                  "entry.2127209595",
+        notes:                  "entry.218612525",
         // New fields
-        earnest_money_due:      "entry.282195797",
-        inspection_period_ends: "entry.547294873",
-        resolution_period_ends: "entry.112969510",
-        final_walkthrough:      "entry.1180216668",
-        blue_tape_walkthrough:  "entry.578157943",
+        earnest_money_due:      "entry.1164455336",
+        inspection_period_ends: "entry.283621864",
+        resolution_period_ends: "entry.298343782",
+        final_walkthrough:      "entry.1625686124",
+        blue_tape_walkthrough:  "entry.90049183",
         // Additional fields
-        closing_company:          "entry.1368402293",
-        closing_attorney:         "entry.958895723",
-        closing_attorney_phone:   "entry.1841389823",
-        closing_company_location: "entry.1850209647",
-        inspection_company:       "entry.2040456726",
-        inspection_date:          "entry.1281829498",
-        appraisal_date:           "entry.608173480"
+        closing_company:          "entry.1836443141",
+        closing_attorney:         "entry.756626372",
+        closing_attorney_phone:   "entry.872354714",
+        closing_company_location: "entry.904222924",
+        inspection_company:       "entry.880833124",
+        inspection_date:          "entry.746199361",
+        appraisal_date:           "entry.967410733"
       }
     };
 
     const LISTING_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "15AjfNcJHfIWtXbvFxadMwuZQRBKWjLYEuV-x_jObzi4",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSdKgYhDSGd-rVH-7XO_ruXGPwf5QH-h-Gyci0Vgyde7ufXrGw/formResponse",
       FIELD_MAP: {
-        agent:                    "entry.251603968",
-        seller:                   "entry.1734021521",
-        property_address:         "entry.143973978",
-        list_price:               "entry.1915684860",
-        list_date:                "entry.1895165848",
-        stage:                    "entry.83480207",
-        date_under_contract:      "entry.260387748",
-        closing_date:             "entry.986148422",
-        sold_price:               "entry.1238483747",
-        buyer_agent:              "entry.613300627",
-        notes:                    "entry.1813743443",
+        agent:                    "entry.1458140875",
+        seller:                   "entry.672071550",
+        property_address:         "entry.1856091450",
+        list_price:               "entry.1346208517",
+        list_date:                "entry.1708273749",
+        stage:                    "entry.1559952743",
+        date_under_contract:      "entry.2004826417",
+        closing_date:             "entry.2136031413",
+        sold_price:               "entry.1744070422",
+        buyer_agent:              "entry.2089132827",
+        notes:                    "entry.629030312",
         // Transaction milestones + closing/inspection contacts (mirror buyer form)
-        earnest_money_deadline:   "entry.68294374",
-        inspection_period_end:    "entry.239091900",
-        resolution_period_end:    "entry.1313191413",
-        inspection_date:          "entry.164789501",
-        appraisal_date:           "entry.1490895817",
-        inspection_company:       "entry.835240777",
-        closing_attorney:         "entry.465866746",
-        closing_attorney_phone:   "entry.578606421",
-        closing_company:          "entry.712269604",
-        closing_company_location: "entry.647856890"
+        earnest_money_deadline:   "entry.801521627",
+        inspection_period_end:    "entry.576447544",
+        resolution_period_end:    "entry.861563633",
+        inspection_date:          "entry.1334395364",
+        appraisal_date:           "entry.264746863",
+        inspection_company:       "entry.955449452",
+        closing_attorney:         "entry.2073056854",
+        closing_attorney_phone:   "entry.415693612",
+        closing_company:          "entry.713594415",
+        closing_company_location: "entry.488934195"
       }
     };
 
@@ -19008,20 +18993,20 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // and the modal warns submissions won't persist.
     // ============================================================
     const NURTURING_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1EUIbSf2ylExJlT-L7PjvEgS3Pm3f-KyT0yn1Y9MlXB4",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSdZmM7doJLsT1nJX5wP0pE-s2yE9p58Q0cFmn7Oq2tYO69CXA/formResponse",
       FIELD_MAP: {
-        agent:            "entry.1491260808",
-        client:           "entry.765944652",
-        stage:            "entry.1880475823",
-        source:           "entry.1143942942",
-        property_address: "entry.980759149",
-        budget_range:     "entry.1812553157",
-        target_location:  "entry.351128734",
-        last_touch:       "entry.1768153377",
-        next_action:      "entry.857463606",
-        notes:            "entry.169255781"
+        agent:            "entry.150359559",
+        client:           "entry.1206725580",
+        stage:            "entry.1783741962",
+        source:           "entry.644259240",
+        property_address: "entry.1743101883",
+        budget_range:     "entry.1061409449",
+        target_location:  "entry.1332592589",
+        last_touch:       "entry.494177357",
+        next_action:      "entry.506403745",
+        notes:            "entry.334509749"
       }
     };
 
@@ -19200,38 +19185,38 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // SETUP: see docs/clients-setup.md.
     // ============================================================
     const CLIENTS_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "12Tr0UWFM7PAkkyDeb1GuVZwVqYt5AKensCVIn2gDS6c",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSevf0m0LN-TLzem7vxFpj809W_k1wbur4Zas8snThOTqm29_Q/formResponse",
       FIELD_MAP: {
-        agent:          "entry.1708383998",
-        first_name:     "entry.1771021344",
-        last_name:      "entry.199535312",
-        spouse:         "entry.121026207",
-        status:         "entry.1358198079",
-        cat_past:       "entry.1497118875",
-        cat_active:     "entry.1409808597",
-        cat_sphere:     "entry.1091615847",
-        cat_prospect:   "entry.110617044",
-        cat_customrep:  "entry.787853170",
-        email:          "entry.2076235843",
-        phone:          "entry.1748547291",
-        source:         "entry.1474188743",
-        address_line_1: "entry.387186907",
-        address_line_2: "entry.713480361",
-        city:           "entry.1066380119",
-        state:          "entry.1782915332",
-        zip:            "entry.1226722476",
-        neighborhood:   "entry.57185317",
-        birthday:       "entry.462853162",
-        closing_date:   "entry.242521755",
-        last_touch:     "entry.337040520",
-        next_action:    "entry.1854730650",
-        notes:          "entry.1302980854"
+        agent:          "entry.1736055901",
+        first_name:     "entry.1362045522",
+        last_name:      "entry.901196197",
+        spouse:         "entry.2026774059",
+        status:         "entry.1420258809",
+        cat_past:       "entry.160052428",
+        cat_active:     "entry.1577535147",
+        cat_sphere:     "entry.704687567",
+        cat_prospect:   "entry.1289582971",
+        cat_customrep:  "entry.235136512",
+        email:          "entry.1998186961",
+        phone:          "entry.1233645615",
+        source:         "entry.576202645",
+        address_line_1: "entry.1204007063",
+        address_line_2: "entry.2068173230",
+        city:           "entry.2043151590",
+        state:          "entry.1904031368",
+        zip:            "entry.2085266038",
+        neighborhood:   "entry.1080614180",
+        birthday:       "entry.1725824763",
+        closing_date:   "entry.510754459",
+        last_touch:     "entry.322196273",
+        next_action:    "entry.318012215",
+        notes:          "entry.144224829"
       },
       // Pulls Open House sign-ins into the Clients list, read-only,
       // tagged "Open House Visitor".
-      OPEN_HOUSE_SHEET_ID: "PASTE_YOUR_SHEET_ID",
+      OPEN_HOUSE_SHEET_ID: "1wPTutUDsymPB96BkQs-F5wyLlGdAZPRg_F3fifIjbv8",
       OPEN_HOUSE_TAB:      "Form Responses 1"
     };
 
@@ -19846,64 +19831,64 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // SETUP: see docs/propmgmt-setup.md.
     // ============================================================
     const PROPERTIES_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1QPKwYh9aqyvR84zV3zA5-tPeJvYDia1Cg7Bvv31cdsw",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSfzdO1DnTq5Pdj1u_Gd5azvJAHlSznFA8W5wrOO-fWF4lXY6Q/formResponse",
       FIELD_MAP: {
-        property_address: "entry.1511157372",
-        property_type:    "entry.952992198",
-        unit_count:       "entry.942305678",
-        bedrooms:         "entry.1641219169",
-        bathrooms:        "entry.1176081646",
-        neighborhood:     "entry.2117544715",
-        owner_name:       "entry.2075661131",
-        owner_email:      "entry.1289934685",
-        owner_phone:      "entry.1368997442",
-        owner_mailing:    "entry.290222357",
-        monthly_rent:     "entry.2097296619",
-        mgmt_fee_pct:     "entry.1782504590",
-        lease_start:      "entry.911266736",
-        lease_end:        "entry.429265009",
-        occupied:         "entry.1928069894",
-        tenant_name:      "entry.1018787295",
-        notes:            "entry.1756200802"
+        property_address: "entry.2068164135",
+        property_type:    "entry.83177412",
+        unit_count:       "entry.573608426",
+        bedrooms:         "entry.438092729",
+        bathrooms:        "entry.1854295905",
+        neighborhood:     "entry.1190445449",
+        owner_name:       "entry.1602884920",
+        owner_email:      "entry.1060331685",
+        owner_phone:      "entry.1976401093",
+        owner_mailing:    "entry.46267279",
+        monthly_rent:     "entry.1633328018",
+        mgmt_fee_pct:     "entry.1489783433",
+        lease_start:      "entry.130378786",
+        lease_end:        "entry.1698296835",
+        occupied:         "entry.1959705396",
+        tenant_name:      "entry.1659269146",
+        notes:            "entry.236665473"
       }
     };
     const TENANTS_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1uKB1Y-9_imXXJH-3QKKbtSJGB5-VeAVAF4ej_1BJeRk",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLScHAnrIVV9zLbLs6vDyJxpw_bAyZnPOOYxq_LoWW8sHA1REEA/formResponse",
       FIELD_MAP: {
-        first_name:        "entry.1054656447",
-        last_name:         "entry.703542891",
-        email:             "entry.1006837887",
-        phone:             "entry.1433730735",
-        emergency_contact: "entry.864604741",
-        status:            "entry.1827415268",
-        property_address:  "entry.147414485",
-        unit:              "entry.1626496900",
-        monthly_rent:      "entry.88628952",
-        deposit:           "entry.1444294942",
-        lease_start:       "entry.1353200662",
-        lease_end:         "entry.58460075",
-        move_in:           "entry.481636267",
-        pet_fees:          "entry.740526935",
-        notes:             "entry.463433102"
+        first_name:        "entry.1625995664",
+        last_name:         "entry.365702526",
+        email:             "entry.471227670",
+        phone:             "entry.1044733592",
+        emergency_contact: "entry.526438796",
+        status:            "entry.1020115774",
+        property_address:  "entry.1584851553",
+        unit:              "entry.1663537071",
+        monthly_rent:      "entry.600016136",
+        deposit:           "entry.2026102764",
+        lease_start:       "entry.1362213805",
+        lease_end:         "entry.1008555334",
+        move_in:           "entry.371252279",
+        pet_fees:          "entry.1165039353",
+        notes:             "entry.2103111854"
       }
     };
     const LEDGER_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "10ddjv-XvqbuhbUL_y0lDcv10i7V-OnJM5C0_S7sXsrQ",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSfEZWwMreB6YyjS_BlfRLg7de-9sAW6JY346XmrUh8tFzBplw/formResponse",
       FIELD_MAP: {
-        month:            "entry.1264687357",
-        property_address: "entry.539997566",
-        rent:             "entry.117427914",
-        water:            "entry.1195437201",
-        electric:         "entry.2048209632",
-        gas:              "entry.417458696",
-        internet:         "entry.683257258",
-        notes:            "entry.341875220"
+        month:            "entry.981213542",
+        property_address: "entry.2129551660",
+        rent:             "entry.1572057476",
+        water:            "entry.695070175",
+        electric:         "entry.130767123",
+        gas:              "entry.1720941290",
+        internet:         "entry.860644115",
+        notes:            "entry.259456110"
       }
     };
 
@@ -20146,7 +20131,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // ---- Move-In Reports lookup — fetch the reports sheet once, index
     //      by tenant email + name so _pmRenderTenants can show a "View"
     //      badge on rows where a report was submitted.
-    const MOVEIN_REPORTS_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+    const MOVEIN_REPORTS_SHEET_ID = "1a79X0nBCEkZLxSWOuz4cFuIo5kVlQ6CuKVCCvYlrioQ";
     function _pmLoadMoveInReports() {
       const url = 'https://docs.google.com/spreadsheets/d/' + MOVEIN_REPORTS_SHEET_ID +
         '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
@@ -20590,21 +20575,21 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // SETUP: see docs/contacts-setup.md.
     // ============================================================
     const CONTACTS_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1i8veSdGlPFxbiOgif3UxYSEcrdXAQRqd33gpdkI9gZE",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSdutPZUpzFycTRJ5rVx03PlPLKIrZNa88lhCBqhhdLEaQ-_4g/formResponse",
       FIELD_MAP: {
-        category:    "entry.1213651901",
-        name:        "entry.340325298",
-        company:     "entry.1274623754",
-        role:        "entry.172706212",
-        email:       "entry.688067173",
-        phone:       "entry.1344298412",
-        address:     "entry.202724688",
-        specialties: "entry.1797401943",
-        last_touch:  "entry.1211424730",
-        next_action: "entry.329532814",
-        notes:       "entry.551488041"
+        category:    "entry.1771585560",
+        name:        "entry.1078339276",
+        company:     "entry.1146685580",
+        role:        "entry.2069875283",
+        email:       "entry.1398486662",
+        phone:       "entry.1534731784",
+        address:     "entry.44461967",
+        specialties: "entry.1130927070",
+        last_touch:  "entry.113288373",
+        next_action: "entry.2122278908",
+        notes:       "entry.1551694035"
       }
     };
 
@@ -21470,30 +21455,30 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // SETUP: see docs/buybox-setup.md.
     // ============================================================
     const BUYBOX_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1vsgZUCuzMYBGfkKAXZNZChpFfEqwzwAXF0-qzAG5U5k",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSfiyCUjuy9tC4arjDDpxmYOe6HjAunGAIqGZQteaa11qzY1_Q/formResponse",
       FIELD_MAP: {
-        buy_box_id:      "entry.795908468",
-        builder_name:    "entry.1300019770",
-        status:          "entry.1529921140",
-        priority:        "entry.1512519823",
-        city:            "entry.1924244242",
-        state:           "entry.1054798501",
-        suburbs:         "entry.86669680",
-        min_price:       "entry.319787932",
-        max_price:       "entry.624652553",
-        suburb_pricing:  "entry.2072242054",
-        min_lot_sqft:    "entry.1205892179",
-        max_lot_sqft:    "entry.1373049132",
-        min_frontage_ft: "entry.21264700",
-        max_frontage_ft: "entry.1139799128",
-        min_depth_ft:    "entry.401848341",
-        max_depth_ft:    "entry.109297835",
-        must_haves:      "entry.1415481583",
-        deal_breakers:   "entry.1825351676",
-        notes:           "entry.2039447586",
-        logged_by:       "entry.887775077"
+        buy_box_id:      "entry.1510849593",
+        builder_name:    "entry.159559515",
+        status:          "entry.1683685398",
+        priority:        "entry.1152673143",
+        city:            "entry.1165093266",
+        state:           "entry.1415006198",
+        suburbs:         "entry.1261045431",
+        min_price:       "entry.1437038863",
+        max_price:       "entry.130376417",
+        suburb_pricing:  "entry.548007288",
+        min_lot_sqft:    "entry.1942932749",
+        max_lot_sqft:    "entry.982587841",
+        min_frontage_ft: "entry.1028736765",
+        max_frontage_ft: "entry.306180960",
+        min_depth_ft:    "entry.1501848089",
+        max_depth_ft:    "entry.416650160",
+        must_haves:      "entry.1406028528",
+        deal_breakers:   "entry.1993316588",
+        notes:           "entry.451841604",
+        logged_by:       "entry.467515612"
       }
     };
 
@@ -21939,26 +21924,26 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // only the latest. Sheet/Form setup lives in docs/hotleads-setup.md.
     // ============================================================
     const HOTLEAD_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "18t02xJh_ZwsKJhI6dhJ5ys_sHEudZvBfiWy3z4SPrwI",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSdBqOhsEX0VqfbTe-j4qkrPX6iihVjNi5kIsVIJKfWwZdBRgw/formResponse",
       FIELD_MAP: {
-        lead_id:          "entry.291200275",
-        property_address: "entry.1984008242",
-        neighborhood:     "entry.1821165108",
-        estimated_value:  "entry.490726122",
-        owner_name:       "entry.804207928",
-        owner_phone:      "entry.1448884889",
-        owner_email:      "entry.765425665",
-        source:           "entry.1537712599",
-        referred_by:      "entry.1527182080",
-        heat_level:       "entry.1920898389",
-        status:           "entry.722485795",
-        land_agent:       "entry.1626956243",
-        last_touch:       "entry.790662111",
-        next_action_date: "entry.1203406933",
-        next_action:      "entry.331176128",
-        notes:            "entry.478377521"
+        lead_id:          "entry.447983291",
+        property_address: "entry.35194812",
+        neighborhood:     "entry.320987518",
+        estimated_value:  "entry.1343503820",
+        owner_name:       "entry.91314851",
+        owner_phone:      "entry.405529891",
+        owner_email:      "entry.1215812748",
+        source:           "entry.634382081",
+        referred_by:      "entry.1890213554",
+        heat_level:       "entry.995247176",
+        status:           "entry.1718502476",
+        land_agent:       "entry.1861757472",
+        last_touch:       "entry.59686264",
+        next_action_date: "entry.642060918",
+        next_action:      "entry.357874860",
+        notes:            "entry.364536235"
       }
     };
 

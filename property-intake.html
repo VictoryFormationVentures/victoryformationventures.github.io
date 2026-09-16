@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1000" />
   <title>Property Intake · Victory Formation Ventures</title>
@@ -418,40 +403,40 @@
 
   <script>
     (function () {
-      const FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSccwMHuGhP-B5pfFKD0i6x_gVXrA59mrr_ML9vXJS-pn2NQcg/formResponse";
 
       const FIELD_MAP = {
-        agent:                "entry.1406468642",
-        date_submitted:       "entry.811071528",
-        status:               "entry.625853108",
-        property_address:     "entry.2060471301",
-        neighborhood:         "entry.497192192",
-        asking_price:         "entry.26953202",
-        contract_price:       "entry.1151681388",
-        first_contact_date:   "entry.279169809",
-        date_under_contract:  "entry.1544531142",
-        llc_formation_deadline: "entry.1127281078",
-        earnest_money_deadline: "entry.697653472",
-        due_diligence_end:    "entry.1539335063",
-        closing_date:         "entry.1158654140",
-        lot_size:             "entry.1752724272",
-        topography:           "entry.948257365",
-        zoning:               "entry.1130006636",
-        flood_zone:           "entry.2062074012",
-        needs_variance:       "entry.1523033016",
-        setback_front:        "entry.1250603440",
-        setback_rear:         "entry.239126080",
-        setback_interior:     "entry.478428742",
-        setback_road_side:    "entry.1590227857",
-        dim_front:            "entry.600692936",
-        dim_side_left:        "entry.1792671877",
-        dim_rear:             "entry.1463933808",
-        dim_side_right:       "entry.1275076615",
-        comps_in_area:        "entry.1112465023",
-        best_comp:            "entry.62013106",
-        cma:                  "entry.584799947",
-        land_comps:           "entry.1974105103",
-        additional_notes:     "entry.981491876",
+        agent:                "entry.2059026467",
+        date_submitted:       "entry.566875316",
+        status:               "entry.837303352",
+        property_address:     "entry.425014635",
+        neighborhood:         "entry.845083763",
+        asking_price:         "entry.1924452488",
+        contract_price:       "entry.330968495",
+        first_contact_date:   "entry.1044339454",
+        date_under_contract:  "entry.1334409721",
+        llc_formation_deadline: "entry.2003825564",
+        earnest_money_deadline: "entry.828847818",
+        due_diligence_end:    "entry.2143710840",
+        closing_date:         "entry.732539849",
+        lot_size:             "entry.1768400260",
+        topography:           "entry.1857106668",
+        zoning:               "entry.1405946408",
+        flood_zone:           "entry.142547059",
+        needs_variance:       "entry.1447243959",
+        setback_front:        "entry.2089231644",
+        setback_rear:         "entry.1204064373",
+        setback_interior:     "entry.1403569721",
+        setback_road_side:    "entry.1501297225",
+        dim_front:            "entry.471096684",
+        dim_side_left:        "entry.783257600",
+        dim_rear:             "entry.705925634",
+        dim_side_right:       "entry.198682171",
+        comps_in_area:        "entry.218045930",
+        best_comp:            "entry.254909175",
+        cma:                  "entry.2073702481",
+        land_comps:           "entry.1976912567",
+        additional_notes:     "entry.1372876368",
       };
 
       const overlay   = document.getElementById('intake-modal-overlay');

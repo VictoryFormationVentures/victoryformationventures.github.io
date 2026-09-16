@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1200" />
   <title>Offer Instructions · Victory Formation Ventures</title>
@@ -365,7 +350,7 @@
     // Dashboard's TEAM_CONFIG (Sheet ID + tab name). See docs/team-setup.md.
     // ============================================================
     const TEAM_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "14wQ2gCNFu99WC2IbE2as7FiTA9G0EkBLmdSFbLnVzjo",
       SHEET_TAB: "Form Responses 1"
     };
 

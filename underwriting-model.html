@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1400" />
   <title>Underwriting Model · Victory Formation Ventures</title>
@@ -1441,53 +1426,53 @@
       //  3. Get a pre-filled link with all fields populated with distinct
       //     test values, paste back. I'll fill UW_LOG_FORM_URL +
       //     UW_LOG_FIELD_MAP below.
-      const UW_LOG_FORM_URL = "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse";
+      const UW_LOG_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSdRFpOr2YHa5_vCL35gxMViLQdE3oU6-aYX3FcB8N8nMvON4w/formResponse";
       const UW_LOG_FIELD_MAP = {
-        scenario_name:          "entry.1625514809",
-        property_address:       "entry.1419711313",
-        neighborhood:           "entry.1844261007",
-        notes:                  "entry.204451091",
-        num_homes:              "entry.373107140",
-        sqft:                   "entry.1070548076",
-        build_psf:              "entry.637582628",
-        sale_psf:               "entry.1101241958",
-        construction_months:    "entry.1117431495",
-        sale_months:            "entry.533084319",
-        num_investors:          "entry.1877577166",
-        overrun_pct:            "entry.946526961",
-        realtor_pct:            "entry.1837656836",
-        bank_fee_pct:           "entry.410542814",
-        interest_rate:          "entry.723591261",
-        developer_fee_pct:      "entry.306884679",
-        preferred_return_pct:   "entry.520613219",
-        capital_mode:           "entry.839618654",
-        ltc_ratio:              "entry.1814457941",
-        ltv_target_pct:         "entry.1375826071",
-        lot_cost:               "entry.2117635858",
-        owner_equity_into_land: "entry.777918728",
-        annual_taxes:           "entry.347744152",
-        title_closing:          "entry.1080706681",
-        pool_cost:              "entry.1109136",
-        designer_fee:           "entry.641099620",
-        architect_fee:          "entry.1150242143",
-        total_project_cost:     "entry.867121106",
-        equity_invested:        "entry.2052691783",
-        equity_per_investor:    "entry.730629948",
-        loan_amount:            "entry.1349418419",
-        land_loan:              "entry.1878678244",
-        computed_ltc:           "entry.684631895",
-        computed_ltv:           "entry.1529950121",
-        gross_profit:           "entry.1024566360",
-        profit_margin:          "entry.1663520367",
-        roe:                    "entry.35404603",
-        roc:                    "entry.1761346202",
-        annualized_roe:         "entry.1036817140",
-        profit_per_home:        "entry.1722713110",
-        developer_net:          "entry.907270732",
-        break_even_psf:         "entry.139258",
-        net_revenue:            "entry.206645773",
-        construction_interest:  "entry.479785309",
-        bank_fees:              "entry.784547750",
+        scenario_name:          "entry.2036918590",
+        property_address:       "entry.1279555053",
+        neighborhood:           "entry.1697050731",
+        notes:                  "entry.1359615690",
+        num_homes:              "entry.1957324861",
+        sqft:                   "entry.1928896769",
+        build_psf:              "entry.1998759825",
+        sale_psf:               "entry.1905722391",
+        construction_months:    "entry.471924617",
+        sale_months:            "entry.1411296673",
+        num_investors:          "entry.2088031100",
+        overrun_pct:            "entry.611351603",
+        realtor_pct:            "entry.1071711614",
+        bank_fee_pct:           "entry.947628032",
+        interest_rate:          "entry.1059545479",
+        developer_fee_pct:      "entry.1209407699",
+        preferred_return_pct:   "entry.1800997740",
+        capital_mode:           "entry.249082022",
+        ltc_ratio:              "entry.568745010",
+        ltv_target_pct:         "entry.705720791",
+        lot_cost:               "entry.1501013461",
+        owner_equity_into_land: "entry.632728076",
+        annual_taxes:           "entry.8853791",
+        title_closing:          "entry.127893168",
+        pool_cost:              "entry.1868936680",
+        designer_fee:           "entry.2019854722",
+        architect_fee:          "entry.1737278433",
+        total_project_cost:     "entry.1357361595",
+        equity_invested:        "entry.208071469",
+        equity_per_investor:    "entry.2046743566",
+        loan_amount:            "entry.1023304348",
+        land_loan:              "entry.1211648576",
+        computed_ltc:           "entry.996632544",
+        computed_ltv:           "entry.895493552",
+        gross_profit:           "entry.1953408556",
+        profit_margin:          "entry.1489651847",
+        roe:                    "entry.850996327",
+        roc:                    "entry.1020045180",
+        annualized_roe:         "entry.674974989",
+        profit_per_home:        "entry.520068676",
+        developer_net:          "entry.2074567075",
+        break_even_psf:         "entry.1544478869",
+        net_revenue:            "entry.374016980",
+        construction_interest:  "entry.902050262",
+        bank_fees:              "entry.828452397",
       };
 
       const logStatusEl = document.getElementById('uw-log-status');

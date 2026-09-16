@@ -1,21 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<script>
-  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
-  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
-  (function () {
-    const _fetch = window.fetch.bind(window);
-    window.fetch = function (input, init) {
-      const url = typeof input === 'string' ? input : (input && input.url) || '';
-      if (url.indexOf('PASTE_YOUR_') !== -1) {
-        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
-      }
-      return _fetch(input, init);
-    };
-  })();
-</script>
-
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Development Project · Custom Home Representation</title>
@@ -817,15 +802,15 @@
 
     // ---- Google Sheet sync ----
     const TIMELINE_CONFIG = {
-      SHEET_ID:  "PASTE_YOUR_SHEET_ID",
+      SHEET_ID:  "1yf5kJbVsXdIrvieglnRXKgb14EhrIcYnDZylwJMpxP0",
       SHEET_TAB: "Form Responses 1",
-      FORM_URL:  "https://docs.google.com/forms/d/e/PASTE_YOUR_FORM_ID/formResponse",
+      FORM_URL:  "https://docs.google.com/forms/d/e/1FAIpQLSexk6e37qr7ZF1Fq312x1LwxRl1TXFvFFrLAW01_a8PZhpzbQ/formResponse",
       FIELD_MAP: {
-        project_id:    "entry.837814797",
-        milestone_key: "entry.1629696435",
-        state:         "entry.535980600",
-        updated_by:    "entry.27256755",
-        notes:         "entry.1868483197"
+        project_id:    "entry.975097905",
+        milestone_key: "entry.919979502",
+        state:         "entry.1867162014",
+        updated_by:    "entry.728980943",
+        notes:         "entry.734925041"
       }
     };
     const CYCLE = { upcoming: 'progress', progress: 'complete', complete: 'upcoming' };
@@ -998,8 +983,8 @@
         { role: "Owner's Representative", name: 'Gabe Jeudy-Lally',  source: 'roster'   }
       ]
     };
-    const CONTACTS_SHEET_ID = "PASTE_YOUR_SHEET_ID";
-    const TEAM_ROSTER_SHEET_ID = "PASTE_YOUR_SHEET_ID";
+    const CONTACTS_SHEET_ID = "1i8veSdGlPFxbiOgif3UxYSEcrdXAQRqd33gpdkI9gZE";
+    const TEAM_ROSTER_SHEET_ID = "14wQ2gCNFu99WC2IbE2as7FiTA9G0EkBLmdSFbLnVzjo";
 
     // Fetch the Contacts sheet once and stash by lowercased name for lookup
     async function _fetchContactsIndex() {
@@ -1332,8 +1317,8 @@
        sheet row (case-insensitive substring match on Client Name).
        ========================================================= */
     (async function () {
-      const CUSTOMREP_SHEET_ID  = "PASTE_YOUR_SHEET_ID";
-      const CUSTOMREP_SHEET_TAB = "Form_Responses";
+      const CUSTOMREP_SHEET_ID  = "1pjp-dh4EFw7vXRSSKM3KjVL7hT1vdWLyF79-t_anuiQ";
+      const CUSTOMREP_SHEET_TAB = "Form Responses 1";
       const clientPanels = document.querySelectorAll('.panel[data-client-match]');
       if (clientPanels.length === 0) return;
       try {
