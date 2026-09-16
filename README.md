@@ -16,7 +16,7 @@ Admin: `0000`. Land Acquisition: `5555`. Codes live in `index.html` near `ACCESS
 Dashboard/
 ├── index.html                ← the dashboard hub (all division tabs)
 ├── land.html                 ← Land Acquisition division page
-├── devproject.html           ← Development project page (generic placeholder)
+├── telos.html           ← Development project page (generic placeholder)
 ├── premier-listings/         ← luxury listings microsite (generic placeholder)
 ├── *.html                    ← document generators (LOI, CMA, OM, one-pager, etc.)
 ├── assets/                   ← logos, fonts, icons, uploads

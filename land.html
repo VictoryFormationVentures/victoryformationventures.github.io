@@ -1598,7 +1598,7 @@
             <input type="hidden" name="status" value="Active" />
             <div class="mm-grid">
               <label class="mm-field full"><span>Contact / Client Name *</span>
-                <input name="builder_name" list="bb-builders-datalist" type="text" required placeholder="Type or pick from Contacts + Development Project clients…" />
+                <input name="builder_name" list="bb-builders-datalist" type="text" required placeholder="Type or pick from Contacts + Telos clients…" />
                 <datalist id="bb-builders-datalist"></datalist>
               </label>
               <label class="mm-field"><span>Priority</span>
@@ -1720,7 +1720,7 @@
   </div>
 
   <script>
-    /* ==== Side-nav → panel switch (mirrors devproject.html) ==== */
+    /* ==== Side-nav → panel switch (mirrors telos.html) ==== */
     (function () {
       const nav = document.querySelector('.sidenav');
       const panels = document.querySelectorAll('.content .panel');
@@ -2941,7 +2941,7 @@
             : '';
 
           // Client-type pill — inferred by looking up r.builder in the combined
-          // Contacts + Development Project index (Builder / Developer / Custom Home Client).
+          // Contacts + Telos index (Builder / Developer / Custom Home Client).
           const clientMeta = _lookupClient(r.builder);
           const clientPill = clientMeta ? _clientTypePill(clientMeta.type) : '';
           return `

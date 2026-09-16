@@ -1,4 +1,4 @@
-# Development Project Project Timeline — Cross-Agent Sync Setup
+# Telos Project Timeline — Cross-Agent Sync Setup
 
 The interactive timeline already works locally — click any milestone and it saves to your browser. But if multiple agents work on the same project, we need a shared Google Sheet + Form so everyone sees the same state.
 
@@ -16,7 +16,7 @@ Send me back three things at the end:
 Log into Google as `gabe@victoryformationventures.com`.
 
 - Go to [sheets.new](https://sheets.new)
-- Rename to **Development Project Project Timeline**
+- Rename to **Telos Project Timeline**
 - Share → Anyone with the link → **Viewer**
 
 ---
@@ -24,8 +24,8 @@ Log into Google as `gabe@victoryformationventures.com`.
 ## 2 · Create the Form
 
 - Go to [forms.new](https://forms.new)
-- Rename to **Development Project Timeline Update**
-- Settings → Responses → **Link to Sheet** → pick **Development Project Project Timeline**
+- Rename to **Telos Timeline Update**
+- Settings → Responses → **Link to Sheet** → pick **Telos Project Timeline**
 
 Add these **5 questions** in this exact order and with these exact lowercase labels:
 
@@ -59,7 +59,7 @@ The Sheet auto-adds a Timestamp column at position 1 when the form is linked. Th
    - Type distinct throwaway values in every field (`P1`, `M1`, `S1`, `U1`, `N1`)
    - Click **Get link** at the bottom → copy → paste back to me
 
-I'll fill in `TIMELINE_CONFIG` in `devproject.html` and cross-agent sync goes live.
+I'll fill in `TIMELINE_CONFIG` in `telos.html` and cross-agent sync goes live.
 
 ---
 

@@ -3220,15 +3220,23 @@
           <div class="hub-name">Admin</div>
           <div class="hub-role">Full dashboard access</div>
         </button>
-        <button type="button" class="hub-card" data-target="devproject">
-          <div class="hub-avatar" data-slug="devproject">
-            <img src="assets/devproject-logo.png" alt=""
-                 onerror="this.onerror=null; this.src='assets/hub/devproject.jpg';
+        <button type="button" class="hub-card" data-target="telos">
+          <div class="hub-avatar" data-slug="telos">
+            <img src="assets/telos-logo.png" alt=""
+                 onerror="this.onerror=null; this.src='assets/hub/telos.jpg';
                           this.onerror=function(){this.style.display='none';};" />
             <span class="hub-initial">A</span>
           </div>
-          <div class="hub-name">Development Project</div>
+          <div class="hub-name">Telos</div>
           <div class="hub-role">Custom Home Rep</div>
+        </button>
+        <button type="button" class="hub-card" data-target="liveoak">
+          <div class="hub-avatar" data-slug="liveoak">
+            <img src="assets/telos-logo.png" alt="" onerror="this.style.display='none';" />
+            <span class="hub-initial">L</span>
+          </div>
+          <div class="hub-name">Live Oak Reserve</div>
+          <div class="hub-role">Private concept page</div>
         </button>
         <button type="button" class="hub-card" data-target="land">
           <div class="hub-avatar" data-slug="land">
@@ -3302,29 +3310,31 @@
       width: 100%; height: 100%; object-fit: cover;
       position: absolute; inset: 0; z-index: 2;
     }
-    /* Admin, Development Project, and Land all use a transparent PNG logo — object-fit:
+    /* Admin, Telos, and Land all use a transparent PNG logo — object-fit:
        contain so the logo shows at natural proportions inside the circle
        ring, and the letter fallback is hidden so transparent parts of the
        PNG don't reveal a grey initial underneath. Padding differs per logo
-       because the arch PNG is nearly square while Development Project's is tall/narrow —
+       because the arch PNG is nearly square while Telos's is tall/narrow —
        matched visual size, not matched pixel padding. */
     .hub-avatar[data-slug="admin"] img,
-    .hub-avatar[data-slug="devproject"] img,
+    .hub-avatar[data-slug="telos"] img,
     .hub-avatar[data-slug="land"] img {
       object-fit: contain;
     }
     .hub-avatar[data-slug="admin"] img,
     .hub-avatar[data-slug="land"] img,
-    .hub-avatar[data-slug="devproject"] img {
+    .hub-avatar[data-slug="telos"] img,
+    .hub-avatar[data-slug="liveoak"] img {
       padding: 14px;
     }
     @media (max-width: 640px) {
       .hub-avatar[data-slug="admin"] img,
       .hub-avatar[data-slug="land"] img,
-      .hub-avatar[data-slug="devproject"] img { padding: 8px; }
+      .hub-avatar[data-slug="telos"] img,
+      .hub-avatar[data-slug="liveoak"] img { padding: 8px; }
     }
     .hub-avatar[data-slug="admin"] .hub-initial,
-    .hub-avatar[data-slug="devproject"] .hub-initial,
+    .hub-avatar[data-slug="telos"] .hub-initial,
     .hub-avatar[data-slug="land"] .hub-initial { display: none; }
     .hub-initial {
       font-family: 'Aboreto', serif; font-size: 48px;
@@ -3495,7 +3505,7 @@
         const splash = document.getElementById('vfv-intro');
         if (!splash) return;
         // Skip the animation if agents are switching divisions from
-        // devproject.html (or any other division link back to the hub).
+        // telos.html (or any other division link back to the hub).
         // Skip splash when coming back from a division dashboard (?hub=1)
         // OR when a tool link asks to auto-open a modal (?openModal=…).
         const _sp = new URLSearchParams(location.search);
@@ -3702,7 +3712,7 @@
       })();
 
       // "Switch Division" button in the admin header — re-shows the hub so
-      // the user can jump to Land / Development Project / etc without a full page load.
+      // the user can jump to Land / Telos / etc without a full page load.
       // Uses event delegation because this script runs before the header
       // <button> is parsed into the DOM (script sits above the <header>).
       document.addEventListener('click', (e) => {
@@ -3759,11 +3769,16 @@
             }, 600);
             return;
           }
-          // Development Project is Gabe-only — same gate pattern as Admin
-          if (target === 'devproject') {
-            const DEVPROJECT_KEY = 'vfv.devprojectUnlock';
+          // Live Oak Reserve — the private concept page on the public site (it has its own access code)
+          if (target === 'liveoak') {
+            window.location.href = 'https://www.victoryformationventures.com/liveoak/';
+            return;
+          }
+          // Telos is Gabe-only — same gate pattern as Admin
+          if (target === 'telos') {
+            const DEVPROJECT_KEY = 'vfv.telosUnlock';
             const ONE_DAY = 24 * 60 * 60 * 1000;
-            function devprojectUnlocked() {
+            function telosUnlocked() {
               try {
                 const raw = localStorage.getItem(DEVPROJECT_KEY);
                 if (!raw) return false;
@@ -3771,16 +3786,16 @@
                 return t && t.ok && (Date.now() - t.ts) < ONE_DAY;
               } catch (_) { return false; }
             }
-            if (!devprojectUnlocked()) {
+            if (!telosUnlocked()) {
               const code = await window.askPasscode({
-                title: 'Development Project Access',
-                subtitle: 'Custom Home Representation — Gabe only.',
+                title: 'Telos Access',
+                subtitle: 'Custom Home Representation.',
                 validate: (c) => c === '0000'
               });
               if (code == null) return;
               try { localStorage.setItem(DEVPROJECT_KEY, JSON.stringify({ ok: true, ts: Date.now() })); } catch (_) {}
             }
-            window.location.href = 'devproject.html';
+            window.location.href = 'telos.html';
             return;
           }
           // Land Acquisition — any of the 3 Land agents can enter with their own code

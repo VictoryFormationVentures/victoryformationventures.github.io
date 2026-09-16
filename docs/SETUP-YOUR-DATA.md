@@ -43,7 +43,7 @@ Each feature lists its config name in `index.html` (search for it) and the doc t
 | Hot leads | `HOTLEAD_CONFIG` | `hotleads-setup.md` |
 | Newsletter | see `newsletter-setup.md` | `newsletter-setup.md` |
 
-`land.html` and `devproject.html` have their own small set of the same placeholders (the Land page re-uses the Land pipeline Sheet; the Development project page has contacts, team roster, and a form).
+`land.html` and `telos.html` have their own small set of the same placeholders (the Land page re-uses the Land pipeline Sheet; the Development project page has contacts, team roster, and a form).
 
 ## Files that upload to GitHub
 
