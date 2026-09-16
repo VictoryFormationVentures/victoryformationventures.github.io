@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Services and Fee Schedule · Victory Formation Ventures</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f6f2ea; --panel:#fbf9f4; --rule:#d9d0bf; --text:#111; --muted:#5a564e; --dim:#8a8579; --accent:#8a7a4b; --tag-bg:#f5e9c9; --tag-fg:#6b5a1e; --btn:#111; --btn-fg:#fff; }
+  html[data-brand="stonehouse"] { --bg:#0a0a0a; --panel:#111; --rule:#2a2a2a; --text:#f5f2ec; --muted:#b4b4b4; --dim:#888; --accent:#eae2d3; --tag-bg:#231512; --tag-fg:#e0c98d; --btn:#eae2d3; --btn-fg:#111; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Mulish',Helvetica,Arial,sans-serif; font-size:12.5px; line-height:1.55; }
+  .topbar { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:14px; padding:14px 28px; background:var(--panel); border-bottom:1px solid var(--rule); }
+  .topbar .name { font-family:'Aboreto',serif; font-size:14px; letter-spacing:.28em; text-transform:uppercase; }
+  .topbar .name small { display:block; font-family:'Mulish',sans-serif; font-size:8px; letter-spacing:.24em; color:var(--dim); font-weight:700; margin-top:2px; }
+  .topbar .sp { flex:1; }
+  .topbar a, .topbar button { font:inherit; font-size:10px; letter-spacing:.2em; text-transform:uppercase; padding:9px 14px; border:1px solid var(--rule); background:transparent; color:var(--text); cursor:pointer; text-decoration:none; }
+  .topbar button.primary { background:var(--btn); color:var(--btn-fg); border-color:var(--btn); }
+  .topbar .seg { display:flex; border:1px solid var(--rule); }
+  .topbar .seg button { border:0; }
+  .topbar .seg button.on { background:var(--btn); color:var(--btn-fg); }
+  .hint { max-width:1040px; margin:16px auto 0; padding:0 8px; font-size:11px; color:var(--dim); }
+  .page { max-width:1040px; margin:14px auto 28px; background:var(--panel); border:1px solid var(--rule); padding:44px 48px; }
+  .head { display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--text); padding-bottom:16px; margin-bottom:22px; gap:24px; }
+  .brand { font-family:'Aboreto',serif; font-size:18px; letter-spacing:.26em; text-transform:uppercase; line-height:1.35; }
+  .brand small { display:block; font-family:'Mulish',sans-serif; font-size:8.5px; letter-spacing:.24em; color:var(--accent); font-weight:700; margin-top:5px; }
+  .head .right { text-align:right; font-size:10.5px; color:var(--muted); line-height:1.6; }
+  h1 { font-family:'Aboreto',serif; font-weight:400; font-size:26px; letter-spacing:.14em; text-transform:uppercase; margin:0 0 6px; }
+  .lede { font-size:13.5px; color:var(--muted); max-width:820px; margin:0 0 22px; font-weight:300; }
+  .lede b { color:var(--text); font-weight:600; }
+  h2 { font-family:'Aboreto',serif; font-weight:400; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); margin:26px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--rule); }
+  table { width:100%; border-collapse:collapse; }
+  th { text-align:left; font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--dim); font-weight:700; padding:0 10px 7px 0; border-bottom:1px solid var(--rule); vertical-align:bottom; }
+  td { padding:8px 10px 8px 0; border-bottom:1px solid var(--rule); vertical-align:top; color:var(--muted); }
+  td.svc { color:var(--text); font-weight:600; width:23%; }
+  td.svc small { display:block; color:var(--dim); font-weight:400; font-size:11px; margin-top:2px; }
+  td.fee { color:var(--text); font-weight:600; white-space:nowrap; width:21%; }
+  td.fee small { display:block; color:var(--dim); font-weight:400; font-size:10.5px; white-space:normal; }
+  td.bench { width:24%; font-size:11.5px; }
+  .grid { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+  .box { background:var(--bg); border:1px solid var(--rule); padding:14px 16px; }
+  .box h3 { font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--dim); margin:0 0 8px; font-weight:700; }
+  .box ul { margin:0; padding-left:16px; }
+  .box li { margin-bottom:5px; }
+  .foot { margin-top:22px; font-size:10.5px; color:var(--dim); line-height:1.6; }
+  .foot a { color:var(--accent); text-decoration:none; }
+  .tag { display:inline-block; font-size:8.5px; letter-spacing:.16em; text-transform:uppercase; padding:2px 6px; background:var(--tag-bg); color:var(--tag-fg); margin-left:6px; vertical-align:middle; }
+  html[data-mode="client"] .internal-only { display:none !important; }
+  html[data-mode="client"] td.svc { width:30%; } html[data-mode="client"] td.fee { width:26%; }
+  @page { size: letter; margin: 0.45in 0.5in; }
+  @media print { .topbar, .hint { display:none !important; } body { background:var(--panel); -webkit-print-color-adjust:exact; print-color-adjust:exact; } .page { margin:0; border:0; padding:0; max-width:none; } h2 { break-after:avoid; } tr, .box { break-inside:avoid; } }
+  @media (max-width:720px) { .page { padding:24px 18px; } .head { flex-direction:column; align-items:flex-start; } .head .right { text-align:left; } .grid { grid-template-columns:1fr; } td.fee { white-space:normal; } .topbar { flex-wrap:wrap; } }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="name" id="top-name">Victory Formation Ventures<small>Services and fee schedule</small></div>
+  <div class="sp"></div>
+  <div class="seg" role="tablist" aria-label="Version"><button type="button" data-mode="internal" class="on">Internal</button><button type="button" data-mode="client">Client PDF</button></div>
+  <div class="seg" role="tablist" aria-label="Brand"><button type="button" data-brand="vfv" class="on">VFV</button><button type="button" data-brand="stonehouse">Stonehouse</button></div>
+  <button type="button" class="primary" id="btn-pdf">Save as PDF</button>
+  <a href="index.html">← Dashboard</a>
+</div>
+<div class="hint" id="hint">Internal view: full schedule with industry references, names, and the transactions section. Switch to Client PDF to see exactly what a client receives (no transactions, no names, no benchmark column), then Save as PDF.</div>
+
+<div class="page">
+  <div class="head">
+    <div class="brand" id="brand-block">Victory Formation Ventures<small>Austin, Texas · with The Stonehouse Company, Nashville</small></div>
+    <div class="right"><span id="doc-title">Services and Fee Schedule</span><br>Prices in USD · <span id="doc-ver">v1 · September 2026</span></div>
+  </div>
+
+  <h1>Concierge real estate consulting</h1>
+  <p class="lede">One team that finds the ground, clears the path, runs the numbers, represents you at every table, and sells the finished product. Clients hire us <b>by the hour</b> for advice, <b>by the deliverable</b> for reports and filings, <b>by the project</b> for entitlements and builds, and <b>by the deal</b> when we buy, sell, or invest alongside them. Every number below is a list price; deal partners and repeat clients get a schedule, not a quote.</p>
+
+  <h2>1 · Advisory</h2>
+  <table>
+    <thead><tr><th>Service</th><th>Our fee</th><th>What's included</th><th class="internal-only">Industry reference</th></tr></thead>
+    <tbody>
+      <tr><td class="svc">Principal consulting<small class="internal-only">Gabe, Ryan</small></td><td class="fee">$275 / hour<small>2-hour minimum · billed in 15-min increments</small></td><td>Strategy, deal review, site walks, negotiation coaching, calls with your architect, builder, lender, or city staff.</td><td class="bench internal-only">Independent consultants average $150–$200/hr; senior and principal-level practitioners $200–$500/hr. Land-use attorneys $200–$600/hr.</td></tr>
+      <tr><td class="svc">Associate consulting<small class="internal-only">Vincent and team</small></td><td class="fee">$150 / hour</td><td>Research, comps, document assembly, permit and application tracking, site visits.</td><td class="bench internal-only">Mid-level consultants $100–$200/hr.</td></tr>
+      <tr><td class="svc">Monthly retainer<small>For active owners, builders, investors</small></td><td class="fee">$2,000 / mo (8 hrs)<br>$4,500 / mo (20 hrs)<small>Unused hours roll one month · 15% below hourly</small></td><td>Standing access, priority scheduling, first look at our off-market land, monthly Market Pulse call.</td><td class="bench internal-only">Retainers are standard for ongoing advisory; discounts of 10–20% versus hourly are typical.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2 · Research and reports <span class="tag internal-only">produced from the dashboard</span></h2>
+  <table>
+    <thead><tr><th>Service</th><th>Our fee</th><th>What's included</th><th class="internal-only">Industry reference</th></tr></thead>
+    <tbody>
+      <tr><td class="svc">Property Diagnostic<small class="internal-only">Property Lookup + Client Report</small></td><td class="fee">$350 flat<small>Free when you sell the property to us</small></td><td>Parcel, owner of record, acreage, frontage and depth, zoning district with setbacks and what can be built, FEMA and city floodplain, slope, watershed and environmental flags. Delivered as a branded PDF within 2 business days.</td><td class="bench internal-only">Zoning verification letters from the city run 7–10 business days and cover zoning only.</td></tr>
+      <tr><td class="svc">Land Comp Report<small>County records + MLS sold data</small></td><td class="fee">$750 · single lot<br>$1,500 · acreage or multi-parcel<small>Credited toward brokerage if we list or buy it</small></td><td>Recent LLC and builder purchases in the ZIP, appraised $/acre, who is active, MLS sold land comps, and a written opinion of value range. Not an appraisal (see note).</td><td class="bench internal-only">Texas is a non-disclosure state; sold prices are MLS-only. Licensed agents may charge for a broker price opinion or CMA if it is not presented as an appraisal.</td></tr>
+      <tr><td class="svc">Quick Underwriting<small class="internal-only">Underwriting Model</small></td><td class="fee">$1,000 flat</td><td>Lot cost, build cost, sale price, financing and timeline in our model; one scenario with a go / no-go summary.</td><td class="bench internal-only">Entry point for a full study.</td></tr>
+      <tr><td class="svc">Development Pro Forma<small>Feasibility with sensitivity</small></td><td class="fee">$3,500 – $7,500<small>Scope set by number of units and scenarios</small></td><td>Full pro forma, three scenarios, sensitivity on land, cost, price, and rate, entitlement path and timeline, exit strategy, investor-ready summary.</td><td class="bench internal-only">Market feasibility studies for a single residential or commercial project typically run $6,000–$15,000.</td></tr>
+      <tr><td class="svc">Investor Deck<small class="internal-only">Investor Deck generator</small></td><td class="fee">$2,500 add-on<small>$1,500 when paired with a pro forma</small></td><td>Branded deck with the pro forma, site, comps, team, and terms, ready to send to capital.</td><td class="bench internal-only">Commonly bundled with feasibility work.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>3 · Zoning and entitlements</h2>
+  <table>
+    <thead><tr><th>Service</th><th>Our fee</th><th>What's included</th><th class="internal-only">Industry reference</th></tr></thead>
+    <tbody>
+      <tr><td class="svc">Zoning verification and city correspondence</td><td class="fee">$250 + city fee at cost</td><td>We file the zoning verification request, handle staff questions, and translate the answer into what you can actually build.</td><td class="bench internal-only">Austin ZVL processing is 7–10 business days; city fees are pass-through.</td></tr>
+      <tr><td class="svc">Variance (Board of Adjustment)</td><td class="fee">$3,500 flat<small>+ city fee (about $800 residential in Austin) and any survey at cost</small></td><td>Hardship case, application, neighbor outreach, staff meetings, hearing presentation. One hearing cycle; continuances billed hourly.</td><td class="bench internal-only">Simple residential rezoning and variance work totals $3,000–$10,000 including legal; land-use attorneys $200–$600/hr.</td></tr>
+      <tr><td class="svc">Rezoning management<small>Austin base-district change, NP amendment, satellite-city rezonings</small></td><td class="fee">$7,500 – $15,000 flat<small>+ city fees, engineering, and legal at cost · optional success fee 1% of land value uplift</small></td><td>Strategy, pre-application meeting, application and notices, neighborhood contact team and council office outreach, commission and council hearings, conditions negotiation. Austin cases run roughly 3–4 months from filing to council.</td><td class="bench internal-only">Rezoning all-in ranges: simple residential $3,000–$10,000; SF to multifamily $5,000–$15,000; residential to commercial $10,000–$30,000. Application fees in major metros $3,000–$5,000+. Consultant planning and engineering $10,000–$100,000 by complexity.</td></tr>
+      <tr><td class="svc">Platting and subdivision management</td><td class="fee">$10,000 minimum or 3% of the entitlement budget<small>Engineering, survey, and impact fees at cost</small></td><td>Manage surveyor, civil engineer, utility will-serve letters, plat application, county or city review comments through recordation.</td><td class="bench internal-only">Subdivision approvals $1,000–$10,000 in fees; site development permits $2,000–$15,000; impact fees $5,000–$25,000+ per acre.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4 · Representation and project management</h2>
+  <table>
+    <thead><tr><th>Service</th><th>Our fee</th><th>What's included</th><th class="internal-only">Industry reference</th></tr></thead>
+    <tbody>
+      <tr><td class="svc">Custom Home Representation · pre-construction<small class="internal-only">Telos / Apeiron</small></td><td class="fee">$7,500 flat</td><td>Lot diligence, architect and builder selection, bid leveling, contract review, budget and schedule baseline.</td><td class="bench internal-only">Owner's rep lump sums for small work $10,000–$50,000; hourly $75–$250.</td></tr>
+      <tr><td class="svc">Custom Home Representation · construction<small>Owner's representative</small></td><td class="fee">3% of hard costs<small>$25,000 minimum · or $4,500 / month for builds over 14 months</small></td><td>Weekly site visits, draw and change-order review, selections and meeting management, punch list, closeout. The client has someone in every meeting who works for them.</td><td class="bench internal-only">Owner's representative fees run 1–5% of construction cost; 3–5% on smaller, complex, or high-touch projects; 1–2% on large simple programs.</td></tr>
+      <tr><td class="svc">Development management<small>For capital partners and builders</small></td><td class="fee">4% of total project cost<small>Acquisition fee 1% of land purchase price · construction management priced separately</small></td><td>Run the project end to end: land, entitlements, design, financing, construction oversight, disposition.</td><td class="bench internal-only">Developer fees 3–5% of total project cost (acquisition, hard, and soft); acquisition fee about 1% of purchase price; GC fee 3–4% of hard costs billed separately.</td></tr>
+    </tbody>
+  </table>
+
+  <div class="internal-only" id="sec-transactions"><h2>5 · Transactions</h2>
+  <table>
+    <thead><tr><th>Service</th><th>Our fee</th><th>What's included</th><th class="internal-only">Industry reference</th></tr></thead>
+    <tbody>
+      <tr><td class="svc">Listing · homes and finished builds<small>Selling program for builders</small></td><td class="fee">2.5% – 3% listing side<small>Builder program: 4.5% total with photography, film, private preview, and buyer-agent co-op included</small></td><td>Pricing strategy, production-first marketing, private preview to our buyer and agent network before MLS, negotiation through closing.</td><td class="bench internal-only">Texas 2026 averages: 5.61% total, 2.75% listing side, 2.87% buyer side; negotiable, commonly 1–4% per side.</td></tr>
+      <tr><td class="svc">Buyer representation<small>Including the "sell to us, we find your next home" path</small></td><td class="fee">2.5% – 3% of purchase price<small>Paid by seller where offered; written buyer agreement required</small></td><td>Search, tours, offer strategy, inspections, closing coordination, timed with your sale to us when applicable.</td><td class="bench internal-only">Texas buyer-side average 2.87%.</td></tr>
+      <tr><td class="svc">Land listing</td><td class="fee">5% – 6% total<small>Split with the buyer's agent</small></td><td>Comp report included, marketing to builders and developers directly from our Contacts book.</td><td class="bench internal-only">Land and lot commissions typically run higher than homes because of longer marketing times.</td></tr>
+      <tr><td class="svc">Off-market land placement<small>Assignment or finder fee when we do not list</small></td><td class="fee">3% – 5% of price<small>Or a flat fee agreed in the LOI</small></td><td>We bring a builder an off-market lot we sourced and diligenced, with the Property Diagnostic attached.</td><td class="bench internal-only">Assignment fees are negotiated deal by deal; disclose in writing to all parties.</td></tr>
+      <tr><td class="svc">Capital and JV<small>Lot programs and single-project investments</small></td><td class="fee">1.5% asset management on equity<small>Plus promote above an 8% preferred return; terms per deal</small></td><td>Structure, reporting, monthly statements, investor updates from the dashboard.</td><td class="bench internal-only">Standard small-sponsor structures pair a 1–2% management fee with a promote above a preferred return.</td></tr>
+    </tbody>
+  </table>
+
+  </div>
+
+  <div class="grid" style="margin-top:22px;">
+    <div class="box">
+      <h3>Billing rules</h3>
+      <ul>
+        <li>Flat-fee work: 50% at engagement, 50% at delivery. Retainers billed on the 1st.</li>
+        <li>Hourly work invoiced twice monthly, net 10. Two-hour minimum per engagement.</li>
+        <li>City fees, engineering, survey, legal, and printing are passed through at cost with no markup; we pre-bill them.</li>
+        <li>Rush delivery (under 5 business days on reports): +25%. Travel beyond 40 miles of Austin or Nashville billed at the IRS rate plus time.</li>
+        <li>Report fees are credited toward brokerage or development fees when we transact on the same property within 12 months.</li>
+        <li>Deal partners on our lot programs receive the Property Diagnostic and Land Comp Report at no charge.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Required disclosures</h3>
+      <ul>
+        <li>Comp reports and opinions of value are broker price opinions, not appraisals, and are labeled as such. Texas prohibits license holders from calling a BPO or CMA an "appraised value."</li>
+        <li>Brokerage services are provided through a sponsoring Texas broker; commissions are negotiable and set in the listing or buyer representation agreement.</li>
+        <li>Consulting fees are separate from and in addition to any commission, and are disclosed to all parties when we also act as buyer or agent.</li>
+        <li>Rezoning and variance fees cover our management of the case; approval is never guaranteed and success fees are paid only on approval.</li>
+        <li id="cross-note">Nashville engagements are contracted through The Stonehouse Company under the same schedule.</li>
+      </ul>
+    </div>
+  </div>
+
+  <p class="foot internal-only"><b>Reference sources used to set these numbers.</b>
+    Consulting rate benchmarks: <a href="https://consultfees.com/blog/hourly-consulting-rate">ConsultFees 2026 hourly rate benchmarks</a>.
+    Owner's representative fees: <a href="https://www.mastt.com/blogs/owners-representative-construction-fee">Mastt</a>, <a href="https://daegroupllc.com/owner-representative-fees/">DAE Group</a>.
+    Developer and acquisition fees: <a href="https://www.biggerpockets.com/blog/real-estate-developer-fees">BiggerPockets</a>.
+    Rezoning and entitlement costs: <a href="https://www.remaildirect.com/blog/cost-of-rezoning-property">REmail 2026 rezoning cost guide</a>, <a href="https://www.hutsonlandplanners.com/post/land-development-costs-texas">Hutson Land Planners, Texas development costs</a>, <a href="https://seriousland.capital/land-financing-investment/land-entitlement-costs-and-process-what-investors-need-to-know/">Serious Land Capital</a>.
+    Austin process and fees: <a href="https://www.austintexas.gov/page/understanding-austins-zoningrezoning-process">City of Austin rezoning process</a>, <a href="https://www.austintexas.gov/development-services/zoning-verification">Austin zoning verification</a>, <a href="https://austinmonitor.com/stories/2023/02/council-to-make-zoning-variances-more-accessible-to-low-income-homeowners/">Austin Monitor on variance fees</a>.
+    Feasibility study pricing: <a href="https://vertexeng.com/insights/how-much-does-a-real-estate-market-feasibility-study-cost/">Vertex</a>.
+    Texas commissions: <a href="https://listwithclever.com/average-real-estate-commission-rate/texas/">Clever 2026 Texas survey</a>.
+    BPO rules: <a href="https://www.texasrealestate.com/members/legal-and-ethics/resources/legal-faq/broker-price-opinions/">Texas REALTORS legal FAQ</a>.
+  </p>
+</div>
+
+<script>
+(function () {
+  const html = document.documentElement;
+  const q = new URLSearchParams(location.search);
+  const BR = {
+    vfv: { top: 'Victory Formation Ventures', brand: 'Victory Formation Ventures', sub: 'Austin, Texas · with The Stonehouse Company, Nashville', title: 'Services and Fee Schedule · Victory Formation Ventures', cross: 'Nashville engagements are contracted through The Stonehouse Company under the same schedule.', file: 'VFV-Fee-Schedule' },
+    stonehouse: { top: 'The Stonehouse Company', brand: 'The Stonehouse Company', sub: 'Nashville, Tennessee · with Victory Formation Ventures, Austin', title: 'Services and Fee Schedule · The Stonehouse Company', cross: 'Austin engagements are contracted through Victory Formation Ventures under the same schedule.', file: 'Stonehouse-Fee-Schedule' }
+  };
+  function setBrand(b) {
+    const m = BR[b] || BR.vfv; html.setAttribute('data-brand', b);
+    document.getElementById('top-name').innerHTML = m.top + '<small>Services and fee schedule</small>';
+    document.getElementById('brand-block').innerHTML = m.brand + '<small>' + m.sub + '</small>';
+    document.getElementById('cross-note').textContent = m.cross;
+    document.title = m.title;
+    document.querySelectorAll('[data-brand]').forEach(x => { if (x.tagName === 'BUTTON') x.classList.toggle('on', x.dataset.brand === b); });
+  }
+  function setMode(mo) {
+    html.setAttribute('data-mode', mo);
+    document.querySelectorAll('button[data-mode]').forEach(x => x.classList.toggle('on', x.dataset.mode === mo));
+    document.getElementById('hint').textContent = mo === 'client'
+      ? 'Client view: this is what the PDF contains. Transactions, team names, benchmark column, and sources are hidden. Brokerage terms are discussed and agreed deal by deal.'
+      : 'Internal view: full schedule with industry references, names, and the transactions section. Switch to Client PDF to see exactly what a client receives, then Save as PDF.';
+  }
+  document.querySelectorAll('button[data-mode]').forEach(b => b.addEventListener('click', () => setMode(b.dataset.mode)));
+  document.querySelectorAll('button[data-brand]').forEach(b => b.addEventListener('click', () => setBrand(b.dataset.brand)));
+  document.getElementById('btn-pdf').addEventListener('click', () => {
+    const prev = html.getAttribute('data-mode'); setMode('client');
+    const m = BR[html.getAttribute('data-brand')] || BR.vfv; const t = document.title; document.title = m.file;
+    setTimeout(() => { window.print(); document.title = t; if (prev !== 'client') setMode(prev); }, 150);
+  });
+  setBrand(q.get('brand') === 'stonehouse' ? 'stonehouse' : 'vfv');
+  setMode(q.get('mode') === 'client' ? 'client' : 'internal');
+})();
+</script>
+</body>
+</html>
