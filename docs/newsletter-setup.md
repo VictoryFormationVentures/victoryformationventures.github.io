@@ -22,7 +22,7 @@ Brevo (formerly Sendinblue) is built for this. Free tier covers 300 sends/day an
 
 1. Go to [brevo.com](https://www.brevo.com) → **Sign up free**
 2. Use `gvjbusiness@yahoo.com` (or your preferred admin email)
-3. Set up your company profile: **Victory Formation Ventures** · 206 Ben Allen Rd #7, Austin TX 78701 · real estate
+3. Set up your company profile: **Victory Formation Ventures** · 3004 Webberville Rd #2, Austin TX 78701 · real estate
 4. Skip the paid upsell on the way through — the free **Starter** plan is fine
 
 ---
