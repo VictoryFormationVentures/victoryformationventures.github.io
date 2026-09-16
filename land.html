@@ -324,6 +324,47 @@
       color: var(--text-muted); vertical-align: top;
     }
     .research-table td:first-child { color: #111111; font-weight: 600; }
+
+    .zr-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .zr-table th { text-align: left; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; padding: 0 6px 8px 0; border-bottom: 1px solid var(--rule); }
+    .zr-table td { padding: 7px 6px 7px 0; border-bottom: 1px solid var(--rule); color: var(--text-muted); vertical-align: top; line-height: 1.4; }
+    .zr-table td.zr-zone { color: var(--text); font-weight: 600; white-space: nowrap; }
+    .zr-foot { font-size: 11px; color: var(--text-dim); line-height: 1.5; margin: 12px 0 0; font-style: italic; }
+    .zr-rules { list-style: none; padding: 0; margin: 0; font-size: 12px; line-height: 1.5; color: var(--text-muted); }
+    .zr-rules li { padding: 7px 0; border-bottom: 1px solid var(--rule); }
+    .zr-rules li:last-child { border-bottom: 0; }
+
+    /* ---- Land Activity Finder ---- */
+    .la-wrap { margin: 22px 0 26px; padding: 22px 24px; background: var(--panel); border: 1px solid var(--panel-edge, var(--rule)); }
+    .la-wrap h3 { font-family: var(--font-display); font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; font-weight: 400; }
+    .la-wrap .la-sub { font-size: 12px; color: var(--text-muted); margin: 0 0 16px; line-height: 1.5; }
+    .la-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; align-items: end; }
+    .la-form label { display: block; font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); margin-bottom: 6px; font-weight: 600; }
+    .la-form input[type=text], .la-form input[type=number], .la-form select { width: 100%; padding: 10px 12px; font: inherit; font-size: 13px; color: var(--text); background: var(--bg, #111111); border: 1px solid var(--rule-strong, var(--rule)); }
+    .la-form .la-check { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--text-muted); padding-bottom: 10px; white-space: nowrap; }
+    .la-form button { padding: 12px 18px; font: inherit; font-size: 11px; letter-spacing: .22em; text-transform: uppercase; background: #f1ece2; color: #111111; border: 0; cursor: pointer; }
+    .la-form button:disabled { opacity: .5; cursor: wait; }
+    .la-status { font-size: 11.5px; color: var(--text-dim); margin: 12px 0 0; min-height: 16px; }
+    .la-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0 14px; }
+    .la-tile { padding: 12px 14px; background: var(--bg, #111111); border: 1px solid var(--rule); }
+    .la-tile .k { font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); }
+    .la-tile .v { font-family: var(--font-display); font-size: 20px; color: var(--text); margin-top: 4px; }
+    .la-tile .v small { font-family: var(--font-body); font-size: 11px; color: var(--text-muted); letter-spacing: 0; }
+    .la-sec { margin-top: 18px; }
+    .la-sec h4 { font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-dim); margin: 0 0 8px; font-weight: 600; display: flex; justify-content: space-between; gap: 12px; }
+    .la-sec h4 a { color: var(--accent); text-decoration: none; text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 11px; }
+    .la-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .la-table th { text-align: left; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); padding: 0 8px 8px 0; border-bottom: 1px solid var(--rule); font-weight: 600; white-space: nowrap; }
+    .la-table td { padding: 8px 8px 8px 0; border-bottom: 1px solid var(--rule); color: var(--text-muted); vertical-align: top; line-height: 1.4; }
+    .la-table td b { color: var(--text); font-weight: 600; }
+    .la-table td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .la-table a { color: var(--accent); }
+    .la-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .la-chip { font-size: 11.5px; padding: 6px 10px; border: 1px solid var(--rule-strong, var(--rule)); background: var(--bg, #111111); color: var(--text); }
+    .la-chip small { color: var(--text-dim); margin-left: 6px; }
+    .la-note { font-size: 11px; color: var(--text-dim); line-height: 1.55; margin: 14px 0 0; padding-top: 12px; border-top: 1px dashed var(--rule); }
+    .la-empty { padding: 18px; text-align: center; color: var(--text-dim); font-size: 12px; border: 1px dashed var(--rule); }
+    .la-tablewrap { overflow-x: auto; }
     .research-card-wide { grid-column: 1 / -1; }
     .research-blurb { font-size: 12.5px; line-height: 1.65; color: var(--text-muted); }
     .research-blurb p { margin: 0 0 10px; }
@@ -892,8 +933,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="austin"></div>
+        <div class="la-mount" data-city="austin"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">LA / RR</td><td>1 acre</td><td>Lake Austin / rural residence</td></tr><tr><td class="zr-zone">SF-1</td><td>10,000 sf</td><td>Large-lot single-family</td></tr><tr><td class="zr-zone">SF-2</td><td>5,750 sf</td><td>Standard lot</td></tr><tr><td class="zr-zone">SF-3</td><td>5,750 sf</td><td>Family residence, the common infill zone, up to 3 units (HOME)</td></tr><tr><td class="zr-zone">SF-4A</td><td>3,600 sf</td><td>Small lot</td></tr><tr><td class="zr-zone">SF-5</td><td>varies</td><td>Urban family, attached or detached</td></tr><tr><td class="zr-zone">SF-6</td><td>varies</td><td>Townhouse and condo</td></tr><tr><td class="zr-zone">MF-1 to MF-6</td><td>varies</td><td>Multifamily, rising density</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>10 ft (5 ft for 2nd/3rd HOME units)</td></tr><tr><td class="zr-zone">Side</td><td>5 ft; 15 ft street side on corners</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>HOME: SF-1, SF-2 and SF-3 lots allow up to 3 units; lots can be split to about 1,800 sf per unit (Phase 2).</li><li>Impervious cover 45%, building cover 40%, FAR 0.4 (up to 0.65 with 3 units and preservation bonus).</li><li>Heritage trees (24 in. and up) need a permit to remove; protected trees start at 19 in.</li><li>Fully Developed Floodplain is stricter than FEMA; check the Property Profile map, not just the FIRM.</li><li>STRs: Type 2 (non-owner-occupied) licenses are capped; assume no STR income in underwriting.</li><li>-NP, -CO and -NCCD suffixes change the numbers above; read the plan or ordinance.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Austin · what the codes mean</h3>
             <div class="research-blurb">
@@ -933,8 +988,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="west-lake-hills"></div>
+        <div class="la-mount" data-city="west-lake-hills"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">R-1</td><td>about 1 acre</td><td>Single-family, most of the city</td></tr><tr><td class="zr-zone">R-2</td><td>about 1/2 acre</td><td>Older, smaller-lot residential</td></tr><tr><td class="zr-zone">C</td><td>n/a</td><td>Commercial along Bee Cave Rd</td></tr><tr><td class="zr-zone">GUI</td><td>n/a</td><td>Government, utility, institutional</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 to 40 ft by district</td></tr><tr><td class="zr-zone">Rear</td><td>25 ft</td></tr><tr><td class="zr-zone">Side</td><td>10 to 15 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft, measured on slope</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Impervious cover is capped by slope class and is usually the binding constraint, not setbacks.</li><li>Tree removal permits for most trees over 8 in.; heritage trees are effectively protected.</li><li>Setbacks are also measured from drainage ways and steep-slope areas.</li><li>No multifamily; duplexes not permitted in R-1.</li><li>Variances go to the Zoning and Planning Commission, so budget 60 to 90 days if the design pushes a limit.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in West Lake Hills · what the codes mean</h3>
             <div class="research-blurb">
@@ -972,8 +1041,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="lakeway"></div>
+        <div class="la-mount" data-city="lakeway"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">R-1</td><td>standard lot (GIS shows exact)</td><td>Single-family</td></tr><tr><td class="zr-zone">R-1A</td><td>larger lot</td><td>Single-family estate</td></tr><tr><td class="zr-zone">R-2</td><td>varies</td><td>Duplex / two-family</td></tr><tr><td class="zr-zone">R-5</td><td>small lot</td><td>Zero-lot-line and patio homes</td></tr><tr><td class="zr-zone">R-6</td><td>varies</td><td>Cluster housing</td></tr><tr><td class="zr-zone">PUD</td><td>per ordinance</td><td>Master-planned tracts</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>20 ft</td></tr><tr><td class="zr-zone">Side</td><td>10 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>The city GIS returns min lot area, width, setbacks and height for the parcel; trust that over this card.</li><li>Impervious cover limits per district plus LCRA and TCEQ Lake Travis watershed rules.</li><li>Short-term rentals require a city permit and are politically contested; do not underwrite STR.</li><li>Lake-access lots may need LCRA shoreline permits for docks and bulkheads.</li><li>PUD ordinance governs inside a PUD; get the ordinance number from the lookup.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Lakeway · what the codes mean</h3>
             <div class="research-blurb">
@@ -1010,8 +1093,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="bee-cave"></div>
+        <div class="la-mount" data-city="bee-cave"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-E</td><td>1 acre</td><td>Estate single-family</td></tr><tr><td class="zr-zone">SF-1</td><td>larger lot (UDC 3.2)</td><td>Single-family</td></tr><tr><td class="zr-zone">SF-2</td><td>standard lot (UDC 3.2)</td><td>Single-family</td></tr><tr><td class="zr-zone">MF</td><td>varies</td><td>Multifamily</td></tr><tr><td class="zr-zone">PDD</td><td>per ordinance</td><td>Planned Development, most of the city</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>20 ft</td></tr><tr><td class="zr-zone">Side</td><td>10 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Most parcels are PDD; the PDD ordinance replaces the base table entirely.</li><li>Scenic corridor standards on Hwy 71 and RR 620 govern visibility, lighting and signage.</li><li>Edwards Aquifer contributing zone: lower impervious cover and TCEQ water pollution abatement plans.</li><li>Steep-slope limits on hillside lots; cut and fill is regulated.</li><li>Confirm jurisdiction first; Bee Cave, Lakeway and Austin ETJs overlap out here.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Bee Cave · what the codes mean</h3>
             <div class="research-blurb">
@@ -1049,8 +1146,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="pflugerville"></div>
+        <div class="la-mount" data-city="pflugerville"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-E</td><td>about 1 acre</td><td>Estate</td></tr><tr><td class="zr-zone">SF-R</td><td>about 12,000 sf</td><td>Rural single-family</td></tr><tr><td class="zr-zone">SF-S</td><td>about 6,000 sf</td><td>Suburban single-family, the default</td></tr><tr><td class="zr-zone">SF-MU</td><td>about 4,000 to 5,000 sf</td><td>Mixed residential, small lot and attached</td></tr><tr><td class="zr-zone">MF-1 / MF-2</td><td>varies</td><td>Multifamily</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>15 to 20 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 to 7.5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>The city GIS lists permitted and conditional uses for the district; the lookup shows them.</li><li>Ask whether water and wastewater come from the city or a MUD before pricing a lot.</li><li>Duplexes need SF-MU or a PUD; ADUs are allowed with size limits.</li><li>Gilleland Creek floodplain is wide on the east side.</li><li>Disannexation and ETJ release politics are live; confirm jurisdiction on ETJ tracts.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Pflugerville · what the codes mean</h3>
             <div class="research-blurb">
@@ -1087,8 +1198,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="manor"></div>
+        <div class="la-mount" data-city="manor"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">R-1</td><td>about 6,000 sf</td><td>Single-family</td></tr><tr><td class="zr-zone">R-2</td><td>small lot</td><td>Two-family and small-lot residential</td></tr><tr><td class="zr-zone">R-3</td><td>varies</td><td>Multifamily</td></tr><tr><td class="zr-zone">MH</td><td>varies</td><td>Manufactured housing</td></tr><tr><td class="zr-zone">PUD</td><td>per ordinance</td><td>Most new subdivisions</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>15 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Wastewater capacity is the gating item; get a will-serve letter before contracting.</li><li>Most greenfield is in MUDs and PIDs with their own lot standards and assessments.</li><li>Wilbarger and Gilleland Creek floodplain is extensive; check FEMA and the county.</li><li>Old Town / Downtown district has separate design standards.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Manor · what the codes mean</h3>
             <div class="research-blurb">
@@ -1125,8 +1250,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="round-rock"></div>
+        <div class="la-mount" data-city="round-rock"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-1</td><td>about 10,000 sf</td><td>Large-lot single-family</td></tr><tr><td class="zr-zone">SF-2</td><td>about 5,500 to 6,000 sf</td><td>Standard lot, the default</td></tr><tr><td class="zr-zone">SF-3</td><td>about 4,500 sf</td><td>Mixed lot</td></tr><tr><td class="zr-zone">SF-4</td><td>about 3,500 sf</td><td>Small lot</td></tr><tr><td class="zr-zone">TF</td><td>varies</td><td>Two-family</td></tr><tr><td class="zr-zone">TH</td><td>varies</td><td>Townhouse</td></tr><tr><td class="zr-zone">MU-1</td><td>n/a</td><td>Downtown historic core</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>20 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft; 10 ft street side</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>The lookup links straight to the ordinance section for the district.</li><li>Downtown has design standards and a historic overlay; exterior changes are reviewed.</li><li>Brushy Creek floodplain runs through the center of town.</li><li>ADUs allowed in SF districts with size and parking limits.</li><li>Round Rock and Pflugerville ETJs meet on the south side; check the jurisdiction map.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Round Rock · what the codes mean</h3>
             <div class="research-blurb">
@@ -1164,8 +1303,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="cedar-park"></div>
+        <div class="la-mount" data-city="cedar-park"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-1</td><td>about 10,000 sf</td><td>Large-lot single-family</td></tr><tr><td class="zr-zone">SF-2</td><td>about 7,000 sf</td><td>Standard lot</td></tr><tr><td class="zr-zone">SF-3</td><td>about 5,000 sf</td><td>Small lot</td></tr><tr><td class="zr-zone">TH</td><td>varies</td><td>Townhouse</td></tr><tr><td class="zr-zone">MF</td><td>varies</td><td>Multifamily</td></tr><tr><td class="zr-zone">PD</td><td>per ordinance</td><td>Planned Development, common downtown</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>15 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 to 7.5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Edwards Aquifer recharge zone covers the western half: TCEQ water pollution abatement plan required.</li><li>Karst features (caves, sinkholes) trigger buffers; get a geologic assessment on west-side land.</li><li>Corridor overlays on 183, 183A, 1431 and Whitestone add design standards.</li><li>Most remaining residential is infill, townhome or redevelopment; expect PD zoning cases.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Cedar Park · what the codes mean</h3>
             <div class="research-blurb">
@@ -1203,8 +1356,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="leander"></div>
+        <div class="la-mount" data-city="leander"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SFR</td><td>about 1 acre</td><td>Single-family rural</td></tr><tr><td class="zr-zone">SFE</td><td>about 1/2 acre</td><td>Single-family estate</td></tr><tr><td class="zr-zone">SFS</td><td>about 6,000 to 7,000 sf</td><td>Single-family suburban</td></tr><tr><td class="zr-zone">SFU</td><td>about 5,000 sf</td><td>Single-family urban</td></tr><tr><td class="zr-zone">SFC</td><td>about 3,500 sf</td><td>Single-family compact</td></tr><tr><td class="zr-zone">SFL / TF</td><td>varies</td><td>Limited single-family, two-family</td></tr><tr><td class="zr-zone">T3 to T6</td><td>n/a</td><td>TOD SmartCode transects near the station</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft (site component may differ)</td></tr><tr><td class="zr-zone">Rear</td><td>15 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Composite zoning: read all three components (Use, Site Development, Architectural) shown by the lookup.</li><li>PUDs override the composite rules; check the PUD name.</li><li>Water is the constraint (BCRUA supply); confirm capacity early on larger tracts.</li><li>TOD transects near the Red Line station have their own form standards.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Leander · what the codes mean</h3>
             <div class="research-blurb">
@@ -1242,8 +1409,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="georgetown"></div>
+        <div class="la-mount" data-city="georgetown"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">RE</td><td>about 1 acre</td><td>Residential estate</td></tr><tr><td class="zr-zone">RL</td><td>10,000 sf</td><td>Residential low density</td></tr><tr><td class="zr-zone">RS</td><td>5,500 sf</td><td>Residential single-family, the default</td></tr><tr><td class="zr-zone">TF</td><td>varies</td><td>Two-family</td></tr><tr><td class="zr-zone">TH</td><td>varies</td><td>Townhouse</td></tr><tr><td class="zr-zone">MF-1 / MF-2</td><td>varies</td><td>Multifamily</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>20 ft (25 ft to garage)</td></tr><tr><td class="zr-zone">Rear</td><td>10 ft</td></tr><tr><td class="zr-zone">Side</td><td>6 ft; 15 ft street side</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>UDC Chapter 4 is the reference; the city GIS is accurate.</li><li>Old Town and Downtown overlays require design review for exterior work.</li><li>Edwards recharge zone on the west side; South San Gabriel floodplain.</li><li>ADUs allowed in RS and RL with size limits.</li><li>Gateway corridor overlays add landscaping and signage rules on major roads.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Georgetown · what the codes mean</h3>
             <div class="research-blurb">
@@ -1281,8 +1462,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="hutto"></div>
+        <div class="la-mount" data-city="hutto"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-1</td><td>about 1/2 acre and up</td><td>Estate</td></tr><tr><td class="zr-zone">SF-2</td><td>about 6,000 to 7,200 sf</td><td>Standard single-family</td></tr><tr><td class="zr-zone">SF-3</td><td>about 5,000 sf</td><td>Small lot</td></tr><tr><td class="zr-zone">MF</td><td>varies</td><td>Multifamily</td></tr><tr><td class="zr-zone">PUD</td><td>per ordinance</td><td>Most new subdivisions</td></tr><tr><td class="zr-zone">Old Town</td><td>n/a</td><td>Design standards apply</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>15 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Wastewater capacity gates most projects; get a will-serve letter first.</li><li>Brushy Creek floodplain; verify on FEMA and county maps.</li><li>Most new supply is in PUDs with their own lot standards.</li><li>Old Town has its own design standards and smaller lots.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Hutto · what the codes mean</h3>
             <div class="research-blurb">
@@ -1320,8 +1515,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="kyle"></div>
+        <div class="la-mount" data-city="kyle"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">R-1-A</td><td>larger lot</td><td>Single-family</td></tr><tr><td class="zr-zone">R-1-B</td><td>about 6,000 sf</td><td>Standard single-family</td></tr><tr><td class="zr-zone">R-1-C</td><td>about 4,500 sf</td><td>Small lot</td></tr><tr><td class="zr-zone">R-1-T</td><td>varies</td><td>Townhouse</td></tr><tr><td class="zr-zone">R-2</td><td>varies</td><td>Duplex</td></tr><tr><td class="zr-zone">R-3</td><td>varies</td><td>Multifamily</td></tr><tr><td class="zr-zone">ETOD</td><td>n/a</td><td>Transit-oriented near the future rail stop</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>10 to 15 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>The city GIS links each district to its eCode360 section; use it.</li><li>Plum Creek floodplain and the Edwards contributing zone west of I-35.</li><li>MUD and PID financing on most greenfield tracts; check assessments.</li><li>Downtown and ETOD areas have separate form standards.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Kyle · what the codes mean</h3>
             <div class="research-blurb">
@@ -1359,8 +1568,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="buda"></div>
+        <div class="la-mount" data-city="buda"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">F1</td><td>rural, 2 acres and up</td><td>Rural form district</td></tr><tr><td class="zr-zone">F2</td><td>about 1/2 acre</td><td>Neighborhood estate</td></tr><tr><td class="zr-zone">F3</td><td>about 5,000 to 7,000 sf</td><td>Neighborhood, typical single-family</td></tr><tr><td class="zr-zone">F4</td><td>small and attached</td><td>Neighborhood center, walkable mixed</td></tr><tr><td class="zr-zone">F5 / F5H</td><td>n/a</td><td>Downtown core; H is the historic variant</td></tr><tr><td class="zr-zone">PD</td><td>per ordinance</td><td>Planned development</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>15 to 25 ft by building type</td></tr><tr><td class="zr-zone">Rear</td><td>10 to 15 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft; taller in F5</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Form-based code: districts set allowed building types, frontage and height rather than a use list.</li><li>F5H downtown has historic design review.</li><li>Onion Creek floodplain and the Edwards contributing zone.</li><li>Sunfield and Persimmon are PD and MUD; their standards govern inside.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Buda · what the codes mean</h3>
             <div class="research-blurb">
@@ -1398,8 +1621,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="san-marcos"></div>
+        <div class="la-mount" data-city="san-marcos"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-6</td><td>6,000 sf</td><td>Single-family</td></tr><tr><td class="zr-zone">SF-4.5</td><td>4,500 sf</td><td>Single-family small lot</td></tr><tr><td class="zr-zone">TH</td><td>varies</td><td>Townhouse</td></tr><tr><td class="zr-zone">MF-12 / 18 / 24</td><td>units per acre</td><td>Multifamily by density</td></tr><tr><td class="zr-zone">CD-3 to CD-5</td><td>n/a</td><td>Character districts, sub-urban to downtown</td></tr><tr><td class="zr-zone">AR / FD</td><td>n/a</td><td>Ag ranch, future development</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>20 ft</td></tr><tr><td class="zr-zone">Rear</td><td>10 ft</td></tr><tr><td class="zr-zone">Side</td><td>5 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Occupancy limits on unrelated adults apply in single-family zones; matters for student rentals.</li><li>Purpose-built student housing has its own rules and neighborhood overlays near campus.</li><li>San Marcos River protection zone and Edwards recharge zone north of town.</li><li>The GIS layer flags whether single-family is allowed in the district.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in San Marcos · what the codes mean</h3>
             <div class="research-blurb">
@@ -1436,8 +1673,22 @@
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="dripping-springs"></div>
+        <div class="la-mount" data-city="dripping-springs"></div>
 
         <div class="research-grid">
+          <div class="research-card">
+            <h3>Common residential zoning</h3>
+            <table class="zr-table"><thead><tr><th>Zone</th><th>Min lot</th><th>Typical use</th></tr></thead><tbody><tr><td class="zr-zone">SF-1</td><td>larger lot</td><td>Single-family</td></tr><tr><td class="zr-zone">SF-2</td><td>about 10,000 sf</td><td>Single-family</td></tr><tr><td class="zr-zone">MF</td><td>varies</td><td>Multifamily</td></tr><tr><td class="zr-zone">CS</td><td>n/a</td><td>Commercial services</td></tr><tr><td class="zr-zone">PDD</td><td>per ordinance</td><td>Planned development</td></tr><tr><td class="zr-zone">Dev. Agreement</td><td>ETJ</td><td>Development agreement instead of zoning</td></tr></tbody></table>
+          </div>
+          <div class="research-card">
+            <h3>Typical setbacks (verify with zone)</h3>
+            <table class="zr-table"><thead><tr><th>Setback</th><th>Range</th></tr></thead><tbody><tr><td class="zr-zone">Front</td><td>25 ft</td></tr><tr><td class="zr-zone">Rear</td><td>20 ft</td></tr><tr><td class="zr-zone">Side</td><td>10 ft</td></tr><tr><td class="zr-zone">Height</td><td>35 ft</td></tr></tbody></table>
+            <p class="zr-foot">Typical code values for the base districts. Overlays, PUDs and conditional overlays change them. The Property Lookup above returns the parcel's actual district.</p>
+          </div>
+          <div class="research-card">
+            <h3>What can be built · quick rules</h3>
+            <ul class="zr-rules"><li>Wastewater is the whole ballgame; confirm discharge capacity or plan on-site systems.</li><li>Most deals are ETJ or unincorporated Hays County under development agreements.</li><li>Edwards contributing zone with TCEQ and Hays County water-quality rules.</li><li>Dark-sky lighting standards city-wide; Mercer Street historic overlay downtown.</li></ul>
+          </div>
           <div class="research-card research-card-wide">
             <h3>Zoning in Dripping Springs · what the codes mean</h3>
             <div class="research-blurb">
@@ -4197,6 +4448,184 @@
     loadBuyBoxes().then(_renderOverview);
     loadHotLeads();
     _populateBuilderDatalist();
+  </script>
+
+  <script>
+  // ============================================================
+  // Land Activity Finder (Austin). Texas does not disclose sale prices, so this
+  // shows what is public: recent LLC land transfers (WCAD, Hays CAD) with the
+  // appraisal district's land value, and City of Austin new-residential permits
+  // (builder, phone, sqft). Real sold prices come from Unlock MLS.
+  // ============================================================
+  (function () {
+    const LA_META = {"austin": {"label": "Austin", "county": "travis", "zip": "78702"}, "west-lake-hills": {"label": "West Lake Hills", "county": "travis", "zip": "78746"}, "lakeway": {"label": "Lakeway", "county": "travis", "zip": "78734"}, "bee-cave": {"label": "Bee Cave", "county": "travis", "zip": "78738"}, "pflugerville": {"label": "Pflugerville", "county": "travis", "zip": "78660"}, "manor": {"label": "Manor", "county": "travis", "zip": "78653"}, "round-rock": {"label": "Round Rock", "county": "williamson", "zip": "78664"}, "cedar-park": {"label": "Cedar Park", "county": "williamson", "zip": "78613"}, "leander": {"label": "Leander", "county": "williamson", "zip": "78641"}, "georgetown": {"label": "Georgetown", "county": "williamson", "zip": "78628"}, "hutto": {"label": "Hutto", "county": "williamson", "zip": "78634"}, "kyle": {"label": "Kyle", "county": "hays", "zip": "78640"}, "buda": {"label": "Buda", "county": "hays", "zip": "78610"}, "san-marcos": {"label": "San Marcos", "county": "hays", "zip": "78666"}, "dripping-springs": {"label": "Dripping Springs", "county": "hays", "zip": "78620"}};
+    const WCAD_URL = 'https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0/query';
+    const HAYS_URL = 'https://services6.arcgis.com/j94FvPaik4etwHFk/arcgis/rest/services/HaysCADWebService1/FeatureServer/0/query';
+    const PERMITS_URL = 'https://data.austintexas.gov/resource/3syk-w9eu.json';
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const fmtUSD = n => (n && isFinite(n)) ? usd.format(n) : '—';
+    const fmtDate = d => d ? d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: '2-digit' }) : '—';
+    const yearsBack = months => { const y = new Date().getFullYear(); const out = []; for (let i = 0; i <= Math.ceil(months / 12); i++) out.push(y - i); return out; };
+    const titleCase = s => String(s || '').toLowerCase().replace(/\b([a-z])/g, m => m.toUpperCase()).replace(/\bLlc\b/g, 'LLC').replace(/\bLp\b/g, 'LP').replace(/\bInc\b/g, 'Inc.');
+
+    async function getJSON(url) {
+      const r = await fetch(url);
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      const d = await r.json();
+      if (d && d.error) throw new Error(d.error.message || 'query error');
+      return d;
+    }
+
+    // Williamson County: deed instrument numbers start with the recording year.
+    async function findWcad({ zip, minAc, maxAc, months, llcOnly, vacantOnly }) {
+      const yrs = yearsBack(months).map(y => "InstrumentNumber LIKE '" + y + "%'").join(' OR ');
+      const where = ["Szip='" + zip + "'", '(' + yrs + ')'];
+      if (llcOnly) where.push("(OWNERNME1 LIKE '%LLC%' OR OWNERNME1 LIKE '%L L C%' OR OWNERNME1 LIKE '%LP' OR OWNERNME1 LIKE '%LTD%' OR OWNERNME1 LIKE '%INC%' OR OWNERNME1 LIKE '%HOMES%' OR OWNERNME1 LIKE '%PARTNERS%')");
+      if (vacantOnly) where.push('(TotalImpMktValue IS NULL OR TotalImpMktValue < 5000)');
+      const u = WCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
+        outFields: 'OWNERNME1,InstrumentNumber,Acres,AssessedAc,StatedAc,USEDSCRP,TotalLandMktValue,TotalImpMktValue,SitusAddress,LegalDesc,PARCELID,DateLastChanged',
+        orderByFields: 'InstrumentNumber DESC', resultRecordCount: '300' });
+      const d = await getJSON(u);
+      return (d.features || []).map(f => f.attributes).map(a => {
+        const ac = parseFloat(a.Acres || a.AssessedAc || a.StatedAc);
+        const inst = String(a.InstrumentNumber || '');
+        return { src: 'WCAD', owner: a.OWNERNME1 || '', date: inst ? new Date(inst.slice(0, 4), 0, 1) : null, dateLabel: inst ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—',
+          acres: isFinite(ac) ? ac : null, landVal: a.TotalLandMktValue || null, impVal: a.TotalImpMktValue || 0, use: a.USEDSCRP || '',
+          address: a.SitusAddress || a.LegalDesc || '', link: a.PARCELID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID) : '', linkLabel: 'WCAD' };
+      }).filter(r => r.acres == null || (r.acres >= minAc && r.acres <= maxAc));
+    }
+
+    // Hays CAD: Deed_Date is a MM/DD/YYYY string; filter by year server-side, sort client-side.
+    async function findHays({ zip, minAc, maxAc, months, llcOnly, vacantOnly }) {
+      const yrs = yearsBack(months).map(y => "Deed_Date LIKE '%/" + y + "'").join(' OR ');
+      const where = ["situs_zip LIKE '" + zip + "%'", '(' + yrs + ')', 'legal_acreage >= ' + minAc, 'legal_acreage <= ' + maxAc];
+      if (llcOnly) where.push("(file_as_name LIKE '%LLC%' OR file_as_name LIKE '%L L C%' OR file_as_name LIKE '%LP' OR file_as_name LIKE '%LTD%' OR file_as_name LIKE '%INC%' OR file_as_name LIKE '%HOMES%' OR file_as_name LIKE '%PARTNERS%')");
+      if (vacantOnly) where.push('(imprv_val IS NULL OR imprv_val < 5000)');
+      const u = HAYS_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
+        outFields: 'file_as_name,Deed_Date,legal_acreage,land_val,imprv_val,situs_num,situs_street,situs_city,situs_zip,prop_id,legal_desc', resultRecordCount: '300' });
+      const d = await getJSON(u);
+      const cutoff = Date.now() - months * 30.4 * 86400000;
+      return (d.features || []).map(f => f.attributes).map(a => {
+        const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(a.Deed_Date || '');
+        const date = m ? new Date(+m[3], +m[1] - 1, +m[2]) : null;
+        const addr = [a.situs_num, a.situs_street].filter(Boolean).join(' ') || a.legal_desc || '';
+        return { src: 'Hays CAD', owner: a.file_as_name || '', date, dateLabel: fmtDate(date), acres: a.legal_acreage, landVal: a.land_val || null, impVal: a.imprv_val || 0, use: '',
+          address: addr + (a.situs_city ? ', ' + titleCase(a.situs_city) : ''), link: a.prop_id ? 'https://esearch.hayscad.com/Property/View/' + a.prop_id : '', linkLabel: 'Hays CAD' };
+      }).filter(r => !r.date || r.date.getTime() >= cutoff);
+    }
+
+    // City of Austin: issued building permits, new residential construction.
+    async function findPermits({ zip, months }) {
+      const cutoff = new Date(Date.now() - months * 30.4 * 86400000).toISOString().slice(0, 10);
+      const where = "original_zip='" + zip + "' AND permit_class_mapped='Residential' AND work_class='New' AND permittype='BP' AND issue_date > '" + cutoff + "'";
+      const u = PERMITS_URL + '?' + new URLSearchParams({ '$where': where, '$order': 'issue_date DESC', '$limit': '400',
+        '$select': 'permit_number,issue_date,original_address1,contractor_company_name,contractor_full_name,contractor_phone,total_new_add_sqft,housing_units,description,permit_class,link,tcad_id,total_job_valuation' });
+      const rows = await getJSON(u);
+      return rows.map(r => ({ permit: r.permit_number, date: r.issue_date ? new Date(r.issue_date) : null, address: r.original_address1 || '', builder: r.contractor_company_name || r.contractor_full_name || '',
+        phone: r.contractor_phone || '', sqft: +r.total_new_add_sqft || null, units: +r.housing_units || null, desc: r.description || '', cls: r.permit_class || '', link: (r.link && r.link.url) || '', valuation: +r.total_job_valuation || null }));
+    }
+
+    function topN(rows, key, n) {
+      const m = new Map();
+      rows.forEach(r => { const k = (r[key] || '').trim(); if (!k) return; const e = m.get(k) || { name: k, n: 0, phone: r.phone || '' }; e.n++; m.set(k, e); });
+      return [...m.values()].sort((a, b) => b.n - a.n).slice(0, n);
+    }
+
+    function render(box, { transfers, permits, errors, ctx }) {
+      const meta = LA_META[ctx.city] || {};
+      const withVal = transfers.filter(r => r.landVal && r.acres);
+      const avgPerAc = withVal.length ? withVal.reduce((s, r) => s + r.landVal / r.acres, 0) / withVal.length : null;
+      const medPerAc = withVal.length ? withVal.map(r => r.landVal / r.acres).sort((a, b) => a - b)[Math.floor(withVal.length / 2)] : null;
+      const buyers = topN(transfers, 'owner', 6);
+      const builders = topN(permits, 'builder', 6);
+      let h = '';
+      h += '<div class="la-tiles">' +
+        tile('LLC land transfers', transfers.length, ctx.months + ' mo') +
+        tile('Median appraised $/ac', medPerAc ? fmtUSD(medPerAc) : '—', 'land value') +
+        tile('Avg appraised $/ac', avgPerAc ? fmtUSD(avgPerAc) : '—', withVal.length + ' with values') +
+        tile('New-build permits', permits.length, 'City of Austin') +
+        tile('Most active', builders[0] ? builders[0].name : (buyers[0] ? titleCase(buyers[0].name) : '—'), builders[0] ? builders[0].n + ' permits' : (buyers[0] ? buyers[0].n + ' parcels' : '')) +
+        '</div>';
+
+      if (buyers.length || builders.length) {
+        h += '<div class="la-sec"><h4>Who is active in ' + esc(ctx.zip) + '</h4><div class="la-chips">' +
+          builders.map(b => '<span class="la-chip" title="Builder, from permits">' + esc(b.name) + (b.phone ? ' · ' + esc(fmtPhone(b.phone)) : '') + '<small>' + b.n + ' permit' + (b.n > 1 ? 's' : '') + '</small></span>').join('') +
+          buyers.map(b => '<span class="la-chip" title="Buyer, from deed records">' + esc(titleCase(b.name)) + '<small>' + b.n + ' parcel' + (b.n > 1 ? 's' : '') + '</small></span>').join('') +
+          '</div></div>';
+      }
+
+      h += '<div class="la-sec"><h4><span>Recent LLC land transfers · ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac</span>' + (meta.county === 'travis' && ctx.city !== 'austin' ? '' : '') + '</h4>';
+      if (transfers.length) {
+        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">Appraised land</th><th class="num">$/ac</th><th>Record</th></tr></thead><tbody>';
+        transfers.slice(0, 40).forEach(r => {
+          h += '<tr><td>' + esc(r.dateLabel) + '</td><td><b>' + esc(titleCase(r.owner)) + '</b>' + (r.impVal > 5000 ? '<br><small style="color:var(--text-dim)">has improvements</small>' : '') + '</td><td>' + esc(titleCase(r.address)) + (r.use ? '<br><small style="color:var(--text-dim)">' + esc(r.use) + '</small>' : '') + '</td>' +
+            '<td class="num">' + (r.acres != null ? r.acres.toFixed(2) : '—') + '</td><td class="num">' + fmtUSD(r.landVal) + '</td><td class="num">' + (r.landVal && r.acres ? fmtUSD(r.landVal / r.acres) : '—') + '</td>' +
+            '<td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.linkLabel) + '</a>' : '') + '</td></tr>';
+        });
+        h += '</tbody></table></div>';
+      } else if (meta.county === 'travis') {
+        h += '<div class="la-empty">TCAD does not publish owner names or deed dates in its public map layer, so transfer history for Travis County parcels has to be pulled per property: open the parcel in the Property Lookup above and use the <b>TCAD property record</b> link (Deed History tab). Williamson and Hays results still show here for ZIPs that cross county lines.</div>';
+      } else {
+        h += '<div class="la-empty">No LLC land transfers found in ' + esc(ctx.zip) + ' for the last ' + esc(ctx.months) + ' months at ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac. Widen the acreage or look-back, or turn off "vacant only".</div>';
+      }
+      h += '</div>';
+
+      h += '<div class="la-sec"><h4><span>New residential permits · City of Austin jurisdiction</span><a href="https://data.austintexas.gov/Building-and-Development/Issued-Construction-Permits/3syk-w9eu" target="_blank" rel="noopener">open dataset</a></h4>';
+      if (permits.length) {
+        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Issued</th><th>Address</th><th>Builder</th><th class="num">Sq ft</th><th>Scope</th><th>Permit</th></tr></thead><tbody>';
+        permits.slice(0, 40).forEach(r => {
+          h += '<tr><td>' + fmtDate(r.date) + '</td><td><b>' + esc(titleCase(r.address)) + '</b></td><td>' + esc(r.builder) + (r.phone ? '<br><small style="color:var(--text-dim)">' + esc(fmtPhone(r.phone)) + '</small>' : '') + '</td>' +
+            '<td class="num">' + (r.sqft ? r.sqft.toLocaleString() : '—') + '</td><td>' + esc((r.desc || r.cls).slice(0, 90)) + '</td><td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.permit) + '</a>' : esc(r.permit)) + '</td></tr>';
+        });
+        h += '</tbody></table></div>';
+      } else {
+        h += '<div class="la-empty">' + (ctx.city === 'austin' ? 'No new residential permits issued in ' + esc(ctx.zip) + ' in the last ' + esc(ctx.months) + ' months.' : 'The permit feed only covers City of Austin jurisdiction (including limited-purpose areas). ' + esc(meta.label) + ' issues its own permits; use the city links in Official Sources.') + '</div>';
+      }
+      h += '</div>';
+
+      if (errors.length) h += '<div class="la-note">Some sources did not answer: ' + errors.map(esc).join(' · ') + '</div>';
+      h += '<div class="la-note"><b>Why there is no sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it. "Appraised land" is the CAD’s land-only market value, a floor reference, not a comp. Real land comps come from Unlock MLS sold data (or a broker letter). Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
+      box.innerHTML = h;
+    }
+    function tile(k, v, sub) { return '<div class="la-tile"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + (sub ? ' <small>' + esc(sub) + '</small>' : '') + '</div></div>'; }
+    function fmtPhone(p) { const d = String(p).replace(/\D/g, ''); return d.length === 10 ? '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6) : p; }
+
+    function mount(el) {
+      const city = el.getAttribute('data-city');
+      const meta = LA_META[city] || { label: city, zip: '' };
+      el.innerHTML = '<div class="la-wrap">' +
+        '<h3>Land Activity Finder · ' + esc(meta.label) + '</h3>' +
+        '<p class="la-sub">Who is buying and building in a ZIP: recent LLC land transfers from the appraisal district (owner, recorded year, acres, appraised land value) plus new-residential permits with the builder’s name and phone. Austin’s answer to sale comps in a state that does not publish sale prices.</p>' +
+        '<form class="la-form">' +
+        '<div><label>ZIP code</label><input type="text" name="zip" required pattern="[0-9]{5}" maxlength="5" value="' + esc(meta.zip) + '"></div>' +
+        '<div><label>Min acres</label><input type="number" name="minAc" step="0.01" min="0" value="0.15"></div>' +
+        '<div><label>Max acres</label><input type="number" name="maxAc" step="0.01" min="0" value="2"></div>' +
+        '<div><label>Look back (mo)</label><input type="number" name="months" min="1" max="60" value="12"></div>' +
+        '<label class="la-check"><input type="checkbox" name="llcOnly" checked> LLC / builder buyers only</label>' +
+        '<label class="la-check"><input type="checkbox" name="vacantOnly" checked> Vacant land only</label>' +
+        '<div><button type="submit">Find activity</button></div>' +
+        '</form><div class="la-status"></div><div class="la-results"></div></div>';
+      const form = el.querySelector('form'), status = el.querySelector('.la-status'), results = el.querySelector('.la-results');
+      form.addEventListener('submit', async e => {
+        e.preventDefault();
+        const f = new FormData(form);
+        const ctx = { city, zip: String(f.get('zip')).trim(), minAc: +f.get('minAc') || 0, maxAc: +f.get('maxAc') || 999, months: Math.max(1, +f.get('months') || 12), llcOnly: !!f.get('llcOnly'), vacantOnly: !!f.get('vacantOnly') };
+        if (ctx.maxAc < ctx.minAc) ctx.maxAc = ctx.minAc;
+        const btn = form.querySelector('button'); btn.disabled = true; status.textContent = 'Querying WCAD, Hays CAD and City of Austin permits…'; results.innerHTML = '';
+        const errors = []; let transfers = [], permits = [];
+        const [w, hy, pm] = await Promise.allSettled([findWcad(ctx), findHays(ctx), findPermits(ctx)]);
+        if (w.status === 'fulfilled') transfers = transfers.concat(w.value); else errors.push('WCAD (' + w.reason.message + ')');
+        if (hy.status === 'fulfilled') transfers = transfers.concat(hy.value); else errors.push('Hays CAD (' + hy.reason.message + ')');
+        if (pm.status === 'fulfilled') permits = pm.value; else errors.push('Austin permits (' + pm.reason.message + ')');
+        transfers.sort((a, b) => (b.date ? b.date.getTime() : 0) - (a.date ? a.date.getTime() : 0));
+        status.textContent = transfers.length + ' transfer' + (transfers.length === 1 ? '' : 's') + ' and ' + permits.length + ' permit' + (permits.length === 1 ? '' : 's') + ' found.';
+        render(results, { transfers, permits, errors, ctx });
+        btn.disabled = false;
+      });
+    }
+    document.querySelectorAll('.la-mount').forEach(mount);
+  })();
   </script>
 </body>
 </html>
