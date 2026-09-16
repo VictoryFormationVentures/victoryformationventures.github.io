@@ -2721,11 +2721,11 @@
       williamson: {
         label: 'Williamson County (WCAD)',
         url: 'https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0',
-        fields: 'PARCELID,PropertyNumber,SitusAddress,Acres,LegalDesc,OWNERNME1,TotalLandMktValue,TotalPropMktValue,PropertyID,USEDSCRP',
+        fields: 'PARCELID,PropertyNumber,SitusAddress,Acres,StatedAc,AssessedAc,LegalDesc,OWNERNME1,TotalLandMktValue,TotalPropMktValue,PropertyID,USEDSCRP',
         parse: a => ({
           id: a.PARCELID || '', geoId: a.PropertyNumber || '',
           situs: a.SitusAddress || '', owner: a.OWNERNME1 || '',
-          acres: a.Acres ? Number(a.Acres) : null,
+          acres: (a.Acres || a.AssessedAc || a.StatedAc) ? Number(a.Acres || a.AssessedAc || a.StatedAc) : null,
           legal: a.LegalDesc || '', landValue: a.TotalLandMktValue, mktValue: a.TotalPropMktValue,
           link: a.PropertyID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID || '') : '',
           linkLabel: 'WCAD property record'
@@ -2897,6 +2897,23 @@
       return           { label: 'Very Steep',   color: '#d64545', note: 'Geotech required. Expensive foundation + drainage.' };
     }
 
+    // Polygon area in square feet from lat/lng rings (shoelace, local-linear at ~30.3°N).
+    function _plRingAreaSf(rings) {
+      if (!rings || !rings[0]) return null;
+      const FT_LAT = 364000, FT_LNG = 314200;
+      let total = 0;
+      rings.forEach((ring, idx) => {
+        let a = 0;
+        for (let i = 0; i < ring.length - 1; i++) {
+          const x1 = ring[i][0] * FT_LNG, y1 = ring[i][1] * FT_LAT;
+          const x2 = ring[i + 1][0] * FT_LNG, y2 = ring[i + 1][1] * FT_LAT;
+          a += x1 * y2 - x2 * y1;
+        }
+        total += (idx === 0 ? 1 : -1) * Math.abs(a / 2);   // holes subtract
+      });
+      return total > 0 ? total : null;
+    }
+
     // Frontage estimate: the parcel edge nearest the street-side geocode point.
     function _plFrontage(rings, streetPt) {
       if (!rings || !rings[0] || !streetPt) return null;
@@ -2943,6 +2960,10 @@
       ]);
 
       const parsed = parcel ? psvc.parse(parcel.attributes || {}) : null;
+      if (parsed && parsed.acres == null && parcel.geometry) {
+        const sf = _plRingAreaSf(parcel.geometry.rings);
+        if (sf) { parsed.acres = sf / 43560; parsed.acresEst = true; }
+      }
       const acres  = parsed && parsed.acres != null ? parsed.acres : null;
       const slope  = await _plComputeSlope(geo.location.x, geo.location.y, acres)
         .catch(err => { console.warn('Slope analysis failed:', err); return null; });
@@ -2989,7 +3010,7 @@
           _plRow('Situs', p.situs) +
           _plRow('Full Address', fullAddress) +
           (p.owner ? _plRow('Owner', p.owner) : '') +
-          _plRow('Acres', p.acres != null ? p.acres.toFixed(3) + (sqft ? ' (' + Math.round(sqft).toLocaleString() + ' sf)' : '') : '—') +
+          _plRow('Acres' + (p.acresEst ? ' (GIS est.)' : ''), p.acres != null ? p.acres.toFixed(3) + (sqft ? ' (' + Math.round(sqft).toLocaleString() + ' sf)' : '') : '—') +
           _plRow('Frontage (est.)', front ? Math.round(front.len) + ' ft' : '—') +
           _plRow('Depth (est.)', depth ? Math.round(depth) + ' ft' : (longest ? '~' + Math.round(longest) + ' ft longest side' : '—')) +
           (p.legal ? _plRow('Legal', p.legal) : '') +
