@@ -366,6 +366,10 @@
     .la-note { font-size: 11px; color: var(--text-dim); line-height: 1.55; margin: 14px 0 0; padding-top: 12px; border-top: 1px dashed var(--rule); }
     .la-empty { padding: 18px; text-align: center; color: var(--text-dim); font-size: 12px; border: 1px dashed var(--rule); }
     .la-tablewrap { overflow-x: auto; }
+    .la-acts { white-space: nowrap; }
+    .la-act { font: inherit; font-size: 9.5px; letter-spacing: .12em; text-transform: uppercase; padding: 4px 8px; margin-right: 4px; background: transparent; border: 1px solid var(--rule-strong, var(--rule)); color: var(--text); cursor: pointer; }
+    .la-act:hover { border-color: #f1ece2; }
+    .la-act:disabled { opacity: .5; cursor: default; }
     .la-toggle { margin-top: 10px; padding: 8px 14px; font: inherit; font-size: 10px; letter-spacing: .2em; text-transform: uppercase; background: transparent; color: var(--text); border: 1px solid var(--rule-strong, var(--rule)); cursor: pointer; }
     .research-card-wide { grid-column: 1 / -1; }
     .research-blurb { font-size: 12.5px; line-height: 1.65; color: var(--text-muted); }
@@ -400,6 +404,38 @@
       background: transparent; color: #111111; border-color: var(--panel-edge);
     }
     .btn.ghost:hover { border-color: #111111; }
+  
+    /* county parcel map embeds */
+    .cmap { margin: 26px 0 8px; background: var(--panel); border: 1px solid var(--rule); padding: 20px 22px; }
+    .cmap h3 { font-family: var(--font-display); font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; font-weight: 400; }
+    .cmap p { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; line-height: 1.5; }
+    .cmap .cmap-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .cmap .cmap-btns a, .cmap .cmap-btns button { font: inherit; font-size: 10.5px; letter-spacing: .2em; text-transform: uppercase; padding: 10px 16px; border: 1px solid #f1ece2; background: #f1ece2; color: #111111; cursor: pointer; text-decoration: none; }
+    .cmap .cmap-btns a.ghost, .cmap .cmap-btns button.ghost { background: transparent; color: var(--text); border-color: var(--rule-strong, var(--rule)); }
+    .cmap iframe { width: 100%; height: 680px; border: 1px solid var(--rule); background: #111111; display: block; }
+    .cmap .cmap-note { font-size: 11px; color: var(--text-dim); margin: 10px 0 0; }
+    /* lookup action bar */
+    .pl-actions { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 4px; padding: 14px 16px; background: var(--panel); border: 1px solid var(--rule); }
+    .pl-actions .lbl { font-size: 9.5px; letter-spacing: .22em; text-transform: uppercase; color: var(--text-dim); font-weight: 700; margin-right: 6px; }
+    .pl-actions button, .pl-actions a { font: inherit; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; padding: 9px 14px; border: 1px solid #f1ece2; background: #f1ece2; color: #111111; cursor: pointer; text-decoration: none; }
+    .pl-actions button.ghost, .pl-actions a.ghost { background: transparent; color: var(--text); border-color: var(--rule-strong, var(--rule)); }
+    .pl-actions .st { font-size: 11px; color: var(--text-dim); margin-left: auto; }
+    /* market pulse */
+    .mp { margin-top: 22px; background: var(--panel); border: 1px solid var(--rule); padding: 20px 22px; }
+    .mp h3 { font-family: var(--font-display); font-size: 13px; letter-spacing: .22em; text-transform: uppercase; color: var(--accent); margin: 0 0 6px; font-weight: 400; display: flex; justify-content: space-between; gap: 12px; align-items: center; }
+    .mp h3 button { font: inherit; font-size: 9.5px; letter-spacing: .18em; text-transform: uppercase; padding: 6px 10px; background: transparent; border: 1px solid var(--rule-strong, var(--rule)); color: var(--text); cursor: pointer; }
+    .mp .mp-sub { font-size: 12px; color: var(--text-muted); margin: 0 0 12px; line-height: 1.5; }
+    .mp .mp-zips { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; margin-bottom: 12px; }
+    .mp .mp-zips label { font-size: 9.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--text-dim); font-weight: 600; }
+    .mp .mp-zips input { flex: 1; min-width: 240px; padding: 8px 10px; font: inherit; font-size: 12px; border: 1px solid var(--rule-strong, var(--rule)); background: var(--bg, #111111); color: var(--text); }
+    .mp table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    .mp th { text-align: left; font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--text-dim); padding: 0 8px 8px 0; border-bottom: 1px solid var(--rule); font-weight: 600; }
+    .mp td { padding: 8px 8px 8px 0; border-bottom: 1px solid var(--rule); color: var(--text-muted); vertical-align: top; line-height: 1.45; }
+    .mp td b { color: var(--text); font-weight: 600; }
+    .mp td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .mp .new { display: inline-block; font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; padding: 2px 6px; margin-left: 6px; background: #f5e9c9; color: #6b5a1e; }
+    .mp .mp-status { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
+    @media print { body * { visibility: hidden; } }
   </style>
 </head>
 <body>
@@ -755,6 +791,7 @@
             setInterval(fetchEvents, 10 * 60 * 1000);
           })();
         </script>
+              <div id="market-pulse"></div>
       </section>
 
       <!-- Pipeline (SHARED) -->
@@ -981,6 +1018,7 @@
             <p class="research-note">Add what you learn on the ground in Austin: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="travis" data-city="austin"></div>
       </section>
 
       <section class="panel" id="panel-research-west-lake-hills" role="tabpanel">
@@ -1034,6 +1072,7 @@
             <p class="research-note">Add what you learn on the ground in West Lake Hills: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="travis" data-city="west-lake-hills"></div>
       </section>
 
       <section class="panel" id="panel-research-lakeway" role="tabpanel">
@@ -1086,6 +1125,7 @@
             <p class="research-note">Add what you learn on the ground in Lakeway: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="travis" data-city="lakeway"></div>
       </section>
 
       <section class="panel" id="panel-research-bee-cave" role="tabpanel">
@@ -1139,6 +1179,7 @@
             <p class="research-note">Add what you learn on the ground in Bee Cave: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="travis" data-city="bee-cave"></div>
       </section>
 
       <section class="panel" id="panel-research-pflugerville" role="tabpanel">
@@ -1191,6 +1232,7 @@
             <p class="research-note">Add what you learn on the ground in Pflugerville: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="travis" data-city="pflugerville"></div>
       </section>
 
       <section class="panel" id="panel-research-manor" role="tabpanel">
@@ -1243,6 +1285,7 @@
             <p class="research-note">Add what you learn on the ground in Manor: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="travis" data-city="manor"></div>
       </section>
 
       <section class="panel" id="panel-research-round-rock" role="tabpanel">
@@ -1296,6 +1339,7 @@
             <p class="research-note">Add what you learn on the ground in Round Rock: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="williamson" data-city="round-rock"></div>
       </section>
 
       <section class="panel" id="panel-research-cedar-park" role="tabpanel">
@@ -1349,6 +1393,7 @@
             <p class="research-note">Add what you learn on the ground in Cedar Park: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="williamson" data-city="cedar-park"></div>
       </section>
 
       <section class="panel" id="panel-research-leander" role="tabpanel">
@@ -1402,6 +1447,7 @@
             <p class="research-note">Add what you learn on the ground in Leander: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="williamson" data-city="leander"></div>
       </section>
 
       <section class="panel" id="panel-research-georgetown" role="tabpanel">
@@ -1455,6 +1501,7 @@
             <p class="research-note">Add what you learn on the ground in Georgetown: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="williamson" data-city="georgetown"></div>
       </section>
 
       <section class="panel" id="panel-research-hutto" role="tabpanel">
@@ -1508,6 +1555,7 @@
             <p class="research-note">Add what you learn on the ground in Hutto: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="williamson" data-city="hutto"></div>
       </section>
 
       <section class="panel" id="panel-research-kyle" role="tabpanel">
@@ -1561,6 +1609,7 @@
             <p class="research-note">Add what you learn on the ground in Kyle: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="hays" data-city="kyle"></div>
       </section>
 
       <section class="panel" id="panel-research-buda" role="tabpanel">
@@ -1614,6 +1663,7 @@
             <p class="research-note">Add what you learn on the ground in Buda: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="hays" data-city="buda"></div>
       </section>
 
       <section class="panel" id="panel-research-san-marcos" role="tabpanel">
@@ -1666,6 +1716,7 @@
             <p class="research-note">Add what you learn on the ground in San Marcos: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="hays" data-city="san-marcos"></div>
       </section>
 
       <section class="panel" id="panel-research-dripping-springs" role="tabpanel">
@@ -1719,6 +1770,7 @@
             <p class="research-note">Add what you learn on the ground in Dripping Springs: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
+        <div class="cmap-mount" data-county="hays" data-city="dripping-springs"></div>
       </section>
       <section class="panel" id="panel-research-large-land" role="tabpanel">
         <div class="division-eyebrow">Research · Large Land Development</div>
@@ -3447,13 +3499,17 @@
     const PARCEL_SERVICES = {
       travis: {
         label: "Travis County (TCAD)",
-        url: "https://gis.traviscountytx.gov/server1/rest/services/Boundaries_and_Jurisdictions/TCAD_public/MapServer/0",
-        fields: "PROP_ID,geo_id,situs_address,tcad_acres,legal_desc,sub_dec,hyperlink,LOTS",
+        url: "https://gis.traviscountytx.gov/server1/rest/services/Boundaries_and_Jurisdictions/TCAD/MapServer/0",
+        fields: "PROP_ID,geo_id,situs_address,py_owner_name,py_address,deed_num,tcad_acres,legal_desc,sub_dec,market_value,land_homesite_val,land_non_homesite_val,imprv_homesite_val,imprv_non_homesite_val,land_type_desc,LOTS",
         parse: a => ({
           id: a.PROP_ID != null ? String(a.PROP_ID) : '', geoId: a.geo_id || '',
-          situs: a.situs_address || '', owner: '',
+          situs: (a.situs_address || '').replace(/\s+\d{5}$/, ''), owner: a.py_owner_name || '', ownerMail: a.py_address || '',
+          deed: a.deed_num ? (String(a.deed_num).slice(0, 4) + ' · instr. ' + a.deed_num) : '',
           acres: a.tcad_acres != null ? Number(a.tcad_acres) : null,
-          legal: a.legal_desc || a.sub_dec || '',
+          legal: a.legal_desc || a.sub_dec || '', use: a.land_type_desc || '',
+          landValue: ((+a.land_homesite_val || 0) + (+a.land_non_homesite_val || 0)) || null,
+          imprvValue: ((+a.imprv_homesite_val || 0) + (+a.imprv_non_homesite_val || 0)) || null,
+          mktValue: a.market_value != null ? Number(a.market_value) : null,
           link: a.PROP_ID != null ? 'https://travis.prodigycad.com/property-detail/' + a.PROP_ID : '',
           linkLabel: 'TCAD property record'
         })
@@ -3461,10 +3517,11 @@
       williamson: {
         label: "Williamson County (WCAD)",
         url: "https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0",
-        fields: "PARCELID,PropertyNumber,SitusAddress,Acres,StatedAc,AssessedAc,LegalDesc,OWNERNME1,TotalLandMktValue,TotalPropMktValue,PropertyID,USEDSCRP",
+        fields: "PARCELID,PropertyNumber,SitusAddress,Acres,StatedAc,AssessedAc,LegalDesc,OWNERNME1,OWNERNME2,MailingAddress,PSTLADDRESS,InstrumentNumber,TotalLandMktValue,TotalImpMktValue,TotalPropMktValue,PropertyID,USEDSCRP",
         parse: a => ({
           id: a.PARCELID || '', geoId: a.PropertyNumber || '',
-          situs: a.SitusAddress || '', owner: a.OWNERNME1 || '',
+          situs: a.SitusAddress || '', owner: [a.OWNERNME1, a.OWNERNME2].filter(Boolean).join(' & '), ownerMail: a.MailingAddress || a.PSTLADDRESS || '',
+          deed: a.InstrumentNumber ? (String(a.InstrumentNumber).slice(0, 4) + ' · instr. ' + a.InstrumentNumber) : '', use: a.USEDSCRP || '', imprvValue: a.TotalImpMktValue || null,
           acres: (a.Acres || a.AssessedAc || a.StatedAc) ? Number(a.Acres || a.AssessedAc || a.StatedAc) : null,
           legal: a.LegalDesc || '', landValue: a.TotalLandMktValue, mktValue: a.TotalPropMktValue,
           link: a.PARCELID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID) : '',
@@ -3474,11 +3531,12 @@
       hays: {
         label: "Hays County (Hays CAD)",
         url: "https://services6.arcgis.com/j94FvPaik4etwHFk/arcgis/rest/services/HaysCADWebService1/FeatureServer/0",
-        fields: "prop_id,prop_id_text,file_as_name,legal_acreage,legal_desc,land_val,imprv_val,market,situs_num,situs_street_prefx,situs_street,situs_street_sufix,situs_city,geo_id,hood_cd",
+        fields: "prop_id,prop_id_text,file_as_name,legal_acreage,legal_desc,land_val,imprv_val,market,situs_num,situs_street_prefx,situs_street,situs_street_sufix,situs_city,geo_id,hood_cd,addr_line1,addr_line2,addr_city,addr_state,zip,Deed_Date,Number",
         parse: a => ({
           id: a.prop_id_text || (a.prop_id != null ? String(a.prop_id) : ''), geoId: a.geo_id || '',
           situs: [a.situs_num, a.situs_street_prefx, a.situs_street, a.situs_street_sufix].filter(Boolean).join(' ') + (a.situs_city ? ', ' + a.situs_city : ''),
-          owner: a.file_as_name || '',
+          owner: a.file_as_name || '', ownerMail: [a.addr_line1, a.addr_line2, [a.addr_city, a.addr_state, a.zip].filter(Boolean).join(' ')].filter(Boolean).join(', '),
+          deed: a.Deed_Date ? (a.Deed_Date + (a.Number ? ' · instr. ' + a.Number : '')) : '', imprvValue: a.imprv_val || null,
           acres: a.legal_acreage != null ? Number(a.legal_acreage) : null,
           legal: a.legal_desc || '', landValue: a.land_val, mktValue: a.market,
           link: a.prop_id != null ? 'https://esearch.hayscad.com/Search/Result?keywords=' + a.prop_id : '',
@@ -3711,6 +3769,12 @@
       statusEl.style.color = '#3f7a3f';
       statusEl.textContent = '✓ Loaded — ' + (geo.address || address);
       resultsEl.innerHTML = _plRenderHTML(geo, { raw: parcel, parsed, svc: psvc }, flood, slope, city, { zoning, fdf, watershed });
+      // Hand the parsed bundle to the action bar (Hot Lead, owner letter, underwriting).
+      const zAttrs = zoning && zoning.attributes; const zsvc2 = ZONING_SERVICES[meta.zoning];
+      const fAttrs = flood && flood.attributes;
+      window._plLast = { city, cityLabel: meta.label, county: meta.county, address: geo.address || address, parcel: parsed, geo,
+        zone: zAttrs && zsvc2 ? String(zAttrs[zsvc2.field] || '').trim() : '', flood: fAttrs ? String(fAttrs.FLD_ZONE || '') : '', slope: slope && slope.slopePct != null ? slope.slopePct : null, slopeLabel: slope && slope.score ? slope.score.label : '' };
+      if (window.vfvActionBar) resultsEl.insertAdjacentHTML('beforeend', window.vfvActionBar(window._plLast));
       resultsEl.hidden = false;
     }
 
@@ -3745,16 +3809,20 @@
         const depth = front && sqft ? sqft / front.len : null;
         const longest = sides.length ? Math.max.apply(null, sides) : null;
         cards.push(_plCard('Parcel · ' + esc(svc.label),
-          _plRow('Parcel ID', p.id) +
+          _plRow('Parcel ID', p.id || '—') +
           (p.geoId ? _plRow('Geo / Property #', p.geoId) : '') +
-          _plRow('Situs', p.situs) +
+          _plRow('Situs', p.situs || '—') +
           _plRow('Full Address', fullAddress) +
-          (p.owner ? _plRow('Owner', p.owner) : '') +
+          _plRow('Owner of record', p.owner || '—') +
+          (p.ownerMail ? _plRow('Owner mailing', p.ownerMail) : '') +
+          (p.deed ? _plRow('Last deed', p.deed) : '') +
+          (p.use ? _plRow('CAD use', p.use) : '') +
           _plRow('Acres' + (p.acresEst ? ' (GIS est.)' : ''), p.acres != null ? p.acres.toFixed(3) + (sqft ? ' (' + Math.round(sqft).toLocaleString() + ' sf)' : '') : '—') +
           _plRow('Frontage (est.)', front ? Math.round(front.len) + ' ft' : '—') +
           _plRow('Depth (est.)', depth ? Math.round(depth) + ' ft' : (longest ? '~' + Math.round(longest) + ' ft longest side' : '—')) +
           (p.legal ? _plRow('Legal', p.legal) : '') +
           (p.landValue != null ? _plRow('Land Mkt Value', '$' + Math.round(p.landValue).toLocaleString()) : '') +
+          (p.imprvValue != null ? _plRow('Improvements', '$' + Math.round(p.imprvValue).toLocaleString()) : '') +
           (p.mktValue != null ? _plRow('Total Mkt Value', '$' + Math.round(p.mktValue).toLocaleString()) : '') +
           (p.link ? `<div style="grid-column:1/-1; font-size:11px; padding-top:6px;"><a href="${esc(p.link)}" target="_blank" rel="noopener" style="color:var(--accent);">${esc(p.linkLabel)} ↗</a></div>` : '') +
           `<div style="grid-column:1/-1; font-size:10.5px; line-height:1.5; color:var(--text-dim); padding-top:6px;">Frontage = parcel edge nearest the street-side geocode; depth = area ÷ frontage. Estimates from GIS geometry — confirm with survey/plat.</div>`
@@ -4491,14 +4559,14 @@
       if (maxLand) where.push('market_value <= ' + maxLand);
       if (resOnly) where.push("(land_type_desc IS NULL OR (land_type_desc NOT LIKE '%COMMERCIAL%' AND land_type_desc NOT LIKE '%INDUSTRIAL%'))");
       const u = TCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
-        outFields: 'PROP_ID,situs_address,py_owner_name,deed_num,tcad_acres,market_value,land_homesite_val,land_non_homesite_val,imprv_homesite_val,imprv_non_homesite_val,land_state_cd,land_type_desc,legal_desc',
+        outFields: 'PROP_ID,situs_address,py_owner_name,py_address,deed_num,tcad_acres,market_value,land_homesite_val,land_non_homesite_val,imprv_homesite_val,imprv_non_homesite_val,land_state_cd,land_type_desc,legal_desc',
         orderByFields: 'deed_num DESC', resultRecordCount: '400' });
       const d = await getJSON(u);
       return (d.features || []).map(f => f.attributes).map(a => {
         const inst = String(a.deed_num || '');
         const land = (+a.land_homesite_val || 0) + (+a.land_non_homesite_val || 0);
         const imp = (+a.imprv_homesite_val || 0) + (+a.imprv_non_homesite_val || 0);
-        return { src: 'TCAD', owner: a.py_owner_name || '', date: /^\d{4}/.test(inst) ? new Date(+inst.slice(0, 4), 0, 1) : null, dateLabel: /^\d{4}/.test(inst) ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—', inst,
+        return { src: 'TCAD', id: a.PROP_ID != null ? String(a.PROP_ID) : '', ownerMail: a.py_address || '', owner: a.py_owner_name || '', date: /^\d{4}/.test(inst) ? new Date(+inst.slice(0, 4), 0, 1) : null, dateLabel: /^\d{4}/.test(inst) ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—', inst,
           acres: a.tcad_acres != null ? +a.tcad_acres : null, landVal: land || a.market_value || null, impVal: imp, use: a.land_type_desc || '',
           address: (a.situs_address || a.legal_desc || '').replace(/\s+\d{5}$/, ''), link: a.PROP_ID ? 'https://travis.prodigycad.com/property-detail/' + a.PROP_ID : '', linkLabel: 'TCAD' };
       });
@@ -4513,13 +4581,13 @@
       if (maxLand) where.push('TotalLandMktValue <= ' + maxLand);
       if (resOnly) where.push("(USEDSCRP IS NULL OR (USEDSCRP NOT LIKE 'F%' AND USEDSCRP NOT LIKE 'Commercial%' AND USEDSCRP NOT LIKE 'Industrial%'))");
       const u = WCAD_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
-        outFields: 'OWNERNME1,InstrumentNumber,Acres,AssessedAc,StatedAc,USEDSCRP,TotalLandMktValue,TotalImpMktValue,SitusAddress,LegalDesc,PARCELID,DateLastChanged',
+        outFields: 'OWNERNME1,MailingAddress,PSTLADDRESS,InstrumentNumber,Acres,AssessedAc,StatedAc,USEDSCRP,TotalLandMktValue,TotalImpMktValue,SitusAddress,LegalDesc,PARCELID,DateLastChanged',
         orderByFields: 'InstrumentNumber DESC', resultRecordCount: '300' });
       const d = await getJSON(u);
       return (d.features || []).map(f => f.attributes).map(a => {
         const ac = parseFloat(a.Acres || a.AssessedAc || a.StatedAc);
         const inst = String(a.InstrumentNumber || '');
-        return { src: 'WCAD', owner: a.OWNERNME1 || '', date: inst ? new Date(inst.slice(0, 4), 0, 1) : null, dateLabel: inst ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—',
+        return { src: 'WCAD', id: a.PARCELID || '', ownerMail: a.MailingAddress || a.PSTLADDRESS || '', owner: a.OWNERNME1 || '', date: inst ? new Date(inst.slice(0, 4), 0, 1) : null, dateLabel: inst ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—',
           acres: isFinite(ac) ? ac : null, landVal: a.TotalLandMktValue || null, impVal: a.TotalImpMktValue || 0, use: a.USEDSCRP || '',
           address: a.SitusAddress || a.LegalDesc || '', link: a.PARCELID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID) : '', linkLabel: 'WCAD' };
       }).filter(r => r.acres == null || (r.acres >= minAc && r.acres <= maxAc));
@@ -4533,14 +4601,14 @@
       if (vacantOnly) where.push('(imprv_val IS NULL OR imprv_val < 5000)');
       if (maxLand) where.push('land_val <= ' + maxLand);
       const u = HAYS_URL + '?' + new URLSearchParams({ f: 'json', returnGeometry: 'false', where: where.join(' AND '),
-        outFields: 'file_as_name,Deed_Date,legal_acreage,land_val,imprv_val,situs_num,situs_street,situs_city,situs_zip,prop_id,legal_desc', resultRecordCount: '300' });
+        outFields: 'file_as_name,Deed_Date,legal_acreage,land_val,imprv_val,situs_num,situs_street,situs_city,situs_zip,prop_id,legal_desc,addr_line1,addr_line2,addr_city,addr_state,zip', resultRecordCount: '300' });
       const d = await getJSON(u);
       const cutoff = Date.now() - months * 30.4 * 86400000;
       return (d.features || []).map(f => f.attributes).map(a => {
         const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(a.Deed_Date || '');
         const date = m ? new Date(+m[3], +m[1] - 1, +m[2]) : null;
         const addr = [a.situs_num, a.situs_street].filter(Boolean).join(' ') || a.legal_desc || '';
-        return { src: 'Hays CAD', owner: a.file_as_name || '', date, dateLabel: fmtDate(date), acres: a.legal_acreage, landVal: a.land_val || null, impVal: a.imprv_val || 0, use: '',
+        return { src: 'Hays CAD', id: a.prop_id != null ? String(a.prop_id) : '', ownerMail: [a.addr_line1, a.addr_line2, [a.addr_city, a.addr_state, a.zip].filter(Boolean).join(' ')].filter(Boolean).join(', '), owner: a.file_as_name || '', date, dateLabel: fmtDate(date), acres: a.legal_acreage, landVal: a.land_val || null, impVal: a.imprv_val || 0, use: '',
           address: addr + (a.situs_city ? ', ' + titleCase(a.situs_city) : ''), link: a.prop_id ? 'https://esearch.hayscad.com/Property/View/' + a.prop_id : '', linkLabel: 'Hays CAD' };
       }).filter(r => !r.date || r.date.getTime() >= cutoff);
     }
@@ -4579,7 +4647,7 @@
         '</div>';
 
       if (buyers.length || builders.length) {
-        h += '<div class="la-sec"><h4>Who is active in ' + esc(ctx.zip) + '</h4><div class="la-chips">' +
+        h += '<div class="la-sec"><h4><span>Who is active in ' + esc(ctx.zip) + '</span>' + (builders.length ? '<button type="button" class="la-act" data-act="contact-all">Add all builders to Contacts</button>' : '') + '</h4><div class="la-chips">' +
           builders.map(b => '<span class="la-chip" title="Builder, from permits">' + esc(b.name) + (b.phone ? ' · ' + esc(fmtPhone(b.phone)) : '') + '<small>' + b.n + ' permit' + (b.n > 1 ? 's' : '') + '</small></span>').join('') +
           buyers.map(b => '<span class="la-chip" title="Buyer, from deed records">' + esc(titleCase(b.name)) + '<small>' + b.n + ' parcel' + (b.n > 1 ? 's' : '') + '</small></span>').join('') +
           '</div></div>';
@@ -4587,11 +4655,12 @@
 
       h += '<div class="la-sec"><h4><span>Recent LLC land buys · ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac · ZIP ' + esc(ctx.zip) + '</span></h4>';
       if (transfers.length) {
-        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">Appraised land</th><th class="num">$/ac</th><th>Record</th></tr></thead><tbody>';
+        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">Appraised land</th><th class="num">$/ac</th><th>Record</th><th></th></tr></thead><tbody>';
         transfers.slice(0, 60).forEach((r, i) => {
           h += '<tr' + (i >= 12 ? ' class="la-more" hidden' : '') + '><td>' + esc(r.dateLabel) + '</td><td><b>' + esc(titleCase(r.owner)) + '</b>' + (r.impVal > 5000 ? '<br><small style="color:var(--text-dim)">has improvements</small>' : '') + '</td><td>' + esc(titleCase(r.address)) + (r.use ? '<br><small style="color:var(--text-dim)">' + esc(r.use) + '</small>' : '') + '</td>' +
             '<td class="num">' + (r.acres != null ? r.acres.toFixed(2) : '—') + '</td><td class="num">' + fmtUSD(r.landVal) + '</td><td class="num">' + (r.landVal && r.acres ? fmtUSD(r.landVal / r.acres) : '—') + '</td>' +
-            '<td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.linkLabel) + '</a>' : '') + '</td></tr>';
+            '<td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.linkLabel) + '</a>' : '') + '</td>' +
+            '<td class="la-acts"><button type="button" class="la-act" data-act="lead" data-i="' + i + '" title="Save as Hot Lead">+ Lead</button><button type="button" class="la-act" data-act="letter" data-i="' + i + '" title="Owner outreach letter">Letter</button></td></tr>';
         });
         h += '</tbody></table></div>' + (transfers.length > 12 ? '<button type="button" class="la-toggle">Show all ' + Math.min(transfers.length, 60) + '</button>' : '');
       } else {
@@ -4601,10 +4670,11 @@
 
       h += '<div class="la-sec"><h4><span>New residential permits · City of Austin jurisdiction</span><a href="https://data.austintexas.gov/Building-and-Development/Issued-Construction-Permits/3syk-w9eu" target="_blank" rel="noopener">open dataset</a></h4>';
       if (permits.length) {
-        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Issued</th><th>Address</th><th>Builder</th><th class="num">Sq ft</th><th>Scope</th><th>Permit</th></tr></thead><tbody>';
+        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Issued</th><th>Address</th><th>Builder</th><th class="num">Sq ft</th><th>Scope</th><th>Permit</th><th></th></tr></thead><tbody>';
         permits.slice(0, 60).forEach((r, i) => {
           h += '<tr' + (i >= 12 ? ' class="la-more" hidden' : '') + '><td>' + fmtDate(r.date) + '</td><td><b>' + esc(titleCase(r.address)) + '</b></td><td>' + esc(r.builder) + (r.phone ? '<br><small style="color:var(--text-dim)">' + esc(fmtPhone(r.phone)) + '</small>' : '') + '</td>' +
-            '<td class="num">' + (r.sqft ? r.sqft.toLocaleString() : '—') + '</td><td>' + esc((r.desc || r.cls).slice(0, 90)) + '</td><td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.permit) + '</a>' : esc(r.permit)) + '</td></tr>';
+            '<td class="num">' + (r.sqft ? r.sqft.toLocaleString() : '—') + '</td><td>' + esc((r.desc || r.cls).slice(0, 90)) + '</td><td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.permit) + '</a>' : esc(r.permit)) + '</td>' +
+            '<td class="la-acts">' + (r.builder ? '<button type="button" class="la-act" data-act="contact" data-p="' + i + '" title="Add builder to Contacts">+ Contact</button>' : '') + '</td></tr>';
         });
         h += '</tbody></table></div>' + (permits.length > 12 ? '<button type="button" class="la-toggle">Show all ' + Math.min(permits.length, 60) + '</button>' : '');
       } else {
@@ -4615,8 +4685,20 @@
       if (errors.length) h += '<div class="la-note">Some sources did not answer: ' + errors.map(esc).join(' · ') + '</div>';
       h += '<div class="la-note"><b>Why there is no sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it. "Appraised land" is the CAD’s land-only market value, a floor reference, not a comp. Real land comps come from Unlock MLS sold data (or a broker letter). Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
       box.innerHTML = h;
+      box._data = { transfers: transfers.slice(0, 60), permits: permits.slice(0, 60), builders, ctx, meta };
       box.querySelectorAll('.la-toggle').forEach(b => { b.dataset.label = b.textContent; b.addEventListener('click', () => { const hid = b.closest('.la-sec').querySelectorAll('.la-more'); const open = b.dataset.open === '1'; hid.forEach(tr => { tr.hidden = open; }); b.dataset.open = open ? '0' : '1'; b.textContent = open ? b.dataset.label : 'Show fewer'; }); });
     }
+    document.addEventListener('click', e => {
+      const b = e.target.closest && e.target.closest('.la-act'); if (!b) return;
+      const box = b.closest('.la-results'); const d = box && box._data; if (!d || !window.vfvTools) return;
+      const act = b.dataset.act;
+      if (act === 'lead') window.vfvTools.hotLeadFromTransfer(d.transfers[+b.dataset.i], d);
+      else if (act === 'letter') window.vfvTools.ownerLetter(d.transfers[+b.dataset.i], d);
+      else if (act === 'contact') window.vfvTools.addBuilderContact(d.permits[+b.dataset.p], d, b);
+      else if (act === 'contact-all') window.vfvTools.addAllBuilders(d, b);
+    });
+    window.vfvComps = { findTcad, findWcad, findHays, findPermits, titleCase };
+
     function tile(k, v, sub) { return '<div class="la-tile"><div class="k">' + esc(k) + '</div><div class="v">' + esc(v) + (sub ? ' <small>' + esc(sub) + '</small>' : '') + '</div></div>'; }
     function fmtPhone(p) { const d = String(p).replace(/\D/g, ''); return d.length === 10 ? '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6) : p; }
 
@@ -4657,6 +4739,270 @@
       });
     }
     document.querySelectorAll('.la-mount').forEach(mount);
+  })();
+  </script>
+
+  <script>
+  // ============================================================
+  // VFV tools: lookup action bar, owner letters, Hot Lead prefill,
+  // builder -> Contacts, county parcel maps, Market Pulse.
+  // ============================================================
+  (function () {
+    const COUNTY_MAPS = {"travis": {"label": "TCAD parcel map \u00b7 Travis County", "url": "https://travis.prodigycad.com/maps", "search": "https://travis.prodigycad.com/property-search"}, "williamson": {"label": "WCAD ParcelMap \u00b7 Williamson County", "url": "https://gisweb.wcad.org/parcelmap/", "search": "https://search.wcad.org/"}, "hays": {"label": "Hays CAD interactive map \u00b7 Hays County", "url": "https://gis.bisclient.com/hayscad", "search": "https://esearch.hayscad.com/"}};
+    const CONTACT_FORM = { URL: "https://docs.google.com/forms/d/e/1FAIpQLSdutPZUpzFycTRJ5rVx03PlPLKIrZNa88lhCBqhhdLEaQ-_4g/formResponse", MAP: {"category": "entry.1771585560", "name": "entry.1078339276", "company": "entry.1146685580", "role": "entry.2069875283", "email": "entry.1398486662", "phone": "entry.1534731784", "address": "entry.44461967", "specialties": "entry.1130927070", "last_touch": "entry.113288373", "next_action": "entry.2122278908", "notes": "entry.1551694035"} };
+    const CONTACT_SHEET_ID = "1i8veSdGlPFxbiOgif3UxYSEcrdXAQRqd33gpdkI9gZE";
+    const PULSE_DEFAULT = ["78702", "78721", "78723", "78724", "78745", "78617", "78653", "78660", "78641", "78613", "78628", "78610", "78640"];
+    const FIRM = { name: 'Victory Formation Ventures', legal: 'Victory Formations Ventures LLC', addr1: '3004 Webberville Rd #2', addr2: 'Austin, TX 78702', phone: '(737) 600-5101', email: 'gabe@victoryformationventures.com', site: 'victoryformationventures.com' };
+    const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+    const fmtUSD = n => (n && isFinite(n)) ? usd.format(n) : '';
+    const tc = s => (window.vfvComps && window.vfvComps.titleCase) ? window.vfvComps.titleCase(s) : String(s || '');
+    const agentName = () => window.CURRENT_LAND_AGENT || 'Gabe Jeudy-Lally';
+    const agentEmail = () => (typeof LAND_AGENT_EMAILS !== 'undefined' && LAND_AGENT_EMAILS[agentName()]) || FIRM.email;
+    const setField = (form, name, val) => { const el = form.querySelector('[name="' + name + '"]'); if (el && val != null && val !== '') el.value = val; };
+
+    // ---------- Hot Lead prefill ----------
+    function openHotLead(pre) {
+      const form = document.getElementById('hl-form');
+      if (!form) { alert('Hot Leads form not found on this page.'); return; }
+      form.reset();
+      const idEl = document.getElementById('hl-form-id'); if (idEl && typeof _newId === 'function') idEl.value = _newId('hl');
+      const agEl = document.getElementById('hl-form-agent'); if (agEl) agEl.value = agentName();
+      Object.keys(pre).forEach(k => setField(form, k, pre[k]));
+      const st = document.getElementById('hl-form-status'); if (st) st.textContent = '';
+      if (typeof _hlSetModalTitle === 'function') _hlSetModalTitle('add', agentName());
+      if (typeof _openMiniModal === 'function') _openMiniModal('hl-modal');
+    }
+    function hotLeadFromLookup(L) {
+      L = L || window._plLast; if (!L) return;
+      const p = L.parcel || {};
+      openHotLead({
+        property_address: L.address || p.situs || '', neighborhood: L.cityLabel || '', estimated_value: p.landValue || '',
+        owner_name: p.owner || '', source: 'Property Lookup', heat_level: 'Warm', status: 'Active',
+        notes: ['Parcel ' + (p.id || '—'), p.acres != null ? p.acres.toFixed(2) + ' ac' : '', L.zone ? 'Zone ' + L.zone : '', L.flood ? 'FEMA ' + L.flood : '', L.slope != null ? 'Slope ' + Number(L.slope).toFixed(1) + '%' : '', p.ownerMail ? 'Owner mailing: ' + p.ownerMail : '', p.deed ? 'Last deed ' + p.deed : '', p.link || ''].filter(Boolean).join(' · ')
+      });
+    }
+    function hotLeadFromTransfer(r, d) {
+      if (!r) return;
+      openHotLead({
+        property_address: tc(r.address) + (d && d.ctx ? ', ' + d.ctx.zip : ''), neighborhood: d && d.meta ? d.meta.label : '', estimated_value: r.landVal || '',
+        owner_name: tc(r.owner), source: 'Land Comp Generator', heat_level: 'Warm', status: 'Active',
+        notes: [r.src + ' ' + (r.id || ''), r.acres != null ? Number(r.acres).toFixed(2) + ' ac' : '', 'Recorded ' + r.dateLabel, r.landVal ? 'Appraised land ' + fmtUSD(r.landVal) : '', r.ownerMail ? 'Owner mailing: ' + r.ownerMail : '', r.link || ''].filter(Boolean).join(' · ')
+      });
+    }
+
+    // ---------- Owner outreach letter ----------
+    function letterHTML(o) {
+      const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      const owner = tc(o.owner) || 'Property Owner';
+      const mail = (o.ownerMail || '').split(/,\s*|\s{2,}/).filter(Boolean);
+      const situs = tc(o.situs || o.address || 'your property');
+      const acres = o.acres != null ? Number(o.acres).toFixed(2) + ' acres' : '';
+      const body = `
+        <p>${esc(owner)},</p>
+        <p>My name is ${esc(o.agent)} with ${FIRM.name}. We buy lots and acreage across ${esc(o.area || 'the Austin area')}, and county records show you own the property at <b>${esc(situs)}</b>${acres ? ' (' + esc(acres) + ')' : ''}.</p>
+        <p>I am writing because we would like to make you a real, written offer for it. A few things that make us different from the postcards you may already get:</p>
+        <ul>
+          <li>We are the buyer, not a middleman. No listing, no commissions, no repairs, and no showings.</li>
+          <li>We close on your timeline, whether that is three weeks or six months, and we pay all standard closing costs.</li>
+          <li>We are licensed Texas agents as well. If you plan to buy another home after you sell, we can represent you on that purchase and time both closings together.</li>
+          <li>We work with land that has a story: an odd shape, slope, floodplain, an estate to settle, or an old structure. Those do not scare us off.</li>
+        </ul>
+        <p>If you have ever wondered what the land is worth to a builder, a ten-minute call is the easiest way to find out. There is no obligation, and if our number is not the right one for you, you will still know more than you did before.</p>
+        <p>You can reach me directly at <b>${esc(o.phone)}</b> or <b>${esc(o.email)}</b>. I would welcome the conversation.</p>
+        <p style="margin-top:28px;">With respect,</p>
+        <p style="margin-top:34px;"><b>${esc(o.agent)}</b><br>${FIRM.name}<br>${esc(o.phone)} · ${esc(o.email)}<br>${FIRM.site}</p>`;
+      return `<!doctype html><html><head><meta charset="utf-8"><title>Letter · ${esc(situs)}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;600&display=swap" rel="stylesheet">
+        <style>
+          body { margin: 0; background: #e9e4da; font-family: 'Mulish', Georgia, serif; color: #f1ece2; }
+          .bar { display: flex; gap: 10px; padding: 12px 18px; background: #f1ece2; }
+          .bar button { font: inherit; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; padding: 9px 16px; background: #f6f2ea; color: #f1ece2; border: 0; cursor: pointer; }
+          .bar span { color: #bdb5a4; font-size: 11px; align-self: center; margin-left: auto; }
+          .page { width: 8.5in; min-height: 11in; margin: 24px auto; padding: 1in 1in 0.9in; background: #111111; box-sizing: border-box; box-shadow: 0 8px 30px rgba(0,0,0,.12); }
+          .head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #f1ece2; padding-bottom: 14px; margin-bottom: 28px; }
+          .head .brand { font-family: 'Aboreto', serif; font-size: 17px; letter-spacing: .28em; text-transform: uppercase; line-height: 1.35; }
+          .head .brand small { display: block; font-family: 'Mulish', sans-serif; font-size: 8.5px; letter-spacing: .26em; color: #8a7a4b; font-weight: 600; margin-top: 4px; }
+          .head .addr { font-size: 10.5px; line-height: 1.6; text-align: right; color: #c0b6a2; }
+          .meta { font-size: 12px; line-height: 1.7; margin-bottom: 22px; }
+          p, li { font-size: 12.5px; line-height: 1.75; font-weight: 300; }
+          p { margin: 0 0 13px; } ul { margin: 0 0 13px 20px; padding: 0; } li { margin-bottom: 6px; }
+          b { font-weight: 600; }
+          @media print { body { background: #111111; } .bar { display: none; } .page { margin: 0; box-shadow: none; width: auto; min-height: 0; padding: 0.6in 0.75in; } }
+        </style></head><body>
+        <div class="bar"><button onclick="window.print()">Print / Save PDF</button><button onclick="navigator.clipboard.writeText(document.querySelector('.body').innerText).then(()=>{this.textContent='Copied'})">Copy text</button><span>Edit any line before printing: click into the letter and type.</span></div>
+        <div class="page" contenteditable="true">
+          <div class="head"><div class="brand">Victory<br>Formation<br>Ventures<small>Land · Development · Custom Homes · Brokerage</small></div>
+            <div class="addr">${FIRM.legal}<br>${FIRM.addr1}<br>${FIRM.addr2}<br>${FIRM.phone}<br>${FIRM.site}</div></div>
+          <div class="meta">${esc(today)}<br><br>${esc(owner)}<br>${mail.length ? mail.map(esc).join('<br>') : '<span style="color:#b03030;">[owner mailing address not on file: check the CAD record]</span>'}<br><br><b>Re: ${esc(situs)}${o.parcelId ? ' · Parcel ' + esc(o.parcelId) : ''}</b></div>
+          <div class="body">${body}</div>
+        </div></body></html>`;
+    }
+    function openLetter(o) {
+      const w = window.open('', '_blank');
+      if (!w) { alert('Allow pop-ups for this site to open the letter.'); return; }
+      w.document.open(); w.document.write(letterHTML(o)); w.document.close();
+    }
+    function ownerLetterFromLookup(L) {
+      L = L || window._plLast; if (!L) return; const p = L.parcel || {};
+      openLetter({ owner: p.owner, ownerMail: p.ownerMail, situs: p.situs || L.address, acres: p.acres, parcelId: p.id, area: L.cityLabel ? L.cityLabel + ' and the surrounding area' : '', agent: agentName(), email: agentEmail(), phone: FIRM.phone });
+    }
+    function ownerLetter(r, d) {
+      if (!r) return;
+      openLetter({ owner: r.owner, ownerMail: r.ownerMail, situs: r.address, acres: r.acres, parcelId: r.id, area: d && d.meta ? d.meta.label + ' and the surrounding area' : '', agent: agentName(), email: agentEmail(), phone: FIRM.phone });
+    }
+
+    // ---------- Underwriting prefill ----------
+    function underwritingURL(L) {
+      L = L || window._plLast; if (!L) return 'underwriting-model.html'; const p = L.parcel || {};
+      const q = new URLSearchParams({ address: L.address || p.situs || '', city: L.cityLabel || '', lotcost: p.landValue ? Math.round(p.landValue) : '', acres: p.acres != null ? p.acres.toFixed(3) : '', zone: L.zone || '', flood: L.flood || '', parcel: p.id || '', owner: p.owner || '' });
+      return 'underwriting-model.html?' + q.toString();
+    }
+
+    // ---------- Copy summary ----------
+    function copySummary(L, btn) {
+      L = L || window._plLast; if (!L) return; const p = L.parcel || {};
+      const t = [L.address, 'Parcel ' + (p.id || '—') + (p.geoId ? ' (' + p.geoId + ')' : ''), 'Situs: ' + (p.situs || '—'), 'Owner: ' + (p.owner || '—') + (p.ownerMail ? ' · ' + p.ownerMail : ''),
+        p.acres != null ? 'Acres: ' + p.acres.toFixed(3) : '', L.zone ? 'Zoning: ' + L.zone : '', L.flood ? 'FEMA: ' + L.flood : '', L.slope != null ? 'Slope: ' + Number(L.slope).toFixed(1) + '% (' + (L.slopeLabel || '') + ')' : '',
+        p.landValue ? 'Appraised land: ' + fmtUSD(p.landValue) : '', p.mktValue ? 'Total market: ' + fmtUSD(p.mktValue) : '', p.deed ? 'Last deed: ' + p.deed : '', p.link || ''].filter(Boolean).join('\n');
+      navigator.clipboard.writeText(t).then(() => { if (btn) { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy summary', 1600); } });
+    }
+
+    window.vfvActionBar = function (L) {
+      const p = L.parcel || {};
+      return '<div class="pl-actions"><span class="lbl">Next step</span>' +
+        '<button type="button" onclick="vfvTools.hotLeadFromLookup()">+ Save as Hot Lead</button>' +
+        '<button type="button" class="ghost" onclick="vfvTools.ownerLetterFromLookup()"' + (p.owner ? '' : ' disabled title="No owner on record"') + '>Owner letter</button>' +
+        '<a class="ghost" href="' + esc(underwritingURL(L)) + '" target="_blank" rel="noopener">Open in Underwriting</a>' +
+        '<button type="button" class="ghost" onclick="vfvTools.copySummary(null, this)">Copy summary</button>' +
+        (p.link ? '<a class="ghost" href="' + esc(p.link) + '" target="_blank" rel="noopener">County record ↗</a>' : '') +
+        '<span class="st">Owner of record: <b>' + esc(p.owner || 'not in CAD layer') + '</b></span></div>';
+    };
+
+    // ---------- Builders -> Contacts ----------
+    let _contactNames = null;
+    async function contactNames() {
+      if (_contactNames) return _contactNames;
+      const set = new Set();
+      if (window._landClientIndex && window._landClientIndex.forEach) window._landClientIndex.forEach((v, k) => set.add(String(k).toLowerCase().trim()));
+      try {
+        const url = 'https://docs.google.com/spreadsheets/d/' + CONTACT_SHEET_ID + '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
+        const txt = await (await fetch(url, { cache: 'no-store' })).text();
+        const j = JSON.parse(txt.slice(txt.indexOf('(') + 1, txt.lastIndexOf(')')));
+        const cols = j.table.cols.map(c => String(c.label || '').toLowerCase().trim());
+        const ni = cols.indexOf('name'), ci = cols.indexOf('company');
+        (j.table.rows || []).forEach(r => { [ni, ci].forEach(i => { const v = i >= 0 && r.c[i] && r.c[i].v; if (v) set.add(String(v).toLowerCase().trim()); }); });
+      } catch (e) { console.warn('contacts read failed', e); }
+      _contactNames = set; return set;
+    }
+    async function postContact(c) {
+      const body = new URLSearchParams();
+      Object.keys(c).forEach(k => { if (CONTACT_FORM.MAP[k] && c[k] != null && c[k] !== '') body.append(CONTACT_FORM.MAP[k], c[k]); });
+      await fetch(CONTACT_FORM.URL, { method: 'POST', mode: 'no-cors', body });
+    }
+    function builderRecord(name, permits, zip) {
+      const mine = permits.filter(p => (p.builder || '').trim() === name);
+      const last = mine[0] || {};
+      return { category: 'Builders', name: tc(name).replace(/\*+/g, ' ').replace(/\s+/g, ' ').trim(), company: tc(name).replace(/\*+/g, ' ').replace(/\s+/g, ' ').trim(), role: 'Builder', phone: last.phone || '',
+        specialties: 'New residential construction', last_touch: '', next_action: 'Intro call: lots available in ' + zip,
+        notes: 'From City of Austin permits: ' + mine.length + ' new-build permit' + (mine.length === 1 ? '' : 's') + ' in ' + zip + (last.address ? ', latest at ' + tc(last.address) : '') + '. Added ' + new Date().toLocaleDateString('en-US') + '.' };
+    }
+    async function addBuilderContact(p, d, btn) {
+      if (!p || !p.builder) return;
+      btn.disabled = true; btn.textContent = 'Saving…';
+      const names = await contactNames();
+      const rec = builderRecord(p.builder.trim(), d.permits, d.ctx.zip);
+      if (names.has(rec.name.toLowerCase()) || names.has(p.builder.trim().toLowerCase())) { btn.textContent = 'In Contacts'; return; }
+      try { await postContact(rec); names.add(rec.name.toLowerCase()); btn.textContent = 'Added ✓'; } catch (e) { btn.disabled = false; btn.textContent = 'Retry'; }
+    }
+    async function addAllBuilders(d, btn) {
+      btn.disabled = true;
+      const names = await contactNames();
+      const uniq = [...new Set(d.permits.map(p => (p.builder || '').trim()).filter(Boolean))];
+      let added = 0, skipped = 0;
+      for (const n of uniq) {
+        const rec = builderRecord(n, d.permits, d.ctx.zip);
+        if (names.has(rec.name.toLowerCase()) || names.has(n.toLowerCase())) { skipped++; continue; }
+        btn.textContent = 'Adding ' + (added + 1) + ' of ' + uniq.length + '…';
+        try { await postContact(rec); names.add(rec.name.toLowerCase()); added++; } catch (e) { console.warn(e); }
+        await new Promise(r => setTimeout(r, 350));
+      }
+      btn.textContent = 'Added ' + added + (skipped ? ', ' + skipped + ' already in Contacts' : '');
+      d.permits.forEach(() => {});
+      document.querySelectorAll('.la-act[data-act="contact"]').forEach(b => { b.disabled = true; b.textContent = 'In Contacts'; });
+    }
+
+    // ---------- County parcel maps ----------
+    function mountMaps() {
+      document.querySelectorAll('.cmap-mount').forEach(el => {
+        const m = COUNTY_MAPS[el.dataset.county]; if (!m) return;
+        el.innerHTML = '<div class="cmap"><h3>' + esc(m.label) + '</h3>' +
+          '<p>Click any parcel to see the owner of record, acreage, appraised values and deed history. This is the same map the appraisal district uses, embedded here so you never leave the page.</p>' +
+          '<div class="cmap-btns"><button type="button" class="cmap-load">Load map here</button><a class="ghost" href="' + esc(m.url) + '" target="_blank" rel="noopener">Open full screen ↗</a><a class="ghost" href="' + esc(m.search) + '" target="_blank" rel="noopener">Property search ↗</a></div>' +
+          '<div class="cmap-frame"></div><p class="cmap-note">If the map stays blank, the county is blocking embedding in your browser; use Open full screen.</p></div>';
+        const load = () => { const f = el.querySelector('.cmap-frame'); if (f.dataset.loaded) return; f.dataset.loaded = '1'; f.innerHTML = '<iframe src="' + esc(m.url) + '" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allow="geolocation; fullscreen" title="' + esc(m.label) + '"></iframe>'; el.querySelector('.cmap-load').textContent = 'Reload map'; };
+        el.querySelector('.cmap-load').addEventListener('click', () => { const f = el.querySelector('.cmap-frame'); f.dataset.loaded = ''; load(); });
+        if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { es.forEach(x => { if (x.isIntersecting) { load(); io.disconnect(); } }); }, { rootMargin: '200px' }); io.observe(el); }
+      });
+    }
+
+    // ---------- Market Pulse ----------
+    const PULSE_KEY = 'vfv.pulse.zips', PULSE_CACHE = 'vfv.pulse.cache', PULSE_SEEN = 'vfv.pulse.seen';
+    const lsGet = (k, d) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (_) { return d; } };
+    const lsSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (_) {} };
+    async function pulseZip(zip) {
+      const C = window.vfvComps; const ctx = { zip, minAc: 0.08, maxAc: 5, months: 1, llcOnly: true, vacantOnly: true, resOnly: true, maxLand: 0 };
+      const [t, w, h, p] = await Promise.allSettled([C.findTcad(ctx), C.findWcad(ctx), C.findHays(ctx), C.findPermits({ zip, months: 1 })]);
+      let buys = []; [t, w, h].forEach(r => { if (r.status === 'fulfilled') buys = buys.concat(r.value); });
+      buys.sort((a, b) => ((b.date ? b.date.getTime() : 0) - (a.date ? a.date.getTime() : 0)) || String(b.inst || '').localeCompare(String(a.inst || '')));
+      const thisYear = new Date().getFullYear();
+      const recent = buys.filter(r => r.date && r.date.getFullYear() >= thisYear);
+      const withVal = recent.filter(r => r.landVal && r.acres);
+      const med = withVal.length ? withVal.map(r => r.landVal / r.acres).sort((a, b) => a - b)[Math.floor(withVal.length / 2)] : null;
+      const counts = {}; recent.forEach(r => { const k = (r.owner || '').trim(); if (k) counts[k] = (counts[k] || 0) + 1; });
+      const top = Object.keys(counts).sort((a, b) => counts[b] - counts[a])[0] || '';
+      return { zip, buys: recent.length, medPerAc: med, top, topN: counts[top] || 0, permits: p.status === 'fulfilled' ? p.value.length : null,
+        latest: recent.slice(0, 3).map(r => ({ id: r.src + ':' + (r.id || r.address), owner: r.owner, address: r.address, acres: r.acres, landVal: r.landVal, inst: r.inst || r.dateLabel })) };
+    }
+    function pulseRender(box, rows, seen, stale) {
+      const newIds = new Set();
+      let h = '<table><thead><tr><th>ZIP</th><th class="num">LLC land buys this year</th><th class="num">Median appraised $/ac</th><th>Most active buyer</th><th class="num">New-build permits (30 d)</th><th>Latest</th></tr></thead><tbody>';
+      rows.forEach(r => {
+        const latest = r.latest.map(l => { const isNew = seen.length && !seen.includes(l.id); if (isNew) newIds.add(l.id); return '<div>' + esc(tc(l.owner)) + ' · ' + esc(tc(l.address)) + (l.acres != null ? ' · ' + Number(l.acres).toFixed(2) + ' ac' : '') + (isNew ? '<span class="new">new</span>' : '') + '</div>'; }).join('');
+        h += '<tr><td><b>' + esc(r.zip) + '</b></td><td class="num">' + r.buys + '</td><td class="num">' + (r.medPerAc ? fmtUSD(r.medPerAc) : '—') + '</td><td>' + (r.top ? esc(tc(r.top)) + ' <small style="color:var(--text-dim)">' + r.topN + '</small>' : '—') + '</td><td class="num">' + (r.permits == null ? '—' : r.permits) + '</td><td>' + (latest || '<span style="color:var(--text-dim)">none yet</span>') + '</td></tr>';
+      });
+      h += '</tbody></table>';
+      box.querySelector('.mp-body').innerHTML = h;
+      box.querySelector('.mp-status').textContent = (stale ? 'Cached ' + stale + '. ' : 'Refreshed just now. ') + (newIds.size ? newIds.size + ' new since your last visit.' : 'Nothing new since your last visit.') + ' Recording year comes from the deed instrument number; permits are City of Austin jurisdiction only.';
+    }
+    function mountPulse() {
+      const host = document.getElementById('market-pulse'); if (!host || !window.vfvComps) return;
+      const zips = lsGet(PULSE_KEY, PULSE_DEFAULT);
+      host.innerHTML = '<div class="mp"><h3><span>Market Pulse · who bought land this year</span><button type="button" class="mp-refresh">Refresh now</button></h3>' +
+        '<p class="mp-sub">Your weekly digest, built from the same county records as the Land Comp Generator: LLC and builder land purchases by ZIP, appraised $/acre, the most active buyer, and new-build permits. Runs once a week on its own; edit the ZIP list to match your buy boxes.</p>' +
+        '<div class="mp-zips"><label>Target ZIPs</label><input type="text" class="mp-input" value="' + esc(zips.join(', ')) + '"><button type="button" class="la-act mp-save">Save ZIPs</button></div>' +
+        '<div class="mp-body"><div style="padding:16px; text-align:center; color:var(--text-dim); font-size:12px;">Loading…</div></div><div class="mp-status"></div></div>';
+      const run = async (force) => {
+        const zl = lsGet(PULSE_KEY, PULSE_DEFAULT);
+        const cache = lsGet(PULSE_CACHE, null);
+        const week = 7 * 86400000;
+        if (!force && cache && cache.zips === zl.join(',') && Date.now() - cache.at < week) { pulseRender(host, cache.rows, lsGet(PULSE_SEEN, []), new Date(cache.at).toLocaleDateString('en-US')); return; }
+        host.querySelector('.mp-status').textContent = 'Querying ' + zl.length + ' ZIPs across TCAD, WCAD, Hays CAD and Austin permits…';
+        const rows = [];
+        for (const z of zl) { try { rows.push(await pulseZip(z)); } catch (e) { rows.push({ zip: z, buys: 0, medPerAc: null, top: '', topN: 0, permits: null, latest: [] }); } }
+        const seen = lsGet(PULSE_SEEN, []);
+        pulseRender(host, rows, seen, null);
+        lsSet(PULSE_CACHE, { at: Date.now(), zips: zl.join(','), rows });
+        lsSet(PULSE_SEEN, rows.flatMap(r => r.latest.map(l => l.id)));
+      };
+      host.querySelector('.mp-refresh').addEventListener('click', () => run(true));
+      host.querySelector('.mp-save').addEventListener('click', () => { const zl = host.querySelector('.mp-input').value.split(/[^0-9]+/).filter(z => z.length === 5); if (zl.length) { lsSet(PULSE_KEY, zl); run(true); } });
+      run(false);
+    }
+
+    window.vfvTools = { hotLeadFromLookup, hotLeadFromTransfer, ownerLetterFromLookup, ownerLetter, addBuilderContact, addAllBuilders, copySummary, underwritingURL };
+    mountMaps();
+    mountPulse();
   })();
   </script>
 </body>

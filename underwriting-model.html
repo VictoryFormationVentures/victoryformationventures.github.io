@@ -1833,5 +1833,18 @@
       });
     })();
   </script>
+
+  <script>
+  (function () {
+    const q = new URLSearchParams(location.search); if (![...q.keys()].length) return;
+    const set = (id, v) => { const el = document.getElementById(id); if (el && v) { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); el.dispatchEvent(new Event('change', { bubbles: true })); } };
+    set('uw-address', q.get('address')); set('uw-neighborhood', q.get('city')); set('uw-lot-cost', q.get('lotcost'));
+    const bits = [q.get('parcel') ? 'Parcel ' + q.get('parcel') : '', q.get('acres') ? q.get('acres') + ' ac' : '', q.get('zone') ? 'Zone ' + q.get('zone') : '', q.get('flood') ? 'FEMA ' + q.get('flood') : '', q.get('owner') ? 'Owner: ' + q.get('owner') : ''].filter(Boolean);
+    if (bits.length) {
+      const a = document.getElementById('uw-address');
+      if (a && a.parentElement) { const n = document.createElement('div'); n.style.cssText = 'font-size:11px;color:#8a7a4b;margin-top:6px;line-height:1.5;'; n.textContent = 'From Property Lookup: ' + bits.join(' · ') + '. Lot cost is the CAD appraised land value; replace it with your offer.'; a.parentElement.appendChild(n); }
+    }
+  })();
+  </script>
 </body>
 </html>
