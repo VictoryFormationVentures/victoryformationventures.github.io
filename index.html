@@ -3246,6 +3246,14 @@
           <div class="hub-name">Land Acquisition</div>
           <div class="hub-role">Sourcing + assigning</div>
         </button>
+        <button type="button" class="hub-card" data-target="marketintel">
+          <div class="hub-avatar" data-slug="marketintel">
+            <img src="assets/icon-arch-transparent.png" alt="" onerror="this.style.display='none';" />
+            <span class="hub-initial">M</span>
+          </div>
+          <div class="hub-name">Market Intel</div>
+          <div class="hub-role">Builders · pricing · deal flow</div>
+        </button>
       </div>
     </div>
   </div>
@@ -3318,11 +3326,13 @@
        matched visual size, not matched pixel padding. */
     .hub-avatar[data-slug="admin"] img,
     .hub-avatar[data-slug="telos"] img,
-    .hub-avatar[data-slug="land"] img {
+    .hub-avatar[data-slug="land"] img,
+    .hub-avatar[data-slug="marketintel"] img {
       object-fit: contain;
     }
     .hub-avatar[data-slug="admin"] img,
     .hub-avatar[data-slug="land"] img,
+    .hub-avatar[data-slug="marketintel"] img,
     .hub-avatar[data-slug="telos"] img,
     .hub-avatar[data-slug="liveoak"] img {
       padding: 14px;
@@ -3330,12 +3340,14 @@
     @media (max-width: 640px) {
       .hub-avatar[data-slug="admin"] img,
       .hub-avatar[data-slug="land"] img,
+      .hub-avatar[data-slug="marketintel"] img,
       .hub-avatar[data-slug="telos"] img,
       .hub-avatar[data-slug="liveoak"] img { padding: 8px; }
     }
     .hub-avatar[data-slug="admin"] .hub-initial,
     .hub-avatar[data-slug="telos"] .hub-initial,
-    .hub-avatar[data-slug="land"] .hub-initial { display: none; }
+    .hub-avatar[data-slug="land"] .hub-initial,
+    .hub-avatar[data-slug="marketintel"] .hub-initial { display: none; }
     .hub-initial {
       font-family: 'Aboreto', serif; font-size: 48px;
       letter-spacing: .04em; color: #c0b6a2;
@@ -3821,6 +3833,31 @@
               try { localStorage.setItem(LAND_KEY, JSON.stringify({ ok: true, ts: Date.now() })); } catch (_) {}
             }
             window.location.href = 'land.html';
+            return;
+          }
+          // Market Intel — builders, pricing, deal flow research. Same codes as Land.
+          if (target === 'marketintel') {
+            const MI_KEY = 'vfv.marketIntelUnlock';
+            const ONE_DAY = 24 * 60 * 60 * 1000;
+            const MI_CODES = ['0000', '5555', '7777']; // Admin / Gabe / Vincent
+            function miUnlocked() {
+              try {
+                const raw = localStorage.getItem(MI_KEY);
+                if (!raw) return false;
+                const t = JSON.parse(raw);
+                return t && t.ok && (Date.now() - t.ts) < ONE_DAY;
+              } catch (_) { return false; }
+            }
+            if (!miUnlocked()) {
+              const code = await window.askPasscode({
+                title: 'Market Intel',
+                subtitle: 'Enter your 4-digit passcode.',
+                validate: (c) => MI_CODES.indexOf(c) >= 0
+              });
+              if (code == null) return;
+              try { localStorage.setItem(MI_KEY, JSON.stringify({ ok: true, ts: Date.now() })); } catch (_) {}
+            }
+            window.location.href = 'market-intel.html';
             return;
           }
           // Coming soon — subtle shake to signal it's not wired yet
