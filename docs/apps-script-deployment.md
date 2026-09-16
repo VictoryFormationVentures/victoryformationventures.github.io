@@ -27,10 +27,10 @@ The Sales tab's **Submit Commission** modal posts to a Google Apps Script Web Ap
 2. Click the gear icon next to "Select type" → choose **Web app**.
 3. Fill in:
    - **Description:** `Commission form endpoint`
-   - **Execute as:** `Me (gvjbusiness@yahoo.com)`
+   - **Execute as:** `Me (gabe@victoryformationventures.com)`
    - **Who has access:** `Anyone`
 4. Click **Deploy**.
-5. Google will ask you to **Authorize access** the first time. Sign in as `gvjbusiness@yahoo.com`, click through the "unsafe app" warning ("Advanced" → "Go to … (unsafe)"). That warning appears because it's your own unverified script — fine.
+5. Google will ask you to **Authorize access** the first time. Sign in as `gabe@victoryformationventures.com`, click through the "unsafe app" warning ("Advanced" → "Go to … (unsafe)"). That warning appears because it's your own unverified script — fine.
 6. Copy the **Web app URL** it shows you. It looks like:
 
 ```

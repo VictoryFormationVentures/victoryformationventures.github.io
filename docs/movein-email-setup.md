@@ -1,6 +1,6 @@
 # Move-In Report → Auto-Email PDF Setup
 
-**Goal:** the moment a tenant submits the online Move-In Report, you get an email at `gvjbusiness@yahoo.com` with a Victory Formation-branded PDF summary attached.
+**Goal:** the moment a tenant submits the online Move-In Report, you get an email at `gabe@victoryformationventures.com` with a Victory Formation-branded PDF summary attached.
 
 **Setup time:** ~5 minutes, one-time.
 
@@ -26,7 +26,7 @@ Copy the entire block below and paste it into the editor.
  */
 
 const CONFIG = {
-  TO_EMAIL:     'gvjbusiness@yahoo.com',
+  TO_EMAIL:     'gabe@victoryformationventures.com',
   FROM_NAME:    'Victory Formation Ventures',
   BRAND_COLOR:  '#111',
   ACCENT_COLOR: '#eae2d3',
@@ -300,7 +300,7 @@ The PDF conversion needs the **Drive Advanced Service**:
 Google will prompt you to authorize the script:
 
 - Click **Review permissions**
-- Sign in as `gvjbusiness@yahoo.com`
+- Sign in as `gabe@victoryformationventures.com`
 - You may see "Google hasn't verified this app" — click **Advanced → Go to Move-In Report Email (unsafe)**
   - This is normal for personal scripts; you're the author, so it's safe.
 - Click **Allow** to grant:
@@ -313,7 +313,7 @@ Google will prompt you to authorize the script:
 - Open your dashboard: `Property Management → Files → Tenant Move-In Report → Preview Form`
 - Fill it in as if you were a tenant
 - Submit
-- Within 30–60 seconds you should get an email at `gvjbusiness@yahoo.com` with the PDF attached
+- Within 30–60 seconds you should get an email at `gabe@victoryformationventures.com` with the PDF attached
 
 If nothing arrives:
 - Check spam / promotions folder

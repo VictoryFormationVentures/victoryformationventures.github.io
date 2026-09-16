@@ -14,7 +14,7 @@ Plan ~15 minutes end to end. Send me back three things at the end:
 
 ## 1 · Create the Sheet
 
-Log into Google as `gvjbusiness@yahoo.com`.
+Log into Google as `gabe@victoryformationventures.com`.
 
 - Go to [sheets.new](https://sheets.new)
 - Rename to **Victory Formation Cost Estimate Log**

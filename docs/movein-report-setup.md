@@ -14,7 +14,7 @@ Plan ~20 minutes end to end. Send me back three things at the end:
 
 ## 1 · Create the Sheet
 
-Log into Google as `gvjbusiness@yahoo.com`.
+Log into Google as `gabe@victoryformationventures.com`.
 
 - Go to [sheets.new](https://sheets.new)
 - Rename to **Victory Formation Move-In Reports**
@@ -24,7 +24,7 @@ Log into Google as `gvjbusiness@yahoo.com`.
 
 - Inside the sheet: **Tools → Notification settings → Edit notifications**
 - New rule: **Any changes are made** → **Email — right away**
-- Save. Google will email `gvjbusiness@yahoo.com` every time a new row is added.
+- Save. Google will email `gabe@victoryformationventures.com` every time a new row is added.
 
 ---
 

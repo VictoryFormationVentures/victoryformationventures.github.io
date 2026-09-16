@@ -29,7 +29,7 @@ Open the Apps Script editor:
 1. In the Google Sheet (`Sales Commission Tracker`), click **Extensions → Apps Script**.
 2. Append the following `doGet` function to your existing script file (do not delete the existing `doPost`).
 3. Click **Deploy → Manage deployments → ⚙️ Edit → New version → Deploy**.
-   - **Execute as:** Me (`gvjbusiness@yahoo.com`)
+   - **Execute as:** Me (`gabe@victoryformationventures.com`)
    - **Who has access:** Anyone (this allows the dashboard to fetch without auth — only summary numbers are returned, no PII)
 4. Copy the new `/exec` URL — that's what goes into `SHEETS_API_URL` in `index.html`.
 

@@ -15,7 +15,7 @@ Plan ~20 minutes.
 
 ## 1 · Create the Sheet
 
-1. [sheets.new](https://sheets.new) (logged in as `gvjbusiness@yahoo.com`).
+1. [sheets.new](https://sheets.new) (logged in as `gabe@victoryformationventures.com`).
 2. Rename: **Victory Formation Clients**
 3. Share → Anyone with the link → Viewer
 

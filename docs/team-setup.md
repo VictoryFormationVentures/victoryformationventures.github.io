@@ -20,7 +20,7 @@ The pattern is identical to the Commissions Tracker, Open House Sign-Ins, and La
 
 ## 1 · Create the Team Roster Sheet
 
-1. Go to [sheets.new](https://sheets.new) logged in as `gvjbusiness@yahoo.com`.
+1. Go to [sheets.new](https://sheets.new) logged in as `gabe@victoryformationventures.com`.
 2. Rename the file: **Victory Formation Team Roster**.
 3. Rename the first tab: **Roster** (exact spelling — the loader is case-insensitive but the tab name needs to match `SHEET_TAB` in `TEAM_CONFIG`).
 4. Paste this header row into row 1:
@@ -129,7 +129,7 @@ Add Gabe and Partner directly in the Sheet (or use the **Add Team Member** modal
 
 | name | title | role | active | email | phone | photo | license | div_sales | div_land | div_customrep | div_development |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Gabe Jeudy-Lally | Founder & Principal | Founder | Yes | gvjbusiness@yahoo.com | (737) 600-5101 | | | Yes | Yes | Yes | Yes |
+| Gabe Jeudy-Lally | Founder & Principal | Founder | Yes | gabe@victoryformationventures.com | (737) 600-5101 | | | Yes | Yes | Yes | Yes |
 | Partner Hibbett | Land Acquisition Specialist | Specialist | Yes | | | | | No | Yes | No | No |
 
 Hard-refresh the dashboard. The Team panel should now show "Synced from Team Roster sheet" in its meta line instead of "Showing built-in fallback".

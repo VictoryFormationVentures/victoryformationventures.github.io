@@ -8,7 +8,7 @@ Plan ~30 minutes total: 3 Sheets, 3 Forms, 3 sets of entry IDs to paste.
 
 ## 1 · Create the three Sheets
 
-Log into Google as `gvjbusiness@yahoo.com`.
+Log into Google as `gabe@victoryformationventures.com`.
 
 For each, go to [sheets.new](https://sheets.new) and rename:
 

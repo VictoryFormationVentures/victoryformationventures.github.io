@@ -14,14 +14,14 @@ Your Outlook account is built for one-to-one email. Sending bulk newsletters fro
 - Violate Microsoft's terms of service for mailbox sending
 - Skip the legally required unsubscribe link (CAN-SPAM)
 
-Brevo (formerly Sendinblue) is built for this. Free tier covers 300 sends/day and unlimited contacts. Your sender identity will still be `gvjbusiness@yahoo.com` — recipients see your address and replies still hit your Outlook inbox. Brevo just handles the send.
+Brevo (formerly Sendinblue) is built for this. Free tier covers 300 sends/day and unlimited contacts. Your sender identity will still be `gabe@victoryformationventures.com` — recipients see your address and replies still hit your Outlook inbox. Brevo just handles the send.
 
 ---
 
 ## 1 · Create your Brevo account
 
 1. Go to [brevo.com](https://www.brevo.com) → **Sign up free**
-2. Use `gvjbusiness@yahoo.com` (or your preferred admin email)
+2. Use `gabe@victoryformationventures.com` (or your preferred admin email)
 3. Set up your company profile: **Victory Formation Ventures** · 3004 Webberville Rd #2, Austin TX 78701 · real estate
 4. Skip the paid upsell on the way through — the free **Starter** plan is fine
 
@@ -34,7 +34,7 @@ This proves to Brevo that you control the email address you're sending from.
 1. Brevo dashboard → **Senders, Domains & Dedicated IPs** (under Settings) → **Senders** tab
 2. **Add a sender** → fill in:
    - Sender name: `Gabe Jeudy-Lally`
-   - Email: `gvjbusiness@yahoo.com`
+   - Email: `gabe@victoryformationventures.com`
 3. Click **Save** → Brevo emails a verification link to that address
 4. Open the verification email → click the link → sender is now verified
 
@@ -89,7 +89,7 @@ For now (until we build the Victory Formation-branded composer in Phase 2), buil
 2. **Campaign name** (internal): `2026-07 Monthly Update` (use YYYY-MM format so they sort)
 3. **Subject line**: something specific. Bad: "Victory Formation Newsletter". Good: "July at Victory Formation: 3 new listings + 2 closings"
 4. **Preview text** (the gray text after the subject in the inbox preview): one short sentence that complements the subject — gets you ~5-10% more opens
-5. **From name + email**: Gabe Jeudy-Lally / gvjbusiness@yahoo.com
+5. **From name + email**: Gabe Jeudy-Lally / gabe@victoryformationventures.com
 6. **Recipients**: select your `Victory Formation Clients` list
 7. **Design** → use the **Drag & Drop editor** → pick a clean template → edit:
    - Header: Victory Formation arch icon (upload from `assets/icon-arch-transparent.png`)

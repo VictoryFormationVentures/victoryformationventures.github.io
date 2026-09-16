@@ -13,7 +13,7 @@ Send me back three things at the end:
 
 ## 1 · Create the Sheet
 
-Log into Google as `gvjbusiness@yahoo.com`.
+Log into Google as `gabe@victoryformationventures.com`.
 
 - Go to [sheets.new](https://sheets.new)
 - Rename to **Development Project Project Timeline**
