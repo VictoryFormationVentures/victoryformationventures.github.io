@@ -3,12 +3,12 @@
 The live dashboard is at:
 
 ```
-https://gvj32.github.io/Dashboard/
+https://victoryformationventures.github.io/
 ```
 
 The site is currently **publicly accessible** — anyone with the URL can view it. No login required. To share the dashboard with a teammate, just send them the link.
 
-The underlying repository (`gvj32/Dashboard`) is also public on GitHub, which is what allows GitHub Pages to serve it on the Free plan.
+The underlying repository (`VictoryFormationVentures/victoryformationventures.github.io`) is also public on GitHub, which is what allows GitHub Pages to serve it on the Free plan.
 
 ## What "public" means in practice
 
@@ -46,7 +46,7 @@ Switching to any of the above does not require code changes inside the dashboard
 Once content is built out and we're ready, point a subdomain like `dashboard.victoryformationventures.com` at the Pages site:
 
 1. In the repo: `Settings → Pages → Custom domain` → enter `dashboard.victoryformationventures.com` → Save.
-2. At wherever `victoryformationventures.com`'s DNS lives (currently Wix, I believe): add a CNAME record pointing `dashboard` → `gvj32.github.io`.
+2. At wherever `victoryformationventures.com`'s DNS lives (currently Wix, I believe): add a CNAME record pointing `dashboard` → `victoryformationventures.github.io`.
 3. Wait for GitHub to issue a TLS cert (~10 minutes).
 
 After that, both URLs (`.github.io/Dashboard/` and `dashboard.victoryformationventures.com`) will resolve to the same site.

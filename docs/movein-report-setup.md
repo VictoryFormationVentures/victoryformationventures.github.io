@@ -134,7 +134,7 @@ Once I have all three I'll fill `CONFIG.FORM_URL` and `CONFIG.FIELD_MAP` in `mov
 **Send a tenant the link.** From the dashboard: `Property Management → Files → Tenant Move-In Report` — copy the link. Or generate a per-tenant pre-filled link that already contains the property address, unit, and tenant name using URL params:
 
 ```
-https://gvj32.github.io/Dashboard/move-in-report.html?property=1234+Main+St&unit=A&tenant=Jane+Doe&email=jane@example.com&start=2026-08-01
+https://victoryformationventures.github.io/move-in-report.html?property=1234+Main+St&unit=A&tenant=Jane+Doe&email=jane@example.com&start=2026-08-01
 ```
 
 **Tenant opens the link on their phone**, fills in each room's condition + notes, and hits Submit.

@@ -6,64 +6,64 @@
     <title>Premier Listings | Off-Market Properties</title>
     <meta property="og:title" content="Premier Listings | Off-Market Properties">
     <meta property="og:description" content="Exclusive off-market luxury properties in Austin, TX curated by Victory Formation Ventures.">
-    <meta property="og:image" content="https://gvj32.github.io/premier-listings/3720ben.png">
-    <meta property="og:url" content="https://gvj32.github.io/Dashboard/premier-listings/">
+    <meta property="og:image" content="https://victoryformationventures.github.io/premier-listings/3720ben.png">
+    <meta property="og:url" content="https://victoryformationventures.github.io/premier-listings/">
     <meta property="og:type" content="website">
     <meta name="description" content="Exclusive off-market luxury properties in Austin, TX curated by Victory Formation Ventures.">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background-color: #000000; color: #ffffff; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
+        body { background-color: #f6f2ea; color: #111111; font-family: 'Montserrat', sans-serif; min-height: 100vh; }
         .properties { max-width: 1400px; margin: 0 auto; padding: 40px 20px 80px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
-        .property-card { background-color: #000000; }
+        .property-card { background-color: #f6f2ea; }
         .property-card .image-container { width: 100%; height: 220px; overflow: hidden; position: relative; }
         .property-card .image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
         .property-card:hover .image-container img { transform: scale(1.03); }
-        .photo-placeholder { width: 100%; height: 100%; background: #0e0e0e; display: flex; align-items: center; justify-content: center; }
-        .photo-placeholder span { color: #555; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
+        .photo-placeholder { width: 100%; height: 100%; background: #fbf9f4; display: flex; align-items: center; justify-content: center; }
+        .photo-placeholder span { color: #9a9488; font-family: 'Montserrat', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; }
         .property-card .details { padding: 18px 4px 24px; }
-        .property-card .property-price { font-size: 20px; font-weight: 400; font-style: normal; color: #ffffff; margin-bottom: 10px; letter-spacing: 0.5px; }
-        .property-card .property-title { font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.9); margin-bottom: 2px; }
-        .property-card .property-address { font-size: 10px; font-weight: 300; color: rgba(255,255,255,0.45); margin-bottom: 14px; letter-spacing: 1px; text-transform: uppercase; }
-        .property-card .property-specs { font-size: 11px; font-weight: 300; color: rgba(255,255,255,0.6); margin-bottom: 6px; letter-spacing: 0.5px; }
-        .property-card .property-meta { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 300; font-style: italic; color: rgba(255,255,255,0.55); margin-top: 8px; }
+        .property-card .property-price { font-size: 20px; font-weight: 400; font-style: normal; color: #111111; margin-bottom: 10px; letter-spacing: 0.5px; }
+        .property-card .property-title { font-size: 11px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: rgba(17, 17, 17,0.9); margin-bottom: 2px; }
+        .property-card .property-address { font-size: 10px; font-weight: 300; color: rgba(17, 17, 17,0.45); margin-bottom: 14px; letter-spacing: 1px; text-transform: uppercase; }
+        .property-card .property-specs { font-size: 11px; font-weight: 300; color: rgba(17, 17, 17,0.6); margin-bottom: 6px; letter-spacing: 0.5px; }
+        .property-card .property-meta { font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: 300; font-style: italic; color: rgba(17, 17, 17,0.55); margin-top: 8px; }
         .property-card .property-meta + .property-meta { margin-top: 4px; }
         .property-card .btn-row { display: flex; align-items: center; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
-        .property-card .plans-btn { display: inline-flex; align-items: center; padding: 6px 14px; border: 1px solid rgba(255,255,255,0.2); background-color: transparent; color: rgba(255,255,255,0.5); font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: all 0.3s ease; border-radius: 2px; }
-        .property-card .plans-btn:hover { background-color: #ffffff; color: #000000; border-color: #ffffff; }
+        .property-card .plans-btn { display: inline-flex; align-items: center; padding: 6px 14px; border: 1px solid rgba(17, 17, 17,0.2); background-color: transparent; color: rgba(17, 17, 17,0.5); font-family: 'Montserrat', sans-serif; font-size: 9px; font-weight: 400; letter-spacing: 1.5px; text-transform: uppercase; text-decoration: none; transition: all 0.3s ease; border-radius: 2px; }
+        .property-card .plans-btn:hover { background-color: #111111; color: #f6f2ea; border-color: #111111; }
         @media (max-width: 1100px) { .properties { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 800px) { .properties { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 500px) { .properties { grid-template-columns: 1fr; } }
-        .footer { text-align: center; padding: 30px 20px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
-        .footer p { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: rgba(255, 255, 255, 0.4); text-transform: uppercase; }
+        .footer { text-align: center; padding: 30px 20px; border-top: 1px solid rgba(17, 17, 17, 0.1); }
+        .footer p { font-size: 11px; font-weight: 300; letter-spacing: 2px; color: rgba(17, 17, 17, 0.4); text-transform: uppercase; }
         .map-section { max-width: 100%; margin: 0 auto; padding: 0 0 0; }
-        .map-title { font-size: 12px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.5); text-align: center; margin-bottom: 20px; padding-top: 10px; }
-        #map { width: 100%; height: 520px; border-top: 1px solid rgba(255,255,255,0.08); border-bottom: 1px solid rgba(255,255,255,0.08); display: none; }
-        .map-popup { font-family: 'Montserrat', sans-serif; font-size: 13px; line-height: 1.5; color: #000; }
+        .map-title { font-size: 12px; font-weight: 300; letter-spacing: 4px; text-transform: uppercase; color: rgba(17, 17, 17,0.5); text-align: center; margin-bottom: 20px; padding-top: 10px; }
+        #map { width: 100%; height: 520px; border-top: 1px solid rgba(17, 17, 17,0.08); border-bottom: 1px solid rgba(17, 17, 17,0.08); display: none; }
+        .map-popup { font-family: 'Montserrat', sans-serif; font-size: 13px; line-height: 1.5; color: #f6f2ea; }
         .map-popup strong { font-size: 14px; display: block; margin-bottom: 4px; }
-        .price-pill { background: #111; color: #fff; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1); }
+        .price-pill { background: #f1ece2; color: #111111; font-family: 'Montserrat', sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.5px; padding: 6px 12px; border-radius: 20px; white-space: nowrap; box-shadow: 0 2px 8px rgba(0,0,0,0.4); border: 1px solid rgba(17, 17, 17,0.1); }
         @media (max-width: 600px) { .properties { padding: 30px 16px 60px; gap: 30px; } .property-card { width: 100%; } .property-card .image-container { height: 240px; } .property-card .property-title { font-size: 22px; } }
 
         /* Filter Bar - Portfolio Style */
-        .filter-section { max-width: 1200px; margin: 0 auto; padding: 40px 20px 10px; display: flex; align-items: flex-end; gap: 30px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .filter-title { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 300; font-style: italic; color: #fff; white-space: nowrap; padding-bottom: 14px; }
+        .filter-section { max-width: 1200px; margin: 0 auto; padding: 40px 20px 10px; display: flex; align-items: flex-end; gap: 30px; border-bottom: 1px solid rgba(17, 17, 17,0.08); }
+        .filter-title { font-family: 'Montserrat', sans-serif; font-size: 22px; font-weight: 300; font-style: italic; color: #111111; white-space: nowrap; padding-bottom: 14px; }
         .filter-fields { display: flex; gap: 24px; flex: 1; justify-content: flex-end; flex-wrap: wrap; }
         .filter-group { display: flex; flex-direction: column; gap: 6px; min-width: 140px; }
-        .filter-group label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.4); }
+        .filter-group label { font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; color: rgba(17, 17, 17,0.4); }
         .filter-group select, .filter-group input {
-            padding: 10px 0; background: transparent; border: none; border-bottom: 1px solid rgba(255,255,255,0.15);
-            color: #fff; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 400;
+            padding: 10px 0; background: transparent; border: none; border-bottom: 1px solid rgba(17, 17, 17,0.15);
+            color: #111111; font-family: 'Montserrat', sans-serif; font-size: 13px; font-weight: 400;
             letter-spacing: 1px; -webkit-appearance: none; appearance: none; cursor: pointer; border-radius: 0;
         }
         .filter-group select { background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23555'/%3E%3C/svg%3E") no-repeat right 0 center; padding-right: 20px; }
-        .filter-group select option { background: #000; color: #fff; }
-        .filter-group input::placeholder { color: rgba(255,255,255,0.35); }
-        .filter-group select:focus, .filter-group input:focus { outline: none; border-bottom-color: rgba(255,255,255,0.5); }
-        .filter-clear { padding: 10px 0 14px; background: none; border: none; color: rgba(255,255,255,0.35); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: color 0.3s; white-space: nowrap; }
-        .filter-clear:hover { color: #fff; }
-        .filter-count { text-align: center; color: rgba(255,255,255,0.35); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; padding: 20px 0; font-family: 'Montserrat', sans-serif; font-weight: 300; }
-        .properties-empty { text-align: center; color: rgba(255,255,255,0.35); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; padding: 80px 20px; font-family: 'Montserrat', sans-serif; font-weight: 300; }
+        .filter-group select option { background: #f6f2ea; color: #111111; }
+        .filter-group input::placeholder { color: rgba(17, 17, 17,0.35); }
+        .filter-group select:focus, .filter-group input:focus { outline: none; border-bottom-color: rgba(17, 17, 17,0.5); }
+        .filter-clear { padding: 10px 0 14px; background: none; border: none; color: rgba(17, 17, 17,0.35); font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: color 0.3s; white-space: nowrap; }
+        .filter-clear:hover { color: #111111; }
+        .filter-count { text-align: center; color: rgba(17, 17, 17,0.35); font-size: 11px; letter-spacing: 3px; text-transform: uppercase; padding: 20px 0; font-family: 'Montserrat', sans-serif; font-weight: 300; }
+        .properties-empty { text-align: center; color: rgba(17, 17, 17,0.35); font-size: 12px; letter-spacing: 2px; text-transform: uppercase; padding: 80px 20px; font-family: 'Montserrat', sans-serif; font-weight: 300; }
         @media (max-width: 768px) {
             .filter-section { flex-direction: column; align-items: flex-start; gap: 16px; }
             .filter-fields { width: 100%; justify-content: flex-start; }

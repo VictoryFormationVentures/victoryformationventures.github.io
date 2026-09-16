@@ -47,7 +47,7 @@ Each feature lists its config name in `index.html` (search for it) and the doc t
 
 ## Files that upload to GitHub
 
-Some tools (listing photos, development renderings, plans) save files straight into this repo through the GitHub API. They ask for a personal access token the first time and keep it in your browser only. Create one at https://github.com/settings/personal-access-tokens/new scoped to the `gvj32/Dashboard` repo with Contents: read and write. The repo owner constants (`REPO_OWNER`, `_GH_REPO_OWNER`) are already set to `gvj32`.
+Some tools (listing photos, development renderings, plans) save files straight into this repo through the GitHub API. They ask for a personal access token the first time and keep it in your browser only. Create one at https://github.com/settings/personal-access-tokens/new scoped to the `VictoryFormationVentures/victoryformationventures.github.io` repo with Contents: read and write. The repo owner constants (`REPO_OWNER`, `_GH_REPO_OWNER`) are already set to `VictoryFormationVentures` organization (owned by your gvj32 account).
 
 ## Things that were Nashville-specific and now need Austin equivalents
 

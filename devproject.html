@@ -1,10 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
+  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
+  (function () {
+    const _fetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      const url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (url.indexOf('PASTE_YOUR_') !== -1) {
+        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
+      }
+      return _fetch(input, init);
+    };
+  })();
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Development Project · Custom Home Representation</title>
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#f6f2ea" />
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
   <meta http-equiv="Pragma" content="no-cache" />
   <meta http-equiv="Expires" content="0" />
@@ -17,16 +32,16 @@
 
   <style>
     :root {
-      --bg:              #000;
-      --bg-elev:         #0a0a0a;
-      --panel:           #0f0f0f;
-      --panel-edge:      #2a2a2a;
-      --rule:            #2a2a2a;
-      --rule-strong:     #3a3a3a;
-      --text:            #ffffff;
-      --text-muted:      #b8b8b8;
-      --text-dim:        #6a6a6a;
-      --accent:          #eae2d3;   /* warm ivory — matches Victory Formation story color */
+      --bg:              #f6f2ea;
+      --bg-elev:         #fbf9f4;
+      --panel:           #fbf9f4;
+      --panel-edge:      #d9d0bf;
+      --rule:            #d9d0bf;
+      --rule-strong:     #c9bfab;
+      --text:            #111111;
+      --text-muted:      #5a564e;
+      --text-dim:        #8a8579;
+      --accent:          #8a7a4b;   /* warm ivory — matches Victory Formation story color */
 
       --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
@@ -48,7 +63,7 @@
     /* ==================== Top bar ==================== */
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: #000; border-bottom: 1px solid var(--panel-edge);
+      background: #f6f2ea; border-bottom: 1px solid var(--panel-edge);
       display: flex; align-items: center; gap: 22px;
       padding: 20px 28px;
     }
@@ -62,7 +77,7 @@
     .topbar .brand .name {
       font-family: var(--font-display);
       font-size: 28px; letter-spacing: .32em; text-transform: uppercase;
-      color: #fff;
+      color: #111111;
     }
     .topbar .brand .name small {
       display: block; font-family: var(--font-body);
@@ -76,7 +91,7 @@
       color: var(--text-muted);
       padding: 6px 12px; border: 1px solid var(--panel-edge);
     }
-    .topbar .parent-link:hover { color: #fff; border-color: #fff; }
+    .topbar .parent-link:hover { color: #111111; border-color: #111111; }
 
     /* ==================== Layout ==================== */
     .shell {
@@ -87,7 +102,7 @@
 
     /* ==================== Side nav ==================== */
     .sidenav {
-      background: #0a0a0a;
+      background: #fbf9f4;
       border-right: 1px solid var(--panel-edge);
       padding: 22px 18px;
       position: sticky; top: 160px;
@@ -106,8 +121,8 @@
       padding: 10px 12px; margin: 2px 0;
       cursor: pointer;
     }
-    .sidenav .nav-item:hover { color: #fff; background: #141414; }
-    .sidenav .nav-item.is-active { color: #fff; background: #141414; border-left: 2px solid var(--accent); padding-left: 10px; }
+    .sidenav .nav-item:hover { color: #111111; background: #f1ece2; }
+    .sidenav .nav-item.is-active { color: #111111; background: #f1ece2; border-left: 2px solid var(--accent); padding-left: 10px; }
     /* Parent items (like "In Build") — labeled group header, non-clickable */
     .sidenav .nav-item-parent {
       color: var(--text-dim); cursor: default; padding-top: 4px;
@@ -122,13 +137,13 @@
       content: '· '; color: var(--text-dim); margin-right: 4px;
     }
     .sidenav .nav-sub.is-active {
-      padding-left: 24px; color: #fff; background: #141414;
+      padding-left: 24px; color: #111111; background: #f1ece2;
       border-left: 2px solid var(--accent);
     }
     .sidenav .nav-group-title {
       font-family: var(--font-display);
       font-size: 10px; letter-spacing: .28em; text-transform: uppercase;
-      color: #fff; margin: 22px 0 8px 12px;
+      color: #111111; margin: 22px 0 8px 12px;
     }
 
     /* ==================== Client project page ==================== */
@@ -153,7 +168,7 @@
     .project-hero .stage-badge {
       display: inline-block; padding: 5px 12px;
       font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
-      background: var(--accent); color: #000; font-weight: 700;
+      background: var(--accent); color: #f6f2ea; font-weight: 700;
     }
 
     /* ==================== Interactive timeline ==================== */
@@ -178,7 +193,7 @@
       position: absolute;
       left: -44px; top: 0;
       width: 32px; height: 32px; border-radius: 50%;
-      background: #141414;
+      background: #f1ece2;
       border: 2px solid var(--rule);
       display: flex; align-items: center; justify-content: center;
       font-family: var(--font-display);
@@ -186,9 +201,9 @@
       z-index: 2;
       transition: background .2s, border-color .2s, color .2s;
     }
-    .tl-phase.state-progress .tl-num { border-color: var(--warn-c, #e8c068); color: var(--warn-c, #e8c068); }
+    .tl-phase.state-progress .tl-num { border-color: var(--warn-c, #8a6a1f); color: var(--warn-c, #8a6a1f); }
     .tl-phase.state-complete .tl-num {
-      background: #4a7548; border-color: #4a7548; color: #fff;
+      background: #dcebd8; border-color: #dcebd8; color: #111111;
     }
     .tl-phase.state-complete .tl-num::before { content: '✓'; font-size: 15px; }
     .tl-phase.state-complete .tl-num-label { display: none; }
@@ -202,7 +217,7 @@
     .tl-phase-name {
       font-family: var(--font-display);
       font-size: 15px; letter-spacing: .18em; text-transform: uppercase;
-      color: #fff; font-weight: 400;
+      color: #111111; font-weight: 400;
     }
     .tl-phase-dur {
       font-size: 9px; letter-spacing: .2em; text-transform: uppercase;
@@ -211,10 +226,10 @@
     .tl-phase-badge {
       display: inline-block; padding: 2px 8px; margin-left: 8px;
       font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
-      background: #141414; color: var(--text-dim); font-weight: 700;
+      background: #f1ece2; color: var(--text-dim); font-weight: 700;
     }
-    .tl-phase.state-progress .tl-phase-badge { background: #3a301c; color: #e8c068; }
-    .tl-phase.state-complete .tl-phase-badge { background: #1c3a1c; color: #9ec39e; }
+    .tl-phase.state-progress .tl-phase-badge { background: #efe6cc; color: #8a6a1f; }
+    .tl-phase.state-complete .tl-phase-badge { background: #1c3a1c; color: #3f7a3f; }
 
     .tl-items {
       list-style: none; padding: 6px 0 0; margin: 0;
@@ -227,45 +242,45 @@
       border-left: 2px solid transparent;
       transition: background .15s, border-color .15s;
     }
-    .tl-item:hover { background: #0e0e0e; border-left-color: var(--rule); }
+    .tl-item:hover { background: #fbf9f4; border-left-color: var(--rule); }
     .tl-item .tl-check {
       flex: 0 0 auto;
       width: 16px; height: 16px; border-radius: 3px;
-      border: 1.5px solid #666; background: #0a0a0a;
+      border: 1.5px solid #8a8579; background: #fbf9f4;
       position: relative; margin-top: 2px;
       transition: background .15s, border-color .15s;
     }
     .tl-item.done .tl-check {
-      background: #9ec39e; border-color: #9ec39e;
+      background: #3f7a3f; border-color: #3f7a3f;
     }
     .tl-item.done .tl-check::after {
       content: '';
       position: absolute; left: 4px; top: 0px;
       width: 4px; height: 9px;
-      border: solid #0a0a0a; border-width: 0 2px 2px 0;
+      border: solid #fbf9f4; border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
     .tl-item.progress .tl-check {
-      background: #e8c068; border-color: #e8c068;
+      background: #8a6a1f; border-color: #8a6a1f;
     }
     .tl-item.progress .tl-check::after {
       content: '';
       position: absolute; left: 3px; top: 3px;
       width: 8px; height: 8px; border-radius: 50%;
-      background: #0a0a0a;
+      background: #fbf9f4;
     }
     .tl-item-label {
       flex: 1;
       font-size: 12.5px; line-height: 1.45; color: var(--text-muted);
     }
-    .tl-item.done    .tl-item-label { color: var(--text-dim); text-decoration: line-through; text-decoration-color: #444; }
-    .tl-item.progress .tl-item-label { color: #fff; }
+    .tl-item.done    .tl-item-label { color: var(--text-dim); text-decoration: line-through; text-decoration-color: #c0b6a2; }
+    .tl-item.progress .tl-item-label { color: #111111; }
     .tl-item-meta {
       font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
       color: var(--text-dim); margin-top: 2px;
     }
-    .tl-item.done .tl-item-meta { color: #9ec39e; }
-    .tl-item.progress .tl-item-meta { color: #e8c068; }
+    .tl-item.done .tl-item-meta { color: #3f7a3f; }
+    .tl-item.progress .tl-item-meta { color: #8a6a1f; }
 
     /* Progress bar summarizing overall phase completion */
     .tl-summary {
@@ -277,9 +292,9 @@
       font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
       color: var(--text-dim); font-weight: 700;
     }
-    .tl-summary .bar { flex: 1; height: 6px; background: #1a1a1a; border-radius: 3px; overflow: hidden; }
-    .tl-summary .bar-fill { height: 100%; background: #4a7548; transition: width .3s; }
-    .tl-summary .pct { font-family: var(--font-display); font-size: 16px; color: #fff; }
+    .tl-summary .bar { flex: 1; height: 6px; background: #ede7da; border-radius: 3px; overflow: hidden; }
+    .tl-summary .bar-fill { height: 100%; background: #dcebd8; transition: width .3s; }
+    .tl-summary .pct { font-family: var(--font-display); font-size: 16px; color: #111111; }
 
     /* Legend */
     .tl-legend {
@@ -288,10 +303,10 @@
     }
     .tl-legend span { display: flex; align-items: center; gap: 6px; }
     .tl-legend .dot {
-      width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid #666; background: #0a0a0a;
+      width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid #8a8579; background: #fbf9f4;
     }
-    .tl-legend .dot.progress { background: #e8c068; border-color: #e8c068; }
-    .tl-legend .dot.done { background: #9ec39e; border-color: #9ec39e; }
+    .tl-legend .dot.progress { background: #8a6a1f; border-color: #8a6a1f; }
+    .tl-legend .dot.done { background: #3f7a3f; border-color: #3f7a3f; }
 
     /* ==================== Document cards ==================== */
     .doc-grid {
@@ -308,18 +323,18 @@
       transition: border-color .15s;
     }
     .doc-card:hover { border-color: var(--rule-strong); }
-    .doc-card.has-file { border-color: #4a7548; }
+    .doc-card.has-file { border-color: #dcebd8; }
     .doc-card .doc-label {
       font-family: var(--font-body); font-size: 11px;
       letter-spacing: .16em; text-transform: uppercase;
-      color: #fff; font-weight: 700;
+      color: #111111; font-weight: 700;
     }
     .doc-card .doc-current {
       font-size: 11px; color: var(--text-muted); line-height: 1.4;
       flex: 1;
     }
     .doc-card .doc-current .filename {
-      color: #fff; word-break: break-all;
+      color: #111111; word-break: break-all;
     }
     .doc-card .doc-current .meta {
       font-size: 9.5px; letter-spacing: .16em; text-transform: uppercase;
@@ -335,12 +350,12 @@
       font-family: var(--font-body); font-size: 10px;
       letter-spacing: .16em; text-transform: uppercase; font-weight: 600;
       padding: 7px 12px; cursor: pointer;
-      border: 1px solid var(--panel-edge); background: transparent; color: #fff;
+      border: 1px solid var(--panel-edge); background: transparent; color: #111111;
       text-decoration: none; display: inline-block;
     }
-    .doc-card .doc-btn:hover { border-color: #fff; background: #141414; }
-    .doc-card .doc-btn.primary { background: #fff; color: #000; border-color: #fff; }
-    .doc-card .doc-btn.primary:hover { opacity: .85; background: #fff; }
+    .doc-card .doc-btn:hover { border-color: #111111; background: #f1ece2; }
+    .doc-card .doc-btn.primary { background: #111111; color: #f6f2ea; border-color: #111111; }
+    .doc-card .doc-btn.primary:hover { opacity: .85; background: #111111; }
     .doc-card .doc-btn.busy { opacity: .5; cursor: default; pointer-events: none; }
     .doc-card input[type="file"] { display: none; }
 
@@ -363,7 +378,7 @@
     .team-card .name {
       font-family: var(--font-display);
       font-size: 20px; letter-spacing: .06em;
-      color: #fff; margin: 0 0 4px; font-weight: 400; line-height: 1.15;
+      color: #111111; margin: 0 0 4px; font-weight: 400; line-height: 1.15;
     }
     .team-card .co {
       font-size: 11px; letter-spacing: .05em; color: var(--text-muted);
@@ -375,7 +390,7 @@
       padding: 4px 0; border-top: 1px solid var(--rule);
     }
     .team-card .contact-line:first-of-type { border-top: 1px solid var(--rule); margin-top: 8px; }
-    .team-card .contact-line a { color: #fff; }
+    .team-card .contact-line a { color: #111111; }
     .team-card .contact-line a:hover { text-decoration: underline; }
     .team-card .contact-line .lbl {
       font-size: 8.5px; letter-spacing: .18em; text-transform: uppercase;
@@ -402,9 +417,9 @@
       padding: 10px 14px; cursor: pointer;
       border-bottom: 2px solid transparent;
     }
-    .subtab:hover { color: #fff; }
+    .subtab:hover { color: #111111; }
     .subtab.is-active {
-      color: #fff; border-bottom-color: var(--accent);
+      color: #111111; border-bottom-color: var(--accent);
     }
     .subpanel { display: none; }
     .subpanel.is-active { display: block; }
@@ -421,7 +436,7 @@
     h1.division-title {
       font-family: var(--font-display);
       font-size: 56px; letter-spacing: .14em; text-transform: uppercase;
-      color: #fff; margin: 0 0 8px; font-weight: 400; line-height: 1;
+      color: #111111; margin: 0 0 8px; font-weight: 400; line-height: 1;
     }
     h1.division-title small {
       display: block; font-family: var(--font-body);
@@ -558,12 +573,12 @@
 
         <!-- Team + engagement snapshot pulled from the admin sheet -->
         <div class="project-snapshot" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:14px 22px; padding:18px 20px; background:var(--panel); border:1px solid var(--rule); margin-bottom:24px;">
-          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Architect</div><div style="font-size:13px; color:#fff;" data-field="architect">—</div></div>
-          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Designer</div><div style="font-size:13px; color:#fff;" data-field="designer">—</div></div>
-          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Builder</div><div style="font-size:13px; color:#fff;" data-field="builder">—</div></div>
-          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Hard Cost Est.</div><div style="font-size:13px; color:#fff;" data-field="hard-cost">—</div></div>
-          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Engagement Start</div><div style="font-size:13px; color:#fff;" data-field="engagement">—</div></div>
-          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Projected CO</div><div style="font-size:13px; color:#fff;" data-field="projected-co">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Architect</div><div style="font-size:13px; color:#111111;" data-field="architect">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Designer</div><div style="font-size:13px; color:#111111;" data-field="designer">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Builder</div><div style="font-size:13px; color:#111111;" data-field="builder">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Hard Cost Est.</div><div style="font-size:13px; color:#111111;" data-field="hard-cost">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Engagement Start</div><div style="font-size:13px; color:#111111;" data-field="engagement">—</div></div>
+          <div><div style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:4px;">Projected CO</div><div style="font-size:13px; color:#111111;" data-field="projected-co">—</div></div>
         </div>
 
         <div class="subtabs" role="tablist" aria-label="Campbell Residence sections">
@@ -1058,17 +1073,17 @@
         listEl.innerHTML = clients.map(c => {
           const rows = [];
           if (c.company) rows.push('<div style="font-size:11px; color:var(--text-muted); margin-top:2px;">' + escHtml(c.company) + '</div>');
-          if (c.phone)   rows.push('<div style="font-size:12px; color:#ddd; margin-top:8px;"><a href="tel:' + escHtml(c.phone.replace(/\D+/g,'')) + '" style="color:#ddd;">' + escHtml(c.phone) + '</a></div>');
+          if (c.phone)   rows.push('<div style="font-size:12px; color:#2a2a2a; margin-top:8px;"><a href="tel:' + escHtml(c.phone.replace(/\D+/g,'')) + '" style="color:#2a2a2a;">' + escHtml(c.phone) + '</a></div>');
           if (c.email)   rows.push('<div style="font-size:11px; color:var(--text-muted); margin-top:2px;"><a href="mailto:' + escHtml(c.email) + '" style="color:var(--text-muted);">' + escHtml(c.email) + '</a></div>');
           if (c.address) rows.push('<div style="font-size:11px; color:var(--text-dim); margin-top:6px;">' + escHtml(c.address) + '</div>');
           return '<article style="background:var(--panel); border:1px solid var(--rule); padding:14px 16px;">' +
-                   '<div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#fff;">' + escHtml(c.name) + '</div>' +
+                   '<div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#111111;">' + escHtml(c.name) + '</div>' +
                    rows.join('') +
                  '</article>';
         }).join('');
       } catch (err) {
         countEl.textContent = 'Could not load';
-        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#d99; font-size:13px;">Error: ' + escHtml(err.message || err) + '</div>';
+        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#b03030; font-size:13px;">Error: ' + escHtml(err.message || err) + '</div>';
         _chcLoaded = false;   // let user retry by tab-switching
       }
     }
@@ -1148,8 +1163,8 @@
        (filename + uploaded_at + who) is kept in localStorage so
        cards show which slots are filled without a HEAD probe.
        ========================================================= */
-    const GH_REPO_OWNER = 'gvj32';
-    const GH_REPO_NAME  = 'Dashboard';
+    const GH_REPO_OWNER = 'VictoryFormationVentures';
+    const GH_REPO_NAME  = 'victoryformationventures.github.io';
     const GH_BRANCH     = 'main';
     const GH_TOKEN_KEY  = 'vfv.ghToken';
 
@@ -1273,10 +1288,10 @@
           };
           _docSaveState(projectId, st);
           _renderDocCard(card, projectId, st);
-          if (statusEl) { statusEl.textContent = '✓ Uploaded ' + file.name; statusEl.style.color = '#9ec39e'; }
+          if (statusEl) { statusEl.textContent = '✓ Uploaded ' + file.name; statusEl.style.color = '#3f7a3f'; }
         } catch (err) {
           console.error(err);
-          if (statusEl) { statusEl.textContent = 'Upload failed: ' + (err.message || err); statusEl.style.color = '#d99'; }
+          if (statusEl) { statusEl.textContent = 'Upload failed: ' + (err.message || err); statusEl.style.color = '#b03030'; }
           btns.forEach(b => b.classList.remove('busy'));
         }
       });

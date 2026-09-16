@@ -1,10 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
+  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
+  (function () {
+    const _fetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      const url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (url.indexOf('PASTE_YOUR_') !== -1) {
+        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
+      }
+      return _fetch(input, init);
+    };
+  })();
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Land Acquisition · Victory Formation Ventures</title>
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#f6f2ea" />
   <!-- Do not cache the shell HTML — assets/data can cache normally.
        Combined with the ↻ Refresh button, this keeps deployments fresh. -->
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
@@ -18,16 +33,16 @@
 
   <style>
     :root {
-      --bg:              #000;
-      --bg-elev:         #0a0a0a;
-      --panel:           #0f0f0f;
-      --panel-edge:      #2a2a2a;
-      --rule:            #2a2a2a;
-      --rule-strong:     #3a3a3a;
-      --text:            #ffffff;
-      --text-muted:      #b8b8b8;
-      --text-dim:        #6a6a6a;
-      --accent:          #eae2d3;
+      --bg:              #f6f2ea;
+      --bg-elev:         #fbf9f4;
+      --panel:           #fbf9f4;
+      --panel-edge:      #d9d0bf;
+      --rule:            #d9d0bf;
+      --rule-strong:     #c9bfab;
+      --text:            #111111;
+      --text-muted:      #5a564e;
+      --text-dim:        #8a8579;
+      --accent:          #8a7a4b;
 
       --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
@@ -46,7 +61,7 @@
     /* ==================== Top bar ==================== */
     .topbar {
       position: sticky; top: 0; z-index: 50;
-      background: #000; border-bottom: 1px solid var(--panel-edge);
+      background: #f6f2ea; border-bottom: 1px solid var(--panel-edge);
       display: flex; align-items: center; gap: 22px;
       padding: 20px 28px;
     }
@@ -56,7 +71,7 @@
     }
     .topbar .brand .name {
       font-family: var(--font-display);
-      font-size: 22px; letter-spacing: .32em; text-transform: uppercase; color: #fff;
+      font-size: 22px; letter-spacing: .32em; text-transform: uppercase; color: #111111;
     }
     .topbar .brand .name small {
       display: block; font-family: var(--font-body); font-size: 9px;
@@ -68,7 +83,7 @@
       letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
       padding: 6px 12px; border: 1px solid var(--panel-edge);
     }
-    .topbar .parent-link:hover { color: #fff; border-color: #fff; }
+    .topbar .parent-link:hover { color: #111111; border-color: #111111; }
 
     /* ==================== Layout ==================== */
     .shell {
@@ -79,7 +94,7 @@
 
     /* ==================== Side nav ==================== */
     .sidenav {
-      background: #0a0a0a;
+      background: #fbf9f4;
       border-right: 1px solid var(--panel-edge);
       padding: 22px 18px;
       position: sticky; top: 100px;
@@ -96,9 +111,9 @@
       letter-spacing: .16em; text-transform: uppercase;
       padding: 10px 12px; margin: 2px 0; cursor: pointer;
     }
-    .sidenav .nav-item:hover { color: #fff; background: #141414; }
+    .sidenav .nav-item:hover { color: #111111; background: #f1ece2; }
     .sidenav .nav-item.is-active {
-      color: #fff; background: #141414;
+      color: #111111; background: #f1ece2;
       border-left: 2px solid var(--accent); padding-left: 10px;
     }
     /* Collapsible groups (matches admin's <details>/<summary> pattern) */
@@ -120,7 +135,7 @@
       user-select: none;
     }
     .sidenav .nav-group > summary:hover,
-    .sidenav .nav-subgroup > summary:hover { color: #fff; background: #141414; }
+    .sidenav .nav-subgroup > summary:hover { color: #111111; background: #f1ece2; }
     .sidenav .nav-group > summary::-webkit-details-marker,
     .sidenav .nav-subgroup > summary::-webkit-details-marker { display: none; }
     .sidenav .nav-group > summary::after,
@@ -153,7 +168,7 @@
     }
     .sidenav .nav-sub::before { content: '· '; color: var(--text-dim); margin-right: 4px; }
     .sidenav .nav-sub.is-active {
-      padding-left: 32px; color: #fff; background: #141414;
+      padding-left: 32px; color: #111111; background: #f1ece2;
       border-left: 2px solid var(--accent);
     }
 
@@ -169,7 +184,7 @@
     h1.division-title {
       font-family: var(--font-display);
       font-size: 52px; letter-spacing: .12em; text-transform: uppercase;
-      color: #fff; margin: 0 0 14px; font-weight: 400; line-height: 1;
+      color: #111111; margin: 0 0 14px; font-weight: 400; line-height: 1;
     }
     h1.division-title small {
       display: block; font-family: var(--font-body);
@@ -190,21 +205,21 @@
       border-bottom: 3px solid transparent;
       transition: color .15s, border-color .15s;
     }
-    .agent-tab:hover { color: #fff; }
+    .agent-tab:hover { color: #111111; }
     .agent-tab.is-active {
-      color: #fff; border-bottom-color: var(--accent);
+      color: #111111; border-bottom-color: var(--accent);
       font-weight: 600;
     }
     .agent-tab .initial {
       display: inline-block; width: 22px; height: 22px;
-      border-radius: 50%; background: #141414;
+      border-radius: 50%; background: #f1ece2;
       border: 1px solid var(--rule-strong); color: var(--text-muted);
       font-family: var(--font-display); font-size: 11px;
       line-height: 20px; text-align: center; margin-right: 8px;
       vertical-align: middle;
     }
     .agent-tab.is-active .initial {
-      background: var(--accent); color: #000; border-color: var(--accent);
+      background: var(--accent); color: #f6f2ea; border-color: var(--accent);
     }
 
     /* Panels — one active at a time */
@@ -246,9 +261,9 @@
     }
     .mini-modal[hidden] { display: none; }
     .mini-modal-inner {
-      background: #0a0a0a; border: 1px solid var(--rule-strong);
+      background: #fbf9f4; border: 1px solid var(--rule-strong);
       width: 100%; max-width: 720px;
-      color: #fff;
+      color: #111111;
     }
     .mini-modal-head {
       display: flex; justify-content: space-between; align-items: flex-start;
@@ -259,7 +274,7 @@
       background: transparent; border: 0; color: var(--text-muted);
       font-size: 24px; line-height: 1; cursor: pointer; padding: 0 4px;
     }
-    .mini-modal-close:hover { color: #fff; }
+    .mini-modal-close:hover { color: #111111; }
     .mini-modal-body { padding: 20px 24px; }
     .mm-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 12px 16px;
@@ -273,7 +288,7 @@
     .mm-field input, .mm-field select, .mm-field textarea {
       font-family: var(--font-body); font-size: 13px;
       padding: 9px 11px;
-      background: #000; color: #fff;
+      background: #f6f2ea; color: #111111;
       border: 1px solid var(--rule-strong);
     }
     .mm-field input:focus, .mm-field select:focus, .mm-field textarea:focus {
@@ -288,8 +303,8 @@
     .form-status {
       font-size: 11px; padding: 4px 0;
     }
-    .form-status.ok { color: #9ec39e; }
-    .form-status.err { color: #d99; }
+    .form-status.ok { color: #3f7a3f; }
+    .form-status.err { color: #b03030; }
 
     /* ==================== Research cards ==================== */
     .research-grid {
@@ -317,19 +332,23 @@
       font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
       color: var(--text-dim); font-weight: 700;
       border-bottom: 1px solid var(--rule);
-      background: #141414;
+      background: #f1ece2;
     }
     .research-table td {
-      padding: 6px 8px; border-bottom: 1px solid #1a1a1a;
+      padding: 6px 8px; border-bottom: 1px solid #ede7da;
       color: var(--text-muted); vertical-align: top;
     }
-    .research-table td:first-child { color: #fff; font-weight: 600; }
+    .research-table td:first-child { color: #111111; font-weight: 600; }
+    .research-card-wide { grid-column: 1 / -1; }
+    .research-blurb { font-size: 12.5px; line-height: 1.65; color: var(--text-muted); }
+    .research-blurb p { margin: 0 0 10px; }
+    .research-blurb b { color: var(--text); font-weight: 600; }
     .research-list {
       list-style: none; padding: 0; margin: 0;
       font-size: 12px; color: var(--text-muted); line-height: 1.6;
     }
     .research-list li {
-      padding: 6px 0; border-bottom: 1px solid #1a1a1a;
+      padding: 6px 0; border-bottom: 1px solid #ede7da;
     }
     .research-list li:last-child { border-bottom: 0; }
     .research-list a { color: var(--accent); border-bottom: 1px solid transparent; }
@@ -344,15 +363,15 @@
       font-family: var(--font-body); font-size: 11px;
       letter-spacing: .18em; text-transform: uppercase; font-weight: 700;
       padding: 10px 22px; cursor: pointer;
-      background: var(--accent); color: #000;
+      background: var(--accent); color: #f6f2ea;
       border: 1px solid var(--accent);
       transition: opacity .15s;
     }
     .btn:hover { opacity: .85; }
     .btn.ghost {
-      background: transparent; color: #fff; border-color: var(--panel-edge);
+      background: transparent; color: #111111; border-color: var(--panel-edge);
     }
-    .btn.ghost:hover { border-color: #fff; }
+    .btn.ghost:hover { border-color: #111111; }
   </style>
 </head>
 <body>
@@ -402,11 +421,25 @@
           <summary>Travis County</summary>
           <button type="button" class="nav-item nav-sub" data-panel="research-austin">Austin</button>
           <button type="button" class="nav-item nav-sub" data-panel="research-west-lake-hills">West Lake Hills</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-lakeway">Lakeway</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-bee-cave">Bee Cave</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-pflugerville">Pflugerville</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-manor">Manor</button>
         </details>
         <details class="nav-subgroup">
           <summary>Williamson County</summary>
           <button type="button" class="nav-item nav-sub" data-panel="research-round-rock">Round Rock</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-cedar-park">Cedar Park</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-leander">Leander</button>
           <button type="button" class="nav-item nav-sub" data-panel="research-georgetown">Georgetown</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-hutto">Hutto</button>
+        </details>
+        <details class="nav-subgroup">
+          <summary>Hays County</summary>
+          <button type="button" class="nav-item nav-sub" data-panel="research-kyle">Kyle</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-buda">Buda</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-san-marcos">San Marcos</button>
+          <button type="button" class="nav-item nav-sub" data-panel="research-dripping-springs">Dripping Springs</button>
         </details>
         <details class="nav-subgroup">
           <summary>Large Land Development</summary>
@@ -436,15 +469,15 @@
         <div id="land-overview-tiles" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(180px, 1fr)); gap:12px;">
           <div class="pl-tile" style="padding:20px 22px; background:var(--panel); border:1px solid var(--rule);">
             <div style="font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Under Contract</div>
-            <div style="font-family:var(--font-display); font-size:32px; color:#fff; margin-top:6px;" id="tile-firm-uc">—</div>
+            <div style="font-family:var(--font-display); font-size:32px; color:#111111; margin-top:6px;" id="tile-firm-uc">—</div>
           </div>
           <div class="pl-tile" style="padding:20px 22px; background:var(--panel); border:1px solid var(--rule);">
             <div style="font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Active Buy Boxes</div>
-            <div style="font-family:var(--font-display); font-size:32px; color:#fff; margin-top:6px;" id="tile-firm-bb">—</div>
+            <div style="font-family:var(--font-display); font-size:32px; color:#111111; margin-top:6px;" id="tile-firm-bb">—</div>
           </div>
           <div class="pl-tile" style="padding:20px 22px; background:var(--panel); border:1px solid var(--rule);">
             <div style="font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Total Hot Leads</div>
-            <div style="font-family:var(--font-display); font-size:32px; color:#fff; margin-top:6px;" id="tile-firm-hotleads">—</div>
+            <div style="font-family:var(--font-display); font-size:32px; color:#111111; margin-top:6px;" id="tile-firm-hotleads">—</div>
           </div>
         </div>
 
@@ -453,7 +486,7 @@
           <div style="display:flex; align-items:center; justify-content:space-between; padding-bottom:12px; border-bottom:1px solid var(--rule); margin-bottom:6px;">
             <div>
               <div style="font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Central Texas · This Month</div>
-              <div style="font-family:var(--font-display); font-size:22px; color:#fff; margin-top:4px; letter-spacing:.04em;">Austin Deal Calendar</div>
+              <div style="font-family:var(--font-display); font-size:22px; color:#111111; margin-top:4px; letter-spacing:.04em;">Austin Deal Calendar</div>
             </div>
             <div style="text-align:right;">
               <div style="font-size:10px; letter-spacing:.18em; color:var(--text-muted); text-transform:uppercase;" id="cal-updated">Loading…</div>
@@ -482,24 +515,24 @@
         <style>
           /* ===== Deal Calendar ===== */
           .cal-head { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
-          .cal-title { font-family:var(--font-display); font-size:16px; color:#fff; letter-spacing:.14em; }
+          .cal-title { font-family:var(--font-display); font-size:16px; color:#111111; letter-spacing:.14em; }
           .cal-nav { display:flex; gap:6px; }
           .cal-nav button {
             background:transparent; border:1px solid var(--rule); color:var(--text-muted);
             font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase;
             padding:6px 12px; cursor:pointer;
           }
-          .cal-nav button:hover { color:#fff; border-color:var(--accent); }
-          .cal-dow { display:grid; grid-template-columns:repeat(7, 1fr); gap:1px; background:#222; border:1px solid #222; }
-          .cal-dow > div { background:#0a0a0a; padding:8px 6px; text-align:center; font-size:9px; letter-spacing:.24em; color:var(--text-dim); text-transform:uppercase; }
-          .cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:1px; background:#222; border:1px solid #222; border-top:0; }
-          .cal-cell { background:#0a0a0a; min-height:88px; padding:6px 6px 4px; display:flex; flex-direction:column; gap:2px; overflow:hidden; }
-          .cal-cell.other { background:#050505; opacity:.4; }
+          .cal-nav button:hover { color:#111111; border-color:var(--accent); }
+          .cal-dow { display:grid; grid-template-columns:repeat(7, 1fr); gap:1px; background:#e6dfd2; border:1px solid #e6dfd2; }
+          .cal-dow > div { background:#fbf9f4; padding:8px 6px; text-align:center; font-size:9px; letter-spacing:.24em; color:var(--text-dim); text-transform:uppercase; }
+          .cal-grid { display:grid; grid-template-columns:repeat(7, 1fr); gap:1px; background:#e6dfd2; border:1px solid #e6dfd2; border-top:0; }
+          .cal-cell { background:#fbf9f4; min-height:88px; padding:6px 6px 4px; display:flex; flex-direction:column; gap:2px; overflow:hidden; }
+          .cal-cell.other { background:#faf7f1; opacity:.4; }
           .cal-cell.past  { opacity:.55; }
           .cal-cell.today { outline:1px solid var(--accent); outline-offset:-1px; background:linear-gradient(180deg, rgba(234,226,211,.06), rgba(234,226,211,0)); }
           .cal-daynum { font-family:var(--font-body); font-size:11px; color:var(--text-muted); letter-spacing:.06em; margin-bottom:2px; }
           .cal-cell.today .cal-daynum { color:var(--accent); font-weight:700; }
-          .cal-event { border-left:2px solid var(--accent); padding:2px 6px; font-size:10px; line-height:1.25; color:#fff; background:#1a1a1a;
+          .cal-event { border-left:2px solid var(--accent); padding:2px 6px; font-size:10px; line-height:1.25; color:#111111; background:#ede7da;
             white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
           .cal-event.priority { border-left-color:#f57c00; background:#231512; }
           .cal-more { font-size:9px; letter-spacing:.16em; color:var(--text-dim); text-transform:uppercase; padding:2px 6px; }
@@ -511,8 +544,8 @@
             border:1px solid var(--rule); color:var(--text-muted); background:transparent;
             transition:all .15s;
           }
-          .cat-chip:hover { color:#fff; border-color:var(--text-muted); }
-          .cat-chip.is-on { background:var(--accent); color:#111; border-color:var(--accent); }
+          .cat-chip:hover { color:#111111; border-color:var(--text-muted); }
+          .cat-chip.is-on { background:var(--accent); color:#f1ece2; border-color:var(--accent); }
           .cat-chip .count { opacity:.6; margin-left:6px; }
 
           /* ===== Event cards (artifact-style) ===== */
@@ -527,8 +560,8 @@
             font-family:var(--font-body); font-size:11px; color:var(--text-muted);
             letter-spacing:.18em; text-transform:uppercase; line-height:1.55;
           }
-          .ev-card .ev-when .day { color:#fff; font-weight:700; }
-          .ev-card .ev-title { font-family:var(--font-display); font-size:18px; color:#fff; letter-spacing:.02em; margin-bottom:4px; display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+          .ev-card .ev-when .day { color:#111111; font-weight:700; }
+          .ev-card .ev-title { font-family:var(--font-display); font-size:18px; color:#111111; letter-spacing:.02em; margin-bottom:4px; display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
           .ev-card .ev-tags { display:inline-flex; gap:6px; flex-wrap:wrap; }
           .ev-tag { font-size:9px; letter-spacing:.22em; padding:2px 8px; text-transform:uppercase; border-radius:2px; }
           .ev-tag.BUILDERS         { background:#1e3323; color:#8fd39c; }
@@ -539,12 +572,12 @@
           .ev-verified { font-size:10px; color:#7fbf7f; letter-spacing:.08em; }
           .ev-listed   { font-size:10px; color:var(--text-dim); letter-spacing:.08em; }
           .ev-host { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
-          .ev-host b { color:#fff; }
+          .ev-host b { color:#111111; }
           .ev-desc { font-size:13px; color:var(--text); line-height:1.6; margin-bottom:10px; }
           .ev-meta { font-size:11px; color:var(--text-dim); line-height:1.7; }
           .ev-meta .label { letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); margin-right:6px; }
           .ev-meta a { color:var(--accent); text-decoration:none; }
-          .ev-meta a:hover { color:#fff; }
+          .ev-meta a:hover { color:#111111; }
         </style>
 
         <script>
@@ -714,11 +747,8 @@
           <button type="button" class="agent-tab is-active" data-agent="Gabe Jeudy-Lally">
             <span class="initial">G</span>Gabe Jeudy-Lally
           </button>
-          <button type="button" class="agent-tab" data-agent="Partner 2">
-            <span class="initial">2</span>Partner 2
-          </button>
-          <button type="button" class="agent-tab" data-agent="Partner 3">
-            <span class="initial">3</span>Partner 3
+          <button type="button" class="agent-tab" data-agent="Vincent Zambito">
+            <span class="initial">V</span>Vincent Zambito
           </button>
         </div>
 
@@ -728,10 +758,10 @@
           <div style="font-family:var(--font-display); font-size:20px; letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px;" id="hl-lock-title">Hot Leads Locked</div>
           <p style="font-size:12px; color:var(--text-muted); max-width:400px; margin:0 auto 20px;">Enter your passcode to view leads for <b id="hl-lock-agent" style="color:var(--accent);">Gabe Jeudy-Lally</b>. Codes are managed in the Team Roster.</p>
           <input id="hl-code-input" type="password" autocomplete="off" placeholder="Enter passcode"
-                 style="width:220px; padding:12px 16px; text-align:center; font-family:var(--font-body); font-size:14px; letter-spacing:.3em; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
-          <div id="hl-code-status" style="font-size:11px; color:#d99; margin-top:10px; min-height:16px;"></div>
+                 style="width:220px; padding:12px 16px; text-align:center; font-family:var(--font-body); font-size:14px; letter-spacing:.3em; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
+          <div id="hl-code-status" style="font-size:11px; color:#b03030; margin-top:10px; min-height:16px;"></div>
           <button type="button" id="hl-code-submit"
-                  style="margin-top:8px; padding:10px 24px; font-family:var(--font-body); font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:700; background:var(--accent); color:#000; border:0; cursor:pointer;">Unlock</button>
+                  style="margin-top:8px; padding:10px 24px; font-family:var(--font-body); font-size:11px; letter-spacing:.2em; text-transform:uppercase; font-weight:700; background:var(--accent); color:#f6f2ea; border:0; cursor:pointer;">Unlock</button>
         </div>
 
         <!-- Unlocked view -->
@@ -740,7 +770,7 @@
             <div style="font-size:11px; color:var(--text-dim); letter-spacing:.14em; text-transform:uppercase;" id="land-hotleads-count">—</div>
             <div style="display:flex; gap:8px;">
               <button type="button" id="hl-add-btn"
-                      style="padding:8px 16px; font-family:var(--font-body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; background:var(--accent); color:#000; border:0; cursor:pointer;">+ Add Hot Lead</button>
+                      style="padding:8px 16px; font-family:var(--font-body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; background:var(--accent); color:#f6f2ea; border:0; cursor:pointer;">+ Add Hot Lead</button>
               <button type="button" id="hl-lock-btn"
                       style="padding:8px 14px; font-family:var(--font-body); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--text-muted); background:transparent; border:1px solid var(--panel-edge); cursor:pointer;">Lock</button>
             </div>
@@ -757,19 +787,19 @@
         <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
           <div style="font-size:11px; color:var(--text-dim); letter-spacing:.14em; text-transform:uppercase;" id="land-buyboxes-count">Loading…</div>
           <button type="button" id="bb-add-btn"
-                  style="padding:8px 16px; font-family:var(--font-body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; background:var(--accent); color:#000; border:0; cursor:pointer;">+ Add Buy Box</button>
+                  style="padding:8px 16px; font-family:var(--font-body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:600; background:var(--accent); color:#f6f2ea; border:0; cursor:pointer;">+ Add Buy Box</button>
         </div>
         <!-- Filter bar -->
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:10px; padding:12px 14px; margin-bottom:14px; background:var(--panel); border:1px solid var(--rule);">
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">City</span>
-            <select id="bb-filter-city" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#000; color:#fff; border:1px solid var(--rule-strong);">
+            <select id="bb-filter-city" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);">
               <option value="">All Cities</option>
             </select>
           </label>
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Client Type</span>
-            <select id="bb-filter-type" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#000; color:#fff; border:1px solid var(--rule-strong);">
+            <select id="bb-filter-type" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);">
               <option value="">All Types</option>
               <option value="Builder">Builder</option>
               <option value="Developer">Developer</option>
@@ -778,7 +808,7 @@
           </label>
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Priority</span>
-            <select id="bb-filter-priority" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#000; color:#fff; border:1px solid var(--rule-strong);">
+            <select id="bb-filter-priority" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);">
               <option value="">All Priorities</option>
               <option value="High">High</option>
               <option value="Medium">Medium</option>
@@ -788,11 +818,11 @@
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Search</span>
             <input id="bb-filter-search" type="text" placeholder="Builder, suburb, notes…"
-                   style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                   style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
           </label>
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Group By</span>
-            <select id="bb-filter-groupby" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#000; color:#fff; border:1px solid var(--rule-strong);">
+            <select id="bb-filter-groupby" style="padding:8px 10px; font-family:var(--font-body); font-size:13px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);">
               <option value="">— None (flat) —</option>
               <option value="city" selected>City</option>
               <option value="type">Client Type</option>
@@ -810,37 +840,37 @@
         <p class="panel-intro">Fee Calculator · Property Intake · One-Pager · Underwriting Model. Everyone on the Land team has access.</p>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
           <a class="tool-tile" href="underwriting-model.html" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--accent); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--accent); color:#111111;">
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Underwriting Model</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Project costs, returns, draw schedule, sensitivity — interactive calculator (no logging).</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Open Calculator →</div>
           </a>
           <a class="tool-tile" href="fee-calculator.html" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Fee Calculator</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Run a deal through the MRC class &amp; commission schedule</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Open →</div>
           </a>
           <a class="tool-tile" href="property-intake.html" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Submit Property Intake</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Log a property under evaluation for acquisition</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Open →</div>
           </a>
           <a class="tool-tile" href="property-onepager.html" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Generate One-Pager</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Auto-populate from the Intake sheet by property address</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Open →</div>
           </a>
           <a class="tool-tile" href="land-cma-generator.html" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Land CMA Generator</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Subject property + 3 sold land comps → 3-page presentation PDF (cover, subject summary, comps).</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Open →</div>
           </a>
           <a class="tool-tile" href="loi-generator.html" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Letter of Intent</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Formal LOI to a seller — purchase price, EM, closing, contingencies, additional terms → one-page PDF.</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Open →</div>
@@ -853,14 +883,14 @@
         <p class="panel-intro">Reference documents for the Land division. Same files everyone on the team uses.</p>
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:12px;">
           <a class="tool-tile" href="assets/land-files/assignment-form.pdf" download="Victory Formation-Assignment-Form.pdf" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Form</div>
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Assignment Form</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">Assign a property under contract to a builder, custom client, or Development.</div>
             <div style="margin-top:8px; font-size:10px; letter-spacing:.2em; color:var(--accent); text-transform:uppercase;">Download ↓</div>
           </a>
           <a class="tool-tile" href="assets/land-files/commission-one-pager.pdf" download="Victory Formation-Land-Commission-One-Pager.pdf" target="_blank" rel="noopener"
-             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#fff;">
+             style="display:flex; flex-direction:column; gap:6px; padding:22px 24px; background:var(--panel); border:1px solid var(--rule); color:#111111;">
             <div style="font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Reference</div>
             <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.16em; text-transform:uppercase;">Commission One-Pager</div>
             <div style="font-size:11px; color:var(--text-muted); letter-spacing:.05em;">MRC classes, commission schedule, agent payout by tier.</div>
@@ -872,69 +902,254 @@
       <!-- ============= RESEARCH · AUSTIN (Travis) ============= -->
       <section class="panel" id="panel-research-austin" role="tabpanel">
         <div class="division-eyebrow">Research · Travis County</div>
-        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Austin</h2>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Austin</h2>
         <p class="panel-intro">Property lookup for Austin: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="austin"></div>
 
         <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Austin · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>How to read an Austin zone.</b> A base district plus suffixes, e.g. <b>SF-3-NP</b>. The base sets use and lot rules; suffixes modify it: <b>-NP</b> Neighborhood Plan (plan-specific tweaks, check the plan), <b>-CO</b> Conditional Overlay (site-specific restrictions from the rezoning ordinance), <b>-MU</b> Mixed Use allowed, <b>-V</b> Vertical Mixed Use, <b>-H</b> Historic, <b>-NCCD</b> Neighborhood Conservation, <b>-DB</b> density bonus.</p>
+<p><b>Residential bases.</b> <b>LA</b> Lake Austin (1 acre min, steep-slope rules) · <b>RR</b> Rural Residence (1 acre) · <b>SF-1</b> Large Lot (10,000 sf) · <b>SF-2</b> Standard Lot (5,750 sf) · <b>SF-3</b> Family Residence (5,750 sf; the most common infill zone, historically allowed duplexes) · <b>SF-4A</b> Small Lot (3,600 sf) · <b>SF-5</b> Urban Family · <b>SF-6</b> Townhouse &amp; Condo · <b>MF-1</b> through <b>MF-6</b> multifamily by rising density · <b>MH</b> Mobile Home.</p>
+<p><b>HOME amendments (2023–24) matter for infill.</b> SF-1, SF-2 and SF-3 lots now allow up to <b>3 units</b> per lot, and lots can be split down to roughly <b>1,800 sf</b> per unit (HOME Phase 2), subject to 45% impervious cover, 40% building cover, and a 0.4 FAR (more with preservation or sustainability bonuses). Max height is 35 ft. This is why small-lot SF-3 in central Austin trades on a per-unit basis.</p>
+<p><b>Commercial and other.</b> <b>LO</b> Limited Office · <b>GO</b> General Office · <b>LR</b> Neighborhood Commercial · <b>GR</b> Community Commercial · <b>CS</b> General Commercial Services (the workhorse commercial zone; CS-MU-V allows residential over retail) · <b>CBD</b> and <b>DMU</b> downtown · <b>LI</b> Limited Industrial · <b>P</b> Public · <b>PUD</b> Planned Unit Development (its own rulebook, read the ordinance).</p>
+<p><b>Watch for.</b> Drinking Water Protection Zone and Barton Springs Zone (much lower impervious cover, critical environmental feature buffers), Hill Country Roadway and Lake Austin overlays, the Fully Developed Floodplain (stricter than FEMA), heritage tree rules (24"+ trunks), and compatibility standards next to single-family.</p>
+            </div>
+          </div>
           <div class="research-card">
             <h3>Official Sources</h3>
             <ul class="research-list">
               <li><a href="https://www.austintexas.gov/development-services/zoning-verification" target="_blank" rel="noopener">Austin DSD Zoning Verification</a></li>
-              <li><a href="https://www.austintexas.gov/planning/zoning-resources-site-regulations" target="_blank" rel="noopener">Austin Planning: Zoning Resources & Site Regulations</a></li>
-              <li><a href="https://traviscad.org/property-search" target="_blank" rel="noopener">TCAD Property Search</a></li>
-              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
               <li><a href="https://maps.austintexas.gov/PropertyProfile/" target="_blank" rel="noopener">City of Austin Property Profile (zoning, floodplain, overlays)</a></li>
               <li><a href="https://library.municode.com/tx/austin/codes/land_development_code" target="_blank" rel="noopener">Austin Land Development Code (Municode)</a></li>
+              <li><a href="https://traviscad.org/propertysearch" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
               <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
             </ul>
           </div>
           <div class="research-card">
+            <h3>Travis County context</h3>
+            <p class="research-note">Travis County itself has no zoning outside city limits: unincorporated land is governed only by county subdivision, floodplain, and on-site sewage rules, plus TCEQ Edwards Aquifer rules on the west side. Inside Austin's ETJ the city's subdivision and water-quality rules apply but not its zoning. Most of the county's incorporated cities (West Lake Hills, Rollingwood, Lakeway, Bee Cave, Sunset Valley, Manor, Pflugerville) run their own zoning codes.</p>
+          </div>
+          <div class="research-card">
             <h3>Working Notes</h3>
-            <p class="research-note">Drop your Austin zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+            <p class="research-note">Add what you learn on the ground in Austin: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
       </section>
 
       <section class="panel" id="panel-research-west-lake-hills" role="tabpanel">
         <div class="division-eyebrow">Research · Travis County</div>
-        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">West Lake Hills</h2>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">West Lake Hills</h2>
         <p class="panel-intro">Property lookup for West Lake Hills: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="west-lake-hills"></div>
 
         <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in West Lake Hills · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> A wealthy, hilly, almost entirely single-family city west of MoPac inside the Eanes ISD. Lots are large, tree-covered and steep, and the city is protective: no multifamily to speak of, strict tree and slope rules, and a Zoning &amp; Planning Commission that reviews most variances in person.</p>
+<p><b>Districts.</b> <b>R-1</b> Single-Family (the bulk of the city, roughly 1-acre minimum lots), <b>R-2</b> smaller-lot residential in older sections, plus limited <b>C</b> commercial along Bee Cave Road (FM 2244) and <b>GUI</b> government/utility. Most redevelopment is teardown-and-rebuild on existing lots rather than subdivision.</p>
+<p><b>Watch for.</b> Impervious cover caps tied to slope, setbacks measured from steep-slope and drainage areas, tree removal permits, and a lengthy variance calendar. Budget time for the Zoning &amp; Planning Commission if the design pushes any limit.</p>
+            </div>
+          </div>
           <div class="research-card">
             <h3>Official Sources</h3>
             <ul class="research-list">
               <li><a href="https://www.westlakehills.org/95/Building-Development" target="_blank" rel="noopener">West Lake Hills Building & Development</a></li>
               <li><a href="https://www.westlakehills.org/DocumentCenter/View/36/West-Lake-Hills-Zoning-Map-PDF" target="_blank" rel="noopener">West Lake Hills Zoning Map (PDF)</a></li>
-              <li><a href="https://traviscad.org/property-search" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://library.municode.com/tx/west_lake_hills/codes/code_of_ordinances" target="_blank" rel="noopener">West Lake Hills Code of Ordinances</a></li>
+              <li><a href="https://traviscad.org/propertysearch" target="_blank" rel="noopener">TCAD Property Search</a></li>
               <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
-              <li><a href="https://maps.austintexas.gov/PropertyProfile/" target="_blank" rel="noopener">City of Austin Property Profile (zoning, floodplain, overlays)</a></li>
-              <li><a href="https://library.municode.com/tx/austin/codes/land_development_code" target="_blank" rel="noopener">Austin Land Development Code (Municode)</a></li>
               <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
             </ul>
           </div>
           <div class="research-card">
+            <h3>Travis County context</h3>
+            <p class="research-note">Travis County itself has no zoning outside city limits: unincorporated land is governed only by county subdivision, floodplain, and on-site sewage rules, plus TCEQ Edwards Aquifer rules on the west side. Inside Austin's ETJ the city's subdivision and water-quality rules apply but not its zoning. Most of the county's incorporated cities (West Lake Hills, Rollingwood, Lakeway, Bee Cave, Sunset Valley, Manor, Pflugerville) run their own zoning codes.</p>
+          </div>
+          <div class="research-card">
             <h3>Working Notes</h3>
-            <p class="research-note">Drop your West Lake Hills zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+            <p class="research-note">Add what you learn on the ground in West Lake Hills: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-lakeway" role="tabpanel">
+        <div class="division-eyebrow">Research · Travis County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Lakeway</h2>
+        <p class="panel-intro">Property lookup for Lakeway: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="lakeway"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Lakeway · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Lake Travis resort town turned suburb along RR 620, mostly built out, with infill lots, lake-view teardowns, and a few remaining PUD tracts. The GIS layer here is unusually good: it returns minimum lot area, width, setbacks and height for the district, which the lookup shows above.</p>
+<p><b>Districts.</b> <b>R-1</b> Single-Family (the standard lot district), <b>R-1A</b> larger-lot single-family, <b>R-2</b> duplex/two-family, <b>R-3</b> and <b>R-4</b> multifamily, <b>R-5</b> zero-lot-line/patio homes, <b>R-6</b> cluster housing, <b>C-1</b> Commercial, <b>O</b> Office, <b>GUI</b> Government/Utility/Institutional, and many <b>PUD</b>s, each with its own ordinance.</p>
+<p><b>Watch for.</b> Lakeway sits in the Lake Travis watershed with LCRA and TCEQ rules on top of city code, so drainage and impervious cover reviews are real. Short-term rental rules are active politics here. Lake access lots may involve LCRA shoreline permits.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.lakeway-tx.gov/67/Building-Development" target="_blank" rel="noopener">Lakeway Building & Development Services</a></li>
+              <li><a href="https://library.municode.com/tx/lakeway/codes/code_of_ordinances" target="_blank" rel="noopener">Lakeway Code of Ordinances</a></li>
+              <li><a href="https://traviscad.org/propertysearch" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Travis County context</h3>
+            <p class="research-note">Travis County itself has no zoning outside city limits: unincorporated land is governed only by county subdivision, floodplain, and on-site sewage rules, plus TCEQ Edwards Aquifer rules on the west side. Inside Austin's ETJ the city's subdivision and water-quality rules apply but not its zoning. Most of the county's incorporated cities (West Lake Hills, Rollingwood, Lakeway, Bee Cave, Sunset Valley, Manor, Pflugerville) run their own zoning codes.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Lakeway: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-bee-cave" role="tabpanel">
+        <div class="division-eyebrow">Research · Travis County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Bee Cave</h2>
+        <p class="panel-intro">Property lookup for Bee Cave: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="bee-cave"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Bee Cave · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Retail hub at Hwy 71 and RR 620 (Hill Country Galleria) with expensive hillside residential around it. A very large share of the city is zoned <b>PDD</b> (Planned Development District), so the ordinance for the specific PDD governs, not the base district table.</p>
+<p><b>Districts.</b> <b>SF-E</b> Estate, <b>SF-1</b>/<b>SF-2</b> single-family by lot size, <b>MF</b> multifamily, <b>C-1</b>/<b>C-2</b> commercial, <b>MU</b> mixed-use, <b>GUI</b>, and <b>PDD</b>. The UDC (Section 3.2) is the reference.</p>
+<p><b>Watch for.</b> Hill Country Roadway-style scenic corridor standards on Hwy 71 and RR 620, Barton Springs/Edwards contributing zone water-quality rules, and steep-slope limits. Bee Cave's ETJ overlaps with Lakeway and Austin claims, so confirm jurisdiction first.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.beecavetexas.gov/government/departments/planning_development/planning" target="_blank" rel="noopener">Bee Cave Planning</a></li>
+              <li><a href="https://be6240.zoninghub.com/zoningmap.aspx" target="_blank" rel="noopener">Bee Cave Interactive Zoning Map (Zoninghub)</a></li>
+              <li><a href="https://ecode360.com/40279649" target="_blank" rel="noopener">Bee Cave UDC Section 3.2 Zoning Districts</a></li>
+              <li><a href="https://traviscad.org/propertysearch" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Travis County context</h3>
+            <p class="research-note">Travis County itself has no zoning outside city limits: unincorporated land is governed only by county subdivision, floodplain, and on-site sewage rules, plus TCEQ Edwards Aquifer rules on the west side. Inside Austin's ETJ the city's subdivision and water-quality rules apply but not its zoning. Most of the county's incorporated cities (West Lake Hills, Rollingwood, Lakeway, Bee Cave, Sunset Valley, Manor, Pflugerville) run their own zoning codes.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Bee Cave: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-pflugerville" role="tabpanel">
+        <div class="division-eyebrow">Research · Travis County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Pflugerville</h2>
+        <p class="panel-intro">Property lookup for Pflugerville: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="pflugerville"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Pflugerville · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Northeast suburb straddling Travis and Williamson counties along SH 130 and SH 45, with big master-planned subdivisions, data centers and logistics on the east side, and a lot of MUD-financed development in the ETJ.</p>
+<p><b>Districts (UDC).</b> <b>A</b> Agriculture, <b>SF-E</b> Estate, <b>SF-R</b> Rural, <b>SF-S</b> Suburban, <b>SF-MU</b> mixed residential, <b>MF-1</b>/<b>MF-2</b> multifamily, <b>GB1</b>/<b>GB2</b> General Business, <b>CL1</b>-<b>CL5</b> corridor districts, <b>LI</b>/<b>GI</b> industrial, <b>PUD</b>. The city's layer also lists permitted and conditional uses for the district, which the Property Lookup pulls when available.</p>
+<p><b>Watch for.</b> Pflugerville disannexation politics and MUD consent agreements shape what can be built in the ETJ. Confirm whether utilities come from the city or a MUD.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.pflugervilletx.gov/236/Planning-Department" target="_blank" rel="noopener">Pflugerville Planning Department</a></li>
+              <li><a href="https://pflugervilletx.gov/city-government/development-services-center/planning-department/unified-development-code" target="_blank" rel="noopener">Pflugerville Unified Development Code</a></li>
+              <li><a href="https://traviscad.org/propertysearch" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Travis County context</h3>
+            <p class="research-note">Travis County itself has no zoning outside city limits: unincorporated land is governed only by county subdivision, floodplain, and on-site sewage rules, plus TCEQ Edwards Aquifer rules on the west side. Inside Austin's ETJ the city's subdivision and water-quality rules apply but not its zoning. Most of the county's incorporated cities (West Lake Hills, Rollingwood, Lakeway, Bee Cave, Sunset Valley, Manor, Pflugerville) run their own zoning codes.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Pflugerville: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-manor" role="tabpanel">
+        <div class="division-eyebrow">Research · Travis County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Manor</h2>
+        <p class="panel-intro">Property lookup for Manor: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="manor"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Manor · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Small east-side city on US 290 that has become one of the cheapest places to build new single-family in the metro, with large production-builder subdivisions, Tesla and Samsung commute traffic, and a big ETJ.</p>
+<p><b>Districts.</b> <b>R-1</b> Single-Family, <b>R-2</b> two-family/small lot, <b>R-3</b> multifamily, <b>MH</b>, <b>C-1</b> local commercial, <b>C-2</b> general commercial, <b>I-1</b>/<b>I-2</b> industrial, <b>MU</b>, <b>PUD</b>, plus the Old Town/Downtown district.</p>
+<p><b>Watch for.</b> Much of the growth is in MUDs and PIDs, wastewater capacity is the gating item, and floodplain along Wilbarger and Gilleland Creeks is extensive.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.manortx.gov/m/directory/department?did=14" target="_blank" rel="noopener">Manor Development Services directory</a></li>
+              <li><a href="https://library.municode.com/tx/manor/codes/code_of_ordinances" target="_blank" rel="noopener">Manor Code of Ordinances</a></li>
+              <li><a href="https://traviscad.org/propertysearch" target="_blank" rel="noopener">TCAD Property Search</a></li>
+              <li><a href="https://gis.traviscountytx.gov/" target="_blank" rel="noopener">Travis County GIS Map Viewer</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Travis County context</h3>
+            <p class="research-note">Travis County itself has no zoning outside city limits: unincorporated land is governed only by county subdivision, floodplain, and on-site sewage rules, plus TCEQ Edwards Aquifer rules on the west side. Inside Austin's ETJ the city's subdivision and water-quality rules apply but not its zoning. Most of the county's incorporated cities (West Lake Hills, Rollingwood, Lakeway, Bee Cave, Sunset Valley, Manor, Pflugerville) run their own zoning codes.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Manor: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
       </section>
 
       <section class="panel" id="panel-research-round-rock" role="tabpanel">
         <div class="division-eyebrow">Research · Williamson County</div>
-        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Round Rock</h2>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Round Rock</h2>
         <p class="panel-intro">Property lookup for Round Rock: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="round-rock"></div>
 
         <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Round Rock · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> The largest Williamson County city, largely built out inside the loop with infill and redevelopment downtown, and remaining greenfield on the east side toward SH 130 and Hutto.</p>
+<p><b>Districts.</b> <b>SF-1</b> Single-Family Large Lot, <b>SF-2</b> Standard Lot (the default), <b>SF-3</b> Mixed Lot, <b>SF-4</b> Small Lot, <b>TF</b> Two-Family, <b>TH</b> Townhouse, <b>MF-1</b>/<b>MF-2</b> multifamily, <b>OF</b> Office, <b>C-1</b> General Commercial, <b>C-1a</b> and <b>C-2</b> lighter commercial, <b>C-3</b> heavy commercial, <b>LI</b>/<b>HI</b> industrial, <b>MU-1</b>/<b>MU-2</b> mixed-use (downtown historic core is MU-1), <b>PUD</b>. The lookup links straight to the ordinance section.</p>
+<p><b>Watch for.</b> Downtown has design standards and a historic overlay. Brushy Creek floodplain runs through the middle of town. Round Rock and Pflugerville ETJs meet on the south side, so check the jurisdiction map.</p>
+            </div>
+          </div>
           <div class="research-card">
             <h3>Official Sources</h3>
             <ul class="research-list">
@@ -947,21 +1162,111 @@
             </ul>
           </div>
           <div class="research-card">
+            <h3>Williamson County context</h3>
+            <p class="research-note">Williamson County is the fastest-growing piece of the metro (Samsung in Taylor, the 183A and I-35 corridors). Unincorporated county land has no zoning; each city zones inside its limits and controls subdivision in its ETJ. Cities also annex aggressively along the corridors, so check whether a parcel is in city limits, ETJ, or a MUD before assuming rules.</p>
+          </div>
+          <div class="research-card">
             <h3>Working Notes</h3>
-            <p class="research-note">Drop your Round Rock zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+            <p class="research-note">Add what you learn on the ground in Round Rock: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-cedar-park" role="tabpanel">
+        <div class="division-eyebrow">Research · Williamson County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Cedar Park</h2>
+        <p class="panel-intro">Property lookup for Cedar Park: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="cedar-park"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Cedar Park · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Mostly built-out suburb on 183A and US 183 with the Bell District redevelopment downtown, strong retail corridors, and few remaining large residential tracts; most new residential is infill, townhome, or redevelopment.</p>
+<p><b>Districts.</b> Single-family <b>SF-1</b> through <b>SF-3</b> by lot size, <b>TH</b> townhouse, <b>MF</b> multifamily, <b>LO</b> Local Office, <b>LR</b> Local Retail, <b>GB</b> General Business, <b>GR</b> General Retail, <b>LI</b> Light Industrial, and a lot of <b>PD</b> Planned Development (the sample downtown parcel is PD). Corridor overlays add design standards on 183, 183A, 1431 and Whitestone.</p>
+<p><b>Watch for.</b> Edwards Aquifer recharge zone in the western half (TCEQ water pollution abatement plan), karst features, and the Brushy Creek floodplain.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.cedarparktexas.gov/165/Planning" target="_blank" rel="noopener">Cedar Park Planning</a></li>
+              <li><a href="https://gisdata-cedarpark.opendata.arcgis.com/datasets/CedarPark::zoning-1?layer=3" target="_blank" rel="noopener">Cedar Park Zoning Districts (open data)</a></li>
+              <li><a href="https://library.municode.com/tx/cedar_park/codes/code_of_ordinances" target="_blank" rel="noopener">Cedar Park Code of Ordinances</a></li>
+              <li><a href="https://search.wcad.org/" target="_blank" rel="noopener">WCAD Property Search</a></li>
+              <li><a href="https://gis.wilco.org/" target="_blank" rel="noopener">Williamson County GIS Maps</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Williamson County context</h3>
+            <p class="research-note">Williamson County is the fastest-growing piece of the metro (Samsung in Taylor, the 183A and I-35 corridors). Unincorporated county land has no zoning; each city zones inside its limits and controls subdivision in its ETJ. Cities also annex aggressively along the corridors, so check whether a parcel is in city limits, ETJ, or a MUD before assuming rules.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Cedar Park: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-leander" role="tabpanel">
+        <div class="division-eyebrow">Research · Williamson County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Leander</h2>
+        <p class="panel-intro">Property lookup for Leander: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="leander"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Leander · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> One of the fastest-growing cities in the country, at the end of the CapMetro Red Line and 183A, with huge master-planned communities (Travisso, Bryson, Crystal Falls) and a big ETJ toward Lake Travis.</p>
+<p><b>Composite zoning.</b> Leander does not use simple districts. Each parcel's zoning is a <b>combination of three components</b>: a <b>Use</b> component (e.g. SFR rural, SFS suburban, SFU urban, SFC compact, SFL limited single-family; TF two-family; MF; LO/GC commercial; LI/HI industrial), a <b>Site</b> development component (lot size, setbacks, coverage), and an <b>Architectural</b> component. The lookup shows all three. Around the transit station the <b>TOD SmartCode</b> transects (T3 through T6) apply instead.</p>
+<p><b>Watch for.</b> PUDs override the composite rules; check the PUD name shown. Water is the constraint (Leander buys from BCRUA); confirm capacity early on larger tracts.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.leandertx.gov/352/Planning" target="_blank" rel="noopener">Leander Planning</a></li>
+              <li><a href="https://www.leandertx.gov/DocumentCenter/View/1218/Zoning-Verification-Request-PDF" target="_blank" rel="noopener">Leander Zoning Verification Request (PDF)</a></li>
+              <li><a href="https://gis-leander.hub.arcgis.com/" target="_blank" rel="noopener">Leander GIS Hub</a></li>
+              <li><a href="https://search.wcad.org/" target="_blank" rel="noopener">WCAD Property Search</a></li>
+              <li><a href="https://gis.wilco.org/" target="_blank" rel="noopener">Williamson County GIS Maps</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Williamson County context</h3>
+            <p class="research-note">Williamson County is the fastest-growing piece of the metro (Samsung in Taylor, the 183A and I-35 corridors). Unincorporated county land has no zoning; each city zones inside its limits and controls subdivision in its ETJ. Cities also annex aggressively along the corridors, so check whether a parcel is in city limits, ETJ, or a MUD before assuming rules.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Leander: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
       </section>
 
       <section class="panel" id="panel-research-georgetown" role="tabpanel">
         <div class="division-eyebrow">Research · Williamson County</div>
-        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Georgetown</h2>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Georgetown</h2>
         <p class="panel-intro">Property lookup for Georgetown: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
 
         <!-- Property Lookup mount point (JS injects the UI) -->
         <div class="plookup-mount" data-city="georgetown"></div>
 
         <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Georgetown · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Historic square, Sun City retirement community, Southwestern University, and explosive growth on every side along I-35, SH 29 and Ronald Reagan Blvd. Georgetown has been the fastest-growing city over 50,000 in the U.S. several years running.</p>
+<p><b>Districts (UDC Chapter 4).</b> <b>AG</b> Agriculture, <b>RE</b> Residential Estate, <b>RL</b> Residential Low Density, <b>RS</b> Residential Single-Family (the default), <b>TH</b> Townhouse, <b>TF</b> Two-Family, <b>MF-1</b>/<b>MF-2</b> multifamily, <b>MH</b>, <b>CN</b> Neighborhood Commercial, <b>C-1</b> Local Commercial, <b>C-3</b> General Commercial, <b>OF</b> Office, <b>BP</b> Business Park, <b>IN</b> Industrial, <b>MU-DT</b> Mixed-Use Downtown, <b>PUD</b>. Overlays: Downtown, Old Town, Gateway corridors, Courthouse View.</p>
+<p><b>Watch for.</b> Edwards Aquifer recharge zone on the west side, the South San Gabriel floodplain, Old Town historic review, and the Williams Drive subarea plan.</p>
+            </div>
+          </div>
           <div class="research-card">
             <h3>Official Sources</h3>
             <ul class="research-list">
@@ -974,14 +1279,212 @@
             </ul>
           </div>
           <div class="research-card">
+            <h3>Williamson County context</h3>
+            <p class="research-note">Williamson County is the fastest-growing piece of the metro (Samsung in Taylor, the 183A and I-35 corridors). Unincorporated county land has no zoning; each city zones inside its limits and controls subdivision in its ETJ. Cities also annex aggressively along the corridors, so check whether a parcel is in city limits, ETJ, or a MUD before assuming rules.</p>
+          </div>
+          <div class="research-card">
             <h3>Working Notes</h3>
-            <p class="research-note">Drop your Georgetown zoning notes here as you learn the market: common residential districts and minimum lot sizes, standard setbacks and impervious cover caps, who at the city answers zoning verification requests, and the overlays that bite (Austin: NP, Hill Country Roadway, Lake Austin, Drinking Water Protection Zone).</p>
+            <p class="research-note">Add what you learn on the ground in Georgetown: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-hutto" role="tabpanel">
+        <div class="division-eyebrow">Research · Williamson County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Hutto</h2>
+        <p class="panel-intro">Property lookup for Hutto: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="hutto"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Hutto · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Small town east of Round Rock on US 79 that has turned into a production-builder boomtown, with the Samsung Taylor plant 15 minutes away and industrial/megasite land on the east side.</p>
+<p><b>Districts.</b> <b>SF-1</b> Estate, <b>SF-2</b> Standard Single-Family, <b>SF-3</b> small lot, <b>MF</b>, <b>C-1</b> Neighborhood Commercial, <b>C-2</b> General Commercial, <b>C-3</b> Highway Commercial, <b>LI</b>/<b>HI</b> industrial, <b>PUD</b>, and the Old Town district with its own design standards.</p>
+<p><b>Watch for.</b> Wastewater capacity and the Brushy Creek floodplain; much of the new supply is in PUDs with their own lot standards.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.huttotx.gov/298/Planning" target="_blank" rel="noopener">Hutto Planning</a></li>
+              <li><a href="https://www.huttotx.gov/310/Zoning-Information" target="_blank" rel="noopener">Hutto Zoning Information</a></li>
+              <li><a href="https://library.municode.com/tx/hutto/codes/code_of_ordinances" target="_blank" rel="noopener">Hutto Code of Ordinances</a></li>
+              <li><a href="https://search.wcad.org/" target="_blank" rel="noopener">WCAD Property Search</a></li>
+              <li><a href="https://gis.wilco.org/" target="_blank" rel="noopener">Williamson County GIS Maps</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Williamson County context</h3>
+            <p class="research-note">Williamson County is the fastest-growing piece of the metro (Samsung in Taylor, the 183A and I-35 corridors). Unincorporated county land has no zoning; each city zones inside its limits and controls subdivision in its ETJ. Cities also annex aggressively along the corridors, so check whether a parcel is in city limits, ETJ, or a MUD before assuming rules.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Hutto: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-kyle" role="tabpanel">
+        <div class="division-eyebrow">Research · Hays County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Kyle</h2>
+        <p class="panel-intro">Property lookup for Kyle: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="kyle"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Kyle · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Fastest-growing city in Hays County, on I-35 between Austin and San Marcos, with large production subdivisions, Plum Creek, and a new downtown push. Big ETJ toward the east.</p>
+<p><b>Districts.</b> <b>A</b> Agriculture, <b>R-1-A/B/C</b> single-family by lot size, <b>R-1-T</b> townhouse, <b>R-2</b> duplex, <b>R-3</b> multifamily, <b>RS</b> Retail Services, <b>CBD-1</b>/<b>CBD-2</b> Central Business District, <b>W</b> Warehouse, <b>M</b> Manufacturing, <b>ETOD</b> transit-oriented near the future rail stop, <b>PUD</b>. The GIS layer links each district to its eCode360 section.</p>
+<p><b>Watch for.</b> Plum Creek floodplain and the Edwards Aquifer contributing zone west of I-35; MUD and PID financing on most greenfield tracts.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.cityofkyle.gov/planning" target="_blank" rel="noopener">Kyle Planning Services</a></li>
+              <li><a href="https://city-of-kyle-maps-giskyle.hub.arcgis.com/" target="_blank" rel="noopener">City of Kyle Maps</a></li>
+              <li><a href="https://ecode360.com/KY5433" target="_blank" rel="noopener">Kyle Code of Ordinances (eCode360)</a></li>
+              <li><a href="https://esearch.hayscad.com/" target="_blank" rel="noopener">Hays CAD Property Search</a></li>
+              <li><a href="https://hayscountytx.com/departments/development-services/" target="_blank" rel="noopener">Hays County Development Services</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Hays County context</h3>
+            <p class="research-note">Hays County is the south side of the growth: Kyle and Buda on I-35, San Marcos anchoring the south end, Dripping Springs and Wimberley in the Hill Country. Almost all of it west of I-35 sits over the Edwards Aquifer recharge or contributing zone, which brings TCEQ water-quality rules and impervious-cover limits even outside city limits. Unincorporated land has no zoning, but the county does regulate subdivisions, floodplain, and on-site sewage.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Kyle: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-buda" role="tabpanel">
+        <div class="division-eyebrow">Research · Hays County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Buda</h2>
+        <p class="panel-intro">Property lookup for Buda: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="buda"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Buda · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Closest Hays County city to Austin on I-35, small historic downtown, heavy new-home construction (Sunfield, Persimmon), and a form-based development code.</p>
+<p><b>Form districts.</b> Buda's UDC zones by <b>form</b> rather than use: <b>F1</b> Rural, <b>F2</b> Neighborhood Estate, <b>F3</b> Neighborhood (typical single-family), <b>F4</b> Neighborhood Center (mixed, walkable), <b>F5</b> Downtown/Core (the sample <b>F5H</b> is the historic downtown variant), plus <b>E</b> Employment/industrial, <b>P</b> Public and <b>PD</b>. Each form district sets building types, frontage and height rather than a use list.</p>
+<p><b>Watch for.</b> Onion Creek floodplain and the Edwards contributing zone; downtown historic design review in F5H.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.budatx.gov/175/Planning-Zoning-Land-Development" target="_blank" rel="noopener">Buda Planning & Zoning</a></li>
+              <li><a href="https://map-budatx.hub.arcgis.com/" target="_blank" rel="noopener">Buda Maps (open data)</a></li>
+              <li><a href="https://library.municode.com/tx/buda/codes/unified_development_code" target="_blank" rel="noopener">Buda Unified Development Code</a></li>
+              <li><a href="https://esearch.hayscad.com/" target="_blank" rel="noopener">Hays CAD Property Search</a></li>
+              <li><a href="https://hayscountytx.com/departments/development-services/" target="_blank" rel="noopener">Hays County Development Services</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Hays County context</h3>
+            <p class="research-note">Hays County is the south side of the growth: Kyle and Buda on I-35, San Marcos anchoring the south end, Dripping Springs and Wimberley in the Hill Country. Almost all of it west of I-35 sits over the Edwards Aquifer recharge or contributing zone, which brings TCEQ water-quality rules and impervious-cover limits even outside city limits. Unincorporated land has no zoning, but the county does regulate subdivisions, floodplain, and on-site sewage.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Buda: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-san-marcos" role="tabpanel">
+        <div class="division-eyebrow">Research · Hays County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">San Marcos</h2>
+        <p class="panel-intro">Property lookup for San Marcos: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="san-marcos"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in San Marcos · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> County seat and college town (Texas State), with student housing demand, the outlet malls, a big industrial base off I-35, and a spring-fed river the city guards closely.</p>
+<p><b>Districts.</b> Two systems coexist. Conventional: <b>SF-6</b> and <b>SF-4.5</b> single-family (number is min lot in thousands of sf), <b>TH</b>, <b>MF-12/18/24</b> (units per acre), <b>NC</b>/<b>CC</b> commercial, <b>LI</b>/<b>HI</b>, <b>P</b> Public, <b>AR</b> Ag Ranch, <b>FD</b> Future Development. Character districts (SmartCode-style): <b>CD-1</b> rural through <b>CD-5</b> downtown, with sub-districts like CD-5D. The layer also flags whether single-family is allowed.</p>
+<p><b>Watch for.</b> Purpose-built student housing rules, the San Marcos River protection zone, Edwards recharge zone north of town, and neighborhood character overlays near campus.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.sanmarcostx.gov/3958/Planning-Development-Services" target="_blank" rel="noopener">San Marcos Planning & Development Services</a></li>
+              <li><a href="https://library.municode.com/tx/san_marcos/codes/development_code" target="_blank" rel="noopener">San Marcos Development Code</a></li>
+              <li><a href="https://esearch.hayscad.com/" target="_blank" rel="noopener">Hays CAD Property Search</a></li>
+              <li><a href="https://hayscountytx.com/departments/development-services/" target="_blank" rel="noopener">Hays County Development Services</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Hays County context</h3>
+            <p class="research-note">Hays County is the south side of the growth: Kyle and Buda on I-35, San Marcos anchoring the south end, Dripping Springs and Wimberley in the Hill Country. Almost all of it west of I-35 sits over the Edwards Aquifer recharge or contributing zone, which brings TCEQ water-quality rules and impervious-cover limits even outside city limits. Unincorporated land has no zoning, but the county does regulate subdivisions, floodplain, and on-site sewage.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in San Marcos: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="panel-research-dripping-springs" role="tabpanel">
+        <div class="division-eyebrow">Research · Hays County</div>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:var(--text);">Dripping Springs</h2>
+        <p class="panel-intro">Property lookup for Dripping Springs: parcel and lot dimensions from the county appraisal district, zoning from the city's GIS, FEMA flood zone, and USGS slope in one query. Verify current values with the city before contracting — this is a working reference, not legal advice.</p>
+
+        <!-- Property Lookup mount point (JS injects the UI) -->
+        <div class="plookup-mount" data-city="dripping-springs"></div>
+
+        <div class="research-grid">
+          <div class="research-card research-card-wide">
+            <h3>Zoning in Dripping Springs · what the codes mean</h3>
+            <div class="research-blurb">
+<p><b>The lay of the land.</b> Small Hill Country city on US 290 with a very large ETJ full of ranchettes, wedding venues, and new subdivisions (Headwaters, Caliterra). The city limits are tiny; most deals here are ETJ or unincorporated Hays County under development agreements.</p>
+<p><b>Districts.</b> <b>SF-1</b>/<b>SF-2</b> single-family, <b>MF</b>, <b>CS</b> Commercial Services, <b>GUI</b> Government/Utility/Institutional, <b>PDD</b>, and the Historic District overlay on Mercer Street. In the ETJ, look for a <b>Development Agreement</b> layer entry instead of zoning.</p>
+<p><b>Watch for.</b> Wastewater is the whole ballgame (the city's discharge permit fights are famous); many tracts need on-site or package systems. Everything sits over the Edwards contributing zone with TCEQ and Hays County water-quality rules, plus dark-sky lighting standards.</p>
+            </div>
+          </div>
+          <div class="research-card">
+            <h3>Official Sources</h3>
+            <ul class="research-list">
+              <li><a href="https://www.drippingspringstx.gov/planning-and-development-department" target="_blank" rel="noopener">Dripping Springs Planning & Development</a></li>
+              <li><a href="https://cods.maps.arcgis.com/apps/webappviewer/index.html?id=ec4e11c9da3b4ce6b8798e27f18fd03d" target="_blank" rel="noopener">Dripping Springs Planning Map</a></li>
+              <li><a href="https://library.municode.com/tx/dripping_springs/codes/code_of_ordinances" target="_blank" rel="noopener">Dripping Springs Code of Ordinances</a></li>
+              <li><a href="https://esearch.hayscad.com/" target="_blank" rel="noopener">Hays CAD Property Search</a></li>
+              <li><a href="https://hayscountytx.com/departments/development-services/" target="_blank" rel="noopener">Hays County Development Services</a></li>
+              <li><a href="https://msc.fema.gov/portal/search" target="_blank" rel="noopener">FEMA Flood Map Service</a></li>
+            </ul>
+          </div>
+          <div class="research-card">
+            <h3>Hays County context</h3>
+            <p class="research-note">Hays County is the south side of the growth: Kyle and Buda on I-35, San Marcos anchoring the south end, Dripping Springs and Wimberley in the Hill Country. Almost all of it west of I-35 sits over the Edwards Aquifer recharge or contributing zone, which brings TCEQ water-quality rules and impervious-cover limits even outside city limits. Unincorporated land has no zoning, but the county does regulate subdivisions, floodplain, and on-site sewage.</p>
+          </div>
+          <div class="research-card">
+            <h3>Working Notes</h3>
+            <p class="research-note">Add what you learn on the ground in Dripping Springs: who at the city actually answers, typical review timelines, utility capacity by area, builders active here, and the overlays that have bitten a deal.</p>
           </div>
         </div>
       </section>
       <section class="panel" id="panel-research-large-land" role="tabpanel">
         <div class="division-eyebrow">Research · Large Land Development</div>
-        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#fff;">Large Land Development</h2>
+        <h2 style="font-family:var(--font-display); font-size:28px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 16px; font-weight:400; color:#111111;">Large Land Development</h2>
         <p class="panel-intro">Research and reference for large-parcel plays: multi-acre acquisitions, subdivision opportunities, PUD/OSRD strategies, entitlement paths, and developer partners. Austin MSA and surrounding counties.</p>
 
         <div class="placeholder">
@@ -1017,8 +1520,7 @@
                 <select id="ez-agent" required>
                   <option value="" disabled selected>Select…</option>
                   <option value="Gabe Jeudy-Lally">Gabe Jeudy-Lally</option>
-                  <option value="Partner 2">Partner 2</option>
-                  <option value="Partner 3">Partner 3</option>
+                  <option value="Vincent Zambito">Vincent Zambito</option>
                 </select>
               </label>
               <label class="mm-field"><span>To (zoning contact) *</span>
@@ -1193,24 +1695,24 @@
       <section class="panel" id="panel-workflow" role="tabpanel">
         <p class="panel-intro">A guided, hard-facts underwriting workflow for a land deal — Cover · Land · Site + Survey · Comparables · Land Cost · Team + Contacts · Neighborhood. Fill each section, then export an offer-memorandum-style presentation PDF.</p>
         <div style="display:grid; grid-template-columns:1fr 1fr; gap:24px; align-items:start;">
-          <div style="border:1px solid var(--panel-edge); padding:28px; background:#0a0a0a;">
+          <div style="border:1px solid var(--panel-edge); padding:28px; background:#fbf9f4;">
             <div style="font-size:10px; letter-spacing:.28em; color:var(--text-dim); text-transform:uppercase; margin-bottom:8px;">Start / Resume</div>
-            <h2 style="font-family:var(--font-display); font-size:28px; color:#fff; margin:0 0 14px;">Land Acquisition Memo</h2>
+            <h2 style="font-family:var(--font-display); font-size:28px; color:#111111; margin:0 0 14px;">Land Acquisition Memo</h2>
             <p style="color:var(--text-muted); line-height:1.6; margin:0 0 20px; font-size:13px;">
               Seven sections. No projections — just facts you can verify. The Land section auto-populates from Property Lookup (parcel, zoning, FEMA, setbacks). Comps come from a built-in CMA. Everything you enter is saved locally and to Google Sheets so any Land team member can pick it up.
             </p>
             <a href="land-workflow.html" target="_blank" rel="noopener" class="primary-action" style="display:inline-block; padding:12px 22px; text-decoration:none;">Launch Workflow →</a>
           </div>
-          <div style="border:1px solid var(--panel-edge); padding:28px; background:#0a0a0a;">
+          <div style="border:1px solid var(--panel-edge); padding:28px; background:#fbf9f4;">
             <div style="font-size:10px; letter-spacing:.28em; color:var(--text-dim); text-transform:uppercase; margin-bottom:12px;">What's inside</div>
             <ol style="color:var(--text-muted); line-height:1.9; margin:0; padding-left:18px; font-size:13px;">
-              <li><b style="color:#fff;">Cover</b> — property, address, memo date</li>
-              <li><b style="color:#fff;">Land</b> — lot size, zoning, setbacks, FEMA, utilities, HOA</li>
-              <li><b style="color:#fff;">Site + Survey</b> — photos + attached survey PDF</li>
-              <li><b style="color:#fff;">Comparables</b> — 3–4 sold comps with $/sqft breakdown</li>
-              <li><b style="color:#fff;">Land Cost</b> — contract price, EM, closing costs, DD + close dates</li>
-              <li><b style="color:#fff;">Team + Contacts</b> — buyer's agent, seller, listing agent, attorney</li>
-              <li><b style="color:#fff;">Neighborhood</b> — map + optional context</li>
+              <li><b style="color:#111111;">Cover</b> — property, address, memo date</li>
+              <li><b style="color:#111111;">Land</b> — lot size, zoning, setbacks, FEMA, utilities, HOA</li>
+              <li><b style="color:#111111;">Site + Survey</b> — photos + attached survey PDF</li>
+              <li><b style="color:#111111;">Comparables</b> — 3–4 sold comps with $/sqft breakdown</li>
+              <li><b style="color:#111111;">Land Cost</b> — contract price, EM, closing costs, DD + close dates</li>
+              <li><b style="color:#111111;">Team + Contacts</b> — buyer's agent, seller, listing agent, attorney</li>
+              <li><b style="color:#111111;">Neighborhood</b> — map + optional context</li>
             </ol>
           </div>
         </div>
@@ -1266,8 +1768,7 @@
     // has a value.
     let _teamPasscodes = {
       'Gabe Jeudy-Lally': '5555',
-      'Partner 2':        '0101',
-      'Partner 3':        '0202'
+      'Vincent Zambito':  '7777'
     };
 
     async function _loadPasscodes() {
@@ -1805,17 +2306,17 @@
         <article style="background:var(--panel); border:1px solid var(--rule); padding:14px 16px;">
           <div style="display:flex; justify-content:space-between; align-items:start; gap:10px;">
             <div style="min-width:0; flex:1;">
-              <div style="font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#fff;">${esc(d.address)}</div>
+              <div style="font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#111111;">${esc(d.address)}</div>
               <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${esc(d.neigh)}${d.agent ? ' &nbsp;·&nbsp; ' + esc(d.agent) : ''}</div>
             </div>
-            ${d.contract ? `<div style="font-family:var(--font-display); font-size:14px; color:#fff; white-space:nowrap;">${esc(fmtUSD(d.contract))}</div>` : ''}
+            ${d.contract ? `<div style="font-family:var(--font-display); font-size:14px; color:#111111; white-space:nowrap;">${esc(fmtUSD(d.contract))}</div>` : ''}
           </div>
-          <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px 12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim);">
-            <div>Under Contract</div><div style="color:#ccc;">${esc(fmtDate(d.uc))}</div>
-            <div>Closing</div><div style="color:#ccc;">${esc(fmtDate(d.closing))}</div>
-            ${d.status ? `<div>Status</div><div style="color:#ccc;">${esc(d.status)}</div>` : ''}
+          <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px 12px; margin-top:10px; padding-top:10px; border-top:1px solid #e6dfd2; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim);">
+            <div>Under Contract</div><div style="color:#333333;">${esc(fmtDate(d.uc))}</div>
+            <div>Closing</div><div style="color:#333333;">${esc(fmtDate(d.closing))}</div>
+            ${d.status ? `<div>Status</div><div style="color:#333333;">${esc(d.status)}</div>` : ''}
           </div>
-          <div style="display:flex; justify-content:flex-end; margin-top:10px; padding-top:8px; border-top:1px solid #222;">
+          <div style="display:flex; justify-content:flex-end; margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2;">
             <button type="button" data-pipe-edit="${esc(d.address)}" style="font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 14px; background:transparent; color:var(--text-muted); border:1px solid var(--rule-strong); cursor:pointer;">Update</button>
           </div>
         </article>
@@ -1943,14 +2444,14 @@
     // Small colored pill for the client type — reused on Buy Box + Hot Lead cards.
     function _clientTypePill(type) {
       if (!type) return '';
-      const bg = type === 'Builder' ? '#1c2a3a'
-               : type === 'Developer' ? '#3a301c'
+      const bg = type === 'Builder' ? '#dae5f0'
+               : type === 'Developer' ? '#efe6cc'
                : type === 'Custom Home Client' ? '#2a1c3a'
-               : '#2a2a2a';
-      const fg = type === 'Builder' ? '#8fb1d9'
-               : type === 'Developer' ? '#e8c068'
+               : '#d9d0bf';
+      const fg = type === 'Builder' ? '#2f5f9a'
+               : type === 'Developer' ? '#8a6a1f'
                : type === 'Custom Home Client' ? '#c99fe8'
-               : '#888';
+               : '#7a756a';
       return '<span style="display:inline-block; padding:2px 8px; margin-left:6px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + ';">' + esc(type) + '</span>';
     }
     const bbAddBtn = document.getElementById('bb-add-btn');
@@ -2218,24 +2719,24 @@
           <article style="background:var(--panel); border:1px solid var(--rule); padding:14px 16px;">
             <div style="display:flex; justify-content:space-between; align-items:start; gap:10px;">
               <div style="min-width:0; flex:1;">
-                <div style="font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#fff;">${esc(d.address)}</div>
+                <div style="font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#111111;">${esc(d.address)}</div>
                 <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${esc(d.neigh)}${d.agent ? ' &nbsp;·&nbsp; ' + esc(d.agent) : ''}</div>
               </div>
-              ${d.contract ? `<div style="font-family:var(--font-display); font-size:14px; color:#fff; white-space:nowrap;">${esc(fmtUSD(d.contract))}</div>` : ''}
+              ${d.contract ? `<div style="font-family:var(--font-display); font-size:14px; color:#111111; white-space:nowrap;">${esc(fmtUSD(d.contract))}</div>` : ''}
             </div>
-            <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px 12px; margin-top:10px; padding-top:10px; border-top:1px solid #222; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim);">
-              <div>Under Contract</div><div style="color:#ccc;">${esc(fmtDate(d.uc))}</div>
-              <div>Closing</div><div style="color:#ccc;">${esc(fmtDate(d.closing))}</div>
-              ${d.status ? `<div>Status</div><div style="color:#ccc;">${esc(d.status)}</div>` : ''}
+            <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:6px 12px; margin-top:10px; padding-top:10px; border-top:1px solid #e6dfd2; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--text-dim);">
+              <div>Under Contract</div><div style="color:#333333;">${esc(fmtDate(d.uc))}</div>
+              <div>Closing</div><div style="color:#333333;">${esc(fmtDate(d.closing))}</div>
+              ${d.status ? `<div>Status</div><div style="color:#333333;">${esc(d.status)}</div>` : ''}
             </div>
-            <div style="display:flex; justify-content:flex-end; margin-top:10px; padding-top:8px; border-top:1px solid #222;">
+            <div style="display:flex; justify-content:flex-end; margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2;">
               <button type="button" data-pipe-edit="${esc(d.address)}" style="font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 14px; background:transparent; color:var(--text-muted); border:1px solid var(--rule-strong); cursor:pointer;">Update</button>
             </div>
           </article>
         `).join('');
       } catch (err) {
         countEl.textContent = 'Could not load';
-        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#d99; font-size:13px;">Error: ' + esc(err.message || err) + '</div>';
+        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#b03030; font-size:13px;">Error: ' + esc(err.message || err) + '</div>';
       }
     }
 
@@ -2312,7 +2813,7 @@
         _renderBuyBoxes();
       } catch (err) {
         countEl.textContent = 'Could not load';
-        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#d99; font-size:13px;">Error: ' + esc(err.message || err) + '</div>';
+        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#b03030; font-size:13px;">Error: ' + esc(err.message || err) + '</div>';
       }
     }
 
@@ -2442,15 +2943,15 @@
           const depth = range(r.minDepth, r.maxDepth, 'ft');
           // Priority pill styling
           const pri = (r.priority || '').trim();
-          const priBg = pri === 'High' ? '#3a1c1c' : pri === 'Medium' ? '#3a301c' : pri === 'Low' ? '#1c2a3a' : '';
-          const priFg = pri === 'High' ? '#d99' : pri === 'Medium' ? '#e8c068' : pri === 'Low' ? '#8fb1d9' : '';
+          const priBg = pri === 'High' ? '#3a1c1c' : pri === 'Medium' ? '#efe6cc' : pri === 'Low' ? '#dae5f0' : '';
+          const priFg = pri === 'High' ? '#b03030' : pri === 'Medium' ? '#8a6a1f' : pri === 'Low' ? '#2f5f9a' : '';
           const priPill = pri ? `<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:${priBg}; color:${priFg};">${esc(pri)}</span>` : '';
 
           // Reusable row renderer for the labeled-detail section
           const detailRow = (label, value) => value
-            ? `<div style="display:grid; grid-template-columns:110px 1fr; gap:10px; font-size:11px; padding:5px 0; border-bottom:1px solid #222;">
+            ? `<div style="display:grid; grid-template-columns:110px 1fr; gap:10px; font-size:11px; padding:5px 0; border-bottom:1px solid #e6dfd2;">
                  <div style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px; font-weight:700;">${esc(label)}</div>
-                 <div style="color:#eee; white-space:pre-wrap; line-height:1.5;">${esc(value)}</div>
+                 <div style="color:#222222; white-space:pre-wrap; line-height:1.5;">${esc(value)}</div>
                </div>`
             : '';
 
@@ -2462,15 +2963,15 @@
             <article style="background:var(--panel); border:1px solid var(--rule); padding:16px 18px;">
               <div style="display:flex; justify-content:space-between; align-items:start; gap:10px;">
                 <div style="min-width:0; flex:1;">
-                  <div style="font-family:var(--font-display); font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:#fff;">${esc(r.builder)}${clientPill}</div>
+                  <div style="font-family:var(--font-display); font-size:15px; letter-spacing:.14em; text-transform:uppercase; color:#111111;">${esc(r.builder)}${clientPill}</div>
                   <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${esc(r.city)}${r.state ? ', ' + esc(r.state) : ''}</div>
                 </div>
                 ${priPill}
               </div>
-              ${price ? `<div style="font-family:var(--font-display); font-size:16px; color:#fff; margin-top:10px;">${esc(price)}</div>` : ''}
-              ${suburbs.length ? `<div style="margin:10px 0 4px;">${suburbs.map(s => '<span style="display:inline-block; padding:2px 8px; margin:2px 3px 0 0; font-size:10px; border:1px solid #2a2a2a; background:#141414; color:#ddd;">' + esc(s) + '</span>').join('')}</div>` : ''}
+              ${price ? `<div style="font-family:var(--font-display); font-size:16px; color:#111111; margin-top:10px;">${esc(price)}</div>` : ''}
+              ${suburbs.length ? `<div style="margin:10px 0 4px;">${suburbs.map(s => '<span style="display:inline-block; padding:2px 8px; margin:2px 3px 0 0; font-size:10px; border:1px solid #d9d0bf; background:#f1ece2; color:#2a2a2a;">' + esc(s) + '</span>').join('')}</div>` : ''}
 
-              <div style="margin-top:12px; padding-top:10px; border-top:1px solid #222;">
+              <div style="margin-top:12px; padding-top:10px; border-top:1px solid #e6dfd2;">
                 ${detailRow('Suburb Pricing', r.suburbPricing)}
                 ${detailRow('Lot Size',       lot)}
                 ${detailRow('Frontage',       frontage)}
@@ -2481,7 +2982,7 @@
                 ${detailRow('Logged By',      r.loggedBy)}
               </div>
 
-              <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px; padding-top:8px; border-top:1px solid #222;">
+              <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2;">
                 <button type="button" data-bb-edit="${esc(r.id)}" style="font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 14px; background:transparent; color:var(--text-muted); border:1px solid var(--rule-strong); cursor:pointer;">Edit</button>
               </div>
             </article>
@@ -2559,7 +3060,7 @@
         _renderHotLeads();
       } catch (err) {
         countEl.textContent = 'Could not load';
-        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#d99; font-size:13px;">Error: ' + esc(err.message || err) + '</div>';
+        listEl.innerHTML = '<div style="grid-column:1 / -1; padding:40px; text-align:center; color:#b03030; font-size:13px;">Error: ' + esc(err.message || err) + '</div>';
       }
     }
     function _renderHotLeads() {
@@ -2584,29 +3085,29 @@
       });
       const heatPill = (h) => {
         if (!h) return '';
-        const bg = h==='Hot'?'#3a1c1c':h==='Warm'?'#3a301c':'#1c2a3a';
-        const fg = h==='Hot'?'#d99':h==='Warm'?'#e8c068':'#8fb1d9';
+        const bg = h==='Hot'?'#3a1c1c':h==='Warm'?'#efe6cc':'#dae5f0';
+        const fg = h==='Hot'?'#b03030':h==='Warm'?'#8a6a1f':'#2f5f9a';
         return '<span style="padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:'+bg+'; color:'+fg+';">'+esc(h)+'</span>';
       };
       listEl.innerHTML = mine.map(r => `
         <article style="background:var(--panel); border:1px solid var(--rule); padding:14px 16px; position:relative;">
           <div style="display:flex; justify-content:space-between; align-items:start; gap:10px;">
             <div style="min-width:0; flex:1;">
-              <div style="font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#fff;">${esc(r.property)}</div>
+              <div style="font-family:var(--font-display); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:#111111;">${esc(r.property)}</div>
               <div style="font-size:11px; color:var(--text-dim); margin-top:2px;">${esc(r.neigh)}${r.estVal ? ' · ' + esc(r.estVal) : ''}</div>
             </div>
             ${heatPill(r.heat)}
           </div>
-          ${r.ownerName ? `<div style="font-size:12px; color:#ddd; margin:8px 0 2px;"><b>${esc(r.ownerName)}</b></div>` : ''}
-          ${r.ownerPhone ? `<div style="font-size:11px; color:var(--text-muted);"><a href="tel:${esc(r.ownerPhone.replace(/\D+/g,''))}" style="color:#ddd;">${esc(r.ownerPhone)}</a></div>` : ''}
-          <div style="border-top:1px solid #222; margin-top:10px; padding-top:8px; font-size:11px;">
-            <div><span style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px;">Last Touch</span> <span style="color:#ccc; margin-left:6px;">${esc(fmtDate(r.lastTouch)) || '—'}</span></div>
-            ${r.nextAction ? `<div style="margin-top:4px;"><span style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px;">Next</span> <span style="color:#fff; margin-left:6px;">${esc(r.nextAction)}${r.nextDate ? ' <span style="color:var(--text-dim);">(' + esc(fmtDate(r.nextDate)) + ')</span>' : ''}</span></div>` : ''}
+          ${r.ownerName ? `<div style="font-size:12px; color:#2a2a2a; margin:8px 0 2px;"><b>${esc(r.ownerName)}</b></div>` : ''}
+          ${r.ownerPhone ? `<div style="font-size:11px; color:var(--text-muted);"><a href="tel:${esc(r.ownerPhone.replace(/\D+/g,''))}" style="color:#2a2a2a;">${esc(r.ownerPhone)}</a></div>` : ''}
+          <div style="border-top:1px solid #e6dfd2; margin-top:10px; padding-top:8px; font-size:11px;">
+            <div><span style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px;">Last Touch</span> <span style="color:#333333; margin-left:6px;">${esc(fmtDate(r.lastTouch)) || '—'}</span></div>
+            ${r.nextAction ? `<div style="margin-top:4px;"><span style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px;">Next</span> <span style="color:#111111; margin-left:6px;">${esc(r.nextAction)}${r.nextDate ? ' <span style="color:var(--text-dim);">(' + esc(fmtDate(r.nextDate)) + ')</span>' : ''}</span></div>` : ''}
           </div>
-          ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px solid #222; white-space:pre-wrap;">${esc(r.notes)}</div>` : ''}
-          <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px; padding-top:8px; border-top:1px solid #222;">
+          ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px solid #e6dfd2; white-space:pre-wrap;">${esc(r.notes)}</div>` : ''}
+          <div style="display:flex; justify-content:flex-end; gap:6px; margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2;">
             <button type="button" data-hl-edit="${esc(r.id)}" style="font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 14px; background:transparent; color:var(--text-muted); border:1px solid var(--rule-strong); cursor:pointer; transition:color .15s, border-color .15s;">Edit</button>
-            <button type="button" data-hl-delete="${esc(r.id)}" style="font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 14px; background:transparent; color:#d99; border:1px solid #5a2a2a; cursor:pointer; transition:color .15s, border-color .15s;">Delete</button>
+            <button type="button" data-hl-delete="${esc(r.id)}" style="font-family:var(--font-body); font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 14px; background:transparent; color:#b03030; border:1px solid #5a2a2a; cursor:pointer; transition:color .15s, border-color .15s;">Delete</button>
           </div>
         </article>
       `).join('');
@@ -2707,89 +3208,90 @@
     // City metadata used by mounts + render caveats
     const PARCEL_SERVICES = {
       travis: {
-        label: 'Travis County (TCAD)',
-        url: 'https://gis.traviscountytx.gov/server1/rest/services/Boundaries_and_Jurisdictions/TCAD_public/MapServer/0',
-        fields: 'PROP_ID,geo_id,situs_address,tcad_acres,legal_desc,sub_dec,hyperlink,LOTS',
+        label: "Travis County (TCAD)",
+        url: "https://gis.traviscountytx.gov/server1/rest/services/Boundaries_and_Jurisdictions/TCAD_public/MapServer/0",
+        fields: "PROP_ID,geo_id,situs_address,tcad_acres,legal_desc,sub_dec,hyperlink,LOTS",
         parse: a => ({
           id: a.PROP_ID != null ? String(a.PROP_ID) : '', geoId: a.geo_id || '',
-          situs: a.situs_address || '', owner: '',                 // TCAD public layer omits owner
+          situs: a.situs_address || '', owner: '',
           acres: a.tcad_acres != null ? Number(a.tcad_acres) : null,
-          legal: a.legal_desc || a.sub_dec || '', link: a.hyperlink || '',
+          legal: a.legal_desc || a.sub_dec || '',
+          link: a.PROP_ID != null ? 'https://travis.prodigycad.com/property-detail/' + a.PROP_ID : '',
           linkLabel: 'TCAD property record'
         })
       },
       williamson: {
-        label: 'Williamson County (WCAD)',
-        url: 'https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0',
-        fields: 'PARCELID,PropertyNumber,SitusAddress,Acres,StatedAc,AssessedAc,LegalDesc,OWNERNME1,TotalLandMktValue,TotalPropMktValue,PropertyID,USEDSCRP',
+        label: "Williamson County (WCAD)",
+        url: "https://gis.wilco.org/arcgis/rest/services/public/county_wcad_parcels/MapServer/0",
+        fields: "PARCELID,PropertyNumber,SitusAddress,Acres,StatedAc,AssessedAc,LegalDesc,OWNERNME1,TotalLandMktValue,TotalPropMktValue,PropertyID,USEDSCRP",
         parse: a => ({
           id: a.PARCELID || '', geoId: a.PropertyNumber || '',
           situs: a.SitusAddress || '', owner: a.OWNERNME1 || '',
           acres: (a.Acres || a.AssessedAc || a.StatedAc) ? Number(a.Acres || a.AssessedAc || a.StatedAc) : null,
           legal: a.LegalDesc || '', landValue: a.TotalLandMktValue, mktValue: a.TotalPropMktValue,
-          link: a.PropertyID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID || '') : '',
+          link: a.PARCELID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID) : '',
           linkLabel: 'WCAD property record'
+        })
+      },
+      hays: {
+        label: "Hays County (Hays CAD)",
+        url: "https://services6.arcgis.com/j94FvPaik4etwHFk/arcgis/rest/services/HaysCADWebService1/FeatureServer/0",
+        fields: "prop_id,prop_id_text,file_as_name,legal_acreage,legal_desc,land_val,imprv_val,market,situs_num,situs_street_prefx,situs_street,situs_street_sufix,situs_city,geo_id,hood_cd",
+        parse: a => ({
+          id: a.prop_id_text || (a.prop_id != null ? String(a.prop_id) : ''), geoId: a.geo_id || '',
+          situs: [a.situs_num, a.situs_street_prefx, a.situs_street, a.situs_street_sufix].filter(Boolean).join(' ') + (a.situs_city ? ', ' + a.situs_city : ''),
+          owner: a.file_as_name || '',
+          acres: a.legal_acreage != null ? Number(a.legal_acreage) : null,
+          legal: a.legal_desc || '', landValue: a.land_val, mktValue: a.market,
+          link: a.prop_id != null ? 'https://esearch.hayscad.com/Search/Result?keywords=' + a.prop_id : '',
+          linkLabel: 'Hays CAD property record'
         })
       }
     };
 
-    // Zoning layers per city. `field` is the district code, `nameField` the long name.
     const ZONING_SERVICES = {
-      austin: {
-        url: 'https://services.arcgis.com/0L95CJ0VTaxqcmED/ArcGIS/rest/services/PLANNINGCADASTRE_zoning_small_map_scale/FeatureServer/0',
-        fields: 'ZONING_ZTYPE,ZONING_BASE', field: 'ZONING_ZTYPE', baseField: 'ZONING_BASE',
-        codeUrl: 'https://library.municode.com/tx/austin/codes/land_development_code'
-      },
-      'round-rock': {
-        url: 'https://maps.roundrocktexas.gov/arcgis/rest/services/Planning/Planning_Multi/MapServer/12',
-        fields: 'BASE_ZONIN,NAME,PUD_LABEL,ORD_NO,URL', field: 'BASE_ZONIN', nameField: 'NAME', linkField: 'URL'
-      },
-      georgetown: {
-        url: 'https://gis.georgetowntexas.gov/arcgis/rest/services/Planning/PlanningDevelopmentNew_WebMap/MapServer/20',
-        fields: 'ZONE,FULLZONE,Doc_Link', field: 'ZONE', nameField: 'FULLZONE', linkField: 'Doc_Link'
-      }
+      "austin": {"url": "https://services.arcgis.com/0L95CJ0VTaxqcmED/ArcGIS/rest/services/PLANNINGCADASTRE_zoning_small_map_scale/FeatureServer/0", "fields": "ZONING_ZTYPE,ZONING_BASE", "field": "ZONING_ZTYPE", "baseField": "ZONING_BASE", "codeUrl": "https://library.municode.com/tx/austin/codes/land_development_code"},
+      "lakeway": {"url": "https://services8.arcgis.com/Ovzem8VyXkJhfTgz/arcgis/rest/services/Zoning_Districts/FeatureServer/0", "fields": "label,label_long,desc_long,purpose,min_area,min_width,min_depth,min_setback,max_height,LINK", "field": "label", "nameField": "desc_long", "linkField": "LINK", "extra": [["min_area", "Min Lot Area"], ["min_width", "Min Lot Width"], ["min_depth", "Min Lot Depth"], ["min_setback", "Setbacks"], ["max_height", "Max Height"]]},
+      "bee-cave": {"url": "https://services8.arcgis.com/MkUfAWaYm2SQf4Qa/arcgis/rest/services/BE6240_Zoning_12192022_Updated_Zoning_Data_GC20221208/FeatureServer/0", "fields": "Base_Cat,PD,Orig_Ord", "field": "Base_Cat"},
+      "pflugerville": {"url": "https://maps.pflugervilletx.gov/arcgis/rest/services/Planning/Zoning_Districts/FeatureServer/0", "fields": "ZOINING_TY,ZONING_DES,Ord,enCode_Lin", "field": "ZOINING_TY", "nameField": "ZONING_DES", "linkField": "enCode_Lin"},
+      "manor": {"url": "https://services5.arcgis.com/L9cGEA18yPzG7Xak/arcgis/rest/services/Zoning_View/FeatureServer/22", "fields": "Zoning_Class,Zoning_Code,Ordinance_No", "field": "Zoning_Code", "nameField": "Zoning_Class"},
+      "round-rock": {"url": "https://maps.roundrocktexas.gov/arcgis/rest/services/Planning/Planning_Multi/MapServer/12", "fields": "BASE_ZONIN,NAME,PUD_LABEL,ORD_NO,URL", "field": "BASE_ZONIN", "nameField": "NAME", "linkField": "URL"},
+      "cedar-park": {"url": "https://gisrest.cedarparktexas.gov/cpgis/rest/services/Planning/Zoning/MapServer/3", "fields": "ZoningAbbrev,ZoningDescription,ZoningType,OrdinanceNumber,Name", "field": "ZoningAbbrev", "nameField": "ZoningDescription"},
+      "leander": {"url": "https://services1.arcgis.com/L0MLvN0Ay0iEjnCT/arcgis/rest/services/Leander_Current_Zoning/FeatureServer/3", "fields": "UseCat,Use_,Site,Arch,Descr,PUD_Name,PUD_Base,Ord,CaseNo", "field": "UseCat", "nameField": "Descr", "extra": [["Use_", "Use Component"], ["Site", "Site Component"], ["Arch", "Architectural"], ["PUD_Name", "PUD"]]},
+      "georgetown": {"url": "https://gis.georgetowntexas.gov/arcgis/rest/services/Planning/PlanningDevelopmentNew_WebMap/MapServer/20", "fields": "ZONE,FULLZONE,Doc_Link", "field": "ZONE", "nameField": "FULLZONE", "linkField": "Doc_Link"},
+      "hutto": {"url": "https://services.arcgis.com/YZhxlqU7ABWQBGTG/arcgis/rest/services/Hutto_Zoning_Districts/FeatureServer/0", "fields": "ZONING,Acreage", "field": "ZONING"},
+      "kyle": {"url": "https://utility.arcgis.com/usrsvcs/servers/cb715452b5464cd08d53449e26fa913d/rest/services/KCH-ESRI/Zoning/FeatureServer/0", "fields": "Z_Code,Description,Ordinance,SUBDIVISION", "field": "Z_Code", "nameField": "Description"},
+      "buda": {"url": "https://services6.arcgis.com/vXZW4vAaPRr14z2s/arcgis/rest/services/Zoning/FeatureServer/0", "fields": "Zoning_Category,Zoning_Description,Land_Use,Ordinance", "field": "Zoning_Category", "nameField": "Zoning_Description"},
+      "san-marcos": {"url": "https://services1.arcgis.com/Hug9pbs2TYetbCha/arcgis/rest/services/Zoning/FeatureServer/15", "fields": "ZONECODE,ZONINGDISTRICT,RESIDENTIAL,SFZONING,ORDINANCE", "field": "ZONECODE", "nameField": "ZONINGDISTRICT"},
+      "dripping-springs": {"url": "https://services6.arcgis.com/XnTA1N5QxtOFa9o8/ArcGIS/rest/services/CODS_Public_Map/FeatureServer/5", "fields": "Zoning_Abbreviation,Zoning_District,Ord_No,Ord_Link", "field": "Zoning_Abbreviation", "nameField": "Zoning_District", "linkField": "Ord_Link"}
     };
 
     // City of Austin environmental layers (Travis-side lookups only).
     const AUSTIN_FDF_URL       = 'https://maps.austintexas.gov/gis/rest/Shared/Floodplain/MapServer/0';  // Fully Developed 100-yr floodplain
     const AUSTIN_WATERSHED_URL = 'https://services.arcgis.com/0L95CJ0VTaxqcmED/ArcGIS/rest/services/BOUNDARIES_watershed_regulation_areas/FeatureServer/0';
 
-    // City metadata used by mounts + render caveats
     const CITY_META = {
-      'austin': {
-        label: 'Austin', county: 'travis', zoning: 'austin',
-        placeholder: 'e.g. 2500 Exposition Blvd, Austin, TX 78703',
-        zipHint: '78703',
-        zoningEmail: 'DSDZoningSitePlan@austintexas.gov',
-        zoningNote: 'Austin Development Services (DSD) zoning verification inbox. 311 for general questions.'
-      },
-      'west-lake-hills': {
-        label: 'West Lake Hills', county: 'travis', zoning: 'austin',
-        placeholder: 'e.g. 4010 Bee Cave Rd, West Lake Hills, TX 78746',
-        zipHint: '78746',
-        zoningCaveat: 'City of Austin zoning shown for reference only — West Lake Hills has its own zoning ordinance (R-1, R-2, etc.) and is not in Austin\'s zoning layer. Use the city\'s Zoning Map PDF and email Building & Development to confirm.',
-        zoningEmail: 'jsherrouse@westlakehills.gov',
-        zoningNote: 'Joel Sherrouse, Development Coordinator, City of West Lake Hills (512) 610-6826. Director: jbills@westlakehills.gov.'
-      },
-      'round-rock': {
-        label: 'Round Rock', county: 'williamson', zoning: 'round-rock',
-        placeholder: 'e.g. 221 E Main St, Round Rock, TX 78664',
-        zipHint: '78664',
-        zoningEmail: 'pdsintake@roundrocktexas.gov',
-        zoningNote: 'Round Rock Planning & Development Services intake, (512) 218-5428. Zoning/PUD planner: aguajardo@roundrocktexas.gov.'
-      },
-      'georgetown': {
-        label: 'Georgetown', county: 'williamson', zoning: 'georgetown',
-        placeholder: 'e.g. 808 Martin Luther King Jr St, Georgetown, TX 78626',
-        zipHint: '78626',
-        zoningEmail: 'planning@georgetowntexas.gov',
-        zoningNote: 'Georgetown Planning Department, (512) 930-3575.'
-      }
+      "austin": {"label": "Austin", "county": "travis", "zoning": "austin", "placeholder": "e.g. 2500 Exposition Blvd, Austin, TX 78703", "zoningEmail": "DSDZoningSitePlan@austintexas.gov", "zoningNote": "Austin Development Services (DSD) zoning verification inbox. Call 311 for general questions."},
+      "west-lake-hills": {"label": "West Lake Hills", "county": "travis", "zoning": null, "placeholder": "e.g. 4010 Bee Cave Rd, West Lake Hills, TX 78746", "zoningEmail": "jsherrouse@westlakehills.gov", "zoningNote": "Joel Sherrouse, Development Coordinator, City of West Lake Hills, (512) 610-6826. Director: jbills@westlakehills.gov.", "zoningCaveat": "West Lake Hills runs its own zoning ordinance and does not publish a GIS zoning layer. Confirm the district with the city's Zoning Map PDF and Building & Development."},
+      "lakeway": {"label": "Lakeway", "county": "travis", "zoning": "lakeway", "placeholder": "e.g. 1102 Lohmans Crossing Rd, Lakeway, TX 78734", "zoningEmail": "darrenbenedict@lakeway-tx.gov", "zoningNote": "Darren Benedict, Chief Planner, City of Lakeway Building & Development Services, (512) 314-7546."},
+      "bee-cave": {"label": "Bee Cave", "county": "travis", "zoning": "bee-cave", "placeholder": "e.g. 4000 Galleria Pkwy, Bee Cave, TX 78738", "zoningEmail": "planning@beecavetexas.gov", "zoningNote": "City of Bee Cave Planning & Development, (512) 767-6675.", "zoningCaveat": "Bee Cave's public layer returns the governing ordinance number (most of the city is Planned Development). Look the ordinance up on the Zoninghub map or ask Planning for the district and standards."},
+      "pflugerville": {"label": "Pflugerville", "county": "travis", "zoning": "pflugerville", "placeholder": "e.g. 100 E Main St, Pflugerville, TX 78660", "zoningEmail": "planning@pflugervilletx.gov", "zoningNote": "City of Pflugerville Planning Department, (512) 990-6300."},
+      "manor": {"label": "Manor", "county": "travis", "zoning": "manor", "placeholder": "e.g. 105 E Eggleston St, Manor, TX 78653", "zoningEmail": "mburrell@manortx.gov", "zoningNote": "Michael Burrell, City of Manor Development Services, (512) 272-5555. General: cenforcement@manortx.gov."},
+      "round-rock": {"label": "Round Rock", "county": "williamson", "zoning": "round-rock", "placeholder": "e.g. 221 E Main St, Round Rock, TX 78664", "zoningEmail": "pdsintake@roundrocktexas.gov", "zoningNote": "Round Rock Planning & Development Services intake, (512) 218-5428. Zoning/PUD planner: aguajardo@roundrocktexas.gov."},
+      "cedar-park": {"label": "Cedar Park", "county": "williamson", "zoning": "cedar-park", "placeholder": "e.g. 450 Cypress Creek Rd, Cedar Park, TX 78613", "zoningEmail": "planning@cedarparktexas.gov", "zoningNote": "Cedar Park Development Services, Planning Division, (512) 401-5000."},
+      "leander": {"label": "Leander", "county": "williamson", "zoning": "leander", "placeholder": "e.g. 105 N Brushy St, Leander, TX 78641", "zoningEmail": "", "zoningNote": "Leander publishes no general planning inbox: call (512) 528-2733 or use the Zoning Verification Request PDF; staff emails are in the Planning directory (leandertx.gov/m/directory/department?did=26)."},
+      "georgetown": {"label": "Georgetown", "county": "williamson", "zoning": "georgetown", "placeholder": "e.g. 808 Martin Luther King Jr St, Georgetown, TX 78626", "zoningEmail": "planning@georgetowntexas.gov", "zoningNote": "Georgetown Planning Department, (512) 930-3575."},
+      "hutto": {"label": "Hutto", "county": "williamson", "zoning": "hutto", "placeholder": "e.g. 500 W Live Oak St, Hutto, TX 78634", "zoningEmail": "planning@huttotx.gov", "zoningNote": "Hutto Development Services, Planning Division, (512) 759-5974. Planning Manager: jeff.fisher@huttotx.gov."},
+      "kyle": {"label": "Kyle", "county": "hays", "zoning": "kyle", "placeholder": "e.g. 100 W Center St, Kyle, TX 78640", "zoningEmail": "jlutz@cityofkyle.com", "zoningNote": "Jason Lutz, Interim Director of Planning, City of Kyle, (512) 644-5432."},
+      "buda": {"label": "Buda", "county": "hays", "zoning": "buda", "placeholder": "e.g. 405 E Loop St, Buda, TX 78610", "zoningEmail": "planningandengineering@budatx.gov", "zoningNote": "City of Buda Planning & Engineering, (512) 312-0084."},
+      "san-marcos": {"label": "San Marcos", "county": "hays", "zoning": "san-marcos", "placeholder": "e.g. 630 E Hopkins St, San Marcos, TX 78666", "zoningEmail": "planninginfo@sanmarcostx.gov", "zoningNote": "San Marcos Planning & Development Services, (512) 393-8230."},
+      "dripping-springs": {"label": "Dripping Springs", "county": "hays", "zoning": "dripping-springs", "placeholder": "e.g. 511 Mercer St, Dripping Springs, TX 78620", "zoningEmail": "planning@cityofdrippingsprings.com", "zoningNote": "City of Dripping Springs Planning & Development, (512) 858-4725."}
     };
 
     // Agent name → email (used to sign the outgoing zoning email).
     const LAND_AGENT_EMAILS = {
-      'Gabe Jeudy-Lally': 'gvjbusiness@yahoo.com'
+      'Gabe Jeudy-Lally': 'gvjbusiness@yahoo.com',
+      'Vincent Zambito':  ''
     };
 
     // Compose the zoning-verification email body from the modal fields.
@@ -2889,11 +3391,11 @@
 
     // Score a slope percentage — label, color, and build-note guidance.
     function _plSlopeScore(pct) {
-      if (pct <= 2)  return { label: 'Very Flat',   color: '#a4d5ad', note: 'Ideal build pad. Minimal grading required.' };
-      if (pct <= 5)  return { label: 'Gentle',      color: '#9ec39e', note: 'Standard grading. Easy site design.' };
-      if (pct <= 10) return { label: 'Moderate',    color: '#e8c068', note: 'Some retention or terracing. Manageable cost.' };
+      if (pct <= 2)  return { label: 'Very Flat',   color: '#2f6f47', note: 'Ideal build pad. Minimal grading required.' };
+      if (pct <= 5)  return { label: 'Gentle',      color: '#3f7a3f', note: 'Standard grading. Easy site design.' };
+      if (pct <= 10) return { label: 'Moderate',    color: '#8a6a1f', note: 'Some retention or terracing. Manageable cost.' };
       if (pct <= 15) return { label: 'Notable',     color: '#e29a4a', note: 'Walkout basement candidate. Engineered fill likely.' };
-      if (pct <= 25) return { label: 'Steep',       color: '#d97a7a', note: 'Significant grading + retention. Costs add up.' };
+      if (pct <= 25) return { label: 'Steep',       color: '#a33333', note: 'Significant grading + retention. Costs add up.' };
       return           { label: 'Very Steep',   color: '#d64545', note: 'Geotech required. Expensive foundation + drainage.' };
     }
 
@@ -2968,7 +3470,7 @@
       const slope  = await _plComputeSlope(geo.location.x, geo.location.y, acres)
         .catch(err => { console.warn('Slope analysis failed:', err); return null; });
 
-      statusEl.style.color = '#9ec39e';
+      statusEl.style.color = '#3f7a3f';
       statusEl.textContent = '✓ Loaded — ' + (geo.address || address);
       resultsEl.innerHTML = _plRenderHTML(geo, { raw: parcel, parsed, svc: psvc }, flood, slope, city, { zoning, fdf, watershed });
       resultsEl.hidden = false;
@@ -2985,7 +3487,7 @@
     function _plRow(k, v) {
       const val = v == null || v === '' ? '<span style="color:var(--text-dim);">—</span>' : esc(String(v));
       return `<div style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9.5px; font-weight:700;">${k}</div>
-              <div style="color:#fff;">${val}</div>`;
+              <div style="color:#111111;">${val}</div>`;
     }
 
     function _plRenderHTML(geo, parcelBundle, flood, slope, city, extra) {
@@ -3035,12 +3537,15 @@
         const link = zsvc.linkField ? (z[zsvc.linkField] || '') : (zsvc.codeUrl || '');
         const ref  = AUSTIN_SETBACKS[base] || AUSTIN_SETBACKS[code];
         let rows = _plRow('Zone', code || '—') + (name ? _plRow('District', name) : '') + (base && base !== code ? _plRow('Base', base) : '');
+        if (zsvc.extra) {
+          zsvc.extra.forEach(([f, label]) => { if (z[f] != null && String(z[f]).trim() !== '' && String(z[f]).trim() !== ' ') rows += _plRow(label, String(z[f])); });
+        }
         if (meta.zoning === 'austin' && ref) {
           rows += _plRow('Min Lot (ref)', ref.minLot) + _plRow('Setbacks (ref)', 'F ' + ref.front + ' / S ' + ref.side + ' / R ' + ref.rear + ' ft') + _plRow('Max Height (ref)', ref.maxHeight + ' ft');
         }
         if (link) rows += `<div style="grid-column:1/-1; font-size:11px; padding-top:6px;"><a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--accent);">Code section ↗</a></div>`;
         rows += meta.zoningCaveat
-          ? `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:#e0c98d; padding:8px 10px; margin-top:6px; background:rgba(224,201,141,0.08); border-left:2px solid #e0c98d;">⚠ ${esc(meta.zoningCaveat)}</div>`
+          ? `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:#8a6a1f; padding:8px 10px; margin-top:6px; background:rgba(224,201,141,0.08); border-left:2px solid #8a6a1f;">⚠ ${esc(meta.zoningCaveat)}</div>`
           : `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:var(--text-muted); padding:6px 0 0;">Verify setbacks, overlays, and max height with the city — use the <b>Email Zoning</b> button below.</div>`;
         cards.push(_plCard('Zoning (' + esc(meta.label) + ')', rows));
       } else {
@@ -3057,10 +3562,10 @@
           <article style="background:var(--panel); border:1px solid var(--rule); padding:18px 20px;">
             <h3 style="font-family:var(--font-display); font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin:0 0 12px; padding-bottom:8px; border-bottom:1px solid var(--rule);">Slope Analysis</h3>
             <div style="display:flex; align-items:baseline; gap:12px; margin-bottom:10px;">
-              <div style="font-family:var(--font-display); font-size:32px; color:#fff; letter-spacing:.04em;">${slope.slopePct.toFixed(1)}<span style="font-size:16px; color:var(--text-dim); margin-left:2px;">%</span></div>
+              <div style="font-family:var(--font-display); font-size:32px; color:#111111; letter-spacing:.04em;">${slope.slopePct.toFixed(1)}<span style="font-size:16px; color:var(--text-dim); margin-left:2px;">%</span></div>
               <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:${sc.color};">${sc.label}</div>
             </div>
-            <div style="font-size:11px; color:#eee; line-height:1.55; padding:8px 10px; margin-bottom:12px; background:rgba(255,255,255,0.03); border-left:2px solid ${sc.color};">${esc(sc.note)}</div>
+            <div style="font-size:11px; color:#222222; line-height:1.55; padding:8px 10px; margin-bottom:12px; background:rgba(17, 17, 17,0.03); border-left:2px solid ${sc.color};">${esc(sc.note)}</div>
             <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 14px; font-size:12px;">
               ${_plRow('Elevation Range', slope.range.toFixed(1) + ' ft')}
               ${_plRow('Low Point',       slope.min.toFixed(1) + ' ft')}
@@ -3124,7 +3629,7 @@
               ✉ Email Zoning
             </button>
             <button type="button" id="pl-client-report-btn"
-                    style="padding:10px 18px; font-family:var(--font-body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; background:var(--accent); color:#000; border:0; cursor:pointer;">
+                    style="padding:10px 18px; font-family:var(--font-body); font-size:11px; letter-spacing:.16em; text-transform:uppercase; font-weight:700; background:var(--accent); color:#f6f2ea; border:0; cursor:pointer;">
               📄 Generate Client Report
             </button>
           </div>
@@ -3146,7 +3651,7 @@
             <form class="plookup-form" style="display:flex; gap:10px;">
               <input class="plookup-address" type="text" required autocomplete="off"
                      placeholder="${esc(meta.placeholder)}"
-                     style="flex:1; padding:12px 14px; font-family:var(--font-body); font-size:14px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                     style="flex:1; padding:12px 14px; font-family:var(--font-body); font-size:14px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
               <button type="submit" class="btn" style="padding:12px 24px;">Look up</button>
             </form>
             <div class="plookup-status" style="font-size:11px; color:var(--text-dim); letter-spacing:.14em; text-transform:uppercase; margin-top:12px;"></div>
@@ -3167,7 +3672,7 @@
             await _plLookup(container, address);
           } catch (err) {
             console.error(err);
-            statusEl.style.color = '#d99';
+            statusEl.style.color = '#b03030';
             statusEl.textContent = 'Error: ' + (err.message || err);
             resultsEl.hidden = true;
           }
@@ -3280,29 +3785,29 @@
       const isFlood = fzone && !/^X/i.test(fzone);
       const s = slope || null;
       const div = document.createElement('div');
-      div.style.cssText = 'position:fixed; top:-10000px; left:0; width:800px; padding:56px 56px 48px; background:#000; color:#fff; font-family:Mulish,Helvetica,Arial,sans-serif;';
+      div.style.cssText = 'position:fixed; top:-10000px; left:0; width:800px; padding:56px 56px 48px; background:#f6f2ea; color:#111111; font-family:Mulish,Helvetica,Arial,sans-serif;';
       const row = (label, value) => value
-        ? `<div style="display:grid; grid-template-columns:180px 1fr; gap:14px; padding:8px 0; border-bottom:1px solid #222;">
+        ? `<div style="display:grid; grid-template-columns:180px 1fr; gap:14px; padding:8px 0; border-bottom:1px solid #e6dfd2;">
              <div style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#8a8579; font-weight:700;">${label}</div>
-             <div style="font-size:13px; color:#fff;">${value}</div>
+             <div style="font-size:13px; color:#111111;">${value}</div>
            </div>`
         : '';
       const section = (title, body) => `
         <div style="margin-top:26px;">
-          <div style="font-family:Aboreto,serif; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#eae2d3; border-bottom:1px solid #eae2d3; padding-bottom:6px; margin-bottom:6px;">${title}</div>
+          <div style="font-family:Aboreto,serif; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#8a7a4b; border-bottom:1px solid #8a7a4b; padding-bottom:6px; margin-bottom:6px;">${title}</div>
           ${body}
         </div>`;
       div.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; border-bottom:2px solid #eae2d3;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; border-bottom:2px solid #8a7a4b;">
           <div>
-            <div style="font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:#eae2d3;">Land Acquisition · Research Report</div>
-            <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.14em; color:#fff; margin-top:6px;">VICTORY FORMATION VENTURES</div>
+            <div style="font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:#8a7a4b;">Land Acquisition · Research Report</div>
+            <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.14em; color:#111111; margin-top:6px;">VICTORY FORMATION VENTURES</div>
           </div>
           <div style="text-align:right; font-size:10px; letter-spacing:.14em; color:#8a8579;">${today}</div>
         </div>
         <div style="margin-top:22px;">
           <div style="font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:#8a8579;">${meta.label}</div>
-          <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.06em; color:#fff; margin-top:6px; line-height:1.2;">${addr || '—'}</div>
+          <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.06em; color:#111111; margin-top:6px; line-height:1.2;">${addr || '—'}</div>
         </div>
         ${raw ? section('Parcel · ' + (bundle.svc ? bundle.svc.label : ''),
           row('Parcel ID',  parcelId) +
@@ -3324,7 +3829,7 @@
           row('Elevation Range',  s.range.toFixed(1) + ' ft') +
           row('Low Point',        s.min.toFixed(1) + ' ft') +
           row('High Point',       s.max.toFixed(1) + ' ft') +
-          `<div style="font-size:11px; color:#eae2d3; padding-top:6px; line-height:1.5;">${s.score ? s.score.note : ''}</div>` +
+          `<div style="font-size:11px; color:#8a7a4b; padding-top:6px; line-height:1.5;">${s.score ? s.score.note : ''}</div>` +
           `<div style="font-size:10px; color:#8a8579; padding-top:4px;">Source: USGS 3DEP LiDAR (${s.sampleCount} sample points)</div>`
         ) : ''}
         ${section('FEMA Flood Zone',
@@ -3332,7 +3837,7 @@
           (fsub ? row('Subtype', fsub) : '') +
           row('Flood Risk', isFlood ? '⚠ Yes — Special Flood Hazard Area' : '✓ No — outside SFHA')
         )}
-        <div style="margin-top:36px; padding-top:14px; border-top:1px solid #333; font-size:9px; letter-spacing:.14em; color:#666;">
+        <div style="margin-top:36px; padding-top:14px; border-top:1px solid #d9d0bf; font-size:9px; letter-spacing:.14em; color:#8a8579;">
           Data sources: City of Austin Cadastral & Zoning · USGS 3DEP · FEMA NFHL · Municipal records.
           This report is a working reference — verify all values with the applicable municipality before contracting.
         </div>`;
@@ -3352,7 +3857,7 @@
         document.body.appendChild(dom);
         // Wait for fonts to settle
         if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch (_) {} }
-        const canvas = await window.html2canvas(dom, { scale: 2, backgroundColor: '#000000', useCORS: true, logging: false });
+        const canvas = await window.html2canvas(dom, { scale: 2, backgroundColor: '#f6f2ea', useCORS: true, logging: false });
         document.body.removeChild(dom);
         const { PDFDocument, rgb } = window.PDFLib;
         const pdf = await PDFDocument.create();
@@ -3526,7 +4031,7 @@
       const el = container.querySelector('.lc-results');
       const isRoundRock = ctx.city === 'round-rock';
       if (rows.length === 0) {
-        const scope = isRoundRock ? 'Round Rock city limits' : ('ZIP <b style="color:#fff;">' + esc(ctx.zip) + '</b>');
+        const scope = isRoundRock ? 'Round Rock city limits' : ('ZIP <b style="color:#111111;">' + esc(ctx.zip) + '</b>');
         const window = isRoundRock ? '' : (' in the ' + esc(ctx.months) + '-month window');
         el.innerHTML = '<div style="padding:24px; text-align:center; color:var(--text-dim); font-size:12px; border:1px dashed var(--rule);">' +
           'No comps found for ' + scope + window + ' at ' +
@@ -3541,17 +4046,17 @@
       const dateStr = ms => ms ? new Date(ms).toLocaleDateString('en-US', { month:'short', day:'numeric', year:'2-digit' }) : '—';
       const summary = `
         <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:12px; margin-bottom:14px;">
-          <div style="padding:12px 14px; background:#141414; border:1px solid var(--rule);">
+          <div style="padding:12px 14px; background:#f1ece2; border:1px solid var(--rule);">
             <div style="font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim);">Avg Sale</div>
-            <div style="font-family:var(--font-display); font-size:20px; color:#fff; margin-top:4px;">${fmtUSD(avg)}</div>
+            <div style="font-family:var(--font-display); font-size:20px; color:#111111; margin-top:4px;">${fmtUSD(avg)}</div>
           </div>
-          <div style="padding:12px 14px; background:#141414; border:1px solid var(--rule);">
+          <div style="padding:12px 14px; background:#f1ece2; border:1px solid var(--rule);">
             <div style="font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim);">Avg $/Acre</div>
-            <div style="font-family:var(--font-display); font-size:20px; color:#fff; margin-top:4px;">${fmtUSD(avgPerAcre)}</div>
+            <div style="font-family:var(--font-display); font-size:20px; color:#111111; margin-top:4px;">${fmtUSD(avgPerAcre)}</div>
           </div>
-          <div style="padding:12px 14px; background:#141414; border:1px solid var(--rule);">
+          <div style="padding:12px 14px; background:#f1ece2; border:1px solid var(--rule);">
             <div style="font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim);">Comps Shown</div>
-            <div style="font-family:var(--font-display); font-size:20px; color:#fff; margin-top:4px;">${top.length} <span style="font-size:11px; color:var(--text-dim);">of ${rows.length}</span></div>
+            <div style="font-family:var(--font-display); font-size:20px; color:#111111; margin-top:4px;">${top.length} <span style="font-size:11px; color:var(--text-dim);">of ${rows.length}</span></div>
           </div>
         </div>
       `;
@@ -3561,11 +4066,11 @@
         : '<tr><th>Sold</th><th>Price</th><th>Ac</th><th>Address</th><th>Zone</th><th>Buyer (LLC)</th><th>Improvements</th></tr>';
       const tableRows = top.map(r => {
         const impCell = (r.improvements === 0 || r.improvements == null)
-          ? '<span style="color:#9ec39e;">✓ vacant</span>'
+          ? '<span style="color:#3f7a3f;">✓ vacant</span>'
           : esc(fmtUSD(r.improvements));
         if (isRoundRock) {
           return `<tr>
-            <td style="font-family:var(--font-display); color:#fff;">${esc(fmtUSD(r.price))}</td>
+            <td style="font-family:var(--font-display); color:#111111;">${esc(fmtUSD(r.price))}</td>
             <td>${Number(r.acres || 0).toFixed(2)}</td>
             <td style="color:var(--text-muted);">${esc(r.address)}</td>
             <td style="color:var(--text-muted); font-size:11px;">${esc(r.owner)}</td>
@@ -3574,7 +4079,7 @@
         }
         return `<tr>
           <td>${esc(dateStr(r.soldDate))}</td>
-          <td style="font-family:var(--font-display); color:#fff;">${esc(fmtUSD(r.price))}</td>
+          <td style="font-family:var(--font-display); color:#111111;">${esc(fmtUSD(r.price))}</td>
           <td>${Number(r.acres || 0).toFixed(2)}</td>
           <td style="color:var(--text-muted);">${esc(r.address)}</td>
           <td>${esc(r.zone)}</td>
@@ -3599,10 +4104,10 @@
         let intro, note = '';
         if (isRoundRock) {
           intro = 'Land buys inside Round Rock city limits within a target acreage range. Filters out home sales via price cap.';
-          note = `<p style="font-size:11px; color:#e0c98d; margin:0 0 12px; line-height:1.5;">⚠ Williamson County doesn't publish sale dates in the parcel service, so results are all-time (not date-filtered). Recent activity still surfaces via LLC-owner + low-improvement filters. Cross-check the deed via <a href="https://williamsonpropertyassessor.com/" target="_blank" rel="noopener" style="color:#eae2d3; border-bottom:1px solid #eae2d3;">Williamson Assessor</a> for actual sale date.</p>`;
+          note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Williamson County doesn't publish sale dates in the parcel service, so results are all-time (not date-filtered). Recent activity still surfaces via LLC-owner + low-improvement filters. Cross-check the deed via <a href="https://williamsonpropertyassessor.com/" target="_blank" rel="noopener" style="color:#8a7a4b; border-bottom:1px solid #8a7a4b;">Williamson Assessor</a> for actual sale date.</p>`;
         } else if (city !== 'austin') {
           intro = 'Recent LLC-purchased lots in a ZIP within a target acreage range. Automatically filters out anything above the price cap (usually home sales, not land).';
-          note = `<p style="font-size:11px; color:#e0c98d; margin:0 0 12px; line-height:1.5;">⚠ Note: ZIP ${esc(meta.zipHint)} covers parts of Austin and other satellite cities. Comps returned are from the entire ZIP — check the address column to confirm which city each is in.</p>`;
+          note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Note: ZIP ${esc(meta.zipHint)} covers parts of Austin and other satellite cities. Comps returned are from the entire ZIP — check the address column to confirm which city each is in.</p>`;
         } else {
           intro = 'Recent LLC-purchased lots in a ZIP within a target acreage range. Automatically filters out anything above the price cap (usually home sales, not land).';
         }
@@ -3611,13 +4116,13 @@
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">ZIP Code *</span>
             <input class="lc-zip" type="text" required pattern="[0-9]{5}" maxlength="5" placeholder="${esc(meta.zipHint)}"
-                   style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                   style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
           </label>`;
         const monthsField = isRoundRock ? '' : `
           <label style="display:flex; flex-direction:column; gap:4px;">
             <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Look Back (mo)</span>
             <input class="lc-months" type="number" step="1" min="1" max="60" value="12"
-                   style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                   style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
           </label>`;
         const capPlaceholder = isRoundRock ? '1200000' : 'auto by ZIP';
         mount.innerHTML = `
@@ -3630,18 +4135,18 @@
               <label style="display:flex; flex-direction:column; gap:4px;">
                 <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Min Acres *</span>
                 <input class="lc-min-acres" type="number" required step="0.01" min="0.01" placeholder="1.00"
-                       style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                       style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
               </label>
               <label style="display:flex; flex-direction:column; gap:4px;">
                 <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Max Acres *</span>
                 <input class="lc-max-acres" type="number" required step="0.01" min="0.01" placeholder="2.00"
-                       style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                       style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
               </label>
               ${monthsField}
               <label style="display:flex; flex-direction:column; gap:4px;">
                 <span style="font-size:9px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim); font-weight:700;">Max $ Cap</span>
                 <input class="lc-cap" type="number" step="10000" placeholder="${capPlaceholder}"
-                       style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#000; color:#fff; border:1px solid var(--rule-strong);" />
+                       style="padding:10px 12px; font-family:var(--font-body); font-size:14px; background:#f6f2ea; color:#111111; border:1px solid var(--rule-strong);" />
               </label>
               <label style="display:flex; align-items:center; gap:8px; padding:10px 0;">
                 <input class="lc-llc-only" type="checkbox" checked style="accent-color:var(--accent);" />
@@ -3685,12 +4190,12 @@
           try {
             const rows = await _lcFindComps(ctx);
             _lcRender(container, rows, ctx);
-            status.style.color = '#9ec39e';
+            status.style.color = '#3f7a3f';
             status.textContent = '✓ Found ' + rows.length + ' comp' + (rows.length === 1 ? '' : 's') + ' · cap $' + ctx.cap.toLocaleString();
             results.hidden = false;
           } catch (err) {
             console.error(err);
-            status.style.color = '#d99';
+            status.style.color = '#b03030';
             status.textContent = 'Error: ' + (err.message || err);
           }
         });

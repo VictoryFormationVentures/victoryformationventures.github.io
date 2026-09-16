@@ -2,7 +2,7 @@
 
 The internal workspace for Victory Formation Ventures, covering the greater Austin market (Travis County and Williamson County, Texas). One page, division tabs, plus a set of document generators (LOI, CMA, deal report, investor deck, engagement letter, and more).
 
-Live site: https://gvj32.github.io/Dashboard/
+Live site: https://victoryformationventures.github.io/
 
 This is a rebranded copy of the Stonehouse Company dashboard, ported from Nashville to Austin. The tooling is identical; the data is not shared.
 
@@ -48,4 +48,4 @@ The logo files in `assets/` (`AppLogo.png`, `icon-*.png`, `apple-touch-icon.png`
 
 ## Deploying
 
-Hosted on GitHub Pages from the `main` branch of `gvj32/Dashboard`. Commit and push; the site updates in about a minute.
+Hosted on GitHub Pages from the `main` branch of `VictoryFormationVentures/victoryformationventures.github.io`. Commit and push; the site updates in about a minute.

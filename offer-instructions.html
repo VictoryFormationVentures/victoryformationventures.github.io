@@ -1,10 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
+  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
+  (function () {
+    const _fetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      const url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (url.indexOf('PASTE_YOUR_') !== -1) {
+        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
+      }
+      return _fetch(input, init);
+    };
+  })();
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1200" />
   <title>Offer Instructions · Victory Formation Ventures</title>
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#f6f2ea" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -12,16 +27,16 @@
     :root {
       /* Paper is now pure black; arch logo (mask-based) renders in --ink white.
          Gold accent is gone — replaced with white + neutral greys. */
-      --paper:        #000000;
-      --paper-tint:   #0a0a0a;
-      --ink:          #ffffff;
-      --ink-muted:    #b8b8b8;
-      --rule:         #3a3a3a;
-      --accent:       #ffffff;
-      --accent-soft:  #6a6a6a;
-      --bg:           #1a1a1a;
-      --panel:        #0f0f0f;
-      --panel-edge:   #2a2a2a;
+      --paper:        #f6f2ea;
+      --paper-tint:   #fbf9f4;
+      --ink:          #111111;
+      --ink-muted:    #5a564e;
+      --rule:         #c9bfab;
+      --accent:       #111111;
+      --accent-soft:  #8a8579;
+      --bg:           #ede7da;
+      --panel:        #fbf9f4;
+      --panel-edge:   #d9d0bf;
 
       --font-body:    'Mulish', 'Helvetica Neue', Arial, sans-serif;
       --font-display: 'Aboreto', 'Cormorant Garamond', serif;
@@ -36,7 +51,7 @@
     html, body { margin: 0; padding: 0; background: var(--bg); }
     body {
       font-family: var(--font-ui);
-      color: #ffffff;
+      color: #111111;
       -webkit-font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
     }
@@ -44,8 +59,8 @@
     a { color: inherit; }
     input, select, textarea {
       font: inherit;
-      color: #ffffff;
-      background: #111;
+      color: #111111;
+      background: #f1ece2;
       border: 1px solid var(--panel-edge);
       padding: 7px 9px;
       width: 100%;
@@ -53,37 +68,37 @@
     }
     input:focus, select:focus, textarea:focus { outline: 1px solid var(--accent-soft); outline-offset: -1px; }
     textarea { resize: vertical; min-height: 70px; font-size: 12px; line-height: 1.5; }
-    label { display: block; margin-bottom: 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #b8b8b8; }
+    label { display: block; margin-bottom: 4px; font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: #5a564e; }
 
     /* ===== Toolbar ===== */
     .toolbar {
       position: fixed; top: 0; left: 0; right: 0; height: 56px;
-      background: #000; border-bottom: 1px solid var(--panel-edge);
+      background: #f6f2ea; border-bottom: 1px solid var(--panel-edge);
       display: flex; align-items: center; gap: 14px;
       padding: 0 18px; z-index: 200;
     }
     .toolbar .brand {
       font-family: var(--font-display); font-size: 13px;
       letter-spacing: .25em; text-transform: uppercase;
-      color: #ffffff;
+      color: #111111;
     }
     .toolbar .brand small {
       display: block; font-family: var(--font-ui); font-size: 9px;
-      letter-spacing: .2em; color: #b8b8b8; font-weight: 500;
+      letter-spacing: .2em; color: #5a564e; font-weight: 500;
       margin-top: 2px;
     }
     .toolbar .spacer { flex: 1; }
     .tb-btn {
       font-family: var(--font-ui); font-size: 11px; text-transform: uppercase; letter-spacing: .15em;
       padding: 9px 16px; cursor: pointer;
-      border: 1px solid #ffffff; background: #ffffff; color: #000;
+      border: 1px solid #111111; background: #111111; color: #f6f2ea;
       font-weight: 600; text-decoration: none; display: inline-block;
     }
     .tb-btn:hover { opacity: .85; }
-    .tb-btn.ghost { background: transparent; color: #ffffff; }
-    .tb-status { font-size: 10px; color: #b8b8b8; text-transform: uppercase; letter-spacing: .15em; }
-    .tb-status.ok { color: #9ec39e; }
-    .tb-status.err { color: #d99; }
+    .tb-btn.ghost { background: transparent; color: #111111; }
+    .tb-status { font-size: 10px; color: #5a564e; text-transform: uppercase; letter-spacing: .15em; }
+    .tb-status.ok { color: #3f7a3f; }
+    .tb-status.err { color: #b03030; }
 
     /* ===== Layout ===== */
     .layout {
@@ -95,7 +110,7 @@
 
     /* ===== Editor sidebar ===== */
     .editor {
-      background: #0a0a0a;
+      background: #fbf9f4;
       border-right: 1px solid var(--panel-edge);
       padding: 18px 18px 80px;
       position: sticky; top: 56px; align-self: start;
@@ -105,15 +120,15 @@
     .editor h2 {
       font-family: var(--font-display); font-size: 12px;
       letter-spacing: .25em; text-transform: uppercase;
-      color: #ffffff; margin: 0;
+      color: #111111; margin: 0;
     }
-    .editor p.note { font-size: 11px; color: #b8b8b8; margin: 6px 0 14px; line-height: 1.5; }
+    .editor p.note { font-size: 11px; color: #5a564e; margin: 6px 0 14px; line-height: 1.5; }
     details.section {
-      border: 1px solid #1f1f1f;
+      border: 1px solid #e6dfd2;
       margin-bottom: 8px;
-      background: #0e0e0e;
+      background: #fbf9f4;
     }
-    details.section[open] { background: #111; }
+    details.section[open] { background: #f1ece2; }
     details.section > summary {
       list-style: none; cursor: pointer;
       padding: 10px 12px;
@@ -123,7 +138,7 @@
     }
     details.section > summary::-webkit-details-marker { display: none; }
     details.section > summary::before {
-      content: '+'; color: #b8b8b8; font-weight: 400; width: 12px;
+      content: '+'; color: #5a564e; font-weight: 400; width: 12px;
       font-family: var(--font-ui); font-size: 14px;
     }
     details.section[open] > summary::before { content: '−'; }
@@ -133,13 +148,13 @@
     .row.three { grid-template-columns: 1fr 1fr 1fr; }
     .mini-btn {
       font-size: 10px; padding: 5px 9px;
-      background: transparent; color: #b8b8b8;
+      background: transparent; color: #5a564e;
       border: 1px solid var(--panel-edge); cursor: pointer;
       text-transform: uppercase; letter-spacing: .12em;
       font-family: var(--font-ui);
     }
-    .mini-btn:hover { color: #ffffff; border-color: #b8b8b8; }
-    .mini-btn.danger { color: #d99; border-color: #5a3030; }
+    .mini-btn:hover { color: #111111; border-color: #5a564e; }
+    .mini-btn.danger { color: #b03030; border-color: #5a3030; }
     .list-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
 
     /* ===== Preview pane ===== */
@@ -291,10 +306,10 @@
     .page, .page * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
     @page { size: letter portrait; margin: 0; }
     @media print {
-      html, body { background: #000; }
+      html, body { background: #f6f2ea; }
       .toolbar, .editor { display: none !important; }
       .layout { grid-template-columns: 1fr; padding-top: 0; }
-      .preview { padding: 0; background: #000; }
+      .preview { padding: 0; background: #f6f2ea; }
       .page {
         box-shadow: none !important;
         width: 8.5in !important;
@@ -304,8 +319,8 @@
     }
 
     .editor::-webkit-scrollbar { width: 8px; }
-    .editor::-webkit-scrollbar-thumb { background: #2a2a2a; }
-    .editor::-webkit-scrollbar-track { background: #0a0a0a; }
+    .editor::-webkit-scrollbar-thumb { background: #d9d0bf; }
+    .editor::-webkit-scrollbar-track { background: #fbf9f4; }
   </style>
 </head>
 <body>

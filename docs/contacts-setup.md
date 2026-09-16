@@ -1,8 +1,8 @@
 # Development Contacts — Setup
 
-The Development → **Contacts** subnav group renders a vendor / partner network across 8 categories: Investors, Builders, Architects, Interior Designers, Surveyors, Engineers, City Officials, Developers. Each category gets its own subtab, but they all read from one shared sheet.
+The top-level **Contacts** tab renders the relationship book across 9 categories: Realtors, Builders, Developers, General Contractors, Inspectors, Investors, Appraisers, Lenders, Council Members. Each category gets its own subtab, but they all read from one shared sheet.
 
-The entire Contacts section is gated behind a single passcode (Gabe's by default — same one as Commissions, `3034`). Unlock once and all 8 categories open. 24-hour persistence in localStorage.
+The entire Contacts section is gated behind a single passcode (Gabe's `5555`, Vincent's `7777`, or admin `0000`). Unlock once and all 9 categories open. 24-hour persistence in localStorage.
 
 Plan ~15 minutes.
 
@@ -11,7 +11,7 @@ Plan ~15 minutes.
 ## 1 · Create the Sheet
 
 1. [sheets.new](https://sheets.new) (logged in as `gvjbusiness@yahoo.com`).
-2. Rename: **Victory Formation Development Contacts**
+2. Rename: **VFV Contacts**
 3. Share → Anyone with the link → Viewer
 
 ---
@@ -19,12 +19,12 @@ Plan ~15 minutes.
 ## 2 · Create the Form
 
 1. [forms.new](https://forms.new)
-2. Name it: **Add Development Contact**
+2. Name it: **Add VFV Contact**
 3. Add these questions in order (exact lowercase labels):
 
    | # | Label | Type | Required |
    |---|---|---|---|
-   | 1  | category     | Dropdown: Investors / Builders / Architects / Interior Designers / Surveyors / Engineers / City Officials / Developers | Yes |
+   | 1  | category     | Dropdown: Realtors / Builders / Developers / General Contractors / Inspectors / Investors / Appraisers / Lenders / Council Members | Yes |
    | 2  | name         | Short answer | Yes |
    | 3  | company      | Short answer | No |
    | 4  | role         | Short answer | No |
@@ -36,7 +36,7 @@ Plan ~15 minutes.
    | 10 | next_action  | Short answer | No |
    | 11 | notes        | Paragraph | No |
 
-4. **Settings → Responses → Link to Sheet → "Victory Formation Development Contacts"**
+4. **Settings → Responses → Link to Sheet → "VFV Contacts"**
 5. Send → Link → copy → change `/viewform` to `/formResponse` — that's `CONTACTS_CONFIG.FORM_URL`
 
 ---

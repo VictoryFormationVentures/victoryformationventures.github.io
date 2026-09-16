@@ -22,14 +22,14 @@
   </script>
   <style>
     :root {
-      --ink: #0a0a0a;
-      --ink-2: #111;
-      --panel: #141414;
+      --ink: #fbf9f4;
+      --ink-2: #f1ece2;
+      --panel: #f1ece2;
       --panel-edge: #262626;
       --text: #f4efe4;
       --text-muted: #a8a49b;
       --text-dim: #6a675f;
-      --accent: #EAE2D3;
+      --accent: #8a7a4b;
       --gold: #c6a664;
       --danger: #d64545;
       --font-display: 'Aboreto', serif;
@@ -41,19 +41,19 @@
       font-family: var(--font-body); font-size: 14px; line-height: 1.5;
     }
     a { color: var(--accent); text-decoration: none; }
-    a:hover { color: #fff; }
+    a:hover { color: #111111; }
 
     /* ============ Top bar ============ */
     .topbar {
       display: flex; align-items: center; justify-content: space-between;
       padding: 20px 32px; border-bottom: 1px solid var(--panel-edge);
-      background: #000; position: sticky; top: 0; z-index: 10;
+      background: #f6f2ea; position: sticky; top: 0; z-index: 10;
     }
     .topbar-left { display: flex; align-items: center; gap: 18px; }
     .arch { width: 32px; height: 32px; }
     .wordmark {
       font-family: var(--font-display); font-size: 15px;
-      letter-spacing: .22em; color: #fff;
+      letter-spacing: .22em; color: #111111;
     }
     .memo-title {
       font-family: var(--font-body); font-size: 11px;
@@ -68,17 +68,17 @@
       font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
       cursor: pointer; font-weight: 500;
     }
-    .btn:hover { border-color: var(--accent); color: #fff; }
+    .btn:hover { border-color: var(--accent); color: #111111; }
     .btn-primary {
-      background: var(--accent); color: #111; border-color: var(--accent);
+      background: var(--accent); color: #f1ece2; border-color: var(--accent);
     }
-    .btn-primary:hover { background: #fff; }
+    .btn-primary:hover { background: #111111; }
     .btn-ghost { border-color: transparent; color: var(--text-muted); }
-    .btn-ghost:hover { color: #fff; }
+    .btn-ghost:hover { color: #111111; }
 
     /* ============ Stepper ============ */
     .stepper-wrap {
-      background: #050505; border-bottom: 1px solid var(--panel-edge);
+      background: #faf7f1; border-bottom: 1px solid var(--panel-edge);
       padding: 22px 32px;
     }
     .stepper {
@@ -98,10 +98,10 @@
       font-family: var(--font-display); font-size: 15px;
       color: var(--text-muted); margin-top: 4px;
     }
-    .step:hover .label { color: #fff; }
+    .step:hover .label { color: #111111; }
     .step.is-active { border-top-color: var(--accent); }
     .step.is-active .num { color: var(--accent); }
-    .step.is-active .label { color: #fff; }
+    .step.is-active .label { color: #111111; }
     .step.is-done { border-top-color: var(--gold); }
     .step.is-done .num::before { content: '✓ '; color: var(--gold); }
 
@@ -116,7 +116,7 @@
     }
     .section-title {
       font-family: var(--font-display); font-size: 48px;
-      color: #fff; margin: 0 0 6px; letter-spacing: .02em;
+      color: #111111; margin: 0 0 6px; letter-spacing: .02em;
     }
     .section-rule {
       width: 60px; height: 2px; background: var(--accent);
@@ -145,7 +145,7 @@
       color: var(--text-dim); font-weight: 600;
     }
     .field input, .field textarea, .field select {
-      background: #0f0f0f; border: 1px solid var(--panel-edge);
+      background: #fbf9f4; border: 1px solid var(--panel-edge);
       color: var(--text); padding: 12px 14px; font-family: var(--font-body);
       font-size: 14px; outline: none;
     }
@@ -158,7 +158,7 @@
     /* ============ Address search block ============ */
     .lookup-block {
       display: flex; gap: 12px; align-items: end; margin-bottom: 32px;
-      padding: 24px; background: #0f0f0f; border: 1px solid var(--panel-edge);
+      padding: 24px; background: #fbf9f4; border: 1px solid var(--panel-edge);
     }
     .lookup-block .field { flex: 1; }
     .lookup-block .lookup-status {
@@ -174,7 +174,7 @@
       gap: 16px;
     }
     .comp-card {
-      background: #0f0f0f; border: 1px solid var(--panel-edge);
+      background: #fbf9f4; border: 1px solid var(--panel-edge);
       padding: 20px; display: flex; flex-direction: column; gap: 10px;
     }
     .comp-card .del-comp {
@@ -190,20 +190,20 @@
       letter-spacing: .18em; text-transform: uppercase;
       display: flex; align-items: center; justify-content: center;
     }
-    .add-comp-btn:hover { border-color: var(--accent); color: #fff; }
+    .add-comp-btn:hover { border-color: var(--accent); color: #111111; }
 
     /* ============ Team agent chips ============ */
     .agent-chip {
       display: inline-flex; align-items: center; gap: 10px;
       padding: 14px 20px; border: 1px solid var(--panel-edge);
-      background: #0f0f0f; color: var(--text-muted);
+      background: #fbf9f4; color: var(--text-muted);
       font-family: var(--font-body); font-size: 13px;
       letter-spacing: .04em; cursor: pointer; user-select: none;
       transition: all .15s;
     }
-    .agent-chip:hover { border-color: var(--text-muted); color: #fff; }
+    .agent-chip:hover { border-color: var(--text-muted); color: #111111; }
     .agent-chip.is-on {
-      background: var(--accent); color: #111; border-color: var(--accent);
+      background: var(--accent); color: #f1ece2; border-color: var(--accent);
     }
     .agent-chip .role-badge {
       font-size: 9px; letter-spacing: .18em; text-transform: uppercase;
@@ -213,7 +213,7 @@
     /* ============ Footer nav ============ */
     .footer-nav {
       position: fixed; bottom: 0; left: 0; right: 0;
-      background: #000; border-top: 1px solid var(--panel-edge);
+      background: #f6f2ea; border-top: 1px solid var(--panel-edge);
       padding: 16px 32px;
       display: flex; align-items: center; justify-content: space-between;
     }
@@ -230,14 +230,14 @@
       text-align: center; color: var(--text-muted);
       font-size: 13px; cursor: pointer;
     }
-    .drop-zone:hover { border-color: var(--accent); color: #fff; }
+    .drop-zone:hover { border-color: var(--accent); color: #111111; }
     .photo-grid {
       display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 12px; margin-top: 16px;
     }
     .photo-tile {
       position: relative; aspect-ratio: 4/3;
-      background: #0f0f0f; border: 1px solid var(--panel-edge);
+      background: #fbf9f4; border: 1px solid var(--panel-edge);
       overflow: hidden;
     }
     .photo-tile img { width: 100%; height: 100%; object-fit: cover; }
@@ -247,7 +247,7 @@
     }
     .photo-tile .del-photo {
       position: absolute; top: 6px; right: 6px;
-      background: rgba(0,0,0,.75); color: #fff; border: 0;
+      background: rgba(0,0,0,.75); color: #111111; border: 0;
       width: 24px; height: 24px; cursor: pointer;
       font-size: 14px; line-height: 1;
     }
@@ -255,7 +255,7 @@
 </head>
 <body>
   <!-- Hidden PDF render stage (16:9 landscape) — one slide populated at a time, snapshotted to canvas, added to jsPDF page. -->
-  <div id="pdf-stage" style="position:fixed; left:-10000px; top:0; width:1600px; height:900px; background:#0a0a0a; color:#f4efe4; font-family:'Montserrat', sans-serif; overflow:hidden;"></div>
+  <div id="pdf-stage" style="position:fixed; left:-10000px; top:0; width:1600px; height:900px; background:#fbf9f4; color:#f4efe4; font-family:'Montserrat', sans-serif; overflow:hidden;"></div>
 
   <!-- ============ Top bar ============ -->
   <header class="topbar">
@@ -391,7 +391,7 @@
       <div class="section-rule"></div>
       <p class="section-intro">The price we're offering the land to potential builders at, plus deal terms if the site is already under contract by Victory Formation. The Offering Price is the headline number on the memo — everything else is optional context.</p>
 
-      <div style="padding:28px; background:#0f0f0f; border:1px solid var(--gold); margin-bottom:32px;">
+      <div style="padding:28px; background:#fbf9f4; border:1px solid var(--gold); margin-bottom:32px;">
         <div style="font-family:var(--font-body); font-size:10px; letter-spacing:.28em; color:var(--gold); text-transform:uppercase; margin-bottom:8px;">Headline · Sent to Builders</div>
         <div class="field">
           <label>Offering Price</label>
@@ -795,8 +795,8 @@
          PDF Export — 16:9 landscape, one slide per section, OM aesthetic
          ================================================================ */
       const S = {
-        BG: '#0a0a0a', INK: '#f4efe4', MUTE: '#a8a49b', DIM: '#6a675f',
-        RULE: '#262626', ACCENT: '#EAE2D3', GOLD: '#c6a664',
+        BG: '#fbf9f4', INK: '#f4efe4', MUTE: '#a8a49b', DIM: '#6a675f',
+        RULE: '#262626', ACCENT: '#8a7a4b', GOLD: '#c6a664',
         DISPLAY: "'Aboreto', serif",
         BODY: "'Montserrat', -apple-system, sans-serif",
       };
@@ -805,18 +805,18 @@
       `;
       const slideHeader = (eyebrow, title) => `
         <div style="font-family:${S.BODY}; font-size:12px; letter-spacing:.28em; text-transform:uppercase; color:${S.DIM}; margin-bottom:8px;">${eyebrow}</div>
-        <div style="font-family:${S.DISPLAY}; font-size:56px; color:#fff; letter-spacing:.02em; line-height:1;">${title.toUpperCase()}</div>
+        <div style="font-family:${S.DISPLAY}; font-size:56px; color:#111111; letter-spacing:.02em; line-height:1;">${title.toUpperCase()}</div>
         <div style="width:70px; height:2px; background:${S.ACCENT}; margin:16px 0 40px;"></div>
       `;
       const bigStat = (num, label) => `
         <div style="text-align:center;">
-          <div style="font-family:${S.DISPLAY}; font-size:56px; color:#fff; line-height:1;">${num}</div>
+          <div style="font-family:${S.DISPLAY}; font-size:56px; color:#111111; line-height:1;">${num}</div>
           <div style="font-family:${S.BODY}; font-size:11px; letter-spacing:.24em; color:${S.MUTE}; text-transform:uppercase; margin-top:10px;">${label}</div>
         </div>`;
       const dataRow = (label, value) => `
         <div style="display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid ${S.RULE};">
           <div style="font-family:${S.BODY}; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:${S.MUTE};">${label}</div>
-          <div style="font-family:${S.BODY}; font-size:14px; color:#fff; font-weight:500;">${value || '—'}</div>
+          <div style="font-family:${S.BODY}; font-size:14px; color:#111111; font-weight:500;">${value || '—'}</div>
         </div>`;
       const escapeHTML = (s) => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
       // Format money: "1200000" or "$1,200,000" → "$1,200,000". Leaves non-numeric strings as-is.
@@ -833,12 +833,12 @@
       function slideCover() {
         const bg = state.cover.photo && state.cover.photo.data
           ? `background: url('${state.cover.photo.data}') center/cover no-repeat;`
-          : `background: linear-gradient(135deg, #1a1a1a, #050505);`;
+          : `background: linear-gradient(135deg, #ede7da, #faf7f1);`;
         const agentLine = (state.team && state.team.agents || []).join('  ·  ');
         return `
           <div style="position:absolute; inset:0; ${bg}"></div>
           <div style="position:absolute; inset:0; background:linear-gradient(90deg, rgba(0,0,0,.85) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.25) 100%);"></div>
-          <div style="position:relative; padding:80px 88px; height:100%; display:flex; flex-direction:column; justify-content:space-between; color:#fff;">
+          <div style="position:relative; padding:80px 88px; height:100%; display:flex; flex-direction:column; justify-content:space-between; color:#111111;">
             <div>
               <div style="font-family:${S.BODY}; font-size:13px; letter-spacing:.32em; text-transform:uppercase; color:${S.MUTE};">Land Acquisition Memo</div>
               <div style="font-family:${S.DISPLAY}; font-size:96px; line-height:1; margin-top:22px; letter-spacing:.02em;">${escapeHTML(state.cover.address || 'Address TBD').toUpperCase()}</div>
@@ -851,7 +851,7 @@
                   ${escapeHTML(state.cover.submarket || '')}
                 </div>
                 <div style="font-family:${S.BODY}; font-size:12px; letter-spacing:.18em; color:${S.MUTE}; text-align:right;">
-                  ${agentLine ? `<div style="color:#fff;">${escapeHTML(agentLine)}</div>` : ''}
+                  ${agentLine ? `<div style="color:#111111;">${escapeHTML(agentLine)}</div>` : ''}
                   <div style="margin-top:4px;">${escapeHTML(state.cover.date || '')}</div>
                 </div>
               </div>
@@ -931,7 +931,7 @@
         const bg = cover
           ? `<div style="position:absolute; inset:0; background:url('${cover}') center/cover no-repeat;"></div>
              <div style="position:absolute; inset:0; background:linear-gradient(180deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.85) 60%, rgba(0,0,0,.92) 100%);"></div>`
-          : `<div style="position:absolute; inset:0; background:linear-gradient(135deg, #1a1a1a, #050505);"></div>`;
+          : `<div style="position:absolute; inset:0; background:linear-gradient(135deg, #ede7da, #faf7f1);"></div>`;
 
         // Center block: survey preview if available; else fallback to note or photo grid
         let centerBlock;
@@ -943,8 +943,8 @@
           if (w > maxW) { w = maxW; h = w / ratio; }
           centerBlock = `
             <div style="display:flex; flex-direction:column; align-items:center;">
-              <div style="background:#fff; padding:14px; box-shadow:0 24px 60px rgba(0,0,0,.6); border:1px solid ${S.GOLD};">
-                <img src="${surveyPreview.url}" style="display:block; width:${w}px; height:${h}px; object-fit:contain; background:#fff;" alt="Survey preview" />
+              <div style="background:#111111; padding:14px; box-shadow:0 24px 60px rgba(0,0,0,.6); border:1px solid ${S.GOLD};">
+                <img src="${surveyPreview.url}" style="display:block; width:${w}px; height:${h}px; object-fit:contain; background:#111111;" alt="Survey preview" />
               </div>
               <div style="margin-top:22px; font-family:${S.BODY}; font-size:11px; letter-spacing:.28em; color:${S.GOLD}; text-transform:uppercase;">
                 Boundary Survey · Page 1 of ${surveyPreview.pages}${S3.survey ? '  ·  ' + escapeHTML(S3.survey.name) : ''}
@@ -986,24 +986,24 @@
         const cards = comps.slice(0, 4).map((c, i) => {
           const photoBlock = c.photo && c.photo.data
             ? `<div style="height:180px; background:url('${c.photo.data}') center/cover no-repeat; border-bottom:1px solid ${S.RULE};"></div>`
-            : `<div style="height:180px; background:linear-gradient(135deg, #1a1a1a, #0a0a0a); border-bottom:1px solid ${S.RULE}; display:flex; align-items:center; justify-content:center; color:${S.DIM}; font-family:${S.BODY}; font-size:10px; letter-spacing:.22em; text-transform:uppercase;">no photo</div>`;
+            : `<div style="height:180px; background:linear-gradient(135deg, #ede7da, #fbf9f4); border-bottom:1px solid ${S.RULE}; display:flex; align-items:center; justify-content:center; color:${S.DIM}; font-family:${S.BODY}; font-size:10px; letter-spacing:.22em; text-transform:uppercase;">no photo</div>`;
           return `
-          <div style="background:#0f0f0f; border:1px solid ${S.RULE}; display:flex; flex-direction:column; overflow:hidden;">
+          <div style="background:#fbf9f4; border:1px solid ${S.RULE}; display:flex; flex-direction:column; overflow:hidden;">
             ${photoBlock}
             <div style="padding:18px 18px 20px;">
               <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px;">
                 <div style="font-family:${S.BODY}; font-size:10px; letter-spacing:.24em; color:${S.MUTE};">COMP ${String(i+1).padStart(2,'0')}</div>
                 <div style="font-family:${S.BODY}; font-size:9px; letter-spacing:.22em; color:${S.MUTE};">PRICE PER SQ FT</div>
               </div>
-              <div style="text-align:right; font-family:${S.DISPLAY}; font-size:36px; color:#fff; line-height:1;">${ppsf(c)}</div>
-              <div style="margin-top:14px; font-family:${S.DISPLAY}; font-size:14px; color:#fff; letter-spacing:.02em; line-height:1.25;">${escapeHTML(c.address || 'Address TBD').toUpperCase()}</div>
+              <div style="text-align:right; font-family:${S.DISPLAY}; font-size:36px; color:#111111; line-height:1;">${ppsf(c)}</div>
+              <div style="margin-top:14px; font-family:${S.DISPLAY}; font-size:14px; color:#111111; letter-spacing:.02em; line-height:1.25;">${escapeHTML(c.address || 'Address TBD').toUpperCase()}</div>
               <div style="margin-top:14px; display:grid; grid-template-columns:1fr 1fr; gap:6px 16px;">
-                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">SALE PRICE</div><div style="font-size:12px; color:#fff; margin-top:2px;">${money(c.price)}</div></div>
-                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">SQUARE FEET</div><div style="font-size:12px; color:#fff; margin-top:2px;">${escapeHTML(c.sqft) || '—'}</div></div>
-                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">LOT SIZE</div><div style="font-size:12px; color:#fff; margin-top:2px;">${escapeHTML(c.lot) || '—'}</div></div>
-                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">BEDS/BATHS</div><div style="font-size:12px; color:#fff; margin-top:2px;">${escapeHTML(c.beds_baths) || '—'}</div></div>
-                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">CLOSED</div><div style="font-size:12px; color:#fff; margin-top:2px;">${escapeHTML(c.closed) || '—'}</div></div>
-                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">DAYS ON MKT</div><div style="font-size:12px; color:#fff; margin-top:2px;">${escapeHTML(c.dom) || '—'}</div></div>
+                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">SALE PRICE</div><div style="font-size:12px; color:#111111; margin-top:2px;">${money(c.price)}</div></div>
+                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">SQUARE FEET</div><div style="font-size:12px; color:#111111; margin-top:2px;">${escapeHTML(c.sqft) || '—'}</div></div>
+                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">LOT SIZE</div><div style="font-size:12px; color:#111111; margin-top:2px;">${escapeHTML(c.lot) || '—'}</div></div>
+                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">BEDS/BATHS</div><div style="font-size:12px; color:#111111; margin-top:2px;">${escapeHTML(c.beds_baths) || '—'}</div></div>
+                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">CLOSED</div><div style="font-size:12px; color:#111111; margin-top:2px;">${escapeHTML(c.closed) || '—'}</div></div>
+                <div><div style="font-size:8px; letter-spacing:.2em; color:${S.MUTE};">DAYS ON MKT</div><div style="font-size:12px; color:#111111; margin-top:2px;">${escapeHTML(c.dom) || '—'}</div></div>
               </div>
             </div>
           </div>`;
@@ -1024,9 +1024,9 @@
             ${slideHeader('Section Four', 'Comparables')}
             ${comps.length ? `
               <div style="display:grid; grid-template-columns:repeat(${Math.min(comps.length, 4)}, 1fr); gap:14px;">${cards}</div>
-              <div style="margin-top:32px; padding:14px 22px; background:#111; border-top:1px solid ${S.RULE}; display:flex; justify-content:space-between; align-items:center;">
+              <div style="margin-top:32px; padding:14px 22px; background:#f1ece2; border-top:1px solid ${S.RULE}; display:flex; justify-content:space-between; align-items:center;">
                 <div style="font-family:${S.BODY}; font-size:10px; letter-spacing:.24em; color:${S.MUTE};">AVERAGE  ·  ${priced.length}-COMP SET</div>
-                <div style="font-family:${S.DISPLAY}; font-size:22px; color:#fff;">${avgPPSF}  /  SQ FT</div>
+                <div style="font-family:${S.DISPLAY}; font-size:22px; color:#111111;">${avgPPSF}  /  SQ FT</div>
               </div>` : `
               <div style="color:${S.MUTE};">No comparables entered.</div>`}
           </div>`;
@@ -1056,7 +1056,7 @@
               ${(() => {
                 const priceStr = fmtMoney(C.offering_price);
                 const size = priceStr.length > 12 ? '96px' : priceStr.length > 10 ? '116px' : '148px';
-                return `<div style="font-family:${S.DISPLAY}; font-size:${size}; color:#fff; line-height:.95; letter-spacing:.03em; text-align:center;">${escapeHTML(priceStr) || '$—'}</div>`;
+                return `<div style="font-family:${S.DISPLAY}; font-size:${size}; color:#111111; line-height:.95; letter-spacing:.03em; text-align:center;">${escapeHTML(priceStr) || '$—'}</div>`;
               })()}
 
               <!-- Property line beneath -->
@@ -1089,7 +1089,7 @@
         return `
           <div>
             <div style="font-family:${S.BODY}; font-size:9px; letter-spacing:.22em; color:${S.DIM}; text-transform:uppercase; margin-bottom:6px;">${label}</div>
-            <div style="font-family:${S.DISPLAY}; font-size:18px; color:${value ? '#fff' : S.DIM}; letter-spacing:.02em;">${escapeHTML(value) || '—'}</div>
+            <div style="font-family:${S.DISPLAY}; font-size:18px; color:${value ? '#111111' : S.DIM}; letter-spacing:.02em;">${escapeHTML(value) || '—'}</div>
           </div>`;
       }
 
@@ -1101,7 +1101,7 @@
           const [first, ...rest] = a.name.split(' ');
           const last = rest.join(' ');
           return `
-            <div style="position:relative; padding:56px 40px 44px; background:linear-gradient(180deg, #101010 0%, #050505 100%); border:1px solid ${S.RULE}; text-align:center; overflow:hidden;">
+            <div style="position:relative; padding:56px 40px 44px; background:linear-gradient(180deg, #101010 0%, #faf7f1 100%); border:1px solid ${S.RULE}; text-align:center; overflow:hidden;">
               <!-- Corner rules -->
               <div style="position:absolute; top:0; left:0; width:40px; height:1px; background:${S.GOLD};"></div>
               <div style="position:absolute; top:0; left:0; width:1px; height:40px; background:${S.GOLD};"></div>
@@ -1112,8 +1112,8 @@
               <div style="font-family:${S.DISPLAY}; font-size:14px; letter-spacing:.4em; color:${S.GOLD}; margin-bottom:32px;">${['I','II','III'][idx] || (idx+1)}</div>
 
               <!-- Name (first / last on separate lines for that OM feel) -->
-              <div style="font-family:${S.DISPLAY}; font-size:36px; color:#fff; line-height:1.05; letter-spacing:.04em;">${escapeHTML(first).toUpperCase()}</div>
-              <div style="font-family:${S.DISPLAY}; font-size:36px; color:#fff; line-height:1.05; letter-spacing:.04em; margin-top:4px;">${escapeHTML(last).toUpperCase()}</div>
+              <div style="font-family:${S.DISPLAY}; font-size:36px; color:#111111; line-height:1.05; letter-spacing:.04em;">${escapeHTML(first).toUpperCase()}</div>
+              <div style="font-family:${S.DISPLAY}; font-size:36px; color:#111111; line-height:1.05; letter-spacing:.04em; margin-top:4px;">${escapeHTML(last).toUpperCase()}</div>
 
               <!-- Role -->
               <div style="font-family:${S.BODY}; font-size:10px; letter-spacing:.32em; color:${S.MUTE}; margin-top:20px; text-transform:uppercase; font-weight:500;">${escapeHTML(a.role)}</div>
@@ -1123,7 +1123,7 @@
 
               <!-- Contact -->
               <div style="font-family:${S.BODY}; font-size:9px; letter-spacing:.28em; color:${S.DIM}; text-transform:uppercase; margin-bottom:6px;">Phone</div>
-              <div style="font-family:${S.BODY}; font-size:15px; color:#fff; letter-spacing:.06em; margin-bottom:20px;">${escapeHTML(a.phone) || '—'}</div>
+              <div style="font-family:${S.BODY}; font-size:15px; color:#111111; letter-spacing:.06em; margin-bottom:20px;">${escapeHTML(a.phone) || '—'}</div>
 
               <div style="font-family:${S.BODY}; font-size:9px; letter-spacing:.28em; color:${S.DIM}; text-transform:uppercase; margin-bottom:6px;">Email</div>
               <div style="font-family:${S.BODY}; font-size:12px; color:${S.ACCENT}; letter-spacing:.03em;">${escapeHTML(a.email) || '—'}</div>
@@ -1144,7 +1144,7 @@
             </div>
             <!-- Firm footer -->
             <div style="margin-top:40px; padding-top:24px; border-top:1px solid ${S.RULE}; display:flex; justify-content:space-between; align-items:center;">
-              <div style="font-family:${S.DISPLAY}; font-size:14px; color:#fff; letter-spacing:.22em;">VICTORY FORMATION VENTURES</div>
+              <div style="font-family:${S.DISPLAY}; font-size:14px; color:#111111; letter-spacing:.22em;">VICTORY FORMATION VENTURES</div>
               <div style="font-family:${S.BODY}; font-size:11px; letter-spacing:.18em; color:${S.MUTE}; text-transform:uppercase;">Austin · Texas</div>
             </div>
           </div>`;
@@ -1192,18 +1192,18 @@
         const bg = cover
           ? `<div style="position:absolute; inset:0; background:url('${cover}') center/cover no-repeat; filter:blur(10px) brightness(.35);"></div>
              <div style="position:absolute; inset:0; background:radial-gradient(ellipse at center, rgba(0,0,0,.4), rgba(0,0,0,.92));"></div>`
-          : `<div style="position:absolute; inset:0; background:radial-gradient(ellipse at center, #141414 0%, #000 100%);"></div>`;
+          : `<div style="position:absolute; inset:0; background:radial-gradient(ellipse at center, #f1ece2 0%, #f6f2ea 100%);"></div>`;
 
         const agentCards = agents.map((a, idx) => {
           const [first, ...rest] = a.name.split(' ');
           const last = rest.join(' ');
           return `
             <div style="text-align:center; padding:20px 8px; border-left:${idx > 0 ? '1px solid rgba(234,226,211,.18)' : 'none'};">
-              <div style="font-family:${S.DISPLAY}; font-size:22px; color:#fff; letter-spacing:.04em;">${escapeHTML(first).toUpperCase()}</div>
-              <div style="font-family:${S.DISPLAY}; font-size:22px; color:#fff; letter-spacing:.04em; margin-top:2px;">${escapeHTML(last).toUpperCase()}</div>
+              <div style="font-family:${S.DISPLAY}; font-size:22px; color:#111111; letter-spacing:.04em;">${escapeHTML(first).toUpperCase()}</div>
+              <div style="font-family:${S.DISPLAY}; font-size:22px; color:#111111; letter-spacing:.04em; margin-top:2px;">${escapeHTML(last).toUpperCase()}</div>
               <div style="font-family:${S.BODY}; font-size:9px; letter-spacing:.28em; color:${S.MUTE}; margin-top:10px; text-transform:uppercase;">${escapeHTML(a.role)}</div>
               <div style="width:24px; height:1px; background:${S.GOLD}; margin:16px auto;"></div>
-              <div style="font-family:${S.BODY}; font-size:13px; color:#fff; letter-spacing:.06em;">${escapeHTML(a.phone) || '—'}</div>
+              <div style="font-family:${S.BODY}; font-size:13px; color:#111111; letter-spacing:.06em;">${escapeHTML(a.phone) || '—'}</div>
               <div style="font-family:${S.BODY}; font-size:11px; color:${S.ACCENT}; letter-spacing:.02em; margin-top:6px;">${escapeHTML(a.email) || '—'}</div>
             </div>`;
         }).join('');
@@ -1217,13 +1217,13 @@
                 ? `<img src="${__archLightURL}" style="width:72px; height:auto; opacity:.9;" alt="Victory Formation arch" />`
                 : `<div style="width:72px; height:72px; border:2px solid ${S.ACCENT}; border-radius:6px 6px 0 0;"></div>`}
 
-              <div style="font-family:${S.DISPLAY}; font-size:16px; color:#fff; letter-spacing:.32em; margin-top:22px;">VICTORY FORMATION VENTURES</div>
+              <div style="font-family:${S.DISPLAY}; font-size:16px; color:#111111; letter-spacing:.32em; margin-top:22px;">VICTORY FORMATION VENTURES</div>
               <div style="font-family:${S.BODY}; font-size:10px; color:${S.MUTE}; letter-spacing:.32em; text-transform:uppercase; margin-top:8px;">Austin · Texas</div>
 
               <!-- CTA -->
               <div style="margin-top:64px; text-align:center; max-width:820px;">
                 <div style="font-family:${S.BODY}; font-size:10px; letter-spacing:.5em; color:${S.GOLD}; text-transform:uppercase;">Interested?</div>
-                <div style="font-family:${S.DISPLAY}; font-size:56px; color:#fff; line-height:1.15; letter-spacing:.02em; margin-top:20px;">
+                <div style="font-family:${S.DISPLAY}; font-size:56px; color:#111111; line-height:1.15; letter-spacing:.02em; margin-top:20px;">
                   LET'S TALK ABOUT<br/>THIS OPPORTUNITY.
                 </div>
                 <div style="font-family:${S.BODY}; font-size:14px; color:${S.MUTE}; line-height:1.7; margin-top:24px; font-weight:300;">

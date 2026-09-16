@@ -30,7 +30,7 @@ const CONFIG = {
   FROM_NAME:    'Victory Formation Ventures',
   BRAND_COLOR:  '#111',
   ACCENT_COLOR: '#eae2d3',
-  ARCH_LOGO_URL: 'https://gvj32.github.io/Dashboard/assets/icon-arch-black.png'
+  ARCH_LOGO_URL: 'https://victoryformationventures.github.io/assets/icon-arch-black.png'
 };
 
 /**

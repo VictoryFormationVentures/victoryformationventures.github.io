@@ -12,16 +12,16 @@
        COMPOSER UI (the editor — separate from the email it builds)
        ========================================================= */
     :root {
-      --bg: #000;
-      --bg-elev: #0f0f0f;
-      --rule: #2a2a2a;
-      --rule-strong: #444;
-      --text: #ffffff;
-      --text-muted: #b8b8b8;
+      --bg: #f6f2ea;
+      --bg-elev: #fbf9f4;
+      --rule: #d9d0bf;
+      --rule-strong: #c0b6a2;
+      --text: #111111;
+      --text-muted: #5a564e;
       --text-dim: #6e6e6e;
-      --gold: #d9c8a3;
-      --green: #9ec39e;
-      --red: #d99;
+      --gold: #8a7a4b;
+      --green: #3f7a3f;
+      --red: #b03030;
       --font-display: 'Aboreto', 'Cormorant Garamond', Georgia, serif;
       --font-body: 'Mulish', 'Inter', Helvetica, Arial, sans-serif;
     }
@@ -68,7 +68,7 @@
     }
     .topbar button:hover, .topbar a.btn:hover { border-color: var(--text); }
     .topbar button.primary {
-      background: var(--text); color: #000; border-color: var(--text);
+      background: var(--text); color: #f6f2ea; border-color: var(--text);
     }
     .topbar button.primary:hover { opacity: .85; }
 
@@ -164,11 +164,11 @@
       padding: 28px;
       overflow-y: auto;
       max-height: calc(100vh - 60px);
-      background: #1a1a1a;
+      background: #ede7da;
     }
     .preview-frame {
       max-width: 640px; margin: 0 auto;
-      background: #ffffff;
+      background: #111111;
       box-shadow: 0 4px 24px rgba(0,0,0,0.5);
     }
     .preview-meta {
@@ -274,7 +274,7 @@
         </div>
         <div class="field">
           <label for="f-premier-url">Link to Premier Listings</label>
-          <input id="f-premier-url" type="url" value="https://gvj32.github.io/Dashboard/premier-listings/" />
+          <input id="f-premier-url" type="url" value="https://victoryformationventures.github.io/premier-listings/" />
         </div>
       </fieldset>
 
@@ -349,8 +349,8 @@
     // (key: 'vfv-gh-pat'). Composer adds its own UI to set/clear
     // because composer is a standalone page.
     // ============================================================
-    const REPO_OWNER = 'gvj32';
-    const REPO_NAME  = 'Dashboard';
+    const REPO_OWNER = 'VictoryFormationVentures';
+    const REPO_NAME  = 'victoryformationventures.github.io';
     const BRANCH     = 'main';
     const LS_TOKEN   = 'vfv-gh-pat';
 
@@ -487,16 +487,16 @@
     }
 
     const COLORS = {
-      bg:        '#000000',
-      panel:     '#0a0a0a',
-      text:      '#ffffff',
-      muted:     '#b8b8b8',
+      bg:        '#f6f2ea',
+      panel:     '#fbf9f4',
+      text:      '#111111',
+      muted:     '#5a564e',
       dim:       '#6e6e6e',
-      accent:    '#ffffff',   // was gold — now plain white
-      rule:      '#2a2a2a',
+      accent:    '#111111',   // was gold — now plain white
+      rule:      '#d9d0bf',
       ruleSoft:  '#444444',   // for thin accent rules + button borders
-      btnBg:     '#ffffff',
-      btnText:   '#000000',
+      btnBg:     '#111111',
+      btnText:   '#f6f2ea',
     };
 
     function buildEmailHtml(state) {
@@ -504,7 +504,7 @@
       const cmaHref = 'mailto:' + encodeURIComponent(state.cmaTo) +
         '?subject=' + encodeURIComponent(state.cmaSubject || 'CMA Request') +
         '&body=' + encodeURIComponent("Hi Gabe,\n\nI'd like to get a current market analysis for my home at:\n\n[Your address]\n\nThanks!");
-      const archUrl = 'https://gvj32.github.io/Dashboard/assets/icon-arch-transparent.png';
+      const archUrl = 'https://victoryformationventures.github.io/assets/icon-arch-transparent.png';
 
       // Helper for a styled section row
       const sectionHeader = (label) => `
@@ -644,7 +644,7 @@
         listingsUrl: document.getElementById('f-listings-url').value || 'https://www.victoryformationventures.com',
         listingsBlurb: document.getElementById('f-listings-blurb').value,
         premierCount: parseInt(document.getElementById('f-premier-count').value || '0', 10),
-        premierUrl: document.getElementById('f-premier-url').value || 'https://gvj32.github.io/Dashboard/premier-listings/',
+        premierUrl: document.getElementById('f-premier-url').value || 'https://victoryformationventures.github.io/premier-listings/',
         cmaTo: document.getElementById('f-cma-to').value || 'gvjbusiness@yahoo.com',
         cmaSubject: document.getElementById('f-cma-subject').value || 'CMA Request',
         markets: {

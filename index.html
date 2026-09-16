@@ -1,6 +1,21 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
+  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
+  (function () {
+    const _fetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      const url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (url.indexOf('PASTE_YOUR_') !== -1) {
+        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
+      }
+      return _fetch(input, init);
+    };
+  })();
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Victory Formation Ventures — Internal Dashboard</title>
@@ -14,7 +29,7 @@
   <link rel="icon" type="image/png" sizes="512x512" href="assets/icon-512.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png" />
   <link rel="manifest" href="manifest.webmanifest" />
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#f6f2ea" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Victory Formation" />
@@ -28,14 +43,14 @@
        Brand tokens — from victoryformationventures.com
        ========================================================= */
     :root {
-      --bg:           #000000;
-      --bg-elev:      #0c0c0c;
-      --bg-elev-2:    #141414;
-      --text:         #ffffff;
-      --text-muted:   #b4b4b4;
-      --text-dim:     #707070;
-      --rule:         #1f1f1f;
-      --rule-strong: #2a2a2a;
+      --bg:           #f6f2ea;
+      --bg-elev:      #fbf9f4;
+      --bg-elev-2:    #f1ece2;
+      --text:         #111111;
+      --text-muted:   #5a564e;
+      --text-dim:     #8a8579;
+      --rule:         #e6dfd2;
+      --rule-strong: #d9d0bf;
 
       --font-display: 'Aboreto', 'Cormorant Garamond', serif;
       --font-body:    'Montserrat', 'Helvetica Neue', Arial, sans-serif;
@@ -68,7 +83,7 @@
        ========================================================= */
     header.site-header {
       border-bottom: 1px solid var(--rule);
-      background: #000;
+      background: #f6f2ea;
     }
     .site-header .row {
       display: flex; align-items: center; justify-content: space-between;
@@ -105,7 +120,7 @@
       text-decoration: none;
     }
     .switch-division-btn:hover {
-      color: #fff; border-color: var(--accent); background: rgba(234,226,211,0.06);
+      color: #111111; border-color: var(--accent); background: rgba(234,226,211,0.06);
     }
 
     /* =========================================================
@@ -262,7 +277,7 @@
       position: relative;
     }
     .primary-action:hover {
-      background: #181818;
+      background: #ede7da;
       border-color: var(--text);
     }
     .primary-action:active { transform: translateY(1px); }
@@ -478,7 +493,7 @@
       background: var(--bg-elev);
       font-size: 12px;
     }
-    .fu-row.is-urgent { border-left: 3px solid #d99; }
+    .fu-row.is-urgent { border-left: 3px solid #b03030; }
     .fu-row .fu-name {
       font-weight: 500;
       color: var(--text);
@@ -502,7 +517,7 @@
       text-transform: uppercase;
       color: var(--text-dim);
     }
-    .fu-row .fu-days.urgent { color: #d99; }
+    .fu-row .fu-days.urgent { color: #b03030; }
     .fu-row .fu-contact-links {
       display: flex; gap: 10px; align-items: center;
       font-size: 11px;
@@ -533,7 +548,7 @@
       margin-top: 24px;
       padding: 12px 26px;
       background: var(--text);
-      color: #000;
+      color: #f6f2ea;
       text-decoration: none;
       font-family: var(--font-body);
       font-size: 11px;
@@ -668,9 +683,9 @@
       display: none;
     }
     .form-status.show { display: block; }
-    .form-status.ok  { color: #b6e3c5; border-color: #1f3a2a; }
-    .form-status.err { color: #f4b9b9; border-color: #4a1f1f; }
-    .form-status.warn { color: #e8d49a; border-color: #4a3a1f; }
+    .form-status.ok  { color: #2f6f47; border-color: #1f3a2a; }
+    .form-status.err { color: #a33333; border-color: #f3dada; }
+    .form-status.warn { color: #7a6220; border-color: #efe5cf; }
 
     body.modal-open { overflow: hidden; }
 
@@ -825,8 +840,8 @@
     .uw-outcard .out-row.hi { background: var(--bg-elev); margin: 0 -22px; padding: 12px 22px; }
     .uw-outcard .out-row.hi .k { color: var(--text); }
     .uw-outcard .out-row.hi .v { font-size: 18px; }
-    .uw-outcard .out-row.neg .v { color: #d97a7a; }
-    .uw-outcard .out-row.pos .v { color: #a4d5ad; }
+    .uw-outcard .out-row.neg .v { color: #a33333; }
+    .uw-outcard .out-row.pos .v { color: #2f6f47; }
 
     /* Draw Schedule table */
     .uw-draw-summary {
@@ -900,8 +915,8 @@
       border: 1px solid var(--rule-strong);
       color: var(--text-muted);
     }
-    .uw-draw-table .status-pill.construction { color: #e8c068; border-color: rgba(232,192,104,0.3); }
-    .uw-draw-table .status-pill.sale         { color: #a4d5ad; border-color: rgba(164,213,173,0.3); }
+    .uw-draw-table .status-pill.construction { color: #8a6a1f; border-color: rgba(232,192,104,0.3); }
+    .uw-draw-table .status-pill.sale         { color: #2f6f47; border-color: rgba(164,213,173,0.3); }
 
     /* Sensitivity grid */
     .uw-sens-head {
@@ -957,15 +972,15 @@
     }
     .uw-sens-table td.cell.center { outline: 1px solid var(--text); outline-offset: -2px; }
     .uw-sens-table td.cell.neg { background: rgba(217,122,122,0.15); color: #f0a8a8; }
-    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #e8c068; }
+    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #8a6a1f; }
     .uw-sens-table td.cell.mid { background: rgba(164,213,173,0.08); color: #c6ddc8; }
-    .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #b6e3c5; }
+    .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #2f6f47; }
 
     .uw-error-row {
       margin: 0 32px 12px;
       padding: 10px 14px;
-      border: 1px solid #4a3a1f;
-      color: #e8d49a;
+      border: 1px solid #efe5cf;
+      color: #7a6220;
       font-size: 12px;
     }
 
@@ -1275,8 +1290,8 @@
       background: var(--text);
       transition: width .3s ease;
     }
-    .deal-bar.approaching .bar-fill { background: #e8c068; }
-    .deal-bar.past .bar-fill { background: #d97a7a; }
+    .deal-bar.approaching .bar-fill { background: #8a6a1f; }
+    .deal-bar.past .bar-fill { background: #a33333; }
     .deal-bar.done .bar-fill { background: var(--text-dim); }
     .deal-bar .bar-status {
       font-size: 10px;
@@ -1286,16 +1301,16 @@
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
-    .deal-bar.approaching .bar-status { color: #e8c068; }
-    .deal-bar.past .bar-status { color: #d97a7a; }
+    .deal-bar.approaching .bar-status { color: #8a6a1f; }
+    .deal-bar.past .bar-status { color: #a33333; }
     .deal-bar.done .bar-status { color: var(--text-dim); }
     /* Per-milestone "complete" checkbox — visible on dark backgrounds */
     .deal-bar .bar-complete-check {
       appearance: none;
       -webkit-appearance: none;
       width: 14px; height: 14px;
-      border: 1.5px solid #888;
-      background: #0a0a0a;
+      border: 1.5px solid #7a756a;
+      background: #fbf9f4;
       border-radius: 2px;
       cursor: pointer;
       display: inline-block;
@@ -1305,17 +1320,17 @@
       vertical-align: middle;
       transition: background .15s, border-color .15s;
     }
-    .deal-bar .bar-complete-check:hover { border-color: #ccc; background: #1a1a1a; }
+    .deal-bar .bar-complete-check:hover { border-color: #333333; background: #ede7da; }
     .deal-bar .bar-complete-check:checked {
-      background: #9ec39e;
-      border-color: #9ec39e;
+      background: #3f7a3f;
+      border-color: #3f7a3f;
     }
     .deal-bar .bar-complete-check:checked::after {
       content: '';
       position: absolute;
       left: 3px; top: 0px;
       width: 4px; height: 8px;
-      border: solid #0a0a0a;
+      border: solid #fbf9f4;
       border-width: 0 2px 2px 0;
       transform: rotate(45deg);
     }
@@ -1338,7 +1353,7 @@
       text-transform: uppercase;
       text-align: center;
     }
-    .deal-error { color: #f4b9b9; border-color: #4a1f1f; text-transform: none; }
+    .deal-error { color: #a33333; border-color: #f3dada; text-transform: none; }
 
     /* Custom Home Rep · project card extras
        Adds a stage chip in the deal head and a stepped stage indicator
@@ -1416,7 +1431,7 @@
     .stage-step.current::after {
       background: var(--text);
       border-color: var(--text);
-      box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.18);
+      box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.18);
     }
     .stage-step .stage-label {
       display: block;
@@ -1673,7 +1688,7 @@
     }
     .file-card:hover {
       border-color: var(--text);
-      background: #181818;
+      background: #ede7da;
     }
     .file-card .file-eyebrow {
       font-size: 10px;
@@ -2218,7 +2233,7 @@
       cursor: pointer;
     }
     .template-card.is-clickable:hover {
-      background: #181818;
+      background: #ede7da;
       border-color: var(--text);
     }
     .template-card-head {
@@ -2496,8 +2511,8 @@
     }
     .pr-check input[type="checkbox"] { width: 16px; height: 16px; }
     .btn-danger {
-      color: #f4b9b9 !important;
-      border-color: #4a1f1f !important;
+      color: #a33333 !important;
+      border-color: #f3dada !important;
     }
     .btn-danger:hover {
       background: #b03030 !important;
@@ -2660,11 +2675,11 @@
       white-space: nowrap;
     }
     .client-table tbody td {
-      padding: 11px 14px; border-bottom: 1px solid #1f1f1f;
+      padding: 11px 14px; border-bottom: 1px solid #e6dfd2;
       color: var(--text);
     }
-    .client-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
-    .client-table tbody tr.ledger-row-clickable:hover td { background: rgba(255,255,255,0.06); }
+    .client-table tbody tr:hover td { background: rgba(17, 17, 17,0.02); }
+    .client-table tbody tr.ledger-row-clickable:hover td { background: rgba(17, 17, 17,0.06); }
     .client-table tbody tr.ledger-row-clickable:hover .ledger-stmt-link { border-color: var(--text); }
     .client-table tbody tr.is-oh td { border-left: 2px solid var(--text-dim); }
     .client-table .client-name {
@@ -2714,7 +2729,7 @@
       padding-bottom: 24px;
     }
     .division-subnav::-webkit-scrollbar { width: 4px; }
-    .division-subnav::-webkit-scrollbar-thumb { background: #1f1f1f; }
+    .division-subnav::-webkit-scrollbar-thumb { background: #e6dfd2; }
     .division-subnav::-webkit-scrollbar-track { background: transparent; }
 
     .division-subnav .subnav-item {
@@ -2737,11 +2752,11 @@
     }
     .division-subnav .subnav-item:hover {
       color: var(--text-muted);
-      background: rgba(255,255,255,0.02);
+      background: rgba(17, 17, 17,0.02);
     }
     .division-subnav .subnav-item[aria-selected="true"] {
       color: var(--text);
-      background: rgba(255,255,255,0.05);
+      background: rgba(17, 17, 17,0.05);
       border-left-color: var(--text);
     }
     /* Top-level items (Overview / Clients / Settings) — bigger, more prominent */
@@ -2855,7 +2870,7 @@
     }
     .division-subnav .subnav-launcher:hover {
       color: var(--text);
-      background: rgba(255,255,255,0.03);
+      background: rgba(17, 17, 17,0.03);
     }
     .division-subnav .subnav-launcher:hover::after { opacity: 1; }
 
@@ -2944,7 +2959,7 @@
       text-transform: uppercase;
       padding: 12px;
       background: var(--text);
-      color: #000;
+      color: #f6f2ea;
       border: 1px solid var(--text);
       cursor: pointer;
       font-weight: 600;
@@ -2954,11 +2969,11 @@
       font-size: 11px;
       letter-spacing: 0.1em;
       text-transform: uppercase;
-      color: #d99;
+      color: #b03030;
       min-height: 14px;
       margin-top: 4px;
     }
-    .commissions-lock-status.ok { color: #9ec39e; }
+    .commissions-lock-status.ok { color: #3f7a3f; }
     .commissions-lock-foot {
       font-size: 10px;
       letter-spacing: 0.18em;
@@ -3021,13 +3036,13 @@
     .app-sidebar {
       position: sticky; top: 0; align-self: start;
       height: 100vh; overflow-y: auto;
-      background: #050505;
+      background: #faf7f1;
       border-right: 1px solid var(--rule);
       padding: 22px 0 40px;
       scrollbar-width: thin;
     }
     .app-sidebar::-webkit-scrollbar { width: 6px; }
-    .app-sidebar::-webkit-scrollbar-thumb { background: #1a1a1a; }
+    .app-sidebar::-webkit-scrollbar-thumb { background: #ede7da; }
     .app-sidebar::-webkit-scrollbar-track { background: transparent; }
     .nav-group { margin-bottom: 18px; }
     .nav-group-label {
@@ -3056,10 +3071,10 @@
       text-align: left;
       transition: color .15s ease, background .15s ease, border-left-color .15s ease;
     }
-    .nav-item:hover { color: var(--text-muted); background: rgba(255,255,255,0.02); }
+    .nav-item:hover { color: var(--text-muted); background: rgba(17, 17, 17,0.02); }
     .nav-item[aria-selected="true"] {
       color: var(--text);
-      background: rgba(255,255,255,0.04);
+      background: rgba(17, 17, 17,0.04);
       border-left-color: var(--text);
     }
     .nav-item .num {
@@ -3245,7 +3260,7 @@
     /* Hub overlay — full-screen black background with centered grid */
     #division-hub {
       position: fixed; inset: 0; z-index: 9998;
-      background: #000; color: #fff;
+      background: #f6f2ea; color: #111111;
       display: flex; align-items: center; justify-content: center;
       padding: 40px 20px;
       opacity: 0; pointer-events: none;
@@ -3271,7 +3286,7 @@
     }
     .hub-sub {
       font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
-      color: #888; margin: 0 0 48px;
+      color: #7a756a; margin: 0 0 48px;
     }
     .hub-grid {
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -3285,15 +3300,15 @@
     .hub-card {
       display: flex; flex-direction: column; align-items: center; gap: 12px;
       padding: 20px 12px; background: transparent; border: 0;
-      color: #fff; cursor: pointer; font-family: inherit;
+      color: #111111; cursor: pointer; font-family: inherit;
       transition: opacity .2s;
     }
     .hub-card:hover { opacity: .85; }
-    .hub-card:hover .hub-avatar { transform: scale(1.03); border-color: #fff; }
+    .hub-card:hover .hub-avatar { transform: scale(1.03); border-color: #111111; }
     .hub-avatar {
       width: 160px; height: 160px; border-radius: 50%;
-      background: #1a1a1a;
-      border: 1px solid #333;
+      background: #ede7da;
+      border: 1px solid #d9d0bf;
       overflow: hidden; position: relative;
       display: flex; align-items: center; justify-content: center;
       transition: transform .2s, border-color .2s;
@@ -3328,20 +3343,20 @@
     .hub-avatar[data-slug="land"] .hub-initial { display: none; }
     .hub-initial {
       font-family: 'Aboreto', serif; font-size: 48px;
-      letter-spacing: .04em; color: #444;
+      letter-spacing: .04em; color: #c0b6a2;
       z-index: 1;
     }
     .hub-name {
       font-family: 'Aboreto', serif; font-size: 14px;
-      letter-spacing: .2em; text-transform: uppercase; color: #fff;
+      letter-spacing: .2em; text-transform: uppercase; color: #111111;
     }
     .hub-role {
       font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
-      color: #666; margin-top: -6px;
+      color: #8a8579; margin-top: -6px;
     }
     .hub-card.is-soon .hub-avatar { opacity: .55; }
-    .hub-card.is-soon:hover .hub-avatar { border-color: #666; transform: scale(1); }
-    .hub-card.is-soon .hub-name { color: #888; }
+    .hub-card.is-soon:hover .hub-avatar { border-color: #8a8579; transform: scale(1); }
+    .hub-card.is-soon .hub-name { color: #7a756a; }
     @media (max-width: 640px) {
       .hub-avatar { width: 100px; height: 100px; }
       .hub-initial { font-size: 32px; }
@@ -3357,7 +3372,7 @@
       position: fixed;
       inset: 0;
       z-index: 99998;
-      background: #000;
+      background: #f6f2ea;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -3388,7 +3403,7 @@
     }
     .intro-wordmark {
       font-family: 'Aboreto', 'EB Garamond', Georgia, serif;
-      color: #ffffff;
+      color: #111111;
       font-size: 32px;
       letter-spacing: .18em;
       text-transform: uppercase;
@@ -3433,7 +3448,7 @@
        ========================================================================= -->
   <div id="employee-gate" style="
     position: fixed; inset: 0; z-index: 99999;
-    background: #000; color: #fff;
+    background: #f6f2ea; color: #111111;
     display: none;
     align-items: center; justify-content: center;
     font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
@@ -3445,14 +3460,14 @@
         margin-bottom: 6px;">Victory Formation Ventures</div>
       <div style="
         font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
-        color: #b8b8b8; margin-bottom: 36px;">Internal Dashboard</div>
+        color: #5a564e; margin-bottom: 36px;">Internal Dashboard</div>
       <div style="
-        width: 60px; height: 1px; background: #d9c8a3;
+        width: 60px; height: 1px; background: #8a7a4b;
         margin: 0 auto 36px;"></div>
       <label style="
         display: block;
         font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
-        color: #b8b8b8; margin-bottom: 18px;">Employee Access Code</label>
+        color: #5a564e; margin-bottom: 18px;">Employee Access Code</label>
       <div id="gate-code-row" style="
         display: flex; gap: 10px; justify-content: center; margin-bottom: 6px;">
         <!-- Six inputs injected by the gate script so we can wire focus/paste
@@ -3460,18 +3475,18 @@
       </div>
       <div id="gate-error" style="
         min-height: 18px; margin: 10px 0 18px;
-        font-size: 11px; color: #f4b9b9; letter-spacing: 0.05em;"></div>
+        font-size: 11px; color: #a33333; letter-spacing: 0.05em;"></div>
       <button id="gate-submit" type="button" style="
         width: 100%; padding: 14px 22px;
-        background: #fff; color: #000;
-        border: 1px solid #fff;
+        background: #111111; color: #f6f2ea;
+        border: 1px solid #111111;
         font-family: inherit; font-size: 11px; font-weight: 500;
         letter-spacing: 0.25em; text-transform: uppercase;
         cursor: pointer;">Enter</button>
       <div style="
         margin-top: 28px;
         font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
-        color: #707070;">Need access? Contact Gabe.</div>
+        color: #8a8579;">Need access? Contact Gabe.</div>
     </div>
   </div>
 
@@ -3482,7 +3497,7 @@
     (function () {
       // Any agent's 4-digit code opens the dashboard. Gabe is master (0000);
       // Gabe (5555) and Partner (0101) get in with their own codes.
-      const ACCESS_CODES   = ['0000', '5555', '0101'];
+      const ACCESS_CODES   = ['0000', '5555', '7777'];
       const ACCESS_LEN     = 4;
       const ACCESS_VERSION = 4;                  // ← bump this to invalidate existing sessions
       const STORAGE_KEY    = 'vfv-employee-gate';
@@ -3543,18 +3558,18 @@
           overlay.setAttribute('aria-modal', 'true');
           overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .2s ease;';
           const card = document.createElement('div');
-          card.style.cssText = 'background:#0a0a0a;border:1px solid #d9c8a3;padding:38px 42px;max-width:440px;width:90%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(8px);transition:transform .25s ease;';
+          card.style.cssText = 'background:#fbf9f4;border:1px solid #8a7a4b;padding:38px 42px;max-width:440px;width:90%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(8px);transition:transform .25s ease;';
           card.innerHTML = ''
-            + '<h2 style="font-family:\'Aboreto\',\'Times New Roman\',serif;font-size:22px;letter-spacing:.20em;text-transform:uppercase;color:#fff;margin:0 0 8px;font-weight:400;">' + title + '</h2>'
+            + '<h2 style="font-family:\'Aboreto\',\'Times New Roman\',serif;font-size:22px;letter-spacing:.20em;text-transform:uppercase;color:#111111;margin:0 0 8px;font-weight:400;">' + title + '</h2>'
             + '<p style="font-family:\'Mulish\',sans-serif;font-size:12px;letter-spacing:.05em;color:#8a8579;margin:0 0 26px;line-height:1.5;">' + subtitle + '</p>'
             + '<div class="pc-row" style="display:flex;justify-content:center;gap:12px;margin-bottom:14px;"></div>'
-            + '<div class="pc-error" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#d99;margin-bottom:20px;min-height:14px;"></div>'
-            + '<button class="pc-cancel" type="button" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;padding:10px 24px;background:transparent;color:#8a8579;border:1px solid #2a2a2a;cursor:pointer;transition:color .15s,border-color .15s;">Cancel</button>';
+            + '<div class="pc-error" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#b03030;margin-bottom:20px;min-height:14px;"></div>'
+            + '<button class="pc-cancel" type="button" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;padding:10px 24px;background:transparent;color:#8a8579;border:1px solid #d9d0bf;cursor:pointer;transition:color .15s,border-color .15s;">Cancel</button>';
           const row       = card.querySelector('.pc-row');
           const errEl     = card.querySelector('.pc-error');
           const cancelBtn = card.querySelector('.pc-cancel');
-          cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.color = '#d9c8a3'; cancelBtn.style.borderColor = '#d9c8a3'; });
-          cancelBtn.addEventListener('mouseleave', () => { cancelBtn.style.color = '#8a8579'; cancelBtn.style.borderColor = '#2a2a2a'; });
+          cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.color = '#8a7a4b'; cancelBtn.style.borderColor = '#8a7a4b'; });
+          cancelBtn.addEventListener('mouseleave', () => { cancelBtn.style.color = '#8a8579'; cancelBtn.style.borderColor = '#d9d0bf'; });
           const inputs = [];
           for (let i = 0; i < 4; i++) {
             const inp = document.createElement('input');
@@ -3564,9 +3579,9 @@
             inp.maxLength = 1;
             inp.autocomplete = 'off';
             inp.setAttribute('aria-label', 'Passcode digit ' + (i + 1));
-            inp.style.cssText = 'width:52px;height:64px;background:#0e0e0e;color:#fff;border:1px solid #2a2a2a;font-family:Inter,Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;text-align:center;outline:none;caret-color:#d9c8a3;transition:border-color .15s,background .15s;';
-            inp.addEventListener('focus', () => { inp.style.borderColor = '#d9c8a3'; });
-            inp.addEventListener('blur',  () => { inp.style.borderColor = '#2a2a2a'; });
+            inp.style.cssText = 'width:52px;height:64px;background:#fbf9f4;color:#111111;border:1px solid #d9d0bf;font-family:Inter,Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;text-align:center;outline:none;caret-color:#8a7a4b;transition:border-color .15s,background .15s;';
+            inp.addEventListener('focus', () => { inp.style.borderColor = '#8a7a4b'; });
+            inp.addEventListener('blur',  () => { inp.style.borderColor = '#d9d0bf'; });
             row.appendChild(inp);
             inputs.push(inp);
           }
@@ -3787,7 +3802,7 @@
           if (target === 'land') {
             const LAND_KEY = 'vfv.landUnlock';
             const ONE_DAY = 24 * 60 * 60 * 1000;
-            const LAND_CODES = ['0000', '5555', '0101']; // Gabe / Partner / Partner
+            const LAND_CODES = ['0000', '5555', '7777']; // Admin / Gabe / Vincent
             function landUnlocked() {
               try {
                 const raw = localStorage.getItem(LAND_KEY);
@@ -3852,18 +3867,18 @@
         inp.setAttribute('aria-label', 'Access code digit ' + (i + 1));
         inp.style.cssText = [
           'width: 48px', 'height: 60px',
-          'background: #0e0e0e', 'color: #fff',
-          'border: 1px solid #2a2a2a',
+          'background: #fbf9f4', 'color: #111111',
+          'border: 1px solid #d9d0bf',
           'border-radius: 2px',
           'font-family: Inter, Helvetica Neue, Arial, sans-serif',
           'font-size: 26px', 'font-weight: 500',
           'text-align: center',
           'outline: none',
-          'caret-color: #d9c8a3',
+          'caret-color: #8a7a4b',
           'transition: border-color .15s, background .15s',
         ].join(';');
-        inp.addEventListener('focus', () => { inp.style.borderColor = '#d9c8a3'; });
-        inp.addEventListener('blur',  () => { inp.style.borderColor = '#2a2a2a'; });
+        inp.addEventListener('focus', () => { inp.style.borderColor = '#8a7a4b'; });
+        inp.addEventListener('blur',  () => { inp.style.borderColor = '#d9d0bf'; });
         row.appendChild(inp);
         inputs.push(inp);
       }
@@ -4028,6 +4043,9 @@
         <span class="nav-group-label">Company</span>
         <button class="nav-item" role="tab" id="tab-tools" aria-controls="panel-tools" aria-selected="false" data-key="tools">
           <span class="ico" aria-hidden="true">◫</span> Tools Library
+        </button>
+        <button class="nav-item" role="tab" id="tab-contacts" aria-controls="panel-contacts" aria-selected="false" data-key="contacts">
+          <span class="ico" aria-hidden="true">☏</span> Contacts
         </button>
         <button class="nav-item" role="tab" id="tab-team" aria-controls="panel-team" aria-selected="false" data-key="team">
           <span class="ico" aria-hidden="true">⚇</span> Team
@@ -4580,7 +4598,7 @@
             <ol>
               <li>Open <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">github.com/settings/personal-access-tokens/new</a> (logged in as <strong>vfvcompanyadmin</strong>).</li>
               <li>Token name: <code>Premier Listings Editor</code>. Expiration: pick your preference (1 year is fine).</li>
-              <li>Resource owner: <strong>gvj32</strong>. Repository access: <em>Only select repositories</em> → choose <strong>Dashboard</strong>.</li>
+              <li>Resource owner: <strong>VictoryFormationVentures</strong>. Repository access: <em>Only select repositories</em> → choose <strong>Dashboard</strong>.</li>
               <li>Permissions → Repository permissions → <strong>Contents: Read and write</strong>.</li>
               <li>Click <strong>Generate token</strong>, copy the token (starts with <code>github_pat_</code>), and paste it below.</li>
             </ol>
@@ -4598,7 +4616,7 @@
           <div class="pr-manager-head">
             <div>
               <div class="pr-meta" id="pr-count">—</div>
-              <div class="pr-meta pr-meta-dim">Live at <a href="https://gvj32.github.io/Dashboard/premier-listings/" target="_blank" rel="noopener">gvj32.github.io/Dashboard/premier-listings/</a></div>
+              <div class="pr-meta pr-meta-dim">Live at <a href="https://victoryformationventures.github.io/premier-listings/" target="_blank" rel="noopener">victoryformationventures.github.io/premier-listings/</a></div>
             </div>
             <div class="pr-manager-actions">
               <input class="pr-search" id="pr-search" type="search" placeholder="Search by address, area, builder…" />
@@ -5144,20 +5162,6 @@
             <a class="subnav-launcher" href="underwriting-summary.html" target="_blank" rel="noopener">Underwriting Summary</a>
           </details>
 
-          <details class="subnav-group">
-            <summary>Contacts</summary>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-investors"          aria-selected="false" data-subkey="contacts-investors">Investors</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-builders"           aria-selected="false" data-subkey="contacts-builders">Builders</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-architects"         aria-selected="false" data-subkey="contacts-architects">Architects</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-interior-designers" aria-selected="false" data-subkey="contacts-interior-designers">Interior Designers</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-landscape-architects" aria-selected="false" data-subkey="contacts-landscape-architects">Landscape Architects</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-surveyors"          aria-selected="false" data-subkey="contacts-surveyors">Surveyors</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-engineers"          aria-selected="false" data-subkey="contacts-engineers">Engineers</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-city-officials"     aria-selected="false" data-subkey="contacts-city-officials">City Officials</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-developers"         aria-selected="false" data-subkey="contacts-developers">Developers</button>
-            <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-contacts-custom-home-clients" aria-selected="false" data-subkey="contacts-custom-home-clients">Custom Home Clients</button>
-          </details>
-
           <button class="subtab subnav-item" role="tab" aria-controls="subpanel-development-settings"  aria-selected="false" data-subkey="settings">Settings</button>
         </aside>
 
@@ -5256,20 +5260,6 @@
           <p>Property landing pages and listing-launch templates will live here next.</p>
         </div>
       </div>
-
-      <!-- ====== DEVELOPMENT · CONTACTS (8 subpanels, one per category) ======
-           All 8 are gated behind a single Gabe-only passcode. Lock and content
-           areas are templated by the contacts controller on subpanel show. -->
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-investors" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Investors"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-builders" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Builders"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-architects" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Architects"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-interior-designers" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Interior Designers"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-landscape-architects" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Landscape Architects"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-surveyors" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Surveyors"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-engineers" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Engineers"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-city-officials" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="City Officials"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-developers" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Developers"></div>
-      <div class="subpanel contacts-subpanel" id="subpanel-development-contacts-custom-home-clients" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Custom Home Clients"></div>
 
       <div class="subpanel" id="subpanel-development-settings" role="tabpanel" aria-hidden="true" tabindex="0">
         <p class="subpanel-intro">Development-specific settings — underwriting defaults, investor portal config, capital sources.</p>
@@ -5714,6 +5704,37 @@
     </section>
 
     <!-- ========================= TEAM PANEL ========================= -->
+    <section class="panel" id="panel-contacts" role="tabpanel" aria-labelledby="tab-contacts" aria-hidden="true" tabindex="0">
+      <div class="eyebrow">Company</div>
+      <h1>Contacts</h1>
+      <p class="sub">The running relationship book, split by role. Everyone on the team adds to one shared sheet; pick a category on the left.</p>
+
+      <div class="division-shell">
+        <aside class="division-subnav" role="tablist" aria-label="Contact categories" data-subtab-parent="contacts">
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-realtors" aria-selected="true" data-subkey="realtors">Realtors</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-builders" aria-selected="false" data-subkey="builders">Builders</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-developers" aria-selected="false" data-subkey="developers">Developers</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-general-contractors" aria-selected="false" data-subkey="general-contractors">General Contractors</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-inspectors" aria-selected="false" data-subkey="inspectors">Inspectors</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-investors" aria-selected="false" data-subkey="investors">Investors</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-appraisers" aria-selected="false" data-subkey="appraisers">Appraisers</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-lenders" aria-selected="false" data-subkey="lenders">Lenders</button>
+          <button class="subtab subnav-item" role="tab" aria-controls="subpanel-contacts-council-members" aria-selected="false" data-subkey="council-members">Council Members</button>
+        </aside>
+        <div class="division-content">
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-realtors" role="tabpanel" aria-hidden="false" tabindex="0" data-contact-cat="Realtors"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-builders" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Builders"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-developers" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Developers"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-general-contractors" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="General Contractors"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-inspectors" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Inspectors"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-investors" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Investors"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-appraisers" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Appraisers"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-lenders" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Lenders"></div>
+      <div class="subpanel contacts-subpanel" id="subpanel-contacts-council-members" role="tabpanel" aria-hidden="true" tabindex="0" data-contact-cat="Council Members"></div>
+        </div>
+      </div>
+    </section>
+
     <section class="panel" id="panel-team" role="tabpanel" aria-labelledby="tab-team" aria-hidden="true" tabindex="0">
       <div class="eyebrow">Company</div>
       <h1>Team</h1>
@@ -5765,7 +5786,7 @@
 
         <article class="home-card">
           <span class="h-eyebrow">Repository</span>
-          <div class="h-stat" style="font-size:14px; line-height:1.4;">github.com/<br>gvj32/Dashboard</div>
+          <div class="h-stat" style="font-size:14px; line-height:1.4;">github.com/<br>VictoryFormationVentures/victoryformationventures.github.io</div>
           <div class="h-label">Dashboard source · GitHub Pages</div>
         </article>
       </div>
@@ -10635,7 +10656,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           remaining === 0 ? 'Today' :
                             remaining + ' day' + (remaining === 1 ? '' : 's') + ' left';
         const statusHtml = complete
-          ? '<span style="color:#9ec39e;">✓ Complete</span>'
+          ? '<span style="color:#3f7a3f;">✓ Complete</span>'
           : '<span>' + esc(countdown) + '</span>';
         const fillPct = complete ? '100' : pct.toFixed(1);
         const addrAttr = esc(address || '');
@@ -10662,7 +10683,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       function landEditBtn(address) {
         return '<button type="button" class="land-edit-btn" data-address="' +
           esc(address) + '" ' +
-          'style="position:absolute; top:8px; right:10px; z-index:2; font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#fff; cursor:pointer;">Edit</button>';
+          'style="position:absolute; top:8px; right:10px; z-index:2; font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#111111; cursor:pointer;">Edit</button>';
       }
       function renderDealCard(d, today) {
         // Show a bar for every deadline that has a date. All bars anchor
@@ -11147,9 +11168,9 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         ].filter(Boolean).join('<span class="sep" style="margin:0 10px;color:var(--text-dim);">·</span>');
         const editKey = (p.address || p.client || '').trim();
         const editBtn = '<button type="button" class="customrep-edit-btn" data-key="' + esc(editKey) + '" ' +
-          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#fff; cursor:pointer;">Edit</button>';
+          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#111111; cursor:pointer;">Edit</button>';
         const deleteBtn = '<button type="button" class="customrep-delete-btn" data-key="' + esc(editKey) + '" ' +
-          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid #5a2a2a; background:rgba(20,20,20,.85); color:#d99; cursor:pointer;">Delete</button>';
+          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid #5a2a2a; background:rgba(20,20,20,.85); color:#b03030; cursor:pointer;">Delete</button>';
         const actionBtns = '<div style="display:flex; gap:6px; margin-bottom:8px;">' + editBtn + deleteBtn + '</div>';
 
         return (
@@ -12691,8 +12712,8 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       function setStatus(level, msg) {
         if (!statusEl) return;
         statusEl.textContent = msg || '';
-        statusEl.style.color = level === 'err' ? '#f4b9b9'
-                            : level === 'ok'  ? '#b6e3c5'
+        statusEl.style.color = level === 'err' ? '#a33333'
+                            : level === 'ok'  ? '#2f6f47'
                             : '';
       }
 
@@ -13199,11 +13220,11 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //      call) before step 3 so the JSON references the live URL.
     // ============================================================
     (function () {
-      const REPO_OWNER  = 'gvj32';
-      const REPO_NAME   = 'Dashboard';
+      const REPO_OWNER  = 'VictoryFormationVentures';
+      const REPO_NAME   = 'victoryformationventures.github.io';
       const BRANCH      = 'main';
       // Paths are RELATIVE TO REPO ROOT. The Dashboard *folder* is the repo
-      // root (Company/Dashboard/.git lives there), so the in-repo path is
+      // root (Company/.git lives there), so the in-repo path is
       // just "premier-listings/...", not "Company/Dashboard/premier-listings/..."
       const PROPS_PATH  = 'premier-listings/properties.json';
       const ASSETS_DIR  = 'premier-listings/assets';
@@ -13605,7 +13626,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
               assetPath, b64, existingSha,
               'Add PR document · ' + slug + ' · ' + label
             );
-            url = 'https://gvj32.github.io/Dashboard/premier-listings/assets/' +
+            url = 'https://victoryformationventures.github.io/premier-listings/assets/' +
                   slug + '/' + safeName;
           }
           if (url) out.push({ label: label, url: url });
@@ -13663,7 +13684,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
               (editingSlug ? 'Update' : 'Add') + ' PR photo · ' + slug
             );
             // Live image URL — Pages serves Dashboard/ at root path
-            image = 'https://gvj32.github.io/Dashboard/premier-listings/assets/' + slug + '/hero.' + ext;
+            image = 'https://victoryformationventures.github.io/premier-listings/assets/' + slug + '/hero.' + ext;
             photoComingSoon = false;
           } else if (editingSlug) {
             // Editing without a new file/URL — keep existing image
@@ -14780,7 +14801,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         try {
           await fetch(FORM_URL, { method: 'POST', mode: 'no-cors', body: body });
 
-          setStatus('ok', 'Listing logged. The tab will appear in a moment — drop hero.jpg + one-pager.pdf into Company/Dashboard/assets/listings/<slug>/ and commit.');
+          setStatus('ok', 'Listing logged. The tab will appear in a moment — drop hero.jpg + one-pager.pdf into Company/assets/listings/<slug>/ and commit.');
           form.reset();
           // Give Google a moment to write the row to the sheet, then refresh.
           setTimeout(() => {
@@ -15270,8 +15291,8 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       function logStatus(level, msg) {
         if (!logStatusEl) return;
         logStatusEl.textContent = msg || '';
-        logStatusEl.style.color = level === 'err' ? '#f4b9b9'
-                              : level === 'ok'  ? '#b6e3c5'
+        logStatusEl.style.color = level === 'err' ? '#a33333'
+                              : level === 'ok'  ? '#2f6f47'
                               : '';
       }
 
@@ -16398,7 +16419,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //   Update the entry in the LISTINGS array. Empty fields are
     //   automatically hidden so a partly-filled listing still looks
     //   clean. The slug controls the asset folder name —
-    //   /Company/Dashboard/assets/listings/<slug>/{hero.jpg, plans.pdf,
+    //   /assets/listings/<slug>/{hero.jpg, plans.pdf,
     //   design-board.pdf}. Drop files into that folder and commit.
     //
     // HOW TO ADD A LISTING:
@@ -17773,9 +17794,9 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       const enc = encodeURIComponent(address || '');
       return '<div style="display:flex; gap:6px; margin-bottom:8px; justify-content:flex-end;">' +
         '<a href="deal-report.html?address=' + enc + '&type=' + type + '" target="_blank" rel="noopener" ' +
-          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#fff; text-decoration:none;">Report</a>' +
+          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#111111; text-decoration:none;">Report</a>' +
         '<button type="button" class="deal-edit-btn" data-address="' + _adEsc(address) + '" data-type="' + type + '" ' +
-          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#fff; cursor:pointer;">Edit</button>' +
+          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#111111; cursor:pointer;">Edit</button>' +
       '</div>';
     }
     // Back-compat shim in case anything else called _adEditBtn expecting
@@ -17971,7 +17992,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         remaining === 0 ? 'Today' :
                           remaining + ' day' + (remaining===1?'':'s') + ' left';
       const statusHtml = complete
-        ? '<span style="color:#9ec39e;">✓ Complete</span>'
+        ? '<span style="color:#3f7a3f;">✓ Complete</span>'
         : '<span>' + _adEsc(countdown) + '</span>';
       const fillPct = complete ? '100' : pct.toFixed(1);
       const addrAttr = _adEsc(address || '');
@@ -17986,10 +18007,10 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const title = _adEsc(m.label + ': ' + shortDate);
           return '<span class="bar-marker" title="' + title + '" style="' +
             'position:absolute; left:' + pctPos.toFixed(1) + '%; top:50%; transform:translate(-50%, -50%); ' +
-            'width:10px; height:10px; background:#9ec39e; border:2px solid #0a0a0a; border-radius:50%; ' +
-            'box-shadow:0 0 0 1px #9ec39e; z-index:2;' +
+            'width:10px; height:10px; background:#3f7a3f; border:2px solid #fbf9f4; border-radius:50%; ' +
+            'box-shadow:0 0 0 1px #3f7a3f; z-index:2;' +
             '"><span style="position:absolute; top:14px; left:50%; transform:translateX(-50%); white-space:nowrap; ' +
-            'font-size:9px; letter-spacing:.08em; color:#9ec39e; text-transform:uppercase;">' +
+            'font-size:9px; letter-spacing:.08em; color:#3f7a3f; text-transform:uppercase;">' +
             _adEsc(m.label) + ' ' + _adEsc(shortDate) + '</span></span>';
         }).join('');
       return '<div class="deal-bar ' + state + '"' + (markerHtml ? ' style="padding-bottom:14px;"' : '') + '>' +
@@ -18307,8 +18328,8 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     // Shared GitHub photo uploader — writes to assets/listings/<slug>/hero.jpg
     // Reuses the same PAT + repo pattern as newsletter-composer.html.
     // ============================================================
-    const _GH_REPO_OWNER = 'gvj32';
-    const _GH_REPO_NAME  = 'Dashboard';
+    const _GH_REPO_OWNER = 'VictoryFormationVentures';
+    const _GH_REPO_NAME  = 'victoryformationventures.github.io';
     const _GH_BRANCH     = 'main';
     const _GH_LS_TOKEN   = 'vfv-gh-pat';   // shared with newsletter composer
 
@@ -18517,9 +18538,9 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       function setStatus(level, msg) {
         statusEl.textContent = msg || '';
         statusEl.style.color =
-          level === 'err'  ? '#f4b9b9' :
-          level === 'ok'   ? '#b6e3c5' :
-          level === 'warn' ? '#e8d49a' :
+          level === 'err'  ? '#a33333' :
+          level === 'ok'   ? '#2f6f47' :
+          level === 'warn' ? '#7a6220' :
                              'var(--text-muted)';
       }
 
@@ -19027,12 +19048,12 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const days = _adDaysBetween(p.lastTouch, today);
           if (days > 14) {
             staleClass = ' stale';
-            staleNote = ' &nbsp; <span style="color:#e8d49a; font-size:9px; letter-spacing:.18em; text-transform:uppercase;">' + days + ' days since last touch</span>';
+            staleNote = ' &nbsp; <span style="color:#7a6220; font-size:9px; letter-spacing:.18em; text-transform:uppercase;">' + days + ' days since last touch</span>';
           }
         }
         const editKey = (p.client || '').trim();
         const editBtn = '<button type="button" class="nurturing-edit-btn" data-key="' + _adEsc(editKey) + '" ' +
-          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#fff; cursor:pointer;">Edit</button>';
+          'style="font-size:9px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:rgba(20,20,20,.85); color:#111111; cursor:pointer;">Edit</button>';
         return (
           '<article class="deal-card' + staleClass + '">' +
             '<header class="deal-head">' +
@@ -19999,7 +20020,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           '<td>' + _pmFmtMoney(p.rent) + '</td>' +
           '<td style="font-size:11px;">' + (p.mgmtPct > 0 ? p.mgmtPct + '%' : '—') + '</td>' +
           '<td style="font-size:11px;">' + (p.leaseEnd ? _pmFmtDate(p.leaseEnd) : '—') + '</td>' +
-          '<td>' + (p.occupied ? '<span style="color:#9ec39e;">✓</span>' : '<span style="color:var(--text-dim);">Vacant</span>') + '</td>' +
+          '<td>' + (p.occupied ? '<span style="color:#3f7a3f;">✓</span>' : '<span style="color:var(--text-dim);">Vacant</span>') + '</td>' +
         '</tr>'
       )).join('');
     }
@@ -20094,7 +20115,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         if (hasReport) {
           const q = emailKey ? 'email=' + encodeURIComponent(emailKey) : 'name=' + encodeURIComponent(nameKey);
           reportCell = '<a href="tenant-report-view.html?' + q + '" target="_blank" rel="noopener" ' +
-            'style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:transparent; color:#9ec39e; text-decoration:none;">✓ View</a>';
+            'style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--panel-edge); background:transparent; color:#3f7a3f; text-decoration:none;">✓ View</a>';
         } else {
           // Not submitted → offer copy-link shortcut
           const params = new URLSearchParams();
@@ -20224,7 +20245,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
 
       function _flash(msg, ok = true) {
         statusEl.textContent = msg;
-        statusEl.style.color = ok ? '#9ec39e' : '#d99';
+        statusEl.style.color = ok ? '#3f7a3f' : '#b03030';
         setTimeout(() => { statusEl.textContent = ''; }, 3500);
       }
       async function _copy(text) {
@@ -20588,37 +20609,42 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     };
 
     const CONTACT_CATEGORIES = [
-      'Investors', 'Builders', 'Architects', 'Interior Designers',
-      'Landscape Architects',
-      'Surveyors', 'Engineers', 'City Officials', 'Developers',
-      'Custom Home Clients'
+      'Realtors',
+      'Builders',
+      'Developers',
+      'General Contractors',
+      'Inspectors',
+      'Investors',
+      'Appraisers',
+      'Lenders',
+      'Council Members'
     ];
 
     // Singular labels for the "+ Add" button / modal heading
     const CONTACT_CATEGORY_SINGULAR = {
-      'Investors':             'Investor',
-      'Builders':              'Builder',
-      'Architects':            'Architect',
-      'Interior Designers':    'Interior Designer',
-      'Landscape Architects':  'Landscape Architect',
-      'Surveyors':             'Surveyor',
-      'Engineers':             'Engineer',
-      'City Officials':        'City Official',
-      'Developers':            'Developer'
+      'Realtors': 'Realtor',
+      'Builders': 'Builder',
+      'Developers': 'Developer',
+      'General Contractors': 'General Contractor',
+      'Inspectors': 'Inspector',
+      'Investors': 'Investor',
+      'Appraisers': 'Appraiser',
+      'Lenders': 'Lender',
+      'Council Members': 'Council Member'
     };
 
     let _contactRows = [];
     let _contactsLoaded = false;
     const _CONTACT_INTRO = {
-      'Investors':             'Capital partners backing Victory Formation Company developments. Equity, debt, JV, family office.',
-      'Builders':              'General contractors and builders we partner with on developments and custom-home projects.',
-      'Architects':            'Architects we work with on residential developments — modern, traditional, infill, ground-up.',
-      'Interior Designers':    'Interior designers and stagers for finish-out, model homes, and listing prep.',
-      'Landscape Architects':  'Landscape architects for site design, hardscape, planting plans, and outdoor rooms.',
-      'Surveyors':             'Land surveyors for boundary, topo, ALTA, and lot-split work.',
-      'Engineers':             'Civil, structural, MEP, and geotech engineers for design and permitting.',
-      'City Officials':        'City and county contacts — codes, planning, zoning, MWS, inspections.',
-      'Developers':            'Other developers — JV opportunities, lot trades, market intel, peer network.'
+      'Realtors': 'Listing and buyer agents who bring lots, off-market land, and builder relationships. Note which brokerages and submarkets they work.',
+      'Builders': 'Production and custom builders who buy finished lots. Track their lot criteria, price band, and who signs.',
+      'Developers': 'Other developers for JV opportunities, lot trades, assignments, and market intel.',
+      'General Contractors': 'GCs for horizontal work, site prep, and vertical builds. Note license, bonding, and typical project size.',
+      'Inspectors': 'Home, phase, and specialty inspectors (foundation, septic, well, structural).',
+      'Investors': 'Capital partners: equity, debt, JV, private lenders, family offices. Track check size and asset preference.',
+      'Appraisers': 'Land and residential appraisers, especially those lenders in Travis, Williamson, and Hays accept.',
+      'Lenders': 'Land, construction, and bridge lenders plus mortgage brokers. Note LTV, rates, and speed to close.',
+      'Council Members': 'City council members, county commissioners, P&Z commissioners, and their staff by jurisdiction.'
     };
 
     function _ctEsc(s) {
@@ -20640,15 +20666,15 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         '<div class="commissions-lock contacts-lock" data-cat="' + _ctEsc(category) + '" style="display:none;">' +
           '<div class="commissions-lock-card">' +
             '<div class="commissions-lock-icon" aria-hidden="true">⌗</div>' +
-            '<div class="commissions-lock-eyebrow">Development · Restricted</div>' +
+            '<div class="commissions-lock-eyebrow">Company · Restricted</div>' +
             '<h2 class="commissions-lock-title">Contacts Locked</h2>' +
-            '<p class="commissions-lock-sub">Enter the Development Contacts passcode to view Investors, Builders, Architects, and the rest of the firm\'s vendor network.</p>' +
+            '<p class="commissions-lock-sub">Enter your team passcode to view the contact book: realtors, builders, developers, lenders, and the rest of the network.</p>' +
             '<form class="commissions-lock-form" autocomplete="off">' +
               '<input type="password" class="contacts-lock-input" inputmode="numeric" autocomplete="off" placeholder="••••" aria-label="Contacts passcode" />' +
               '<button type="submit">Unlock</button>' +
               '<div class="commissions-lock-status" role="status" aria-live="polite"></div>' +
             '</form>' +
-            '<p class="commissions-lock-foot">Unlocks all 8 contact categories · 24 hours</p>' +
+            '<p class="commissions-lock-foot">Unlocks all 9 contact categories · 24 hours</p>' +
           '</div>' +
         '</div>' +
         // Unlocked content
@@ -20878,7 +20904,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       const roster = window.VFV_TEAM || [];
       const ryan = roster.find(m => /gabe/i.test(m.name || ''));
       const code = ryan && String(ryan.passcode || '').trim();
-      return code || '3034';
+      return code || '5555';
     }
 
     function _ctApplyLockState() {
@@ -20899,7 +20925,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const status = form.querySelector('.commissions-lock-status');
           const val = input ? (input.value || '').trim() : '';
           // Gabe's master (0000) always works; otherwise use his roster code
-          if (val === '0000' || val === _ctExpectedCode()) {
+          if (['0000', '5555', '7777'].indexOf(val) >= 0 || val === _ctExpectedCode()) {
             _ctSetUnlocked();
             if (status) { status.className = 'commissions-lock-status ok'; status.textContent = '✓ Unlocked'; }
             if (input) input.value = '';
@@ -21170,7 +21196,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const fill = bar.querySelector('.bar-fill');
           if (fill) fill.style.width = '100%';
           const span = statusEl.querySelector('span:not([class])');
-          if (span) { span.textContent = '✓ Complete'; span.style.color = '#9ec39e'; }
+          if (span) { span.textContent = '✓ Complete'; span.style.color = '#3f7a3f'; }
         } else {
           // Uncheck → row goes back to its natural countdown state. Simplest
           // way to get accurate text back is to trigger a reload. Both Land
@@ -21659,17 +21685,17 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     function _bbStatusPill(s) {
       const st = (s || 'Active').trim();
       const bg = st === 'Active' ? '#1c3a1c' :
-                 st === 'On Hold' ? '#3a301c' :
-                 st === 'Archived' ? '#2a2a2a' : '#2a2a2a';
-      const fg = st === 'Active' ? '#9ec39e' :
+                 st === 'On Hold' ? '#efe6cc' :
+                 st === 'Archived' ? '#d9d0bf' : '#d9d0bf';
+      const fg = st === 'Active' ? '#3f7a3f' :
                  st === 'On Hold' ? '#d9c580' :
-                 st === 'Archived' ? '#888' : '#888';
+                 st === 'Archived' ? '#7a756a' : '#7a756a';
       return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _bbEsc(st) + '</span>';
     }
     function _bbPriorityPill(p) {
       if (!p) return '';
-      const bg = p === 'High' ? '#3a1c1c' : p === 'Medium' ? '#3a301c' : '#1c2a3a';
-      const fg = p === 'High' ? '#d99' : p === 'Medium' ? '#d9c580' : '#8fb1d9';
+      const bg = p === 'High' ? '#3a1c1c' : p === 'Medium' ? '#efe6cc' : '#dae5f0';
+      const fg = p === 'High' ? '#b03030' : p === 'Medium' ? '#d9c580' : '#2f5f9a';
       return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px; margin-left:6px;">' + _bbEsc(p) + '</span>';
     }
 
@@ -21679,12 +21705,12 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       const front = _bbRangeNum(r.minFront, r.maxFront, 'ft');
       const depth = _bbRangeNum(r.minDepth, r.maxDepth, 'ft');
       const suburbs = (r.suburbs || '').split(',').map(s => s.trim()).filter(Boolean);
-      const pillCol = 'display:inline-block; padding:2px 8px; font-size:10px; background:#1a1a1a; color:#ddd; margin:2px 3px 0 0; border:1px solid #2a2a2a;';
+      const pillCol = 'display:inline-block; padding:2px 8px; font-size:10px; background:#ede7da; color:#2a2a2a; margin:2px 3px 0 0; border:1px solid #d9d0bf;';
       return `
         <article class="bb-card" data-id="${_bbEsc(r.id)}" style="background:var(--panel); border:1px solid var(--panel-edge); padding:14px 16px; position:relative;">
           <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
             <div style="min-width:0; flex:1;">
-              <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#fff; margin-bottom:2px;">${_bbEsc(r.builder) || '<span style="color:#666;">Unknown builder</span>'}</div>
+              <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#111111; margin-bottom:2px;">${_bbEsc(r.builder) || '<span style="color:#8a8579;">Unknown builder</span>'}</div>
               <div style="font-size:12px; color:var(--text-dim);">${_bbEsc(r.city)}${r.state ? ', ' + _bbEsc(r.state) : ''}</div>
             </div>
             <div style="text-align:right; white-space:nowrap;">
@@ -21692,7 +21718,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
             </div>
           </div>
 
-          ${price ? `<div style="font-size:16px; color:#fff; margin:8px 0 4px;"><b>${_bbEsc(price)}</b></div>` : ''}
+          ${price ? `<div style="font-size:16px; color:#111111; margin:8px 0 4px;"><b>${_bbEsc(price)}</b></div>` : ''}
 
           ${suburbs.length ? `
             <div style="margin:8px 0 6px;">
@@ -21702,22 +21728,22 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           ${r.subPricing ? `<div style="font-size:11px; color:var(--text-dim); margin:6px 0; line-height:1.4;">${_bbEsc(r.subPricing)}</div>` : ''}
 
           <table style="width:100%; font-size:11px; margin:8px 0 6px; color:#bbb;">
-            ${lot   ? `<tr><td style="width:80px; color:#888;">Lot</td><td>${_bbEsc(lot)}</td></tr>` : ''}
-            ${front ? `<tr><td style="color:#888;">Frontage</td><td>${_bbEsc(front)}</td></tr>` : ''}
-            ${depth ? `<tr><td style="color:#888;">Depth</td><td>${_bbEsc(depth)}</td></tr>` : ''}
+            ${lot   ? `<tr><td style="width:80px; color:#7a756a;">Lot</td><td>${_bbEsc(lot)}</td></tr>` : ''}
+            ${front ? `<tr><td style="color:#7a756a;">Frontage</td><td>${_bbEsc(front)}</td></tr>` : ''}
+            ${depth ? `<tr><td style="color:#7a756a;">Depth</td><td>${_bbEsc(depth)}</td></tr>` : ''}
           </table>
 
-          ${r.mustHaves ? `<div style="font-size:11px; margin:6px 0 4px;"><b style="color:#9ec39e;">Must:</b> <span style="color:#ccc;">${_bbEsc(r.mustHaves)}</span></div>` : ''}
-          ${r.dealBreakers ? `<div style="font-size:11px; margin:4px 0 4px;"><b style="color:#d99;">Avoid:</b> <span style="color:#ccc;">${_bbEsc(r.dealBreakers)}</span></div>` : ''}
-          ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:6px; padding-top:6px; border-top:1px solid #222;">${_bbEsc(r.notes)}</div>` : ''}
+          ${r.mustHaves ? `<div style="font-size:11px; margin:6px 0 4px;"><b style="color:#3f7a3f;">Must:</b> <span style="color:#333333;">${_bbEsc(r.mustHaves)}</span></div>` : ''}
+          ${r.dealBreakers ? `<div style="font-size:11px; margin:4px 0 4px;"><b style="color:#b03030;">Avoid:</b> <span style="color:#333333;">${_bbEsc(r.dealBreakers)}</span></div>` : ''}
+          ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:6px; padding-top:6px; border-top:1px solid #e6dfd2;">${_bbEsc(r.notes)}</div>` : ''}
 
-          <div style="margin-top:10px; padding-top:8px; border-top:1px solid #222; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:10px; color:#666; letter-spacing:.1em; text-transform:uppercase;">
+          <div style="margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:10px; color:#8a8579; letter-spacing:.1em; text-transform:uppercase;">
               ${r.loggedBy ? 'By ' + _bbEsc(r.loggedBy) : ''}
               ${r.timestamp ? ' · ' + r.timestamp.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'2-digit'}) : ''}
             </span>
             <button type="button" class="bb-edit-btn" data-id="${_bbEsc(r.id)}"
-                    style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border:1px solid var(--panel-edge); background:transparent; color:#fff; cursor:pointer;">Edit</button>
+                    style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border:1px solid var(--panel-edge); background:transparent; color:#111111; cursor:pointer;">Edit</button>
           </div>
         </article>
       `;
@@ -22056,20 +22082,20 @@ It has become a major relocation center for large companies like Amazon, Oracle,
 
     function _hlHeatPill(h) {
       if (!h) return '';
-      const bg = h === 'Hot' ? '#3a1c1c' : h === 'Warm' ? '#3a301c' : '#1c2a3a';
-      const fg = h === 'Hot' ? '#d99' : h === 'Warm' ? '#e8c068' : '#8fb1d9';
+      const bg = h === 'Hot' ? '#3a1c1c' : h === 'Warm' ? '#efe6cc' : '#dae5f0';
+      const fg = h === 'Hot' ? '#b03030' : h === 'Warm' ? '#8a6a1f' : '#2f5f9a';
       return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _hlEsc(h) + '</span>';
     }
     function _hlStatusPill(s) {
       const st = (s || 'Active').trim();
       const bg = st === 'Active' ? '#1c3a1c' :
-                 st === 'Under Contract' ? '#1c2a3a' :
-                 st === 'Passed' ? '#2a2a2a' :
-                 st === 'Lost' ? '#3a1c1c' : '#2a2a2a';
-      const fg = st === 'Active' ? '#9ec39e' :
-                 st === 'Under Contract' ? '#8fb1d9' :
-                 st === 'Passed' ? '#888' :
-                 st === 'Lost' ? '#d99' : '#888';
+                 st === 'Under Contract' ? '#dae5f0' :
+                 st === 'Passed' ? '#d9d0bf' :
+                 st === 'Lost' ? '#3a1c1c' : '#d9d0bf';
+      const fg = st === 'Active' ? '#3f7a3f' :
+                 st === 'Under Contract' ? '#2f5f9a' :
+                 st === 'Passed' ? '#7a756a' :
+                 st === 'Lost' ? '#b03030' : '#7a756a';
       return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px; margin-left:6px;">' + _hlEsc(st) + '</span>';
     }
     function _hlDaysSince(d) {
@@ -22080,15 +22106,15 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     function _hlCardHtml(r) {
       const daysSince = _hlDaysSince(r.lastTouch);
       const staleWarn = (daysSince != null && daysSince > 14)
-        ? '<span style="color:#e8c068; font-size:9px; letter-spacing:.14em; text-transform:uppercase; margin-left:6px;">' + daysSince + 'd stale</span>' : '';
-      const phone = r.ownerPhone ? '<a href="tel:' + _hlEsc(r.ownerPhone.replace(/\D+/g,'')) + '" style="color:#ddd;">' + _hlEsc(r.ownerPhone) + '</a>' : '';
-      const email = r.ownerEmail ? '<a href="mailto:' + _hlEsc(r.ownerEmail) + '" style="color:#ddd;">' + _hlEsc(r.ownerEmail) + '</a>' : '';
+        ? '<span style="color:#8a6a1f; font-size:9px; letter-spacing:.14em; text-transform:uppercase; margin-left:6px;">' + daysSince + 'd stale</span>' : '';
+      const phone = r.ownerPhone ? '<a href="tel:' + _hlEsc(r.ownerPhone.replace(/\D+/g,'')) + '" style="color:#2a2a2a;">' + _hlEsc(r.ownerPhone) + '</a>' : '';
+      const email = r.ownerEmail ? '<a href="mailto:' + _hlEsc(r.ownerEmail) + '" style="color:#2a2a2a;">' + _hlEsc(r.ownerEmail) + '</a>' : '';
       const contactLine = [phone, email].filter(Boolean).join(' · ');
       return `
         <article class="bb-card" data-id="${_hlEsc(r.id)}" style="background:var(--panel); border:1px solid var(--panel-edge); padding:14px 16px;">
           <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
             <div style="min-width:0; flex:1;">
-              <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#fff; margin-bottom:2px;">${_hlEsc(r.property) || 'Unknown property'}</div>
+              <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#111111; margin-bottom:2px;">${_hlEsc(r.property) || 'Unknown property'}</div>
               <div style="font-size:11px; color:var(--text-dim);">${_hlEsc(r.neigh)}${r.estValue ? ' &nbsp;·&nbsp; ' + _hlEsc(r.estValue) : ''}</div>
             </div>
             <div style="text-align:right; white-space:nowrap;">
@@ -22096,34 +22122,34 @@ It has become a major relocation center for large companies like Amazon, Oracle,
             </div>
           </div>
 
-          ${r.ownerName ? `<div style="font-size:12px; color:#ddd; margin:8px 0 2px;"><b>${_hlEsc(r.ownerName)}</b></div>` : ''}
+          ${r.ownerName ? `<div style="font-size:12px; color:#2a2a2a; margin:8px 0 2px;"><b>${_hlEsc(r.ownerName)}</b></div>` : ''}
           ${contactLine ? `<div style="font-size:11px; color:var(--text-muted); margin-bottom:8px;">${contactLine}</div>` : ''}
 
           ${r.source ? `<div style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--text-dim); margin:8px 0 4px;">Source: <span style="color:#bbb;">${_hlEsc(r.source)}${r.referredBy ? ' — ' + _hlEsc(r.referredBy) : ''}</span></div>` : ''}
 
-          <div style="border-top:1px solid #222; margin-top:8px; padding-top:8px;">
+          <div style="border-top:1px solid #e6dfd2; margin-top:8px; padding-top:8px;">
             <div style="font-size:11px; margin-bottom:4px;">
               <span style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px;">Last Touch</span>
-              <span style="color:#ccc; margin-left:8px;">${_hlFmtDate(r.lastTouch) || '—'}</span>
+              <span style="color:#333333; margin-left:8px;">${_hlFmtDate(r.lastTouch) || '—'}</span>
               ${staleWarn}
             </div>
-            ${r.nextAction ? `<div style="font-size:11px; color:#fff;">
+            ${r.nextAction ? `<div style="font-size:11px; color:#111111;">
               <span style="color:var(--text-dim); letter-spacing:.1em; text-transform:uppercase; font-size:9px;">Next</span>
               <span style="margin-left:8px;">${_hlEsc(r.nextAction)}${r.nextDate ? ' <span style="color:var(--text-dim);">(' + _hlFmtDate(r.nextDate) + ')</span>' : ''}</span>
             </div>` : ''}
           </div>
 
-          ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px solid #222; white-space:pre-wrap; line-height:1.4;">${_hlEsc(r.notes)}</div>` : ''}
+          ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px solid #e6dfd2; white-space:pre-wrap; line-height:1.4;">${_hlEsc(r.notes)}</div>` : ''}
 
-          <div style="margin-top:10px; padding-top:8px; border-top:1px solid #222; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:10px; color:#666; letter-spacing:.1em; text-transform:uppercase;">
+          <div style="margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2; display:flex; justify-content:space-between; align-items:center;">
+            <span style="font-size:10px; color:#8a8579; letter-spacing:.1em; text-transform:uppercase;">
               ${r.agent ? 'Agent: ' + _hlEsc(r.agent) : ''}
             </span>
             <div style="display:flex; gap:6px;">
               <button type="button" class="hl-edit-btn" data-id="${_hlEsc(r.id)}"
-                      style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border:1px solid var(--panel-edge); background:transparent; color:#fff; cursor:pointer;">Edit</button>
+                      style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border:1px solid var(--panel-edge); background:transparent; color:#111111; cursor:pointer;">Edit</button>
               <button type="button" class="hl-delete-btn" data-id="${_hlEsc(r.id)}"
-                      style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border:1px solid #5a2a2a; background:transparent; color:#d99; cursor:pointer;">Delete</button>
+                      style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border:1px solid #5a2a2a; background:transparent; color:#b03030; cursor:pointer;">Delete</button>
             </div>
           </div>
         </article>

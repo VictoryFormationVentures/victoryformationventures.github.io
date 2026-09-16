@@ -1,25 +1,40 @@
 <!doctype html>
 <html lang="en">
 <head>
+<script>
+  // VFV: until a Google Sheet/Form/Apps Script is linked, its URL still contains a
+  // PASTE_YOUR_ placeholder. Fail fast with a readable message instead of an HTTP 404.
+  (function () {
+    const _fetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      const url = typeof input === 'string' ? input : (input && input.url) || '';
+      if (url.indexOf('PASTE_YOUR_') !== -1) {
+        return Promise.reject(new Error('Not connected yet. This section reads from a Google Sheet that has not been linked. See docs/SETUP-YOUR-DATA.md.'));
+      }
+      return _fetch(input, init);
+    };
+  })();
+</script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=1400" />
   <title>Underwriting Model · Victory Formation Ventures</title>
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#f6f2ea" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:              #000;
-      --bg-elev:         #0a0a0a;
-      --panel:           #0f0f0f;
-      --panel-edge:      #2a2a2a;
-      --rule:            #2a2a2a;
-      --rule-strong:     #3a3a3a;
-      --text:            #ffffff;
-      --text-muted:      #b8b8b8;
-      --text-dim:        #6a6a6a;
-      --accent:          #eae2d3;
+      --bg:              #f6f2ea;
+      --bg-elev:         #fbf9f4;
+      --panel:           #fbf9f4;
+      --panel-edge:      #d9d0bf;
+      --rule:            #d9d0bf;
+      --rule-strong:     #c9bfab;
+      --text:            #111111;
+      --text-muted:      #5a564e;
+      --text-dim:        #8a8579;
+      --accent:          #8a7a4b;
       --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
       --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
@@ -41,7 +56,7 @@
     }
     .page-toolbar .brand {
       font-family: var(--font-display); font-size: 14px;
-      letter-spacing: .28em; text-transform: uppercase; color: #fff;
+      letter-spacing: .28em; text-transform: uppercase; color: #111111;
       display: flex; align-items: center; gap: 12px;
     }
     .page-toolbar .brand img { width: 32px; height: 32px; object-fit: contain; }
@@ -51,7 +66,7 @@
       letter-spacing: .22em; text-transform: uppercase; color: var(--text-muted);
       padding: 6px 12px; border: 1px solid var(--panel-edge);
     }
-    .page-toolbar a.back:hover { color: #fff; border-color: #fff; }
+    .page-toolbar a.back:hover { color: #111111; border-color: #111111; }
 
     /* Section styling shared with modal panels */
     .modal-head {
@@ -65,7 +80,7 @@
     .modal-title {
       font-family: var(--font-display); font-size: 22px;
       letter-spacing: .12em; text-transform: uppercase; margin: 4px 0 0;
-      font-weight: 400; color: #fff;
+      font-weight: 400; color: #111111;
     }
     .modal-foot {
       display: flex; justify-content: flex-end; gap: 10px;
@@ -75,9 +90,9 @@
       font-family: var(--font-body); font-size: 11px;
       letter-spacing: .18em; text-transform: uppercase; font-weight: 600;
       padding: 10px 20px; cursor: pointer;
-      border: 1px solid #fff; background: #fff; color: #000;
+      border: 1px solid #111111; background: #111111; color: #f6f2ea;
     }
-    .btn.ghost { background: transparent; color: #fff; }
+    .btn.ghost { background: transparent; color: #111111; }
     .btn:hover { opacity: .85; }
 
     .form-status {
@@ -222,8 +237,8 @@
     .uw-outcard .out-row.hi { background: var(--bg-elev); margin: 0 -22px; padding: 12px 22px; }
     .uw-outcard .out-row.hi .k { color: var(--text); }
     .uw-outcard .out-row.hi .v { font-size: 18px; }
-    .uw-outcard .out-row.neg .v { color: #d97a7a; }
-    .uw-outcard .out-row.pos .v { color: #a4d5ad; }
+    .uw-outcard .out-row.neg .v { color: #a33333; }
+    .uw-outcard .out-row.pos .v { color: #2f6f47; }
     .uw-draw-summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -295,8 +310,8 @@
       border: 1px solid var(--rule-strong);
       color: var(--text-muted);
     }
-    .uw-draw-table .status-pill.construction { color: #e8c068; border-color: rgba(232,192,104,0.3); }
-    .uw-draw-table .status-pill.sale         { color: #a4d5ad; border-color: rgba(164,213,173,0.3); }
+    .uw-draw-table .status-pill.construction { color: #8a6a1f; border-color: rgba(232,192,104,0.3); }
+    .uw-draw-table .status-pill.sale         { color: #2f6f47; border-color: rgba(164,213,173,0.3); }
     .uw-sens-head {
       font-size: 12px;
       color: var(--text);
@@ -350,14 +365,14 @@
     }
     .uw-sens-table td.cell.center { outline: 1px solid var(--text); outline-offset: -2px; }
     .uw-sens-table td.cell.neg { background: rgba(217,122,122,0.15); color: #f0a8a8; }
-    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #e8c068; }
+    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #8a6a1f; }
     .uw-sens-table td.cell.mid { background: rgba(164,213,173,0.08); color: #c6ddc8; }
-    .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #b6e3c5; }
+    .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #2f6f47; }
     .uw-error-row {
       margin: 0 32px 12px;
       padding: 10px 14px;
-      border: 1px solid #4a3a1f;
-      color: #e8d49a;
+      border: 1px solid #efe5cf;
+      color: #7a6220;
       font-size: 12px;
     }
     .deal-empty, .deal-error {
@@ -384,7 +399,7 @@
          the top edge of the printable area. */
       @page { size: letter portrait; margin: 0.6in 0.55in; }
       html, body {
-        background: #000 !important; color: #fff !important;
+        background: #f6f2ea !important; color: #111111 !important;
         font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
         font-size: 10pt;
       }
@@ -392,16 +407,16 @@
       .page-toolbar, .modal-foot, .uw-tabbar, .uw-error-row { display: none !important; }
       .uw-panel[aria-hidden="true"] { display: none !important; }
       /* Full-bleed dark background inside the page margins */
-      #uw-modal-overlay { background: #000 !important; padding: 0 !important; }
+      #uw-modal-overlay { background: #f6f2ea !important; padding: 0 !important; }
       .page-shell {
         max-width: none !important; margin: 0 !important;
         padding: 0 !important;
-        background: #000 !important;
+        background: #f6f2ea !important;
       }
 
       /* --- COVER HEADER — brand-forward slide banner --- */
       .modal-head {
-        border-bottom: 1px solid #eae2d3 !important;
+        border-bottom: 1px solid #8a7a4b !important;
         padding: 0 0 16px !important;
         margin: 0 0 20px !important;
         display: flex !important;
@@ -411,14 +426,14 @@
       }
       .modal-title-group { text-align: center !important; }
       .modal-title-group .modal-eyebrow {
-        color: #eae2d3 !important;
+        color: #8a7a4b !important;
         font-size: 8pt !important;
         letter-spacing: .32em !important;
         font-weight: 600;
         text-transform: uppercase;
       }
       .modal-title {
-        color: #fff !important;
+        color: #111111 !important;
         font-family: 'Aboreto', 'Times New Roman', serif !important;
         font-size: 22pt !important;
         margin: 8px 0 0 !important;
@@ -428,8 +443,8 @@
 
       /* --- PROPERTY BANNER (address + neighborhood) — presentation-style hero --- */
       .uw-panel > .uw-section:first-child {
-        background: #0f0f0f !important;
-        border: 1px solid #eae2d3 !important;
+        background: #fbf9f4 !important;
+        border: 1px solid #8a7a4b !important;
         padding: 16px 22px !important;
         margin-bottom: 22px !important;
         display: grid !important;
@@ -447,7 +462,7 @@
       }
       .uw-panel > .uw-section:first-child input {
         background: transparent !important; border: 0 !important; padding: 0 !important;
-        color: #fff !important;
+        color: #111111 !important;
         font-family: 'Aboreto', 'Times New Roman', serif !important;
         font-size: 16pt !important; font-weight: 400 !important;
         text-align: left !important; letter-spacing: .06em;
@@ -469,9 +484,9 @@
       .uw-section-head {
         font-family: 'Aboreto', 'Times New Roman', serif !important;
         font-weight: 400 !important; font-size: 13pt !important;
-        color: #eae2d3 !important;
+        color: #8a7a4b !important;
         text-transform: uppercase; letter-spacing: .26em;
-        border-bottom: 1px solid #eae2d3 !important;
+        border-bottom: 1px solid #8a7a4b !important;
         padding-bottom: 7px !important; margin-bottom: 12px !important;
       }
       .uw-section-grid {
@@ -487,7 +502,7 @@
         gap: 16px !important;
         align-items: baseline !important;
         padding: 7px 0 !important;
-        border-bottom: 1px solid #2a2a2a !important;
+        border-bottom: 1px solid #d9d0bf !important;
       }
       .uw-field.full { grid-column: 1 / -1 !important; }
       .uw-field label {
@@ -497,7 +512,7 @@
       }
       .uw-field input, .uw-field select {
         background: transparent !important; border: 0 !important; padding: 0 !important;
-        color: #fff !important;
+        color: #111111 !important;
         font-family: 'Mulish', sans-serif !important;
         font-size: 11pt !important; font-weight: 600 !important;
         text-align: right !important; width: auto !important; min-width: 0 !important;
@@ -509,26 +524,26 @@
       .uw-field .prefix-dollar { display: inline !important; position: static !important; padding: 0 !important; }
       .uw-field .prefix-dollar::before {
         position: static !important; transform: none !important;
-        color: #eae2d3 !important; font-size: 10pt !important; margin-right: 2px;
+        color: #8a7a4b !important; font-size: 10pt !important; margin-right: 2px;
       }
       .uw-field .prefix-dollar input { padding: 0 !important; display: inline !important; width: auto !important; }
       .uw-field .suffix { display: inline !important; position: static !important; padding: 0 !important; }
       .uw-field .suffix::after {
         position: static !important; transform: none !important;
-        color: #eae2d3 !important; font-size: 9pt !important; margin-left: 2px;
+        color: #8a7a4b !important; font-size: 9pt !important; margin-left: 2px;
       }
       .uw-field .suffix input { padding: 0 !important; display: inline !important; width: auto !important; }
 
       /* Derived capital line under Capital Structure */
       #uw-cap-derived {
         grid-column: 1 / -1 !important;
-        background: #0f0f0f !important;
-        border: 1px solid #2a2a2a !important;
+        background: #fbf9f4 !important;
+        border: 1px solid #d9d0bf !important;
         padding: 6px 10px !important; margin-top: 8px !important;
-        border-bottom: 1px solid #2a2a2a !important;
+        border-bottom: 1px solid #d9d0bf !important;
       }
       #uw-cap-derived > div {
-        color: #eae2d3 !important; font-size: 8.5pt !important;
+        color: #8a7a4b !important; font-size: 8.5pt !important;
         letter-spacing: .1em; line-height: 1.6 !important;
       }
 
@@ -546,16 +561,16 @@
          @page margins on browsers that respect it (Chrome does with the
          color-adjust hint above). If a browser paints white margins anyway,
          the content area is still on-brand and legible. */
-      html { background: #000 !important; }
+      html { background: #f6f2ea !important; }
       .uw-outcard {
-        border: 1px solid #eae2d3 !important;
-        background: #0a0a0a !important;
+        border: 1px solid #8a7a4b !important;
+        background: #fbf9f4 !important;
         margin-bottom: 16px !important;
         break-inside: avoid; page-break-inside: avoid;
         width: 100% !important;
       }
       .uw-outcard .out-head {
-        background: #eae2d3 !important; color: #000 !important;
+        background: #8a7a4b !important; color: #f6f2ea !important;
         padding: 8px 16px !important;
         font-family: 'Aboreto', serif !important;
         font-size: 11pt !important; font-weight: 400 !important;
@@ -570,7 +585,7 @@
       }
       .uw-outcard .out-row {
         padding: 6px 0 !important;
-        border-bottom: 1px solid #2a2a2a !important;
+        border-bottom: 1px solid #d9d0bf !important;
       }
       .uw-outcard .out-row.hi { grid-column: 1 / -1 !important; }
       .uw-outcard .out-row .k {
@@ -581,17 +596,17 @@
       .uw-outcard .out-row .v {
         font-family: 'Mulish', sans-serif !important;
         font-size: 11pt !important; font-weight: 600 !important;
-        color: #fff !important; letter-spacing: .02em !important;
+        color: #111111 !important; letter-spacing: .02em !important;
       }
       /* Highlighted totals — Gross Profit / Net Revenue / Total Project Cost */
       .uw-outcard .out-row.hi {
         background: #14120e !important;
         margin: 6px -14px !important;
         padding: 10px 14px !important;
-        border-top: 1px solid #eae2d3 !important;
-        border-bottom: 1px solid #eae2d3 !important;
+        border-top: 1px solid #8a7a4b !important;
+        border-bottom: 1px solid #8a7a4b !important;
       }
-      .uw-outcard .out-row.hi .k { color: #eae2d3 !important; font-weight: 700 !important; }
+      .uw-outcard .out-row.hi .k { color: #8a7a4b !important; font-weight: 700 !important; }
       .uw-outcard .out-row.hi .v {
         font-family: 'Aboreto', serif !important;
         font-size: 16pt !important; font-weight: 400 !important;
@@ -600,8 +615,8 @@
 
       /* --- DRAW SCHEDULE + SENSITIVITY (if printed while active) --- */
       .uw-draw-summary {
-        background: #0f0f0f !important;
-        border: 1px solid #eae2d3 !important;
+        background: #fbf9f4 !important;
+        border: 1px solid #8a7a4b !important;
         padding: 14px 18px !important; margin-bottom: 14px !important;
         gap: 12px !important;
       }
@@ -610,18 +625,18 @@
         letter-spacing: .18em !important;
       }
       .uw-draw-summary .ds-cell .v {
-        color: #fff !important; font-family: 'Aboreto', serif !important;
+        color: #111111 !important; font-family: 'Aboreto', serif !important;
         font-size: 13pt !important;
       }
       .uw-draw-table {
-        font-size: 8.5pt !important; color: #fff !important;
-        border-color: #2a2a2a !important;
+        font-size: 8.5pt !important; color: #111111 !important;
+        border-color: #d9d0bf !important;
       }
       .uw-draw-table th {
-        color: #eae2d3 !important; font-size: 8pt !important;
+        color: #8a7a4b !important; font-size: 8pt !important;
         letter-spacing: .16em !important;
       }
-      .uw-draw-table td { border-color: #2a2a2a !important; }
+      .uw-draw-table td { border-color: #d9d0bf !important; }
     }
   </style>
 </head>
@@ -1711,7 +1726,7 @@
         let canvas;
         try {
           canvas = await window.html2canvas(source, {
-            scale: 2, backgroundColor: '#000000', useCORS: true, logging: false
+            scale: 2, backgroundColor: '#f6f2ea', useCORS: true, logging: false
           });
         } finally {
           _removeH2cInputFix();
@@ -1767,7 +1782,7 @@
       function toast(msg) {
         const t = document.createElement('div');
         t.textContent = msg;
-        t.style.cssText = 'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#eae2d3;color:#000;font-family:Mulish,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:14px 22px;border:1px solid #000;box-shadow:0 12px 40px rgba(0,0,0,.4);z-index:100000;max-width:520px;text-align:center;';
+        t.style.cssText = 'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#8a7a4b;color:#f6f2ea;font-family:Mulish,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:14px 22px;border:1px solid #f6f2ea;box-shadow:0 12px 40px rgba(0,0,0,.4);z-index:100000;max-width:520px;text-align:center;';
         document.body.appendChild(t);
         setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; }, 5500);
         setTimeout(() => { try { document.body.removeChild(t); } catch(_){} }, 6000);
