@@ -100,7 +100,7 @@
     if (d.phone) rows.push('<a href="tel:+1' + tel + '" style="color:#111111;text-decoration:none;">' + esc(d.phone) + '</a>');
     if (d.email) rows.push('<a href="mailto:' + esc(d.email) + '" style="color:#111111;text-decoration:none;">' + esc(d.email) + '</a>');
     rows.push('<a href="' + SITE + '" style="color:#111111;text-decoration:none;">' + FIRM.site + '</a>');
-    const contact = rows.join('<span style="color:#b5ab97;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>');
+    const contact = rows.join('<br>');
     return '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif;color:#111111;">' +
       '<tr>' +
         '<td style="padding:0 18px 0 0;vertical-align:middle;"><a href="' + SITE + '"><img src="' + LOGO + '" width="96" alt="' + FIRM.name + '" style="display:block;width:96px;height:auto;border:0;"></a></td>' +
