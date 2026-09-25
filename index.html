@@ -5775,7 +5775,7 @@
     <section class="panel" id="panel-team" role="tabpanel" aria-labelledby="tab-team" aria-hidden="true" tabindex="0">
       <div class="eyebrow">Company</div>
       <h1>Team</h1>
-      <p class="sub">Roster of agents and staff. Each member's contact info auto-populates into the Offer Instructions and other generators when they're selected as the active agent.</p>
+      <p class="sub">Roster of agents and staff. Each member's contact info auto-populates into the Offer Instructions and other generators when they're selected as the active agent. Edit or remove anyone from their card; changes save to the Team Roster sheet. <a href="signature.html" style="color:var(--accent);">Email signatures →</a></p>
 
       <div id="team-roster-meta" class="eyebrow" style="margin-bottom:14px;">Loading roster…</div>
       <div class="home-grid" id="team-roster">
@@ -9761,6 +9761,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     //   status    — 'live' | 'beta' | 'soon'
     // ============================================================
     const TOOLS_REGISTRY = [
+      { id: 'email-signature', name: 'Email Signatures', division: 'cross', category: 'generator', href: 'signature.html', external: true, desc: 'Branded email signature for each team member, pulled from the Team Roster. Copy and paste into Gmail, Apple Mail or Outlook.', status: 'live' },
       { id: 'fee-schedule', name: 'Services & Fee Schedule', division: 'cross', category: 'generator', href: 'fee-schedule.html', external: true, desc: 'Concierge consulting rates, report and entitlement fees, owner\'s rep and development terms. Internal view with benchmarks, or a client PDF with a click.', status: 'live' },
       // Sales · Marketing Templates
       { id: 'property-one-pager',  name: 'Property One Pager',     division: 'sales',       category: 'generator', href: '#sales',  external: false, desc: 'Single-page listing summary for showings, open houses, and broker tours.', status: 'live' },
@@ -17090,6 +17091,11 @@ It has become a major relocation center for large companies like Amazon, Oracle,
               ${divisionPills(m.divisions)}
             </div>
             <button type="button" class="team-card-followups-btn" data-followups-for="${escape(m.name)}">View Follow-Ups →</button>
+            <div style="display:flex; gap:8px; margin-top:8px;">
+              <button type="button" class="team-edit-btn" data-team-id="${escape(m.id)}" style="font:inherit; font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 10px; background:transparent; border:1px solid var(--rule-strong, var(--rule)); color:var(--text); cursor:pointer;">Edit</button>
+              <button type="button" class="team-remove-btn" data-team-id="${escape(m.id)}" style="font:inherit; font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 10px; background:transparent; border:1px solid var(--rule-strong, var(--rule)); color:#b03030; cursor:pointer;">Remove</button>
+              <a href="signature.html" style="font:inherit; font-size:10px; letter-spacing:.18em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--rule-strong, var(--rule)); color:var(--text-muted); text-decoration:none; margin-left:auto;">Signature</a>
+            </div>
           `;
           grid.appendChild(card);
         });
@@ -17105,9 +17111,9 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           <div class="h-stat" style="font-size:18px; line-height:1.2;">Onboard an agent or staff</div>
           <div class="h-label">Add their contact, license, role, and the divisions they work in. They'll auto-appear in every agent picker.</div>
         `;
-        addCard.addEventListener('click', openTeamModal);
+        addCard.addEventListener('click', () => window.openTeamModal());
         addCard.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openTeamModal(); }
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.openTeamModal(); }
         });
         grid.appendChild(addCard);
 
@@ -17186,6 +17192,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
                 title:     colIdx.title >= 0 ? String(r[colIdx.title] || '').trim() : '',
                 role:      colIdx.role >= 0 ? String(r[colIdx.role] || '').trim() : 'Agent',
                 active:    colIdx.active >= 0 ? yes(r[colIdx.active]) : true,
+                activeRaw: colIdx.active >= 0 ? String(r[colIdx.active] || '').trim() : '',
                 email:     colIdx.email >= 0 ? String(r[colIdx.email] || '').trim() : '',
                 phone:     colIdx.phone >= 0 ? String(r[colIdx.phone] || '').trim() : '',
                 photo:     colIdx.photo >= 0 ? String(r[colIdx.photo] || '').trim() : '',
@@ -17194,7 +17201,16 @@ It has become a major relocation center for large companies like Amazon, Oracle,
                 divisions: divs
               };
             })
-            .filter(Boolean);
+            .filter(Boolean)
+            // The sheet is append-only: the latest row for a person (by email, else name) is the current one,
+            // and a row whose Active column says "Removed" takes the person off the roster.
+            .reduce((acc, m) => {
+              const key = (m.email || m.name).toLowerCase();
+              const i = acc.findIndex(x => (x.email || x.name).toLowerCase() === key);
+              if (i >= 0) acc.splice(i, 1);
+              if (!/^removed$/i.test(m.activeRaw)) acc.push(m);
+              return acc;
+            }, []);
 
           // Always assign — even if 0 rows, "live" + 0 means "Sheet is
           // reachable but empty" which is a meaningful state for the UI.
@@ -17335,6 +17351,54 @@ It has become a major relocation center for large companies like Amazon, Oracle,
 
       // Expose openTeamModal so the rendered "+ Add Team Member" card can call it
       window.openTeamModal = openTeamModal;
+
+      // ---- Edit / Remove (append-only sheet: a new row for the same email replaces the old one) ----
+      const modalTitleEl = modal.querySelector('h2, .modal-title, [data-modal-title]');
+      function fillTeamForm(m) {
+        form.reset();
+        const set = (n, v) => { const el = form.querySelector('[name="' + n + '"]'); if (el) el.value = v || ''; };
+        set('name', m.name); set('title', m.title); set('role', m.role); set('active', m.active === false ? 'No' : 'Yes');
+        set('email', m.email); set('phone', m.phone); set('photo', m.photo); set('license', m.license);
+        ['sales', 'land', 'customrep', 'development', 'propmgmt'].forEach(d => { const el = form.querySelector('[name="div_' + d + '"]'); if (el) el.checked = (m.divisions || []).includes(d); });
+        form.dataset.editing = m.email || m.name;
+        if (modalTitleEl) modalTitleEl.textContent = 'Edit Team Member';
+        if (submitBtn) submitBtn.textContent = 'Save Changes';
+      }
+      async function removeMember(m) {
+        if (!confirm('Remove ' + m.name + ' from the Team Roster? Their past rows stay in the sheet, but they disappear from the dashboard and every agent picker.')) return;
+        window.VFV_TEAM = (window.VFV_TEAM || []).filter(x => x.id !== m.id);
+        renderRoster();
+        if (!TEAM_CONFIG.FORM_URL || !TEAM_CONFIG.FIELD_MAP.name) return;
+        const payload = { name: m.name, title: m.title || '', role: m.role || '', active: 'Removed', email: m.email || '', phone: m.phone || '', photo: m.photo || '', license: m.license || '',
+          div_sales: 'No', div_land: 'No', div_customrep: 'No', div_development: 'No', div_propmgmt: 'No' };
+        const body = new URLSearchParams();
+        for (const k of Object.keys(payload)) { const e = TEAM_CONFIG.FIELD_MAP[k]; if (e) body.append(e, payload[k]); }
+        try { await fetch(TEAM_CONFIG.FORM_URL, { method: 'POST', mode: 'no-cors', body }); } catch (err) { console.warn('[TEAM] remove failed', err); }
+        document.dispatchEvent(new CustomEvent('vfv:team-loaded', { detail: window.VFV_TEAM }));
+      }
+      document.addEventListener('click', (e) => {
+        const eb = e.target.closest && e.target.closest('.team-edit-btn');
+        const rb = e.target.closest && e.target.closest('.team-remove-btn');
+        if (!eb && !rb) return;
+        const id = (eb || rb).dataset.teamId;
+        const m = (window.VFV_TEAM || []).find(x => x.id === id); if (!m) return;
+        if (eb) { fillTeamForm(m); openTeamModal(); } else removeMember(m);
+      });
+      const _origOpen = openTeamModal;
+      window.openTeamModal = function () { if (!form.dataset.editing) { if (modalTitleEl) modalTitleEl.textContent = 'Add Team Member'; if (submitBtn) submitBtn.textContent = submitBtn.dataset.orig || submitBtn.textContent; } _origOpen(); };
+      if (submitBtn) submitBtn.dataset.orig = submitBtn.textContent;
+      form.addEventListener('submit', () => {
+        // when editing, replace the optimistic duplicate with the edited card
+        if (form.dataset.editing) {
+          const key = form.dataset.editing.toLowerCase();
+          const list = window.VFV_TEAM || [];
+          const locals = list.filter(x => x._local);
+          window.VFV_TEAM = list.filter(x => !( (x.email || x.name).toLowerCase() === key && !x._local )).concat([]);
+          delete form.dataset.editing;
+          setTimeout(renderRoster, 0);
+        }
+      }, true);
+      [closeBtn, cancelBtn].forEach(b => b && b.addEventListener('click', () => { delete form.dataset.editing; if (modalTitleEl) modalTitleEl.textContent = 'Add Team Member'; if (submitBtn) submitBtn.textContent = submitBtn.dataset.orig || 'Add Member'; }));
 
       // Fire on load — first render the fallback, then try to fetch.
       renderRoster();

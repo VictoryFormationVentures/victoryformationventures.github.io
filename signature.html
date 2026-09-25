@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Email Signatures · Victory Formation Ventures</title>
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#f6f2ea; --panel:#fbf9f4; --rule:#d9d0bf; --text:#111; --muted:#5a564e; --dim:#8a8579; --accent:#8a7a4b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Mulish',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.55; }
+  .topbar { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:14px; padding:14px 28px; background:var(--panel); border-bottom:1px solid var(--rule); }
+  .topbar .name { font-family:'Aboreto',serif; font-size:14px; letter-spacing:.28em; text-transform:uppercase; }
+  .topbar .name small { display:block; font-family:'Mulish',sans-serif; font-size:8px; letter-spacing:.24em; color:var(--dim); font-weight:700; margin-top:2px; }
+  .topbar .sp { flex:1; }
+  .topbar a { font:inherit; font-size:10px; letter-spacing:.2em; text-transform:uppercase; padding:9px 14px; border:1px solid var(--rule); color:var(--text); text-decoration:none; }
+  .wrap { max-width:1100px; margin:24px auto; padding:0 20px; display:grid; grid-template-columns:320px 1fr; gap:22px; }
+  @media (max-width:820px) { .wrap { grid-template-columns:1fr; } }
+  .card { background:var(--panel); border:1px solid var(--rule); padding:20px 22px; }
+  h2 { font-family:'Aboreto',serif; font-weight:400; font-size:12px; letter-spacing:.24em; text-transform:uppercase; color:var(--accent); margin:0 0 12px; }
+  .members button { display:block; width:100%; text-align:left; font:inherit; padding:10px 12px; margin-bottom:6px; background:transparent; border:1px solid var(--rule); color:var(--text); cursor:pointer; }
+  .members button.on { border-color:#101010; background:#fefefe; }
+  .members button small { display:block; color:var(--dim); font-size:11px; }
+  label { display:block; font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--dim); font-weight:700; margin:10px 0 4px; }
+  input { width:100%; padding:9px 10px; font:inherit; font-size:13px; border:1px solid var(--rule); background:#fefefe; color:var(--text); }
+  .btns { display:flex; gap:8px; flex-wrap:wrap; margin-top:14px; }
+  .btns button { font:inherit; font-size:10px; letter-spacing:.2em; text-transform:uppercase; padding:10px 14px; border:1px solid #101010; background:#101010; color:#fefefe; cursor:pointer; }
+  .btns button.ghost { background:transparent; color:var(--text); border-color:var(--rule); }
+  .preview { background:#fefefe; border:1px solid var(--rule); padding:26px; }
+  .status { font-size:11px; color:var(--dim); margin-top:8px; min-height:16px; }
+  .steps { font-size:12px; color:var(--muted); line-height:1.6; }
+  .steps b { color:var(--text); }
+  textarea { width:100%; height:140px; font:11px/1.4 Menlo, monospace; border:1px solid var(--rule); background:#fefefe; color:var(--muted); padding:8px; }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="name">Victory Formation Ventures<small>Email signatures</small></div>
+  <div class="sp"></div>
+  <a href="index.html#team">← Team</a>
+  <a href="index.html">Dashboard</a>
+</div>
+<div class="wrap">
+  <div>
+    <div class="card">
+      <h2>Team</h2>
+      <div class="members" id="members"><div class="status">Loading roster…</div></div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h2>Details</h2>
+      <label>Full name</label><input id="f-name">
+      <label>Title</label><input id="f-title" placeholder="Founder · Land Acquisition">
+      <label>Phone</label><input id="f-phone" placeholder="(737) 600-5101">
+      <label>Email</label><input id="f-email" placeholder="name@victoryformationventures.com">
+      <label>License (optional)</label><input id="f-license" placeholder="TREC #">
+      <label>Calendar or booking link (optional)</label><input id="f-cal" placeholder="https://calendly.com/…">
+    </div>
+  </div>
+  <div>
+    <div class="card">
+      <h2>Preview</h2>
+      <div class="preview" id="preview"></div>
+      <div class="btns">
+        <button type="button" id="copy-rich">Copy signature</button>
+        <button type="button" class="ghost" id="copy-html">Copy HTML</button>
+        <button type="button" class="ghost" id="download">Download .html</button>
+      </div>
+      <div class="status" id="status"></div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h2>Install in Gmail</h2>
+      <div class="steps">
+        <b>1.</b> Click <b>Copy signature</b> above.<br>
+        <b>2.</b> In Gmail, open Settings (gear) → <b>See all settings</b> → General tab → scroll to <b>Signature</b> → <b>Create new</b>, give it a name.<br>
+        <b>3.</b> Click inside the signature box and paste (Cmd+V). The logo and layout come through as-is.<br>
+        <b>4.</b> Under Signature defaults, set it for <b>new emails</b> and <b>replies</b>, then <b>Save Changes</b> at the bottom.<br><br>
+        On the Gmail phone app, signatures are text-only, so this one applies to mail sent from a computer. Apple Mail and Outlook accept the same paste.
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h2>HTML source</h2>
+      <textarea id="html" readonly></textarea>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  const SHEET_ID = '14wQ2gCNFu99WC2IbE2as7FiTA9G0EkBLmdSFbLnVzjo';
+  const LOGO = 'https://dashboard.victoryformationventures.com/assets/email-logo.png';
+  const SITE = 'https://www.victoryformationventures.com';
+  const FIRM = { name: 'Victory Formation Ventures', tagline: 'Land · Development · Custom Homes · Brokerage', addr: '3004 Webberville Rd #2, Austin, TX 78702', site: 'victoryformationventures.com' };
+  const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const $ = id => document.getElementById(id);
+  const fields = ['name', 'title', 'phone', 'email', 'license', 'cal'];
+
+  function sigHTML(d) {
+    const tel = (d.phone || '').replace(/\D/g, '');
+    const rows = [];
+    if (d.phone) rows.push('<a href="tel:+1' + tel + '" style="color:#111111;text-decoration:none;">' + esc(d.phone) + '</a>');
+    if (d.email) rows.push('<a href="mailto:' + esc(d.email) + '" style="color:#111111;text-decoration:none;">' + esc(d.email) + '</a>');
+    rows.push('<a href="' + SITE + '" style="color:#111111;text-decoration:none;">' + FIRM.site + '</a>');
+    const contact = rows.join('<span style="color:#b5ab97;">&nbsp;&nbsp;|&nbsp;&nbsp;</span>');
+    return '<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;font-family:Helvetica,Arial,sans-serif;color:#111111;">' +
+      '<tr>' +
+        '<td style="padding:0 18px 0 0;vertical-align:middle;"><a href="' + SITE + '"><img src="' + LOGO + '" width="96" alt="' + FIRM.name + '" style="display:block;width:96px;height:auto;border:0;"></a></td>' +
+        '<td style="padding:0 0 0 18px;border-left:1px solid #d9d0bf;vertical-align:middle;">' +
+          '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:17px;letter-spacing:1.5px;text-transform:uppercase;color:#111111;line-height:1.3;">' + esc(d.name || 'Your Name') + '</div>' +
+          (d.title ? '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#8a7a4b;font-weight:bold;margin-top:3px;">' + esc(d.title) + '</div>' : '') +
+          '<div style="font-size:12px;color:#111111;margin-top:9px;line-height:1.6;">' + contact + '</div>' +
+          (d.cal ? '<div style="font-size:12px;margin-top:2px;"><a href="' + esc(d.cal) + '" style="color:#8a7a4b;text-decoration:none;">Book a time &rarr;</a></div>' : '') +
+          '<div style="font-size:11px;color:#5a564e;margin-top:9px;line-height:1.5;"><b style="color:#111111;">' + FIRM.name + '</b><br>' + FIRM.tagline + '<br>' + FIRM.addr + '</div>' +
+          (d.license ? '<div style="font-size:10px;color:#8a8579;margin-top:6px;">Texas real estate license ' + esc(d.license) + '</div>' : '') +
+        '</td>' +
+      '</tr></table>';
+  }
+  function current() { const d = {}; fields.forEach(f => d[f] = $('f-' + f).value.trim()); return d; }
+  function render() { const h = sigHTML(current()); $('preview').innerHTML = h; $('html').value = h; }
+  fields.forEach(f => $('f-' + f).addEventListener('input', render));
+
+  function pick(m, btn) {
+    $('f-name').value = m.name || ''; $('f-title').value = m.title || ''; $('f-phone').value = m.phone || ''; $('f-email').value = m.email || ''; $('f-license').value = m.license || ''; $('f-cal').value = '';
+    document.querySelectorAll('.members button').forEach(b => b.classList.remove('on')); if (btn) btn.classList.add('on');
+    render();
+  }
+  async function loadRoster() {
+    const box = $('members');
+    try {
+      const url = 'https://docs.google.com/spreadsheets/d/' + SHEET_ID + '/gviz/tq?tqx=out:json&headers=1&sheet=Form%20Responses%201&t=' + Date.now();
+      const txt = await (await fetch(url, { cache: 'no-store' })).text();
+      const j = JSON.parse(txt.slice(txt.indexOf('(') + 1, txt.lastIndexOf(')')));
+      const cols = j.table.cols.map(c => String(c.label || '').trim().toLowerCase());
+      const ix = n => cols.indexOf(n);
+      const seen = new Map();
+      (j.table.rows || []).forEach(r => {
+        const g = i => (i >= 0 && r.c[i] && r.c[i].v != null) ? String(r.c[i].v).trim() : '';
+        const m = { name: g(ix('name')), title: g(ix('title')), phone: g(ix('phone')), email: g(ix('email')), license: g(ix('license')), active: g(ix('active')) };
+        if (!m.name) return;
+        const key = (m.email || m.name).toLowerCase();
+        if (/^removed$/i.test(m.active)) seen.delete(key); else seen.set(key, m);
+      });
+      const list = [...seen.values()];
+      box.innerHTML = list.length ? list.map((m, i) => '<button type="button" data-i="' + i + '">' + esc(m.name) + '<small>' + esc(m.title || m.email || '') + '</small></button>').join('') : '<div class="status">No one on the Team Roster yet. Fill in the details by hand.</div>';
+      box.querySelectorAll('button').forEach(b => b.addEventListener('click', () => pick(list[+b.dataset.i], b)));
+      if (list.length) pick(list[0], box.querySelector('button'));
+    } catch (e) {
+      box.innerHTML = '<div class="status">Roster unavailable; fill in the details by hand.</div>';
+      $('f-name').value = 'Gabe Jeudy-Lally'; $('f-title').value = 'Founder'; $('f-phone').value = '(737) 600-5101'; $('f-email').value = 'gabe@victoryformationventures.com'; render();
+    }
+  }
+  $('copy-rich').addEventListener('click', async () => {
+    const h = sigHTML(current());
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ 'text/html': new Blob([h], { type: 'text/html' }), 'text/plain': new Blob([$('preview').innerText], { type: 'text/plain' }) })]);
+      $('status').textContent = 'Signature copied. Paste it into Gmail\'s signature box.';
+    } catch (e) {
+      const range = document.createRange(); range.selectNodeContents($('preview')); const sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      document.execCommand('copy'); sel.removeAllRanges();
+      $('status').textContent = 'Signature copied (selection method). Paste it into Gmail\'s signature box.';
+    }
+  });
+  $('copy-html').addEventListener('click', () => navigator.clipboard.writeText(sigHTML(current())).then(() => $('status').textContent = 'HTML copied.'));
+  $('download').addEventListener('click', () => {
+    const d = current(); const blob = new Blob(['<!doctype html><meta charset="utf-8">' + sigHTML(d)], { type: 'text/html' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = (d.name || 'signature').replace(/[^a-z0-9]+/gi, '-') + '-signature.html'; a.click();
+  });
+  render(); loadRoster();
+})();
+</script>
+</body>
+</html>
