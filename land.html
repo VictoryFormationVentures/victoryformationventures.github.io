@@ -1906,7 +1906,7 @@
               </label>
             </div>
             <div style="font-size:11px; color:var(--text-dim); margin-top:6px; line-height:1.5;">
-              Opens Gmail's web composer in a new tab with everything pre-filled — sends from whichever Google account you're currently signed into. Make sure you're logged into the Google account you send business email from, then just hit Send in Gmail. (If you want your OS mail app instead, use the "mailto:" fallback.) Pick the department and the recipient, subject and body change to match; the address, parcel, owner, zoning and flood zone from the last Property Lookup are carried in. Departments that only take web portals get an Open portal button instead. Edit the To field if you have a direct contact.
+              Opens Gmail's web composer in a new tab with everything pre-filled — sends from whichever Google account you're currently signed into. Make sure you're logged into the Google account you send business email from, then just hit Send in Gmail. (If you want your OS mail app instead, use the "mailto:" fallback.) Open in Gmail opens the agent's VFV account with your saved signature already on the email and puts the message on your clipboard to paste in (Gmail drops signatures when a link pre-fills the body). Pick the department and the recipient, subject and body change to match; the address, parcel, owner, zoning and flood zone from the last Property Lookup are carried in. Departments that only take web portals get an Open portal button instead. Edit the To field if you have a direct contact.
             </div>
             <div class="mini-modal-foot">
               <div style="flex:1;"></div>
@@ -4279,13 +4279,28 @@
       e.preventDefault();
       const f = _ezReadFields();
       if (!f) return;
+      const acct = LAND_AGENT_EMAILS[f.agent] || '';
       const url = 'https://mail.google.com/mail/?view=cm&fs=1'
+                + (acct ? '&authuser=' + encodeURIComponent(acct) : '')
                 + '&to='   + encodeURIComponent(f.to)
-                + '&su='   + encodeURIComponent(f.subject)
-                + '&body=' + encodeURIComponent(f.body);
+                + '&su='   + encodeURIComponent(f.subject);
+      const copied = navigator.clipboard && navigator.clipboard.writeText ? navigator.clipboard.writeText(f.body).then(() => true, () => false) : Promise.resolve(false);
       window.open(url, '_blank', 'noopener');
       _closeMiniModal('ez-modal');
+      copied.then(ok => _vfvToast(ok
+        ? 'Gmail opened' + (acct ? ' as ' + acct : '') + ' with your signature. Your message is on the clipboard: click into the email and press \u2318V (Ctrl+V) to paste it above the signature.'
+        : 'Gmail opened with your signature. Copy the message text from the Contact City Departments window and paste it above the signature.', 9000));
     });
+    function _vfvToast(msg, ms) {
+      let t = document.getElementById('vfv-toast');
+      if (!t) {
+        t = document.createElement('div'); t.id = 'vfv-toast';
+        t.style.cssText = 'position:fixed; left:50%; bottom:28px; transform:translateX(-50%); max-width:min(560px, calc(100vw - 32px)); background:#101010; color:#fefefe; font:13px/1.5 var(--font-body, system-ui); padding:14px 18px; border:1px solid #8a7a4b; box-shadow:0 12px 40px rgba(0,0,0,.35); z-index:99999; display:none;';
+        document.body.appendChild(t);
+      }
+      t.textContent = msg; t.style.display = 'block';
+      clearTimeout(t._h); t._h = setTimeout(() => { t.style.display = 'none'; }, ms || 6000);
+    }
 
     /* =========================================================
        CLIENT REPORT — one-click PDF of the current Property Lookup
