@@ -360,6 +360,12 @@
     .la-table td b { color: var(--text); font-weight: 600; }
     .la-table td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .la-table a { color: var(--accent); }
+    .la-price { width: 92px; font: inherit; font-size: 12px; padding: 4px 6px; border: 1px solid var(--rule-strong, var(--rule)); background: var(--bg, #fefefe); color: var(--text); text-align: right; }
+    .la-price:focus { outline: none; border-color: var(--accent); }
+    .la-find { display: block; font-size: 10px; letter-spacing: .06em; margin-top: 3px; white-space: nowrap; }
+    .la-find a { margin-right: 6px; }
+    .la-target { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; padding: 10px 12px; margin: 0 0 12px; border: 1px solid var(--rule); background: var(--bg, #fefefe); font-size: 12px; color: var(--text-muted); }
+    .la-target b { color: var(--text); }
     .la-chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .la-chip { font-size: 11.5px; padding: 6px 10px; border: 1px solid var(--rule-strong, var(--rule)); background: var(--bg, #fefefe); color: var(--text); }
     .la-chip small { color: var(--text-dim); margin-left: 6px; }
@@ -4885,6 +4891,39 @@
       return [...m.values()].sort((a, b) => b.n - a.n).slice(0, n);
     }
 
+    // Texas is non-disclosure, so sale prices are typed in by hand (from Unlock MLS, a broker, the
+    // seller, or a Zillow/Redfin "sold" page) and kept in this browser, keyed by county + parcel.
+    const PRICE_KEY = 'vfv.prices';
+    function loadPrices() { try { return JSON.parse(localStorage.getItem(PRICE_KEY) || '{}'); } catch (e) { return {}; } }
+    function savePrice(k, v) { const m = loadPrices(); if (v) m[k] = v; else delete m[k]; try { localStorage.setItem(PRICE_KEY, JSON.stringify(m)); } catch (e) {} }
+    function priceKey(r) { return r.src + ':' + (r.id || r.inst || r.address); }
+    function parseUSD(v) { const n = parseFloat(String(v || '').replace(/[^0-9.]/g, '')); return isFinite(n) && n > 0 ? n : null; }
+    function median(a) { if (!a.length) return null; const s = a.slice().sort((x, y) => x - y); return s[Math.floor(s.length / 2)]; }
+    function findLinks(r, ctx) {
+      const q = encodeURIComponent((r.address || '') + ' TX ' + (ctx.zip || ''));
+      return '<span class="la-find"><a href="https://www.zillow.com/homes/' + q + '_rb/" target="_blank" rel="noopener" title="Zillow often shows the sold price when the land traded through the MLS">Zillow</a>' +
+        '<a href="https://www.redfin.com/search?q=' + q + '" target="_blank" rel="noopener">Redfin</a>' +
+        '<a href="https://www.google.com/search?q=' + q + '+sold" target="_blank" rel="noopener">Search</a></span>';
+    }
+    function priceSummary(box) {
+      const d = box._data; if (!d) return;
+      const prices = loadPrices();
+      const rows = d.transfers.map(r => ({ r, p: prices[priceKey(r)] })).filter(x => x.p && x.r.acres);
+      const perAc = rows.map(x => x.p / x.r.acres);
+      const cadPerAc = d.transfers.filter(r => r.landVal && r.acres).map(r => r.landVal / r.acres);
+      const tile = box.querySelector('[data-tile="paid"]');
+      if (tile) { tile.querySelector('.v').innerHTML = (perAc.length ? esc(fmtUSD(median(perAc))) : '—') + ' <small>' + (perAc.length ? perAc.length + ' price' + (perAc.length > 1 ? 's' : '') + ' entered' : 'enter sale prices below') + '</small>'; }
+      const tgt = box.querySelector('.la-target'); if (!tgt) return;
+      const my = parseUSD(tgt.querySelector('.la-mytarget').value);
+      const out = tgt.querySelector('.la-target-out');
+      const bits = [];
+      if (perAc.length) bits.push('Builders/LLCs paid a median of <b>' + esc(fmtUSD(median(perAc))) + '/ac</b> (' + perAc.length + ' known price' + (perAc.length > 1 ? 's' : '') + ')');
+      if (cadPerAc.length) bits.push('CAD land value median <b>' + esc(fmtUSD(median(cadPerAc))) + '/ac</b>' + (perAc.length && median(cadPerAc) ? ' · known prices run <b>' + (median(perAc) / median(cadPerAc)).toFixed(2) + '×</b> CAD' : ''));
+      if (my && perAc.length) { const ratio = my / median(perAc); bits.push('Your target of <b>' + esc(fmtUSD(my)) + '/ac</b> is <b>' + (ratio < 1 ? Math.round((1 - ratio) * 100) + '% under' : ratio > 1 ? Math.round((ratio - 1) * 100) + '% over' : 'right at') + '</b> what they paid'); }
+      else if (my && cadPerAc.length) bits.push('Your target of <b>' + esc(fmtUSD(my)) + '/ac</b> is <b>' + (my / median(cadPerAc)).toFixed(2) + '×</b> the CAD land median');
+      out.innerHTML = bits.join(' &nbsp;·&nbsp; ') || 'Type in sale prices as you confirm them and this line compares them to your target.';
+    }
+
     function render(box, { transfers, permits, errors, ctx }) {
       const meta = LA_META[ctx.city] || {};
       const withVal = transfers.filter(r => r.landVal && r.acres);
@@ -4896,7 +4935,7 @@
       h += '<div class="la-tiles">' +
         tile('LLC land buys', transfers.length, 'last ' + ctx.months + ' mo') +
         tile('Median appraised $/ac', medPerAc ? fmtUSD(medPerAc) : '—', 'land value') +
-        tile('Avg appraised $/ac', avgPerAc ? fmtUSD(avgPerAc) : '—', withVal.length + ' with values') +
+        tile('Median $/ac paid', '—', 'enter sale prices below').replace('<div class="la-tile">', '<div class="la-tile" data-tile="paid">') +
         tile('New-build permits', permits.length, 'City of Austin') +
         tile('Most active', builders[0] ? titleCase(builders[0].name).replace(/\*+/g, ' ').trim().slice(0, 26) : (buyers[0] ? titleCase(buyers[0].name).slice(0, 26) : '—'), builders[0] ? builders[0].n + ' permits' : (buyers[0] ? buyers[0].n + ' parcels' : '')) +
         '</div>';
@@ -4910,10 +4949,14 @@
 
       h += '<div class="la-sec"><h4><span>Recent LLC land buys · ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac · ZIP ' + esc(ctx.zip) + '</span></h4>';
       if (transfers.length) {
-        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">Appraised land</th><th class="num">$/ac</th><th>Record</th><th></th></tr></thead><tbody>';
+        const prices = loadPrices();
+        h += '<div class="la-target"><span>Your target price</span><input type="text" class="la-price la-mytarget" placeholder="$/acre" value="' + esc(localStorage.getItem('vfv.target.' + ctx.zip) || '') + '"><span class="la-target-out" style="flex:1 1 320px;"></span></div>';
+        h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">CAD land</th><th class="num">CAD total</th><th class="num" title="Texas does not publish sale prices. Type the price in when you confirm it (MLS sold data, Zillow/Redfin sold page, seller or broker) and it is kept on this device.">Sale price</th><th class="num">Paid $/ac</th><th>Record</th><th></th></tr></thead><tbody>';
         transfers.slice(0, 60).forEach((r, i) => {
-          h += '<tr' + (i >= 12 ? ' class="la-more" hidden' : '') + '><td>' + esc(r.dateLabel) + '</td><td><b>' + esc(titleCase(r.owner)) + '</b>' + (r.impVal > 5000 ? '<br><small style="color:var(--text-dim)">has improvements</small>' : '') + '</td><td>' + esc(titleCase(r.address)) + (r.use ? '<br><small style="color:var(--text-dim)">' + esc(r.use) + '</small>' : '') + '</td>' +
-            '<td class="num">' + (r.acres != null ? r.acres.toFixed(2) : '—') + '</td><td class="num">' + fmtUSD(r.landVal) + '</td><td class="num">' + (r.landVal && r.acres ? fmtUSD(r.landVal / r.acres) : '—') + '</td>' +
+          const pk = priceKey(r), pv = prices[pk] || null;
+          h += '<tr' + (i >= 12 ? ' class="la-more" hidden' : '') + '><td>' + esc(r.dateLabel) + '</td><td><b>' + esc(titleCase(r.owner)) + '</b>' + (r.impVal > 5000 ? '<br><small style="color:var(--text-dim)">has improvements</small>' : '') + '</td><td>' + esc(titleCase(r.address)) + (r.use ? '<br><small style="color:var(--text-dim)">' + esc(r.use) + '</small>' : '') + findLinks(r, ctx) + '</td>' +
+            '<td class="num">' + (r.acres != null ? r.acres.toFixed(2) : '—') + '</td><td class="num">' + fmtUSD(r.landVal) + '<br><small style="color:var(--text-dim)">' + (r.landVal && r.acres ? fmtUSD(r.landVal / r.acres) + '/ac' : '') + '</small></td><td class="num">' + fmtUSD((r.landVal || 0) + (r.impVal || 0)) + '</td>' +
+            '<td class="num"><input type="text" class="la-price" data-pk="' + esc(pk) + '" data-i="' + i + '" placeholder="$" value="' + (pv ? esc(fmtUSD(pv)) : '') + '"></td><td class="num la-paid" data-i="' + i + '">' + (pv && r.acres ? fmtUSD(pv / r.acres) : '—') + '</td>' +
             '<td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.linkLabel) + '</a>' : '') + '</td>' +
             '<td class="la-acts"><button type="button" class="la-act" data-act="lead" data-i="' + i + '" title="Save as Hot Lead">+ Lead</button><button type="button" class="la-act" data-act="letter" data-i="' + i + '" title="Owner outreach letter">Letter</button></td></tr>';
         });
@@ -4938,9 +4981,18 @@
       h += '</div>';
 
       if (errors.length) h += '<div class="la-note">Some sources did not answer: ' + errors.map(esc).join(' · ') + '</div>';
-      h += '<div class="la-note"><b>Why there is no sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it. "Appraised land" is the CAD’s land-only market value, a floor reference, not a comp. Real land comps come from Unlock MLS sold data (or a broker letter). Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
+      h += '<div class="la-note"><b>About the Sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it, so no feed can fill that column automatically. When you confirm a price (Unlock MLS sold data, a Zillow or Redfin sold page, the seller or broker) type it in and it stays on this device; Paid $/ac, the Median $/ac paid tile and the target line update on their own. "CAD land" is the appraisal district’s land-only value (a floor, not a comp) and "CAD total" adds improvements; the year-after-sale CAD total is usually the closest public proxy for what was paid. Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
       box.innerHTML = h;
       box._data = { transfers: transfers.slice(0, 60), permits: permits.slice(0, 60), builders, ctx, meta };
+      box.querySelectorAll('.la-price:not(.la-mytarget)').forEach(inp => inp.addEventListener('change', () => {
+        const v = parseUSD(inp.value); savePrice(inp.dataset.pk, v); inp.value = v ? fmtUSD(v) : '';
+        const r = box._data.transfers[+inp.dataset.i]; const cell = box.querySelector('.la-paid[data-i="' + inp.dataset.i + '"]');
+        if (cell) cell.textContent = v && r && r.acres ? fmtUSD(v / r.acres) : '—';
+        priceSummary(box);
+      }));
+      const mt = box.querySelector('.la-mytarget');
+      if (mt) mt.addEventListener('input', () => { try { localStorage.setItem('vfv.target.' + ctx.zip, mt.value); } catch (e) {} priceSummary(box); });
+      priceSummary(box);
       box.querySelectorAll('.la-toggle').forEach(b => { b.dataset.label = b.textContent; b.addEventListener('click', () => { const hid = b.closest('.la-sec').querySelectorAll('.la-more'); const open = b.dataset.open === '1'; hid.forEach(tr => { tr.hidden = open; }); b.dataset.open = open ? '0' : '1'; b.textContent = open ? b.dataset.label : 'Show fewer'; }); });
     }
     document.addEventListener('click', e => {
