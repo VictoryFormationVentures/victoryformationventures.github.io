@@ -4905,10 +4905,47 @@
         '<a href="https://www.redfin.com/search?q=' + q + '" target="_blank" rel="noopener">Redfin</a>' +
         '<a href="https://www.google.com/search?q=' + q + '+sold" target="_blank" rel="noopener">Search</a></span>';
     }
+    // Zillow sold-land feed (assets/land/zillow-land-sold.json, refreshed by a GitHub Action):
+    // MLS sales carry a price there, so any CAD transfer whose street + ZIP matches gets it filled in.
+    let _zSold = null;
+    function zillowSold() {
+      if (_zSold) return _zSold;
+      _zSold = fetch('assets/land/zillow-land-sold.json?t=' + Math.floor(Date.now() / 3600000), { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => {
+        const idx = new Map(); if (!j || !j.rows) return { idx, updatedAt: null };
+        j.rows.forEach(r => { const k = addrKey(r[1], r[3]); if (k && !idx.has(k)) idx.set(k, { price: r[0], acres: r[4], sold: r[5], url: r[9] }); });
+        return { idx, updatedAt: j.updatedAt };
+      }).catch(() => ({ idx: new Map(), updatedAt: null }));
+      return _zSold;
+    }
+    const SUFFIX = { ROAD: 'RD', DRIVE: 'DR', LANE: 'LN', STREET: 'ST', COURT: 'CT', BOULEVARD: 'BLVD', TRAIL: 'TRL', HIGHWAY: 'HWY', CIRCLE: 'CIR', PLACE: 'PL', AVENUE: 'AVE', PARKWAY: 'PKWY', COVE: 'CV', TERRACE: 'TER', PASS: 'PASS', LOOP: 'LOOP', WAY: 'WAY', BEND: 'BND', RIDGE: 'RDG', HOLLOW: 'HOLW', CROSSING: 'XING', TRACE: 'TRCE', POINT: 'PT', RUN: 'RUN', PATH: 'PATH', VIEW: 'VW', HILL: 'HL', CREEK: 'CRK', NORTH: 'N', SOUTH: 'S', EAST: 'E', WEST: 'W', FARM: 'FM', ROUTE: 'RT' };
+    function addrKey(street, zip) {
+      let t = String(street || '').toUpperCase().replace(/[.,#]/g, ' ').replace(/\b(UNIT|LOT|APT|STE|BLDG|TRACT)\b.*$/, '').replace(/\s+/g, ' ').trim();
+      if (!/^\d/.test(t)) return '';
+      t = t.split(' ').map(w => SUFFIX[w] || w).join(' ');
+      return t + '|' + String(zip || '').slice(0, 5);
+    }
+    async function applyZillow(box) {
+      const d = box._data; if (!d) return;
+      const z = await zillowSold(); if (!z.idx.size || box._data !== d) return;
+      const manual = loadPrices(); let n = 0;
+      d.transfers.forEach((r, i) => {
+        const hit = z.idx.get(addrKey(r.address, d.ctx.zip)); if (!hit || !hit.price) return;
+        r.zillow = hit; n++;
+        const pk = priceKey(r);
+        if (manual[pk]) return;
+        const inp = box.querySelector('.la-price[data-i="' + i + '"]'); const cell = box.querySelector('.la-paid[data-i="' + i + '"]');
+        if (inp) { inp.value = fmtUSD(hit.price); inp.dataset.auto = '1'; inp.title = 'From Zillow (MLS sale' + (hit.sold ? ', ' + fmtDate(new Date(hit.sold)) : '') + '). Type over it if you know better.'; inp.style.borderColor = 'var(--accent)'; }
+        if (cell && r.acres) cell.innerHTML = fmtUSD(hit.price / r.acres) + '<br><small style="color:var(--text-dim)">' + (hit.url ? '<a href="' + esc(hit.url) + '" target="_blank" rel="noopener">MLS via Zillow</a>' : 'MLS via Zillow') + '</small>';
+      });
+      const note = box.querySelector('.la-zillow-note');
+      if (note) note.textContent = n ? n + ' of these sold through the MLS; Zillow prices filled in (gold outline). ' : 'None of these match a Zillow MLS sale, so they were off-market: type in prices as you learn them. ';
+      if (note && z.updatedAt) note.textContent += 'Feed refreshed ' + z.updatedAt.slice(0, 10) + '.';
+      priceSummary(box);
+    }
     function priceSummary(box) {
       const d = box._data; if (!d) return;
       const prices = loadPrices();
-      const rows = d.transfers.map(r => ({ r, p: prices[priceKey(r)] })).filter(x => x.p && x.r.acres);
+      const rows = d.transfers.map(r => ({ r, p: prices[priceKey(r)] || (r.zillow && r.zillow.price) || null })).filter(x => x.p && x.r.acres);
       const perAc = rows.map(x => x.p / x.r.acres);
       const cadPerAc = d.transfers.filter(r => r.landVal && r.acres).map(r => r.landVal / r.acres);
       const tile = box.querySelector('[data-tile="paid"]');
@@ -4950,7 +4987,7 @@
       h += '<div class="la-sec"><h4><span>Recent LLC land buys · ' + esc(ctx.minAc) + '–' + esc(ctx.maxAc) + ' ac · ZIP ' + esc(ctx.zip) + '</span></h4>';
       if (transfers.length) {
         const prices = loadPrices();
-        h += '<div class="la-target"><span>Your target price</span><input type="text" class="la-price la-mytarget" placeholder="$/acre" value="' + esc(localStorage.getItem('vfv.target.' + ctx.zip) || '') + '"><span class="la-target-out" style="flex:1 1 320px;"></span></div>';
+        h += '<div class="la-target"><span>Your target price</span><input type="text" class="la-price la-mytarget" placeholder="$/acre" value="' + esc(localStorage.getItem('vfv.target.' + ctx.zip) || '') + '"><span class="la-target-out" style="flex:1 1 320px;"></span><span class="la-zillow-note" style="flex:1 1 100%; font-size:11px; color:var(--text-dim);">Checking Zillow for MLS sales…</span></div>';
         h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">CAD land</th><th class="num">CAD total</th><th class="num" title="Texas does not publish sale prices. Type the price in when you confirm it (MLS sold data, Zillow/Redfin sold page, seller or broker) and it is kept on this device.">Sale price</th><th class="num">Paid $/ac</th><th>Record</th><th></th></tr></thead><tbody>';
         transfers.slice(0, 60).forEach((r, i) => {
           const pk = priceKey(r), pv = prices[pk] || null;
@@ -4981,18 +5018,19 @@
       h += '</div>';
 
       if (errors.length) h += '<div class="la-note">Some sources did not answer: ' + errors.map(esc).join(' · ') + '</div>';
-      h += '<div class="la-note"><b>About the Sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it, so no feed can fill that column automatically. When you confirm a price (Unlock MLS sold data, a Zillow or Redfin sold page, the seller or broker) type it in and it stays on this device; Paid $/ac, the Median $/ac paid tile and the target line update on their own. "CAD land" is the appraisal district’s land-only value (a floor, not a comp) and "CAD total" adds improvements; the year-after-sale CAD total is usually the closest public proxy for what was paid. Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
+      h += '<div class="la-note"><b>About the Sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it, so nothing public carries it. The dashboard checks a Zillow feed of MLS land sales (refreshed twice a week) and fills the price for any comp that sold through the MLS; the rest were off-market. When you confirm a price (Unlock MLS sold data, a Zillow or Redfin sold page, the seller or broker) type it in and it stays on this device; Paid $/ac, the Median $/ac paid tile and the target line update on their own. "CAD land" is the appraisal district’s land-only value (a floor, not a comp) and "CAD total" adds improvements; the year-after-sale CAD total is usually the closest public proxy for what was paid. Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
       box.innerHTML = h;
       box._data = { transfers: transfers.slice(0, 60), permits: permits.slice(0, 60), builders, ctx, meta };
       box.querySelectorAll('.la-price:not(.la-mytarget)').forEach(inp => inp.addEventListener('change', () => {
-        const v = parseUSD(inp.value); savePrice(inp.dataset.pk, v); inp.value = v ? fmtUSD(v) : '';
+        const v = parseUSD(inp.value); savePrice(inp.dataset.pk, v); inp.value = v ? fmtUSD(v) : ''; delete inp.dataset.auto; inp.style.borderColor = '';
+        const rr = box._data.transfers[+inp.dataset.i]; if (!v && rr && rr.zillow) { inp.value = fmtUSD(rr.zillow.price); inp.dataset.auto = '1'; inp.style.borderColor = 'var(--accent)'; }
         const r = box._data.transfers[+inp.dataset.i]; const cell = box.querySelector('.la-paid[data-i="' + inp.dataset.i + '"]');
         if (cell) cell.textContent = v && r && r.acres ? fmtUSD(v / r.acres) : '—';
         priceSummary(box);
       }));
       const mt = box.querySelector('.la-mytarget');
       if (mt) mt.addEventListener('input', () => { try { localStorage.setItem('vfv.target.' + ctx.zip, mt.value); } catch (e) {} priceSummary(box); });
-      priceSummary(box);
+      priceSummary(box); applyZillow(box);
       box.querySelectorAll('.la-toggle').forEach(b => { b.dataset.label = b.textContent; b.addEventListener('click', () => { const hid = b.closest('.la-sec').querySelectorAll('.la-more'); const open = b.dataset.open === '1'; hid.forEach(tr => { tr.hidden = open; }); b.dataset.open = open ? '0' : '1'; b.textContent = open ? b.dataset.label : 'Show fewer'; }); });
     }
     document.addEventListener('click', e => {

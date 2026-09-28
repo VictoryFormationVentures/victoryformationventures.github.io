@@ -10,8 +10,10 @@ const OUT = "assets/land/zillow-land-sold.json";
 const UA = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
 const AREA = { west: -98.35, east: -97.25, south: 29.8, north: 30.9 };
 const GRID = 4;               // 4x4 tiles over the tri-county box; tiles with >500 results split again
-const MAX_PAGES = 13;         // Zillow caps a search at ~500 results (41 per page)
+const MAX_PAGES = 12;         // Zillow caps a search at ~500 results (41 per page)
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const GAP = 7000;            // Zillow rate-limits bursts (HTTP 429 after ~7 quick requests); go slow and back off
+const MAX_REQUESTS = 90;
 
 function query(bounds, p) {
   return { isMapVisible: true, mapBounds: bounds, isListVisible: true, pagination: { currentPage: p },
@@ -21,24 +23,34 @@ function query(bounds, p) {
       nc: { value: false }, auc: { value: false }, fore: { value: false } } };
 }
 
-let requests = 0;
+let requests = 0, dumped = false;
 async function page(bounds, p) {
+  if (requests >= MAX_REQUESTS) throw new Error("request budget spent");
   const url = "https://www.zillow.com/homes/recently_sold/?searchQueryState=" + encodeURIComponent(JSON.stringify(query(bounds, p)));
-  requests++;
-  const res = await fetch(url, { headers: { "User-Agent": UA, "Accept": "text/html,application/xhtml+xml", "Accept-Language": "en-US,en;q=0.9" } });
-  const html = await res.text();
+  let res, html;
+  for (let attempt = 0; attempt < 3; attempt++) {
+    requests++;
+    res = await fetch(url, { headers: { "User-Agent": UA, "Accept": "text/html,application/xhtml+xml", "Accept-Language": "en-US,en;q=0.9" } });
+    html = await res.text();
+    if (res.status !== 429) break;
+    console.log(`429 on attempt ${attempt + 1}; backing off`); await sleep(45000 * (attempt + 1));
+  }
   const m = html.match(/<script id="__NEXT_DATA__"[^>]*>([\s\S]*?)<\/script>/);
-  if (!res.ok || !m) throw new Error(`HTTP ${res.status}, next_data=${!!m}`);
+  if (!res.ok || !m) throw new Error(`HTTP ${res.status}, next_data=${!!m}, title=${(html.match(/<title>([^<]*)/) || [])[1] || ""}`);
   const sp = JSON.parse(m[1]).props.pageProps.searchPageState;
   const total = sp.cat1?.searchList?.totalResultCount ?? 0;
-  const list = sp.cat1?.searchResults?.listResults || [];
+  let list = sp.cat1?.searchResults?.listResults || [];
+  if (!list.length) list = sp.cat1?.searchResults?.mapResults || [];
+  if (!dumped && list.length) { dumped = true; const x = list[0]; console.log("sample keys:", Object.keys(x).join(",")); console.log("sample homeInfo:", JSON.stringify(x.hdpData?.homeInfo || {}).slice(0, 600)); console.log("sample price/addr:", x.price, x.unformattedPrice, x.address, x.addressStreet); }
+  const num = (v) => { const n = parseFloat(String(v ?? "").replace(/[^0-9.]/g, "")); return isFinite(n) && n > 0 ? n : null; };
   const rows = list.map((x) => {
     const h = x.hdpData?.homeInfo || {};
     let acres = null;
     if (h.lotAreaValue) acres = /sqft/i.test(h.lotAreaUnit || "") ? h.lotAreaValue / 43560 : h.lotAreaValue;
-    const price = x.unformattedPrice || h.price || null;
-    return [price, x.addressStreet || h.streetAddress || "", x.addressCity || h.city || "", String(x.addressZipcode || h.zipcode || ""),
-      acres != null ? +acres.toFixed(3) : null, h.dateSold || null, String(x.zpid || h.zpid || ""), h.latitude ?? null, h.longitude ?? null, x.detailUrl ? "https://www.zillow.com" + x.detailUrl : ""];
+    const price = num(x.unformattedPrice) || num(h.price) || num(x.price);
+    let street = x.addressStreet || h.streetAddress || "", city = x.addressCity || h.city || "", zip = String(x.addressZipcode || h.zipcode || "");
+    if (!street && x.address) { const parts = String(x.address).split(","); street = parts[0].trim(); city = city || (parts[1] || "").trim(); zip = zip || ((parts[2] || "").match(/\d{5}/) || [""])[0]; }
+    return [price, street, city, zip, acres != null ? +acres.toFixed(3) : null, h.dateSold || null, String(x.zpid || h.zpid || ""), h.latitude ?? x.latLong?.latitude ?? null, h.longitude ?? x.latLong?.longitude ?? null, x.detailUrl ? (x.detailUrl.startsWith("http") ? x.detailUrl : "https://www.zillow.com" + x.detailUrl) : ""];
   }).filter((r) => r[0] && r[1] && r[3]);
   return { total, rows, raw: list.length };
 }
@@ -48,14 +60,15 @@ async function crawl(bounds, depth) {
   let first;
   try { first = await page(bounds, 1); } catch (e) { console.error("tile failed:", e.message); return; }
   first.rows.forEach((r) => all.set(r[6], r));
+  console.log(`tile d${depth} [${bounds.west.toFixed(2)},${bounds.south.toFixed(2)}] total=${first.total} raw=${first.raw} parsed=${first.rows.length}`);
   if (first.total > 500 && depth < 2) {
     const mx = (bounds.west + bounds.east) / 2, my = (bounds.south + bounds.north) / 2;
-    for (const b of [{ ...bounds, east: mx, north: my }, { ...bounds, west: mx, north: my }, { ...bounds, east: mx, south: my }, { ...bounds, west: mx, south: my }]) { await sleep(1200); await crawl(b, depth + 1); }
+    for (const b of [{ ...bounds, east: mx, north: my }, { ...bounds, west: mx, north: my }, { ...bounds, east: mx, south: my }, { ...bounds, west: mx, south: my }]) { await sleep(GAP); await crawl(b, depth + 1); }
     return;
   }
   const pages = Math.min(MAX_PAGES, Math.ceil(first.total / 41));
   for (let p = 2; p <= pages; p++) {
-    await sleep(1200);
+    await sleep(GAP);
     try { const r = await page(bounds, p); r.rows.forEach((x) => all.set(x[6], x)); if (r.raw === 0) break; }
     catch (e) { console.error(`tile page ${p} failed:`, e.message); break; }
   }
@@ -64,7 +77,7 @@ async function crawl(bounds, depth) {
 const dx = (AREA.east - AREA.west) / GRID, dy = (AREA.north - AREA.south) / GRID;
 for (let i = 0; i < GRID; i++) for (let j = 0; j < GRID; j++) {
   await crawl({ west: AREA.west + i * dx, east: AREA.west + (i + 1) * dx, south: AREA.south + j * dy, north: AREA.south + (j + 1) * dy }, 0);
-  await sleep(1200);
+  await sleep(GAP);
 }
 
 const rows = [...all.values()].sort((a, b) => (b[5] || 0) - (a[5] || 0));
