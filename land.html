@@ -4848,7 +4848,7 @@
       return (d.features || []).map(f => f.attributes).map(a => {
         const ac = parseFloat(a.Acres || a.AssessedAc || a.StatedAc);
         const inst = String(a.InstrumentNumber || '');
-        return { src: 'WCAD', id: a.PARCELID || '', ownerMail: a.MailingAddress || a.PSTLADDRESS || '', owner: a.OWNERNME1 || '', date: inst ? new Date(inst.slice(0, 4), 0, 1) : null, dateLabel: inst ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—',
+        return { src: 'WCAD', inst, id: a.PARCELID || '', ownerMail: a.MailingAddress || a.PSTLADDRESS || '', owner: a.OWNERNME1 || '', date: inst ? new Date(inst.slice(0, 4), 0, 1) : null, dateLabel: inst ? inst.slice(0, 4) + ' (instr. ' + inst + ')' : '—',
           acres: isFinite(ac) ? ac : null, landVal: a.TotalLandMktValue || null, impVal: a.TotalImpMktValue || 0, use: a.USEDSCRP || '',
           address: a.SitusAddress || a.LegalDesc || '', link: a.PARCELID ? 'https://search.wcad.org/Property-Detail/PropertyQuickRefID/' + encodeURIComponent(a.PARCELID) : '', linkLabel: 'WCAD' };
       }).filter(r => r.acres == null || (r.acres >= minAc && r.acres <= maxAc));
@@ -4991,7 +4991,8 @@
         h += '<div class="la-tablewrap"><table class="la-table"><thead><tr><th>Recorded</th><th>Buyer</th><th>Address / legal</th><th class="num">Acres</th><th class="num">CAD land</th><th class="num">CAD total</th><th class="num" title="Texas does not publish sale prices. Type the price in when you confirm it (MLS sold data, Zillow/Redfin sold page, seller or broker) and it is kept on this device.">Sale price</th><th class="num">Paid $/ac</th><th>Record</th><th></th></tr></thead><tbody>';
         transfers.slice(0, 60).forEach((r, i) => {
           const pk = priceKey(r), pv = prices[pk] || null;
-          h += '<tr' + (i >= 12 ? ' class="la-more" hidden' : '') + '><td>' + esc(r.dateLabel) + '</td><td><b>' + esc(titleCase(r.owner)) + '</b>' + (r.impVal > 5000 ? '<br><small style="color:var(--text-dim)">has improvements</small>' : '') + '</td><td>' + esc(titleCase(r.address)) + (r.use ? '<br><small style="color:var(--text-dim)">' + esc(r.use) + '</small>' : '') + findLinks(r, ctx) + '</td>' +
+          const recorded = (r.src === 'Hays CAD' || !r.inst) ? esc(r.dateLabel) : esc(String(r.inst).slice(0, 4)) + '<br><small style="color:var(--text-dim)">instr. ' + esc(r.inst) + (r.link ? ' · <a href="' + esc(r.link) + '" target="_blank" rel="noopener">exact date ↗</a>' : '') + '</small>';
+          h += '<tr' + (i >= 12 ? ' class="la-more" hidden' : '') + '><td>' + recorded + '</td><td><b>' + esc(titleCase(r.owner)) + '</b>' + (r.impVal > 5000 ? '<br><small style="color:var(--text-dim)">has improvements</small>' : '') + '</td><td>' + esc(titleCase(r.address)) + (r.use ? '<br><small style="color:var(--text-dim)">' + esc(r.use) + '</small>' : '') + findLinks(r, ctx) + '</td>' +
             '<td class="num">' + (r.acres != null ? r.acres.toFixed(2) : '—') + '</td><td class="num">' + fmtUSD(r.landVal) + '<br><small style="color:var(--text-dim)">' + (r.landVal && r.acres ? fmtUSD(r.landVal / r.acres) + '/ac' : '') + '</small></td><td class="num">' + fmtUSD((r.landVal || 0) + (r.impVal || 0)) + '</td>' +
             '<td class="num"><input type="text" class="la-price" data-pk="' + esc(pk) + '" data-i="' + i + '" placeholder="$" value="' + (pv ? esc(fmtUSD(pv)) : '') + '"></td><td class="num la-paid" data-i="' + i + '">' + (pv && r.acres ? fmtUSD(pv / r.acres) : '—') + '</td>' +
             '<td>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener">' + esc(r.linkLabel) + '</a>' : '') + '</td>' +
