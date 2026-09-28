@@ -1,0 +1,36 @@
+name: Refresh Zillow sold land
+
+on:
+  schedule:
+    - cron: "30 11 * * 1,4"   # Mon + Thu, 6:30 AM Central
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Pull sold land from Zillow
+        id: pull
+        continue-on-error: true
+        run: node .github/scripts/zillow-land-sold.mjs
+      - name: Commit if changed
+        if: steps.pull.outcome == 'success'
+        run: |
+          git config user.name "vfv-bot"
+          git config user.email "gabe@victoryformationventures.com"
+          git pull --rebase -q || true
+          if git diff --quiet -- assets/land/zillow-land-sold.json && git ls-files --error-unmatch assets/land/zillow-land-sold.json >/dev/null 2>&1; then
+            echo "no changes"; exit 0; fi
+          git add assets/land/zillow-land-sold.json
+          git commit -m "Land comps: refresh Zillow sold land $(date -u +%Y-%m-%d)"
+          git push
+      - name: Note if Zillow blocked the run
+        if: steps.pull.outcome != 'success'
+        run: echo "::warning::Zillow did not return data this run; previous feed kept."
