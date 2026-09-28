@@ -4926,7 +4926,9 @@
     }
     async function applyZillow(box) {
       const d = box._data; if (!d) return;
-      const z = await zillowSold(); if (!z.idx.size || box._data !== d) return;
+      const z = await zillowSold();
+      if (!z.idx.size) { const n0 = box.querySelector('.la-zillow-note'); if (n0) n0.textContent = 'Zillow, Redfin and Search under each address open the MLS sold price when the deal went through the MLS; off-market deals have none. Type prices in as you confirm them.'; return; }
+      if (box._data !== d) return;
       const manual = loadPrices(); let n = 0;
       d.transfers.forEach((r, i) => {
         const hit = z.idx.get(addrKey(r.address, d.ctx.zip)); if (!hit || !hit.price) return;
@@ -5019,7 +5021,7 @@
       h += '</div>';
 
       if (errors.length) h += '<div class="la-note">Some sources did not answer: ' + errors.map(esc).join(' · ') + '</div>';
-      h += '<div class="la-note"><b>About the Sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it, so nothing public carries it. The dashboard checks a Zillow feed of MLS land sales (refreshed twice a week) and fills the price for any comp that sold through the MLS; the rest were off-market. When you confirm a price (Unlock MLS sold data, a Zillow or Redfin sold page, the seller or broker) type it in and it stays on this device; Paid $/ac, the Median $/ac paid tile and the target line update on their own. "CAD land" is the appraisal district’s land-only value (a floor, not a comp) and "CAD total" adds improvements; the year-after-sale CAD total is usually the closest public proxy for what was paid. Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
+      h += '<div class="la-note"><b>About the Sale price column.</b> Texas is a non-disclosure state: deeds do not record the price and the appraisal districts do not publish it, so nothing public carries it. Deals that went through the MLS show a sold price on Zillow or Redfin (one click under each address); off-market deals have no public price anywhere. When you confirm a price (Unlock MLS sold data, a Zillow or Redfin sold page, the seller or broker) type it in and it stays on this device; Paid $/ac, the Median $/ac paid tile and the target line update on their own. "CAD land" is the appraisal district’s land-only value (a floor, not a comp) and "CAD total" adds improvements; the year-after-sale CAD total is usually the closest public proxy for what was paid. Builder and buyer names here are public deed and permit records; they are exactly the people to call for the Selling and lot-program conversations.</div>';
       box.innerHTML = h;
       box._data = { transfers: transfers.slice(0, 60), permits: permits.slice(0, 60), builders, ctx, meta };
       box.querySelectorAll('.la-price:not(.la-mytarget)').forEach(inp => inp.addEventListener('change', () => {
