@@ -21,7 +21,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================
@@ -33,12 +33,12 @@
       --bg-elev-2:    #f1ece2;
       --text:         #111111;
       --text-muted:   #5a564e;
-      --text-dim:     #8a8579;
+      --text-dim:     #6f6a5f;
       --rule:         #e6dfd2;
       --rule-strong: #d9d0bf;
 
       --font-display: 'Aboreto', 'Cormorant Garamond', serif;
-      --font-body:    'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      --font-body:    'Mulish', 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
       --tracking-wide:   0.25em;
       --tracking-x-wide: 0.35em;
@@ -3359,10 +3359,10 @@
     }
     .hub-role {
       font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
-      color: #8a8579; margin-top: -6px;
+      color: #6f6a5f; margin-top: -6px;
     }
     .hub-card.is-soon .hub-avatar { opacity: .55; }
-    .hub-card.is-soon:hover .hub-avatar { border-color: #8a8579; transform: scale(1); }
+    .hub-card.is-soon:hover .hub-avatar { border-color: #6f6a5f; transform: scale(1); }
     .hub-card.is-soon .hub-name { color: #7a756a; }
     @media (max-width: 640px) {
       .hub-avatar { width: 100px; height: 100px; }
@@ -3469,7 +3469,7 @@
         font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
         color: #5a564e; margin-bottom: 36px;">Internal Dashboard</div>
       <div style="
-        width: 60px; height: 1px; background: #8a7a4b;
+        width: 60px; height: 1px; background: #75663a;
         margin: 0 auto 36px;"></div>
       <label style="
         display: block;
@@ -3493,7 +3493,7 @@
       <div style="
         margin-top: 28px;
         font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
-        color: #8a8579;">Need access? Contact Gabe.</div>
+        color: #6f6a5f;">Need access? Contact Gabe.</div>
     </div>
   </div>
 
@@ -3565,18 +3565,18 @@
           overlay.setAttribute('aria-modal', 'true');
           overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .2s ease;';
           const card = document.createElement('div');
-          card.style.cssText = 'background:#fbf9f4;border:1px solid #8a7a4b;padding:38px 42px;max-width:440px;width:90%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(8px);transition:transform .25s ease;';
+          card.style.cssText = 'background:#fbf9f4;border:1px solid #75663a;padding:38px 42px;max-width:440px;width:90%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(8px);transition:transform .25s ease;';
           card.innerHTML = ''
             + '<h2 style="font-family:\'Aboreto\',\'Times New Roman\',serif;font-size:22px;letter-spacing:.20em;text-transform:uppercase;color:#111111;margin:0 0 8px;font-weight:400;">' + title + '</h2>'
-            + '<p style="font-family:\'Mulish\',sans-serif;font-size:12px;letter-spacing:.05em;color:#8a8579;margin:0 0 26px;line-height:1.5;">' + subtitle + '</p>'
+            + '<p style="font-family:\'Mulish\',sans-serif;font-size:12px;letter-spacing:.05em;color:#6f6a5f;margin:0 0 26px;line-height:1.5;">' + subtitle + '</p>'
             + '<div class="pc-row" style="display:flex;justify-content:center;gap:12px;margin-bottom:14px;"></div>'
             + '<div class="pc-error" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#b03030;margin-bottom:20px;min-height:14px;"></div>'
-            + '<button class="pc-cancel" type="button" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;padding:10px 24px;background:transparent;color:#8a8579;border:1px solid #d9d0bf;cursor:pointer;transition:color .15s,border-color .15s;">Cancel</button>';
+            + '<button class="pc-cancel" type="button" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;padding:10px 24px;background:transparent;color:#6f6a5f;border:1px solid #d9d0bf;cursor:pointer;transition:color .15s,border-color .15s;">Cancel</button>';
           const row       = card.querySelector('.pc-row');
           const errEl     = card.querySelector('.pc-error');
           const cancelBtn = card.querySelector('.pc-cancel');
-          cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.color = '#8a7a4b'; cancelBtn.style.borderColor = '#8a7a4b'; });
-          cancelBtn.addEventListener('mouseleave', () => { cancelBtn.style.color = '#8a8579'; cancelBtn.style.borderColor = '#d9d0bf'; });
+          cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.color = '#75663a'; cancelBtn.style.borderColor = '#75663a'; });
+          cancelBtn.addEventListener('mouseleave', () => { cancelBtn.style.color = '#6f6a5f'; cancelBtn.style.borderColor = '#d9d0bf'; });
           const inputs = [];
           for (let i = 0; i < 4; i++) {
             const inp = document.createElement('input');
@@ -3586,8 +3586,8 @@
             inp.maxLength = 1;
             inp.autocomplete = 'off';
             inp.setAttribute('aria-label', 'Passcode digit ' + (i + 1));
-            inp.style.cssText = 'width:52px;height:64px;background:#fbf9f4;color:#111111;border:1px solid #d9d0bf;font-family:Inter,Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;text-align:center;outline:none;caret-color:#8a7a4b;transition:border-color .15s,background .15s;';
-            inp.addEventListener('focus', () => { inp.style.borderColor = '#8a7a4b'; });
+            inp.style.cssText = 'width:52px;height:64px;background:#fbf9f4;color:#111111;border:1px solid #d9d0bf;font-family:Inter,Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;text-align:center;outline:none;caret-color:#75663a;transition:border-color .15s,background .15s;';
+            inp.addEventListener('focus', () => { inp.style.borderColor = '#75663a'; });
             inp.addEventListener('blur',  () => { inp.style.borderColor = '#d9d0bf'; });
             row.appendChild(inp);
             inputs.push(inp);
@@ -3911,10 +3911,10 @@
           'font-size: 26px', 'font-weight: 500',
           'text-align: center',
           'outline: none',
-          'caret-color: #8a7a4b',
+          'caret-color: #75663a',
           'transition: border-color .15s, background .15s',
         ].join(';');
-        inp.addEventListener('focus', () => { inp.style.borderColor = '#8a7a4b'; });
+        inp.addEventListener('focus', () => { inp.style.borderColor = '#75663a'; });
         inp.addEventListener('blur',  () => { inp.style.borderColor = '#d9d0bf'; });
         row.appendChild(inp);
         inputs.push(inp);
@@ -21814,7 +21814,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         <article class="bb-card" data-id="${_bbEsc(r.id)}" style="background:var(--panel); border:1px solid var(--panel-edge); padding:14px 16px; position:relative;">
           <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:8px;">
             <div style="min-width:0; flex:1;">
-              <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#111111; margin-bottom:2px;">${_bbEsc(r.builder) || '<span style="color:#8a8579;">Unknown builder</span>'}</div>
+              <div style="font-family:var(--font-display); font-size:14px; letter-spacing:.14em; text-transform:uppercase; color:#111111; margin-bottom:2px;">${_bbEsc(r.builder) || '<span style="color:#6f6a5f;">Unknown builder</span>'}</div>
               <div style="font-size:12px; color:var(--text-dim);">${_bbEsc(r.city)}${r.state ? ', ' + _bbEsc(r.state) : ''}</div>
             </div>
             <div style="text-align:right; white-space:nowrap;">
@@ -21842,7 +21842,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:6px; padding-top:6px; border-top:1px solid #e6dfd2;">${_bbEsc(r.notes)}</div>` : ''}
 
           <div style="margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:10px; color:#8a8579; letter-spacing:.1em; text-transform:uppercase;">
+            <span style="font-size:10px; color:#6f6a5f; letter-spacing:.1em; text-transform:uppercase;">
               ${r.loggedBy ? 'By ' + _bbEsc(r.loggedBy) : ''}
               ${r.timestamp ? ' · ' + r.timestamp.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'2-digit'}) : ''}
             </span>
@@ -22246,7 +22246,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           ${r.notes ? `<div style="font-size:11px; color:var(--text-dim); margin-top:8px; padding-top:8px; border-top:1px solid #e6dfd2; white-space:pre-wrap; line-height:1.4;">${_hlEsc(r.notes)}</div>` : ''}
 
           <div style="margin-top:10px; padding-top:8px; border-top:1px solid #e6dfd2; display:flex; justify-content:space-between; align-items:center;">
-            <span style="font-size:10px; color:#8a8579; letter-spacing:.1em; text-transform:uppercase;">
+            <span style="font-size:10px; color:#6f6a5f; letter-spacing:.1em; text-transform:uppercase;">
               ${r.agent ? 'Agent: ' + _hlEsc(r.agent) : ''}
             </span>
             <div style="display:flex; gap:6px;">

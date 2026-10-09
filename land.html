@@ -26,8 +26,8 @@
       --rule-strong:     #c9bfab;
       --text:            #111111;
       --text-muted:      #5a564e;
-      --text-dim:        #8a8579;
-      --accent:          #8a7a4b;
+      --text-dim:        #6f6a5f;
+      --accent:          #75663a;
 
       --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
@@ -4307,7 +4307,7 @@
       let t = document.getElementById('vfv-toast');
       if (!t) {
         t = document.createElement('div'); t.id = 'vfv-toast';
-        t.style.cssText = 'position:fixed; left:50%; bottom:28px; transform:translateX(-50%); max-width:min(560px, calc(100vw - 32px)); background:#101010; color:#fefefe; font:13px/1.5 var(--font-body, system-ui); padding:14px 18px; border:1px solid #8a7a4b; box-shadow:0 12px 40px rgba(0,0,0,.35); z-index:99999; display:none;';
+        t.style.cssText = 'position:fixed; left:50%; bottom:28px; transform:translateX(-50%); max-width:min(560px, calc(100vw - 32px)); background:#101010; color:#fefefe; font:13px/1.5 var(--font-body, system-ui); padding:14px 18px; border:1px solid #75663a; box-shadow:0 12px 40px rgba(0,0,0,.35); z-index:99999; display:none;';
         document.body.appendChild(t);
       }
       t.textContent = msg; t.style.display = 'block';
@@ -4361,25 +4361,25 @@
       div.style.cssText = 'position:fixed; top:-10000px; left:0; width:800px; padding:56px 56px 48px; background:#f6f2ea; color:#111111; font-family:Mulish,Helvetica,Arial,sans-serif;';
       const row = (label, value) => value
         ? `<div style="display:grid; grid-template-columns:180px 1fr; gap:14px; padding:8px 0; border-bottom:1px solid #e6dfd2;">
-             <div style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#8a8579; font-weight:700;">${label}</div>
+             <div style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#6f6a5f; font-weight:700;">${label}</div>
              <div style="font-size:13px; color:#111111;">${value}</div>
            </div>`
         : '';
       const section = (title, body) => `
         <div style="margin-top:26px;">
-          <div style="font-family:Aboreto,serif; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#8a7a4b; border-bottom:1px solid #8a7a4b; padding-bottom:6px; margin-bottom:6px;">${title}</div>
+          <div style="font-family:Aboreto,serif; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#75663a; border-bottom:1px solid #75663a; padding-bottom:6px; margin-bottom:6px;">${title}</div>
           ${body}
         </div>`;
       div.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; border-bottom:2px solid #8a7a4b;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; border-bottom:2px solid #75663a;">
           <div>
-            <div style="font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:#8a7a4b;">Land Acquisition · Research Report</div>
+            <div style="font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:#75663a;">Land Acquisition · Research Report</div>
             <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.14em; color:#111111; margin-top:6px;">VICTORY FORMATION VENTURES</div>
           </div>
-          <div style="text-align:right; font-size:10px; letter-spacing:.14em; color:#8a8579;">${today}</div>
+          <div style="text-align:right; font-size:10px; letter-spacing:.14em; color:#6f6a5f;">${today}</div>
         </div>
         <div style="margin-top:22px;">
-          <div style="font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:#8a8579;">${meta.label}</div>
+          <div style="font-size:9px; letter-spacing:.24em; text-transform:uppercase; color:#6f6a5f;">${meta.label}</div>
           <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.06em; color:#111111; margin-top:6px; line-height:1.2;">${addr || '—'}</div>
         </div>
         ${raw ? section('Parcel · ' + (bundle.svc ? bundle.svc.label : ''),
@@ -4394,7 +4394,7 @@
           row('Zoning Code', zoneCode) +
           (zoneName ? row('District', zoneName) : '') +
           (meta.zoningCaveat ? row('Note', meta.zoningCaveat) : '') +
-          `<div style="font-size:11px; color:#8a8579; padding-top:6px; line-height:1.5;">Setbacks and max-height regulations vary by district. Verify with the city before contracting.</div>`
+          `<div style="font-size:11px; color:#6f6a5f; padding-top:6px; line-height:1.5;">Setbacks and max-height regulations vary by district. Verify with the city before contracting.</div>`
         )}
         ${s ? section('Slope Analysis',
           row('Slope',            s.slopePct.toFixed(1) + '%') +
@@ -4402,15 +4402,15 @@
           row('Elevation Range',  s.range.toFixed(1) + ' ft') +
           row('Low Point',        s.min.toFixed(1) + ' ft') +
           row('High Point',       s.max.toFixed(1) + ' ft') +
-          `<div style="font-size:11px; color:#8a7a4b; padding-top:6px; line-height:1.5;">${s.score ? s.score.note : ''}</div>` +
-          `<div style="font-size:10px; color:#8a8579; padding-top:4px;">Source: USGS 3DEP LiDAR (${s.sampleCount} sample points)</div>`
+          `<div style="font-size:11px; color:#75663a; padding-top:6px; line-height:1.5;">${s.score ? s.score.note : ''}</div>` +
+          `<div style="font-size:10px; color:#6f6a5f; padding-top:4px;">Source: USGS 3DEP LiDAR (${s.sampleCount} sample points)</div>`
         ) : ''}
         ${section('FEMA Flood Zone',
           row('Zone',       fzone) +
           (fsub ? row('Subtype', fsub) : '') +
           row('Flood Risk', isFlood ? '⚠ Yes — Special Flood Hazard Area' : '✓ No — outside SFHA')
         )}
-        <div style="margin-top:36px; padding-top:14px; border-top:1px solid #d9d0bf; font-size:9px; letter-spacing:.14em; color:#8a8579;">
+        <div style="margin-top:36px; padding-top:14px; border-top:1px solid #d9d0bf; font-size:9px; letter-spacing:.14em; color:#6f6a5f;">
           Data sources: City of Austin Cadastral & Zoning · USGS 3DEP · FEMA NFHL · Municipal records.
           This report is a working reference — verify all values with the applicable municipality before contracting.
         </div>`;
@@ -4677,7 +4677,7 @@
         let intro, note = '';
         if (isRoundRock) {
           intro = 'Land buys inside Round Rock city limits within a target acreage range. Filters out home sales via price cap.';
-          note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Williamson County doesn't publish sale dates in the parcel service, so results are all-time (not date-filtered). Recent activity still surfaces via LLC-owner + low-improvement filters. Cross-check the deed via <a href="https://williamsonpropertyassessor.com/" target="_blank" rel="noopener" style="color:#8a7a4b; border-bottom:1px solid #8a7a4b;">Williamson Assessor</a> for actual sale date.</p>`;
+          note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Williamson County doesn't publish sale dates in the parcel service, so results are all-time (not date-filtered). Recent activity still surfaces via LLC-owner + low-improvement filters. Cross-check the deed via <a href="https://williamsonpropertyassessor.com/" target="_blank" rel="noopener" style="color:#75663a; border-bottom:1px solid #75663a;">Williamson Assessor</a> for actual sale date.</p>`;
         } else if (city !== 'austin') {
           intro = 'Recent LLC-purchased lots in a ZIP within a target acreage range. Automatically filters out anything above the price cap (usually home sales, not land).';
           note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Note: ZIP ${esc(meta.zipHint)} covers parts of Austin and other satellite cities. Comps returned are from the entire ZIP — check the address column to confirm which city each is in.</p>`;
@@ -5176,7 +5176,7 @@
           .page { width: 8.5in; min-height: 11in; margin: 24px auto; padding: 1in 1in 0.9in; background: #fefefe; box-sizing: border-box; box-shadow: 0 8px 30px rgba(0,0,0,.12); }
           .head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #101010; padding-bottom: 14px; margin-bottom: 28px; }
           .head .brand { font-family: 'Aboreto', serif; font-size: 17px; letter-spacing: .28em; text-transform: uppercase; line-height: 1.35; }
-          .head .brand small { display: block; font-family: 'Mulish', sans-serif; font-size: 8.5px; letter-spacing: .26em; color: #8a7a4b; font-weight: 600; margin-top: 4px; }
+          .head .brand small { display: block; font-family: 'Mulish', sans-serif; font-size: 8.5px; letter-spacing: .26em; color: #75663a; font-weight: 600; margin-top: 4px; }
           .head .addr { font-size: 10.5px; line-height: 1.6; text-align: right; color: #454545; }
           .meta { font-size: 12px; line-height: 1.7; margin-bottom: 22px; }
           p, li { font-size: 12.5px; line-height: 1.75; font-weight: 300; }
