@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Comp Report · Victory Formation Ventures</title>
+
+  <!-- Same brand fonts as the rest of the dashboard -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <!--
+    Comp Report Generator (no photos).
+    Type or paste the comps from an MLS CMA on the left, the branded report
+    builds live on the right: cover, market summary, comp cards, CMA table.
+    Averages, medians, ranges, the price guide and the "what the comps say"
+    notes are all calculated from the rows. Print / Save PDF gives a
+    letter-landscape PDF, one section per page.
+    Everything stays in this browser (localStorage key vfv.compReport).
+  -->
+
+  <style>
+    :root {
+      --bg:#000000; --elev:#0e0e0e; --elev2:#181818;
+      --text:#ffffff; --muted:#b8b8b8; --dim:#8a8a8a; --rule:#2a2a2a;
+      --accent:#d9c8a3; --tint:rgba(217,200,163,.07);
+      --display:'Aboreto','Cinzel','Optima',serif;
+      --body:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;
+      --wide:.14em; --xwide:.22em;
+      color-scheme: dark;
+    }
+    * { box-sizing:border-box; }
+    html, body { margin:0; background:var(--bg); color:var(--text); font-family:var(--body); font-weight:300; -webkit-font-smoothing:antialiased; }
+    h1,h2,h3,p,dl,dd,ul { margin:0; }
+
+    /* ---------- toolbar (not printed) ---------- */
+    .toolbar { position:sticky; top:0; z-index:50; background:rgba(0,0,0,.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--rule); padding:12px 20px; display:flex; flex-wrap:wrap; gap:12px; align-items:center; justify-content:space-between; }
+    .toolbar-title { font-family:var(--display); font-size:13px; letter-spacing:var(--xwide); text-transform:uppercase; }
+    .toolbar-actions { display:flex; flex-wrap:wrap; gap:10px; }
+    .btn { font-family:var(--body); font-size:11px; letter-spacing:var(--wide); text-transform:uppercase; padding:10px 16px; border:1px solid var(--text); background:var(--text); color:var(--bg); cursor:pointer; }
+    .btn.ghost { background:transparent; color:var(--text); border-color:var(--rule); }
+    .btn.ghost:hover { border-color:var(--text); }
+    .btn:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline:1px solid var(--accent); outline-offset:1px; }
+
+    /* ---------- workspace: editor left, live report right ---------- */
+    .workspace { display:grid; grid-template-columns:minmax(320px,420px) minmax(0,1fr); gap:20px; padding:20px; align-items:start; }
+    .editor { display:flex; flex-direction:column; gap:22px; border:1px solid var(--rule); background:var(--elev); padding:20px; min-width:0; }
+    .editor h2 { font-family:var(--display); font-weight:400; font-size:12px; letter-spacing:var(--xwide); text-transform:uppercase; color:var(--accent); margin-bottom:12px; }
+    .fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .fields .full { grid-column:1 / -1; }
+    label { display:flex; flex-direction:column; gap:5px; font-size:10px; letter-spacing:var(--wide); text-transform:uppercase; color:var(--muted); min-width:0; }
+    input, select, textarea { width:100%; background:var(--bg); color:var(--text); border:1px solid var(--rule); padding:9px 10px; font-family:var(--body); font-size:13px; font-weight:300; border-radius:0; }
+    textarea { resize:vertical; min-height:70px; line-height:1.45; }
+    .hint { font-size:11.5px; color:var(--dim); line-height:1.45; margin-top:8px; }
+    .comp-edit { border:1px solid var(--rule); background:var(--bg); padding:12px; display:flex; flex-direction:column; gap:10px; }
+    .comp-edit-head { display:flex; justify-content:space-between; align-items:center; font-family:var(--display); font-size:11px; letter-spacing:var(--wide); text-transform:uppercase; color:var(--muted); }
+    .link-btn { background:none; border:none; color:var(--dim); font-family:var(--body); font-size:10px; letter-spacing:var(--wide); text-transform:uppercase; cursor:pointer; padding:4px 0; }
+    .link-btn:hover { color:var(--text); }
+    #comp-list { display:flex; flex-direction:column; gap:10px; }
+
+    /* ---------- report ---------- */
+    .deck { container-type:inline-size; display:flex; flex-direction:column; gap:20px; min-width:0; }
+    .sheet { position:relative; background:var(--bg); border:1px solid var(--rule); padding:clamp(24px,5cqw,72px); display:flex; flex-direction:column; gap:clamp(22px,3.6cqw,44px); min-width:0; }
+    .eyebrow, .note-h { font-family:var(--display); font-size:12px; letter-spacing:var(--xwide); text-transform:uppercase; color:var(--accent); }
+    .sheet h2 { font-family:var(--display); font-weight:400; font-size:clamp(22px,3.4cqw,38px); letter-spacing:.04em; }
+    .sheet h2 .dot { color:var(--accent); margin:0 .4em; }
+    .brand { display:flex; align-items:center; justify-content:flex-end; gap:12px; margin-top:auto; }
+    .brand span { font-family:var(--display); font-size:9px; letter-spacing:var(--xwide); text-transform:uppercase; color:var(--muted); text-align:right; line-height:1.4; }
+    /* the VFV house mark is black on transparent; invert it for the black page */
+    .brand img, .cover .foot img { filter:invert(1); }
+    .brand img { width:48px; height:48px; }
+
+    .cover { background:linear-gradient(160deg,var(--elev2) 0%,var(--bg) 55%); min-height:460px; justify-content:space-between; }
+    .cover .date { align-self:flex-end; font-size:14px; letter-spacing:.06em; }
+    .cover h1 { font-family:var(--display); font-weight:400; font-size:clamp(32px,8.5cqw,100px); letter-spacing:.04em; line-height:1; }
+    .cover .subject { font-family:var(--display); font-size:clamp(19px,3.8cqw,42px); letter-spacing:.02em; margin-top:.5em; overflow-wrap:anywhere; }
+    .cover .city { color:var(--muted); font-size:14px; letter-spacing:.06em; margin-top:10px; }
+    .cover .foot { display:flex; justify-content:space-between; align-items:flex-end; gap:16px; }
+    .cover .co { font-family:var(--display); font-size:clamp(11px,1.5cqw,16px); letter-spacing:var(--xwide); text-transform:uppercase; }
+    .cover .foot img { width:clamp(56px,8cqw,104px); height:auto; }
+
+    .split { display:grid; grid-template-columns:1fr 1fr; gap:clamp(26px,5cqw,64px); }
+    .split > * { min-width:0; }
+    .subject-addr { font-family:var(--display); font-size:clamp(22px,3.2cqw,38px); line-height:1.1; letter-spacing:.02em; margin-top:14px; overflow-wrap:anywhere; }
+    .stats { display:grid; grid-template-columns:repeat(2,1fr); gap:24px 28px; margin-top:34px; }
+    .stats dt, .comp dt { font-family:var(--display); font-size:10.5px; letter-spacing:var(--xwide); text-transform:uppercase; color:var(--muted); margin-bottom:6px; }
+    .stats dd { font-family:var(--display); font-size:clamp(19px,2.3cqw,26px); letter-spacing:.02em; font-variant-numeric:tabular-nums; }
+    .stats small { display:block; font-family:var(--body); font-size:12px; color:var(--dim); letter-spacing:.02em; margin-top:4px; }
+    .notes { display:flex; flex-direction:column; gap:14px; margin-top:20px; padding-left:18px; }
+    .notes li { color:var(--muted); font-size:14px; line-height:1.5; max-width:60ch; }
+    .notes li::marker { color:var(--accent); }
+
+    .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:26px; }
+    .comp { display:flex; flex-direction:column; gap:12px; border-top:1px solid var(--accent); padding-top:20px; min-width:0; }
+    .comp .addr { font-family:var(--display); font-weight:400; font-style:italic; font-size:22px; line-height:1.15; letter-spacing:.01em; min-height:2.3em; overflow-wrap:anywhere; }
+    .comp .specs { font-size:13.5px; letter-spacing:.02em; }
+    .comp dl { display:grid; grid-template-columns:1fr 1fr; gap:16px 12px; padding-block:14px; border-block:1px solid var(--rule); }
+    .comp dd { font-size:14px; font-variant-numeric:tabular-nums; }
+    .comp dd.big { font-family:var(--display); font-size:20px; }
+    .comp .status { font-size:13px; }
+    .comp .meta { font-size:12.5px; color:var(--muted); }
+
+    .scroll { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; font-size:13px; letter-spacing:.02em; font-variant-numeric:tabular-nums; }
+    th, td { padding:11px 10px; text-align:left; border-bottom:1px solid var(--rule); white-space:nowrap; }
+    thead th { font-family:var(--display); font-weight:400; font-size:10.5px; letter-spacing:var(--wide); text-transform:uppercase; color:var(--accent); border-bottom:1px solid var(--accent); padding-bottom:12px; }
+    td.addr { font-family:var(--display); font-style:italic; font-size:14px; }
+    tr.subject { background:var(--tint); }
+    tr.subject td { border-bottom:1px solid var(--accent); }
+    tr.subject td.addr { color:var(--accent); }
+    td.section { font-family:var(--display); font-size:10.5px; letter-spacing:var(--wide); text-transform:uppercase; color:var(--muted); padding-top:18px; padding-bottom:6px; border-bottom:none; }
+    td.muted { color:var(--muted); }
+    tr.sum td { font-weight:500; }
+    tr.sum td.addr { font-style:normal; font-size:12px; letter-spacing:var(--wide); text-transform:uppercase; }
+    .fine { color:var(--dim); font-size:12px; line-height:1.5; max-width:95ch; }
+    .src { display:grid; grid-template-columns:auto 1fr; gap:10px 22px; font-size:14px; line-height:1.5; }
+    .src dt { font-family:var(--display); font-size:12px; letter-spacing:.06em; text-transform:uppercase; padding-top:2px; }
+    .src dd { color:var(--muted); }
+    .empty { color:var(--dim); font-size:14px; }
+
+    @container (max-width:900px) { .grid { grid-template-columns:repeat(2,1fr); } .comp .addr { min-height:0; } }
+    @container (max-width:680px) { .split { grid-template-columns:1fr; } }
+    @container (max-width:460px) { .grid { grid-template-columns:1fr; } .src { grid-template-columns:1fr; gap:2px; } .src dd { margin-bottom:10px; } }
+    @media (max-width:900px) { .workspace { grid-template-columns:1fr; padding:16px; } }
+
+    /* ---------- print: letter landscape, one sheet per page ---------- */
+    @page { size:11in 8.5in; margin:0; }
+    @media print {
+      * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+      .toolbar, .editor { display:none !important; }
+      .workspace { display:block; padding:0; }
+      .deck { gap:0; }
+      .sheet { width:11in; height:8.5in; border:none; padding:.72in .85in .55in; gap:.3in; break-after:page; overflow:hidden; }
+      .sheet.flow { height:auto; min-height:8.5in; overflow:visible; }
+      .sheet:last-child { break-after:auto; }
+      .sheet > * { flex-shrink:0; }
+      .cover { min-height:0; }
+      .split { grid-template-columns:.9fr 1.1fr; }
+      .grid { grid-template-columns:repeat(4,1fr); }
+      .comp .addr { min-height:2.3em; }
+      .scroll { overflow:visible; }
+      th, td { padding-block:8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="toolbar">
+    <div class="toolbar-title">Comp Report · Victory Formation Ventures</div>
+    <div class="toolbar-actions">
+      <button class="btn ghost" type="button" id="btn-example">Load Example</button>
+      <button class="btn ghost" type="button" id="btn-clear">Start Blank</button>
+      <button class="btn" type="button" id="btn-print">Print / Save PDF</button>
+    </div>
+  </div>
+
+  <div class="workspace">
+
+    <form class="editor" id="editor" autocomplete="off" novalidate>
+      <section>
+        <h2>Subject Property</h2>
+        <div class="fields">
+          <label class="full">Address<input id="s-address" data-k="address" type="text" placeholder="1707 Nubell St" /></label>
+          <label class="full">City, State, Zip<input id="s-city" data-k="city" type="text" placeholder="Nashville, TN 37208" /></label>
+          <label>Neighborhood<input id="s-hood" data-k="hood" type="text" placeholder="Buena Vista Heights" /></label>
+          <label>Report Date<input id="s-date" data-k="date" type="text" placeholder="October 8, 2026" /></label>
+          <label>Beds<input id="s-beds" data-k="beds" type="text" placeholder="TBD" /></label>
+          <label>Baths<input id="s-baths" data-k="baths" type="text" placeholder="TBD" /></label>
+          <label>Sq Ft<input id="s-sqft" data-k="sqft" type="text" placeholder="TBD" /></label>
+          <label>Year Built<input id="s-year" data-k="year" type="text" placeholder="Planned" /></label>
+        </div>
+      </section>
+
+      <section>
+        <h2>Comparables</h2>
+        <div id="comp-list"></div>
+        <button class="btn ghost" type="button" id="btn-add" style="margin-top:12px;width:100%;">+ Add Comp</button>
+        <p class="hint">Sold $ per sq ft, averages, medians and ranges are calculated for you. Under contract comps use the list price and stay out of the sold averages.</p>
+      </section>
+
+      <section>
+        <h2>Price Guide</h2>
+        <div class="fields">
+          <label class="full">Home sizes to price (sq ft, comma separated)<input id="s-sizes" data-k="sizes" type="text" placeholder="1800, 1900, 2000" /></label>
+        </div>
+        <p class="hint">Each size is priced at the low, average and high sold $ per sq ft from your comps. Leave blank to hide it.</p>
+      </section>
+
+      <section>
+        <h2>Notes and Sources</h2>
+        <div class="fields">
+          <label class="full">Extra notes (one per line, added under the automatic ones)<textarea id="s-notes" data-k="notes"></textarea></label>
+          <label class="full">CMA source<input id="s-source" data-k="source" type="text" placeholder="Unlock MLS Residential CMA, report date 10/8/26, prepared by Gabe Jeudy-Lally." /></label>
+          <label class="full">Search criteria<textarea id="s-criteria" data-k="criteria" placeholder="Residential, closed or under contract in the last 12 months, built 2024 or newer, up to 2,000 sq ft."></textarea></label>
+        </div>
+      </section>
+    </form>
+
+    <main class="deck" id="deck"></main>
+  </div>
+
+  <script>
+    'use strict';
+
+    var STORE = 'vfv.compReport';
+    var LOGO = 'assets/icon-arch-transparent.png';
+    var COMPANY = 'Victory Formation Ventures';
+    var WORDMARK = 'Victory Formation<br>Ventures';
+
+    var EXAMPLE = {
+      subject: { address:'1707 Nubell St', city:'Nashville, TN 37208', hood:'Buena Vista Heights', date:'October 8, 2026', beds:'', baths:'', sqft:'', year:'',
+                 sizes:'1800, 1900, 2000', notes:'',
+                 source:'Realtracs Residential Property CMA, report date 10/8/26, prepared by Ryan Stonehouse.',
+                 criteria:'Residential, closed or under contract in the last 12 months, built 2024 or newer, up to 2,000 sq ft, inside a custom map area around the subject.' },
+      comps: [
+        { status:'Sold', address:'1721A Pecan St',   sub:'Buena Vista Heights', beds:'3', baths:'3/0', sqft:'1928', year:'2025', list:'514900', sold:'514900', mls:'3032591' },
+        { status:'Sold', address:'1721B Pecan St',   sub:'Buena Vista Heights', beds:'3', baths:'3/0', sqft:'1928', year:'2025', list:'514900', sold:'500000', mls:'3006579' },
+        { status:'Sold', address:'2120B 14th Ave N', sub:'Owen Buena Vista',    beds:'3', baths:'3/0', sqft:'1792', year:'2026', list:'565000', sold:'565000', mls:'3097951' },
+        { status:'Sold', address:'2120A 14th Ave N', sub:'Owen Buena Vista',    beds:'3', baths:'3/0', sqft:'1792', year:'2026', list:'570000', sold:'555000', mls:'3073831' }
+      ]
+    };
+    function blank() {
+      return { subject:{ address:'', city:'', hood:'', date:'', beds:'', baths:'', sqft:'', year:'', sizes:'', notes:'', source:'', criteria:'' },
+               comps:[ newComp() ] };
+    }
+    function newComp() { return { status:'Sold', address:'', sub:'', beds:'', baths:'', sqft:'', year:'', list:'', sold:'', mls:'' }; }
+    function clone(o) { return JSON.parse(JSON.stringify(o)); }
+
+    var state;
+    try { state = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { state = null; }
+    if (!state || !state.subject || !Array.isArray(state.comps)) state = clone(EXAMPLE);
+    function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
+
+    // ---------- helpers ----------
+    function esc(s) { return String(s == null ? '' : s).replace(/[<>&"]/g, function (c) { return ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'})[c]; }); }
+    function num(s) { var n = parseFloat(String(s == null ? '' : s).replace(/[^0-9.]/g, '')); return isFinite(n) ? n : 0; }
+    function money(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+    function psf(n) { return '$' + (Math.round(n * 100) / 100).toFixed(2); }
+    function int(n) { return Math.round(n).toLocaleString('en-US'); }
+    function avg(a) { return a.reduce(function (x, y) { return x + y; }, 0) / a.length; }
+    function median(a) { var s = a.slice().sort(function (x, y) { return x - y; }); var m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+    function range(a, f) { var lo = Math.min.apply(null, a), hi = Math.max.apply(null, a); return lo === hi ? f(lo) : f(lo) + ' to ' + f(hi); }
+    function pct1(n) { return (Math.round(n * 10) / 10).toFixed(1) + '%'; }
+    function specs(c) {
+      var p = [];
+      if (c.beds) p.push(esc(c.beds) + ' Bed');
+      if (c.baths) p.push(esc(c.baths) + ' Bath');
+      if (num(c.sqft)) p.push(int(num(c.sqft)) + ' Sq Ft');
+      return p.join(' &nbsp;·&nbsp; ');
+    }
+    function brand() { return '<div class="brand"><span>' + WORDMARK + '</span><img src="' + LOGO + '" alt=""></div>'; }
+
+    // ---------- analysis ----------
+    function analyze() {
+      var filled = state.comps.filter(function (c) { return c.address.trim(); });
+      var sold = filled.filter(function (c) { return c.status === 'Sold' && num(c.sold) && num(c.sqft); });
+      var uc = filled.filter(function (c) { return c.status !== 'Sold'; });
+      var a = { sold:sold, uc:uc, filled:filled };
+      if (!sold.length) return a;
+      a.prices = sold.map(function (c) { return num(c.sold); });
+      a.psfs = sold.map(function (c) { return num(c.sold) / num(c.sqft); });
+      a.sizes = sold.map(function (c) { return num(c.sqft); });
+      a.lists = sold.filter(function (c) { return num(c.list); }).map(function (c) { return num(c.list); });
+      return a;
+    }
+
+    function autoNotes(a) {
+      var out = [], sold = a.sold, n = sold.length;
+      if (n) {
+        var years = sold.map(function (c) { return num(c.year); }).filter(Boolean);
+        var sameType = sold.every(function (c) { return c.beds === sold[0].beds && c.baths === sold[0].baths; }) && sold[0].beds;
+        var line = (n === 1 ? 'The one sold comp is ' : (sameType ? 'All ' + n + ' sold comps are ' : 'The ' + n + ' sold comps run '));
+        if (sameType) line += esc(sold[0].beds) + ' bed / ' + esc(String(sold[0].baths).split('/')[0]) + ' bath, ';
+        line += range(a.sizes, int) + ' sq ft';
+        if (years.length === n) line += ', built ' + range(years, String);
+        out.push(line + '.');
+        if (n > 1) {
+          var hi = 0, lo = 0;
+          a.psfs.forEach(function (v, i) { if (v > a.psfs[hi]) hi = i; if (v < a.psfs[lo]) lo = i; });
+          if (hi !== lo) {
+            var d = function (i) { return esc(sold[i].address) + ' at ' + psf(a.psfs[i]) + ' (' + int(a.sizes[i]) + ' sq ft' + (num(sold[i].year) ? ', built ' + num(sold[i].year) : '') + ')'; };
+            out.push('Highest sold $ per sq ft: ' + d(hi) + '. Lowest: ' + d(lo) + '. That is a spread of ' + psf(a.psfs[hi] - a.psfs[lo]) + ' per sq ft.');
+          }
+        }
+        var withList = sold.filter(function (c) { return num(c.list); });
+        if (withList.length) {
+          var under = withList.filter(function (c) { return num(c.sold) < num(c.list); });
+          var atOrOver = withList.length - under.length;
+          var s = atOrOver + ' of ' + withList.length + ' sold at or above list price.';
+          if (under.length) {
+            var gaps = under.map(function (c) { return (1 - num(c.sold) / num(c.list)) * 100; });
+            s += ' The ' + (under.length === 1 ? 'other' : (atOrOver ? 'other ' + under.length : under.length)) + ' closed ' + range(gaps, pct1) + ' under list.';
+          }
+          out.push(s);
+        }
+      }
+      if (a.filled.length) {
+        if (a.uc.length) {
+          var ul = a.uc.filter(function (c) { return num(c.list); }).map(function (c) { return num(c.list); });
+          out.push(a.uc.length + (a.uc.length === 1 ? ' comp is' : ' comps are') + ' under contract' + (ul.length ? ', listed at ' + range(ul, money) : '') + '.');
+        } else {
+          out.push('No comps in this set are under contract.');
+        }
+      }
+      String(state.subject.notes || '').split('\n').forEach(function (l) { if (l.trim()) out.push(esc(l.trim())); });
+      return out;
+    }
+
+    // ---------- report sections ----------
+    function renderCover() {
+      var s = state.subject;
+      var cityLine = [s.city, s.hood].filter(function (x) { return x && x.trim(); }).map(esc).join(' &nbsp;·&nbsp; ');
+      return '<section class="sheet cover">' +
+        '<div class="date">' + esc(s.date) + '</div>' +
+        '<div><h1>Comparables</h1><div class="subject">' + esc(s.address || 'Subject Address') + '</div>' +
+        (cityLine ? '<div class="city">' + cityLine + '</div>' : '') + '</div>' +
+        '<div class="foot"><div class="co">' + COMPANY + '</div><img src="' + LOGO + '" alt="' + COMPANY + '"></div>' +
+      '</section>';
+    }
+
+    function renderSummary(a) {
+      var s = state.subject, left, right;
+      var head = '<div class="eyebrow">Subject Property</div><div class="subject-addr">' + esc(s.address || 'Subject Address') + (s.city ? '<br>' + esc(s.city) : '') + '</div>';
+      if (!a.sold.length) {
+        left = head + '<p class="empty" style="margin-top:30px">Add at least one sold comp with a sold price and square footage to see the market summary.</p>';
+      } else {
+        var first = a.sold[0], sameType = a.sold.every(function (c) { return c.beds === first.beds && c.baths === first.baths; }) && first.beds;
+        var stat = function (k, v, sm) { return '<div><dt>' + k + '</dt><dd>' + v + (sm ? '<small>' + sm + '</small>' : '') + '</dd></div>'; };
+        left = head + '<dl class="stats">' +
+          stat('Comps Sold', a.sold.length, a.uc.length ? a.uc.length + ' more under contract' : '') +
+          stat('Typical Product', sameType ? esc(first.beds) + ' Bed / ' + esc(String(first.baths).split('/')[0]) + ' Bath' : range(a.sizes, int) + ' Sq Ft', sameType ? range(a.sizes, int) + ' sq ft' : '') +
+          stat('Average Sold Price', money(avg(a.prices)), 'Median ' + money(median(a.prices))) +
+          stat('Average Sold $ / Sq Ft', psf(avg(a.psfs)), 'Median ' + psf(median(a.psfs))) +
+          stat('Sold Price Range', range(a.prices, money)) +
+          stat('$ / Sq Ft Range', range(a.psfs, psf)) +
+        '</dl>';
+      }
+      var notes = autoNotes(a);
+      right = '<div class="note-h">What the comps say</div>' +
+        (notes.length ? '<ul class="notes">' + notes.map(function (n) { return '<li>' + n + '</li>'; }).join('') + '</ul>' : '<p class="empty" style="margin-top:20px">Notes appear here once comps are entered.</p>');
+      var sizes = String(s.sizes || '').split(',').map(num).filter(Boolean).slice(0, 5);
+      if (a.sold.length && sizes.length) {
+        var lo = Math.min.apply(null, a.psfs), av = avg(a.psfs), hi = Math.max.apply(null, a.psfs);
+        var r100 = function (v) { return money(Math.round(v / 100) * 100); };
+        right += '<div class="note-h" style="margin-top:34px">Price guide at comp $ / sq ft</div><div class="scroll" style="margin-top:12px"><table>' +
+          '<thead><tr><th>Home Size</th><th>Low $' + Math.round(lo) + '</th><th>Avg $' + Math.round(av) + '</th><th>High $' + Math.round(hi) + '</th></tr></thead><tbody>' +
+          sizes.map(function (z) { return '<tr><td class="addr">' + int(z) + ' Sq Ft</td><td>' + r100(z * lo) + '</td><td>' + r100(z * av) + '</td><td>' + r100(z * hi) + '</td></tr>'; }).join('') +
+          '</tbody></table></div><p class="fine" style="margin-top:12px">Simple math on the comp range, rounded to the nearest $100. Not an appraisal.</p>';
+      }
+      return '<section class="sheet"><div class="split"><div>' + left + '</div><div>' + right + '</div></div>' + brand() + '</section>';
+    }
+
+    function renderCard(c) {
+      var isSold = c.status === 'Sold', sqft = num(c.sqft), price = isSold ? num(c.sold) : num(c.list), status;
+      if (isSold) {
+        status = 'Closed';
+        if (num(c.list) && num(c.sold)) status += ' &nbsp;·&nbsp; ' + (num(c.sold) === num(c.list) ? 'Sold at full list price' : 'Sold at ' + pct1(num(c.sold) / num(c.list) * 100) + ' of list');
+      } else { status = 'Under Contract'; }
+      var meta = [c.sub ? esc(c.sub) : '', c.mls ? 'MLS ' + esc(c.mls) : ''].filter(Boolean).join(' &nbsp;·&nbsp; ');
+      var cell = function (k, v, big) { return '<div><dt>' + k + '</dt><dd' + (big ? ' class="big"' : '') + '>' + v + '</dd></div>'; };
+      return '<article class="comp"><h3 class="addr">' + esc(c.address) + '</h3>' +
+        '<p class="specs">' + specs(c) + '</p><dl>' +
+        cell(isSold ? 'Sold Price' : 'List Price', price ? money(price) : 'n/a', true) +
+        cell(isSold ? 'Sold $ / Sq Ft' : 'List $ / Sq Ft', price && sqft ? psf(price / sqft) : 'n/a', true) +
+        cell(isSold ? 'List Price' : 'Sold Price', isSold ? (num(c.list) ? money(num(c.list)) : 'n/a') : 'Pending') +
+        cell('Year Built', c.year ? esc(c.year) : 'n/a') +
+        '</dl><p class="status">' + status + '</p>' + (meta ? '<p class="meta">' + meta + '</p>' : '') + '</article>';
+    }
+    function renderCardPages(title, comps) {
+      var out = '';
+      for (var i = 0; i < comps.length; i += 4) {
+        out += '<section class="sheet"><h2>Comparables<span class="dot">·</span>' + title + '</h2><div class="grid">' +
+          comps.slice(i, i + 4).map(renderCard).join('') + '</div>' + brand() + '</section>';
+      }
+      return out;
+    }
+
+    function renderTable(a) {
+      var s = state.subject;
+      var row = function (c) {
+        var isSold = c.status === 'Sold', sqft = num(c.sqft), p = isSold ? num(c.sold) : num(c.list);
+        return '<tr><td class="addr">' + esc(c.address) + '</td><td>' + esc(c.beds) + '</td><td>' + esc(c.baths) + '</td><td>' + (sqft ? int(sqft) : '') + '</td><td>' + esc(c.year) + '</td>' +
+          '<td>' + (num(c.list) ? money(num(c.list)) : '') + '</td><td>' + (isSold ? (num(c.sold) ? money(num(c.sold)) : '') : 'Pending') + '</td>' +
+          '<td>' + (p && sqft ? psf(p / sqft) + (isSold ? '' : ' list') : '') + '</td><td class="muted">' + esc(c.sub) + '</td></tr>';
+      };
+      var soldAll = a.filled.filter(function (c) { return c.status === 'Sold'; });
+      var body = '<tr class="subject"><td class="addr">' + esc(s.address || 'Subject') + '</td><td>' + esc(s.beds || 'TBD') + '</td><td>' + esc(s.baths || 'TBD') + '</td><td>' + (num(s.sqft) ? int(num(s.sqft)) : 'TBD') + '</td><td>' + esc(s.year || 'Planned') + '</td><td>TBD</td><td>TBD</td><td>TBD</td><td class="muted">Subject</td></tr>';
+      if (a.uc.length) body += '<tr><td colspan="9" class="section">Under Contract</td></tr>' + a.uc.map(row).join('');
+      if (soldAll.length) body += '<tr><td colspan="9" class="section">Sold</td></tr>' + soldAll.map(row).join('');
+      if (a.sold.length > 1) {
+        var sum = function (label, f) {
+          return '<tr class="sum"><td class="addr">' + label + '</td><td></td><td></td><td>' + int(f(a.sizes)) + '</td><td></td><td>' + (a.lists.length ? money(f(a.lists)) : '') + '</td><td>' + money(f(a.prices)) + '</td><td>' + psf(f(a.psfs)) + '</td><td></td></tr>';
+        };
+        body += sum('Average', avg) + sum('Median', median);
+      }
+      var src = '';
+      if (s.source || s.criteria) {
+        src = '<div><h2 style="font-size:22px;margin-bottom:16px">Sources</h2><dl class="src">' +
+          (s.source ? '<dt>CMA</dt><dd>' + esc(s.source) + '</dd>' : '') +
+          (s.criteria ? '<dt>Search</dt><dd>' + esc(s.criteria) + '</dd>' : '') + '</dl></div>';
+      }
+      return '<section class="sheet flow"><h2>CMA</h2><div class="scroll"><table><thead><tr>' +
+        '<th>Property</th><th>Beds</th><th>Baths</th><th>Sq Ft</th><th>Built</th><th>List Price</th><th>Sold Price</th><th>$ / Sq Ft</th><th>Subdivision</th>' +
+        '</tr></thead><tbody>' + body + '</tbody></table></div>' + src +
+        '<p class="fine">Information believed to be accurate but not guaranteed. Averages and medians cover sold comps only.</p>' + brand() + '</section>';
+    }
+
+    function render() {
+      var a = analyze();
+      var soldAll = a.filled.filter(function (c) { return c.status === 'Sold'; });
+      document.getElementById('deck').innerHTML =
+        renderCover() + renderSummary(a) +
+        renderCardPages('Under Contract', a.uc) + renderCardPages('Sold', soldAll) +
+        renderTable(a);
+      document.title = (state.subject.address ? state.subject.address + ' Comparables' : 'Comp Report') + ' · ' + COMPANY;
+    }
+
+    // ---------- editor ----------
+    var COMP_FIELDS = [
+      ['address', 'Address', 'full'], ['sub', 'Subdivision', 'full'],
+      ['beds', 'Beds'], ['baths', 'Baths'], ['sqft', 'Sq Ft'], ['year', 'Year Built'],
+      ['list', 'List Price'], ['sold', 'Sold Price'], ['mls', 'MLS #', 'full']
+    ];
+    function buildEditor() {
+      Array.prototype.forEach.call(document.querySelectorAll('#editor [data-k]'), function (el) { el.value = state.subject[el.getAttribute('data-k')] || ''; });
+      document.getElementById('comp-list').innerHTML = state.comps.map(function (c, i) {
+        return '<div class="comp-edit" data-i="' + i + '"><div class="comp-edit-head"><span>Comp ' + (i + 1) + '</span><button type="button" class="link-btn" data-remove="' + i + '">Remove</button></div><div class="fields">' +
+          '<label class="full">Status<select id="c' + i + '-status" data-c="status"><option' + (c.status === 'Sold' ? ' selected' : '') + '>Sold</option><option' + (c.status !== 'Sold' ? ' selected' : '') + '>Under Contract</option></select></label>' +
+          COMP_FIELDS.map(function (f) { return '<label' + (f[2] ? ' class="full"' : '') + '>' + f[1] + '<input id="c' + i + '-' + f[0] + '" data-c="' + f[0] + '" type="text" value="' + esc(c[f[0]]) + '" /></label>'; }).join('') +
+          '</div></div>';
+      }).join('');
+    }
+    var editor = document.getElementById('editor');
+    function onEdit(e) {
+      var t = e.target, k = t.getAttribute('data-k'), ck = t.getAttribute('data-c');
+      if (k) state.subject[k] = t.value;
+      else if (ck) { var wrap = t.closest('.comp-edit'); if (wrap) state.comps[+wrap.getAttribute('data-i')][ck] = t.value; }
+      else return;
+      save(); render();
+    }
+    editor.addEventListener('input', onEdit);
+    editor.addEventListener('change', onEdit);
+    editor.addEventListener('submit', function (e) { e.preventDefault(); });
+    editor.addEventListener('click', function (e) {
+      var r = e.target.getAttribute && e.target.getAttribute('data-remove');
+      if (r == null) return;
+      state.comps.splice(+r, 1);
+      if (!state.comps.length) state.comps.push(newComp());
+      save(); buildEditor(); render();
+    });
+    document.getElementById('btn-add').addEventListener('click', function () {
+      state.comps.push(newComp()); save(); buildEditor(); render();
+      var last = document.getElementById('c' + (state.comps.length - 1) + '-address'); if (last) last.focus();
+    });
+    document.getElementById('btn-example').addEventListener('click', function () { state = clone(EXAMPLE); save(); buildEditor(); render(); });
+    document.getElementById('btn-clear').addEventListener('click', function () { state = blank(); save(); buildEditor(); render(); });
+    document.getElementById('btn-print').addEventListener('click', function () { window.print(); });
+
+    buildEditor();
+    render();
+  </script>
+</body>
+</html>
