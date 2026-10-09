@@ -16,7 +16,7 @@
     Averages, medians, ranges, the price guide and the "what the comps say"
     notes are all calculated from the rows. Print / Save PDF gives a
     letter-landscape PDF, one section per page.
-    Everything stays in this browser (localStorage key vfv.compReport).
+    Everything stays in this browser (localStorage key vfv.compReport.v2).
   -->
 
   <style>
@@ -50,6 +50,7 @@
     .fields { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
     .fields .full { grid-column:1 / -1; }
     label { display:flex; flex-direction:column; gap:5px; font-size:10px; letter-spacing:var(--wide); text-transform:uppercase; color:var(--muted); min-width:0; }
+    ::placeholder { color:var(--dim); opacity:.75; font-style:italic; }
     input, select, textarea { width:100%; background:#ffffff; color:var(--text); border:1px solid var(--rule); padding:9px 10px; font-family:var(--body); font-size:13px; font-weight:300; border-radius:0; }
     textarea { resize:vertical; min-height:70px; line-height:1.45; }
     .hint { font-size:11.5px; color:var(--dim); line-height:1.45; margin-top:8px; }
@@ -188,7 +189,7 @@
       <section>
         <h2>Notes and Sources</h2>
         <div class="fields">
-          <label class="full">Extra notes (one per line, added under the automatic ones)<textarea id="s-notes" data-k="notes"></textarea></label>
+          <label class="full">Extra notes (one per line, added under the automatic ones)<textarea id="s-notes" data-k="notes" placeholder="Lot is zoned for four homes. Builder is targeting 1,850 sq ft."></textarea></label>
           <label class="full">CMA source<input id="s-source" data-k="source" type="text" placeholder="Unlock MLS Residential CMA, report date 10/8/26, prepared by Gabe Jeudy-Lally." /></label>
           <label class="full">Search criteria<textarea id="s-criteria" data-k="criteria" placeholder="Residential, closed or under contract in the last 12 months, built 2024 or newer, up to 2,000 sq ft."></textarea></label>
         </div>
@@ -201,7 +202,7 @@
   <script>
     'use strict';
 
-    var STORE = 'vfv.compReport';
+    var STORE = 'vfv.compReport.v2';
     var LOGO = 'assets/icon-arch-transparent.png';
     var COMPANY = 'Victory Formation Ventures';
     var WORDMARK = 'Victory Formation<br>Ventures';
@@ -219,15 +220,16 @@
       ]
     };
     function blank() {
-      return { subject:{ address:'', city:'', hood:'', date:'', beds:'', baths:'', sqft:'', year:'', sizes:'', notes:'', source:'', criteria:'' },
-               comps:[ newComp() ] };
+      var today = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+      return { subject:{ address:'', city:'', hood:'', date:today, beds:'', baths:'', sqft:'', year:'', sizes:'', notes:'', source:'', criteria:'' },
+               comps:[ newComp(), newComp(), newComp() ] };
     }
     function newComp() { return { status:'Sold', address:'', sub:'', beds:'', baths:'', sqft:'', year:'', list:'', sold:'', mls:'' }; }
     function clone(o) { return JSON.parse(JSON.stringify(o)); }
 
     var state;
     try { state = JSON.parse(localStorage.getItem(STORE) || 'null'); } catch (e) { state = null; }
-    if (!state || !state.subject || !Array.isArray(state.comps)) state = clone(EXAMPLE);
+    if (!state || !state.subject || !Array.isArray(state.comps)) state = blank();
     function save() { try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) {} }
 
     // ---------- helpers ----------
@@ -321,7 +323,7 @@
       var s = state.subject, left, right;
       var head = '<div class="eyebrow">Subject Property</div><div class="subject-addr">' + esc(s.address || 'Subject Address') + (s.city ? '<br>' + esc(s.city) : '') + '</div>';
       if (!a.sold.length) {
-        left = head + '<p class="empty" style="margin-top:30px">Add at least one sold comp with a sold price and square footage to see the market summary.</p>';
+        left = head + '<p class="empty" style="margin-top:30px">Fill in the comps on the left. The gray text in each box is only an example. Add at least one sold comp with a sold price and square footage to see the market summary.</p>';
       } else {
         var first = a.sold[0], sameType = a.sold.every(function (c) { return c.beds === first.beds && c.baths === first.baths; }) && first.beds;
         var stat = function (k, v, sm) { return '<div><dt>' + k + '</dt><dd>' + v + (sm ? '<small>' + sm + '</small>' : '') + '</dd></div>'; };
@@ -416,16 +418,16 @@
 
     // ---------- editor ----------
     var COMP_FIELDS = [
-      ['address', 'Address', 'full'], ['sub', 'Subdivision', 'full'],
-      ['beds', 'Beds'], ['baths', 'Baths'], ['sqft', 'Sq Ft'], ['year', 'Year Built'],
-      ['list', 'List Price'], ['sold', 'Sold Price'], ['mls', 'MLS #', 'full']
+      ['address', 'Address', 'full', '1721A Pecan St'], ['sub', 'Subdivision', 'full', 'Buena Vista Heights'],
+      ['beds', 'Beds', '', '3'], ['baths', 'Baths', '', '3/0'], ['sqft', 'Sq Ft', '', '1,928'], ['year', 'Year Built', '', '2025'],
+      ['list', 'List Price', '', '$514,900'], ['sold', 'Sold Price', '', '$500,000'], ['mls', 'MLS #', 'full', '3032591']
     ];
     function buildEditor() {
       Array.prototype.forEach.call(document.querySelectorAll('#editor [data-k]'), function (el) { el.value = state.subject[el.getAttribute('data-k')] || ''; });
       document.getElementById('comp-list').innerHTML = state.comps.map(function (c, i) {
         return '<div class="comp-edit" data-i="' + i + '"><div class="comp-edit-head"><span>Comp ' + (i + 1) + '</span><button type="button" class="link-btn" data-remove="' + i + '">Remove</button></div><div class="fields">' +
           '<label class="full">Status<select id="c' + i + '-status" data-c="status"><option' + (c.status === 'Sold' ? ' selected' : '') + '>Sold</option><option' + (c.status !== 'Sold' ? ' selected' : '') + '>Under Contract</option></select></label>' +
-          COMP_FIELDS.map(function (f) { return '<label' + (f[2] ? ' class="full"' : '') + '>' + f[1] + '<input id="c' + i + '-' + f[0] + '" data-c="' + f[0] + '" type="text" value="' + esc(c[f[0]]) + '" /></label>'; }).join('') +
+          COMP_FIELDS.map(function (f) { return '<label' + (f[2] ? ' class="full"' : '') + '>' + f[1] + '<input id="c' + i + '-' + f[0] + '" data-c="' + f[0] + '" type="text" placeholder="' + f[3] + '" value="' + esc(c[f[0]]) + '" /></label>'; }).join('') +
           '</div></div>';
       }).join('');
     }
