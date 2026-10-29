@@ -216,6 +216,7 @@
         <summary>Numbers</summary>
         <button type="button" class="nav-item" data-panel="pricing">Spec Pricing <small id="n-pricing"></small></button>
         <button type="button" class="nav-item" data-panel="proforma">Proforma</button>
+        <button type="button" class="nav-item" data-panel="precon">Pre-Con Costs</button>
       </details>
       <details class="nav-group" open>
         <summary>Deal flow</summary>
@@ -237,7 +238,7 @@
       <div style="height:20px;"></div>
       <div class="toolrow">
         <input class="search" id="q" type="search" placeholder="Search names, streets, zips, handles…" aria-label="Search">
-        <span id="updated" style="font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim);">Data as of Sept 16, 2026</span>
+        <span id="updated" style="font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim);">Data as of Oct 29, 2026</span>
       </div>
       <section class="panel is-active" id="panel-overview" role="tabpanel"></section>
       <section class="panel" id="panel-builders" role="tabpanel"></section>
@@ -246,6 +247,7 @@
       <section class="panel" id="panel-architects" role="tabpanel"></section>
       <section class="panel" id="panel-pricing" role="tabpanel"></section>
       <section class="panel" id="panel-proforma" role="tabpanel"></section>
+      <section class="panel" id="panel-precon" role="tabpanel"></section>
       <section class="panel" id="panel-lots" role="tabpanel"></section>
       <section class="panel" id="panel-capital" role="tabpanel"></section>
       <section class="panel" id="panel-agents" role="tabpanel"></section>
@@ -257,6 +259,102 @@
 
   <script>
 const D = {
+preconTiles: [
+{k:"Architect, luxury custom",v:"8 to 15%",s:"of construction; 5 to 6% above $2.5M"},
+{k:"Builder cost-plus fee",v:"12 to 18%",s:"all-in overhead and profit 18 to 25%"},
+{k:"Hard cost, luxury",v:"$500+/sf",s:"custom $325 to $500; per-sf is 60 to 65% of all-in"},
+{k:"Survey package",v:"$2.5K to $6.5K",s:"boundary + topo + tree, infill or Hill Country lot"},
+{k:"Construction-to-perm",v:"6.5 to 9%+",s:"1 to 2 points, 20 to 30% down, Jan 2026"}
+],
+precon: [
+{g:"Surveys",intro:"Austin surveyors price by type, acreage, corners, vegetation, slope and record quality. A luxury infill or Hill Country lot usually needs boundary plus topo plus a tree survey, and the arborist report is a separate line because of the tree ordinance.",rows:[
+{i:"Boundary survey",w:"Corners, lines, easements, encroachments",r:"$400 to $2,500 simple lot; $1,200 to $5,500 in-city",n:"Poor records and thick vegetation push it up. Starr Surveying publishes the low band; Angi Austin the high."},
+{i:"Topographic survey",w:"Contours, grade, drainage, trees 8 in. and up on request",r:"$600 to $5,000; $2,000 to $6,500 in-city",n:"Required for hillside design and drainage review. Ask for tree locations folded in (adds $500 to $1,500)."},
+{i:"Tree survey and arborist report",w:"Protected trees 19 in. and up, heritage 24 in. and up, critical root zones",r:"$350 to $550 permit report; construction tree survey $1,500 to $5,000",n:"City of Austin requires it with protected trees. Mitigation if removal is approved runs about $200 per caliper inch; unpermitted removal fines $1,000 to $2,000 per inch."},
+{i:"ALTA survey",w:"Lender and commercial grade",r:"$2,000 to $10,000+",n:"Rarely needed on a single residential lot; a lender asking for it on a custom build is a flag."},
+{i:"Elevation certificate",w:"FEMA floodplain elevation",r:"$350 to $800",n:"Only if in or near a mapped floodplain; check the parcel on the Land tab first."},
+{i:"Form or mortgage survey",w:"Closing survey for the lender",r:"$350 to $800",n:"Title company will often order it; do not pay twice."}
+],note:"Budget $2,500 to $6,500 for the full survey package on a typical lot. Turnaround 3 to 14 business days."},
+{g:"Architects and engineers",intro:"Luxury firms price as a percent of construction cost and the percent tapers as the budget rises. Per-square-foot quotes are usually draftsman-level and are not what a Westlake or Tarrytown firm charges.",rows:[
+{i:"Architect, luxury custom",w:"Design through construction administration",r:"8% to 15% of construction; 5% to 6% above $2.5M",n:"Full service with site visits sits at 12 to 15%; permit set only 6 to 9%. A $4.6M Austin estate example budgeted $375K, about 8%."},
+{i:"Architect, per square foot",w:"Alternative quote basis",r:"$5 to $10/sf large custom; $2 to $15/sf nationally",n:"Low end is a plan service, not an architect. Ask what is excluded (structural, civil, interiors)."},
+{i:"Stock or semi-custom plan set",w:"Purchased plans adapted to the lot",r:"$1,000 to $10,000",n:"Still needs a Texas PE stamp and site adaptation; rarely fits a hillside lot."},
+{i:"Structural engineering",w:"Foundation and framing design, PE stamp",r:"$10,000 to $20,000 Austin custom; $3,000 to $12,000 simpler builds",n:"Expansive clay, post-tension slab, steel, cantilevers and hillside push to the top. PE stamp alone $150 to $400."},
+{i:"MEP engineering",w:"Mechanical, electrical, plumbing design",r:"$0.50 to $3.00/sf, about 1% of construction",n:"Often skipped on simple homes; expected on luxury. $10K to $25K on a $2M build."},
+{i:"Civil and drainage engineering",w:"Grading, drainage plan, watershed compliance",r:"$5,000 to $15,000 (estimate)",n:"Triggered by watershed review or a sloped lot; no Austin firm publishes a rate."},
+{i:"Landscape architecture",w:"Site and planting construction documents",r:"$2,900 to $8,600 documents; 5% to 15% of install; $30K to $60K on an estate",n:"Hourly $80 to $120. Impervious cover limits drive the design, so bring them in early."}
+],note:"Rule of thumb: soft costs 8 to 12% of total budget on a lean build, 20 to 25% on top of construction once interiors and landscape are counted."},
+{g:"Interior designers",intro:"Austin designers bill hourly, as a percent of the project or furnishings budget, or flat. Trade markup on purchases is almost always on top of the fee, so ask how discounts are shared.",rows:[
+{i:"Hourly",w:"Experienced Austin designer",r:"$150 to $500/hr; $175 to $300 typical",n:"Good for selections-only scope on a design-build job."},
+{i:"Percent of budget",w:"Full-service luxury and custom",r:"10% to 20% of project or furnishings budget",n:"Markup on items of 15% to 35% is usually additional; ask whether trade discounts of 20 to 40% pass through."},
+{i:"Full-service totals",w:"Design fee only, before furnishings",r:"$15,000 to $50,000 typical; $100K to $150K on an estate",n:"Furnishings on an estate run $300K to $400K on top."},
+{i:"Design-build selections coordinator",w:"Builder-embedded alternative to a designer",r:"$5,000 to $20,000 embedded (estimate)",n:"Cheaper up front, but the owner gives up the designer's trade pricing and an independent eye on allowances."}
+],note:""},
+{g:"Builders",intro:"Austin luxury runs both cost-plus and fixed price. Cost-plus with allowances is the norm in Westlake and the Hill Country. The headline fee is only part of the builder's take: ask what sits in general conditions, how change orders are marked up, and whether allowances were bid at real prices.",rows:[
+{i:"Cost-plus fee",w:"Builder's fee on top of actual cost",r:"12% to 18%; some Hill Country shops 18% to 25%",n:"Zbranek & Holt quotes 12 to 18% by difficulty. General conditions of 5 to 7% are often billed separately, making 14% feel like 21%."},
+{i:"Fixed-price premium",w:"Price certainty over cost-plus",r:"Roughly 10 points over the cost-plus fee (estimate)",n:"Only worth it with a complete plan set and real allowances; otherwise the risk comes back as change orders."},
+{i:"All-in overhead and profit",w:"Supervision, general conditions, profit",r:"18% to 25% of budget for high-end Austin custom",n:"This is the number to compare across builders, not the headline fee."},
+{i:"Pre-construction fee",w:"Estimating, value engineering, scheduling before contract",r:"$5,000 to $25,000 flat, or 1% to 4% of estimated construction (estimate)",n:"Usually credited to the contract if you proceed. No Austin builder publishes one."},
+{i:"Change-order markup",w:"Fee on changes after contract",r:"15% to 25%",n:"Allowances are often bid 10 to 30% below actual; this is where cost-plus budgets grow."},
+{i:"Hard cost, production or spec",w:"Structure only, per finished sf",r:"$175 to $225/sf; entry $150 to $250",n:"Not usable for luxury underwriting."},
+{i:"Hard cost, semi-custom",w:"Structure only, per finished sf",r:"$225 to $325/sf",n:""},
+{i:"Hard cost, full custom",w:"Structure only, per finished sf",r:"$325 to $500/sf; Westlake and Central $400 to $600",n:"3,500 sf is $1.1M to $1.75M in hard cost."},
+{i:"Hard cost, luxury custom",w:"Structure only, per finished sf",r:"$500 to $1,000+/sf; acreage estates $800 to $1,500",n:"Per-sf hard cost is only 60 to 65% of the all-in project number."},
+{i:"Spec builder gross margin",w:"Profit on sale price",r:"15% to 25% target; 10% to 20% is the normal band",n:"Direct cost plus land at 70 to 72% of sale is the production rule; luxury spec targets more."}
+],note:"Tariffs added $10K to $25K per Austin custom project in 2026, per local builder reports."},
+{g:"Site and soil",intro:"West of MoPac is limestone; east and south is expansive Blackland clay. Both cost money in different places: rock removal and hillside prep on one side, post-tension slabs and piers on the other.",rows:[
+{i:"Geotechnical report",w:"Soil borings and foundation recommendation",r:"$3,000 to $8,000; $900 to $1,500 basic",n:"Essential on any grade change. Each extra boring $750 to $1,500."},
+{i:"Foundation and site work share",w:"Of total budget",r:"9% to 20%",n:"Slab $4 to $31/sf; pier and beam $5 to $110/sf; a hillside stepped foundation can double a conventional slab."},
+{i:"Hillside site prep premium",w:"Westlake, West Austin, Lake Austin",r:"$50,000 to $120,000",n:""},
+{i:"Limestone or rock removal",w:"Hill Country lots",r:"$20,000 to $60,000+; $15 to $40 per cubic yard",n:""},
+{i:"Retaining walls",w:"Engineered limestone or block",r:"$40 to $100 per face sf (estimate)",n:"Bundled into 5 to 10% site work in most Austin budgets."},
+{i:"Long driveway or creek crossing",w:"Hill Country access",r:"$30,000 to $100,000",n:""},
+{i:"Septic (OSSF)",w:"Hays, western Travis, rural Williamson",r:"Eval $500 to $1,500; design $500 to $1,000; conventional $6,500 to $9,800 installed; aerobic $10,000 to $30,000",n:"Rock prep adds $1,500 to $4,500; aerobic needs a $300 to $600 per year maintenance contract."},
+{i:"Well",w:"No municipal water",r:"$15,000 to $40,000",n:"$25 to $65 per foot drilled."},
+{i:"Pool",w:"Gunite",r:"$55,000 to $200,000+; infinity $80,000 to $180,000+",n:"Permits $500 to $3,500. Counts against impervious cover."}
+],note:""},
+{g:"Permits, taps and fees",intro:"City of Austin numbers are the FY2025 schedule; the FY2026-27 schedule took effect October 1, 2026 and runs a few percent higher. Unincorporated county is faster and cheaper but needs OSSF and driveway permits.",rows:[
+{i:"City of Austin plan review, new single-family",w:"Base by square footage bracket",r:"$1,037 to $1,728 base plus 6% per added sf bracket; $103 application",n:"Environmental or watershed review adds 4 to 8 weeks."},
+{i:"City of Austin trade permits",w:"Building, electrical, mechanical, plumbing, energy",r:"Building $263 to $473 base plus $0.052/sf; each trade adds $100 to $300 plus per-sf",n:"A 5,000 sf home totals $3,000 to $8,000 in city permit and review fees; Round Rock and Cedar Park $2,000 to $4,500."},
+{i:"Austin Water impact fees",w:"Water and wastewater, lots platted after 10/1/2023",r:"$4,800 water + $2,900 wastewater per service unit; 3/4-inch meter $11,550; 1-inch meter $19,250",n:"Older plats pay far less ($500 to $1,700 pre-2007). Meter $111 to $215, inspection $195. Service Extension Request if mains are over 100 ft away."},
+{i:"Combined impact and utility fees",w:"All-in planning number",r:"$5,000 to $25,000 typical; $55,000 to $75,000 on an estate with meter and tap upgrades",n:"MUD and PID fees are extra outside the city."},
+{i:"Tree permit review (TORA)",w:"City of Austin residential",r:"$60 to $125",n:"2 to 4 weeks simple, 3 to 6 weeks construction-related. Heritage removals over 30 in. go to a public process."},
+{i:"Travis County, unincorporated",w:"Development, driveway, OSSF, floodplain",r:"OSSF $819 standard, $1,452 engineered; driveway $314 to $383; floodplain $172 to $469",n:"FY2027 schedule effective 10/1/2026. Review 4 to 8 weeks."},
+{i:"Williamson County, unincorporated",w:"OSSF, certificate of compliance, driveway",r:"OSSF $510 standard, $610 engineered, $710 aerobic",n:"No county building permit; certificate of compliance for new construction."},
+{i:"Hays County, unincorporated",w:"OSSF",r:"$400 to $800 (estimate)",n:"Fee schedule not published online; confirm with Hays Development Services."},
+{i:"HOA or ARC review",w:"Spanish Oaks, Barton Creek, Rough Hollow and similar",r:"$1,000 to $5,000 fee; $5,000 to $25,000 construction deposit (estimate)",n:"Adds 4 to 12 weeks. One published Texas HOA schedule is $350 plan fee plus $5,000 deposit."},
+{i:"Impervious cover limits",w:"City of Austin",r:"SF-1 40%; SF-2 and SF-3 45%; Barton Springs Zone 15% to 25%",n:"Stricter of zoning district or watershed applies; this decides the pool, drive and footprint in Barton Hills and southwest Austin."},
+{i:"Time to permit",w:"Submittal to issued",r:"City 8 to 14 weeks typical, 2 to 4 months with resubmittals; county 4 to 8 weeks",n:"Each review cycle 10 to 21 business days. Carrying cost of delay on a lot is real: taxes 1.8 to 2.2% plus interest."}
+],note:""},
+{g:"Financing, insurance, title and carry",intro:"",rows:[
+{i:"Construction-to-perm loan",w:"Owner-occupied custom",r:"6.5% to 9%+ rate; 1% to 2% origination; 20% to 30% down; 9 to 12 month interest-only term",n:"Interest $4K to $8K per month once 60 to 70% drawn; $40K to $80K over a 12-month build. January 2026 pricing."},
+{i:"Investor or spec construction loan",w:"Non-owner-occupied",r:"9.75% to 11.25%; 65% to 75% loan to cost",n:"Hard money and private lenders. Matches the 10% default in the Proforma tab."},
+{i:"Lot loan",w:"Unimproved land",r:"7% to 10%; 20% to 50% down; 2 to 15 year terms",n:""},
+{i:"Builder's risk insurance",w:"Course of construction, 12 months",r:"1% to 5% of construction value; about $14,000 on a $1.6M Central Texas build",n:"Confirm who carries it, owner or builder, and whether liability and workers comp are billed through."},
+{i:"Title on the lot",w:"Texas promulgated owner's policy",r:"$2,756 at $500K; $5,226 at $1M; settlement $400 to $750",n:"Formula: (price minus $100K) x 0.00494 + $780. Rates effective 3/1/2026."},
+{i:"HERS rating and energy testing",w:"2024 IECC, adopted in Austin 7/10/2025",r:"HERS about $375; blower door $150 to $300",n:"ERI 57 max, 3.0 ACH50."},
+{i:"Lot carrying cost",w:"Taxes plus interest while permitting",r:"Property tax 1.8% to 2.2% of assessed value per year plus loan interest",n:"Every month of permit delay costs real money; underwrite 14 to 20 months design to CO."}
+],note:""}
+],
+preconRules: [
+{t:"Soft costs",p:"8 to 12% of total budget on a lean build; 20 to 25% on top of construction once architect, interiors and landscape are all counted."},
+{t:"Architect",p:"8 to 15% of construction, tapering to 5 to 6% above $2.5M."},
+{t:"Lot share",p:"25 to 35% of total budget for custom; 20% for production spec. The Nashville rule still holds: above 35% of exit, walk."},
+{t:"Builder take",p:"12 to 18% cost-plus; add about 10 points for fixed price; 18 to 25% all-in overhead and profit at the high end."},
+{t:"Budget shape",p:"Hard construction 45 to 55%, site work 5 to 10%, contingency 5 to 10% of total."},
+{t:"Per-sf reality",p:"The hard cost per sf is only 60 to 65% of the all-in number. Add land, soft costs, fees, carry and contingency before quoting a client."},
+{t:"Appraisal test",p:"Finished home should appraise at 1.3x total cost or better. A $500K lot and a $1.2M build needs to appraise at $1.7M+."},
+{t:"Allowances",p:"Often bid 10 to 30% below actual, and change orders carry 15 to 25% markup. Price allowances yourself before signing."}
+],
+preconAsk: [
+"Surveyor: is the tree survey included, and to what diameter? Is the deliverable CAD-ready for the architect?",
+"Architect: what percent, on what base (hard cost or total), and does it include construction administration and site visits? What is excluded: structural, civil, interiors, landscape?",
+"Designer: hourly, flat or percent? Is purchasing markup on top, and do trade discounts pass through to the owner?",
+"Builder: what is the fee, what is in general conditions, how are change orders marked up, who priced the allowances and against what, and who carries builder's risk?",
+"Builder: cost-plus with open books and monthly draw backup, or fixed price with a complete plan set? Is there a pre-construction fee and is it credited?",
+"Lender: construction-to-perm rate and points today, loan to cost, draw inspection process and turnaround, and do you underwrite the builder as well as the borrower?",
+"Everyone: what is your current timeline, and how many active projects are you carrying right now?"
+],
 builders: [
 {n:"Paradisa Homes",who:"Luis Zaragoza (partner), Diego Conti (RE & finance); sales: Keith",t:["spec","custom","pri"],hood:"Barton Hills, Westlake, Tarrytown, Allandale",why:"Biggest visible luxury spec pipeline in the core: 13 under contract, 16 coming soon, 13 land positions, next spec release Q3 2026, and an explicit investor-build product line. Your closest match to 2K Development.",meta:"(512) 910-4505 · keith@paradisahomes.com · 7427 N Lamar Blvd Ste 101",ig:"paradisahomes",web:"paradisahomes.com"},
 {n:"Urban ATX Development",who:"Leonard Bullard (founder); Tim Withers, Gavin Gallihugh, Jordan Berlin",t:["spec","custom","pri"],hood:"Central Austin, Barton Hills, South Austin, Lake Austin",why:"Highest-ticket spec operator in town: an $18.5M Lake Austin spec, $5M+ Barton Hills specs, pipeline of 55 homes over $2M trimmed to about 25. Holding inventory, so open to conversations.",meta:"Contact via site form",ig:"urban_atx",web:"urban-atx.com"},
@@ -583,6 +681,24 @@ function playView(){
   <p>For dirt, recruit two or three agents with Austin Luxury Network and Clubhouse access (Reisor, Keenan, Moreland, Wilcoxon), have one post our buy box as a buyer need, and run a TCAD mail program on pre-1970 homes on quarter-acre-plus lots in 78703, 78746 and 78704. Join New Western and NetWorth anyway; it costs nothing.</p>
   <p>Lead with what we bring: Nashville spec comps, a Texas realtor's license, an Austin rental already owned, and investor capital that can close on a lot. That is a real conversation with Paradisa, Revent, Otto and Gossett, all of whom build with outside capital.</p></div></div>`;
 }
+function preconView(){
+  const ql=q.trim().toLowerCase();
+  const groups=D.precon.map(g=>{
+    const rows=g.rows.filter(r=>hit(r,ql));
+    if(!rows.length) return "";
+    return `<div class="blurb-card"><h2>${esc(g.g)}</h2>${g.intro?`<div class="research-blurb"><p>${esc(g.intro)}</p></div>`:""}
+    <div style="overflow-x:auto;"><table class="research-table"><thead><tr><th>Line item</th><th>What it is</th><th>Austin range</th><th>Watch for</th></tr></thead><tbody>
+    ${rows.map(r=>`<tr><td>${esc(r.i)}</td><td>${esc(r.w)}</td><td>${esc(r.r)}</td><td>${esc(r.n)}</td></tr>`).join("")}
+    </tbody></table></div>${g.note?`<p class="research-note">${esc(g.note)}</p>`:""}</div>`;
+  }).join("");
+  const rules=D.preconRules.filter(r=>hit(r,ql)).map(r=>`<article class="research-card"><h3>${esc(r.t)}</h3><p class="why">${esc(r.p)}</p></article>`).join("");
+  const qs=D.preconAsk.map(x=>`<li>${esc(x)}</li>`).join("");
+  return `<p class="panel-intro">What the pre-construction stack actually costs in the Austin metro, line by line, so a quote from a surveyor, architect, designer or builder can be checked against a range before it is accepted. Ranges are October 2026 research across Austin firm pricing, City of Austin and county fee schedules, and industry guides; every number is a planning figure to replace with a real bid. Texas is a non-disclosure state and most pros do not publish rates, so treat the "Watch for" column as the negotiating notes.</p>
+  <div class="tiles">${D.preconTiles.map(t=>`<div class="pl-tile"><div class="k">${esc(t.k)}</div><div class="v">${esc(t.v)}</div><div class="s">${esc(t.s)}</div></div>`).join("")}</div>
+  ${groups||'<div class="empty">Nothing matches</div>'}
+  ${rules?`<h2 class="tblh">Rules of thumb Austin pros use</h2><div class="research-grid">${rules}</div>`:""}
+  <div class="blurb-card"><h2>Questions to ask a vendor before signing</h2><div class="research-blurb"><ul style="margin:0;padding-left:18px;">${qs}</ul></div></div>`;
+}
 function render(){
   const el=document.getElementById("panel-"+panel);
   if(panel==="overview") el.innerHTML=overviewView();
@@ -591,6 +707,7 @@ function render(){
   else if(panel==="pricing") el.innerHTML=pricingView();
   else if(panel==="zspec"){ el.innerHTML=zspecView(); bindZspec(el); }
   else if(panel==="proforma"){ el.innerHTML=proformaView(); bindProforma(el); }
+  else if(panel==="precon") el.innerHTML=preconView();
   else if(panel==="play") el.innerHTML=playView();
   else { el.innerHTML=listView(panel); const tg=el.querySelector("#specToggle"); if(tg) tg.onclick=()=>{specOnly=!specOnly; try{localStorage.setItem("vfv.mi.spec",specOnly?"1":"0");}catch(e){} render();}; }
   document.querySelectorAll(".panel").forEach(p=>p.classList.toggle("is-active",p.id==="panel-"+panel));
