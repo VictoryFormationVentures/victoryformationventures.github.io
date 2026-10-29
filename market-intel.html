@@ -336,6 +336,32 @@ precon: [
 {i:"Lot carrying cost",w:"Taxes plus interest while permitting",r:"Property tax 1.8% to 2.2% of assessed value per year plus loan interest",n:"Every month of permit delay costs real money; underwrite 14 to 20 months design to CO."}
 ],note:""}
 ],
+preconSources: [
+["Neuhaus Realty, Austin custom home costs 2026","https://www.neuhausre.com/custom-home-building-costs-austin-tx-2026/"],
+["Neuhaus, well and septic guide","https://www.neuhausre.com/guides/well-water-septic-guide-hill-country/"],
+["Neuhaus, zoning and land use guide","https://neuhausre.com/guides/zoning-land-use-guide-austin/"],
+["Moontower Architecture, cost of a custom home in Texas","https://www.moontoweraustin.com/post/cost-of-building-custom-home-in-texas"],
+["Zbranek & Holt, financing and pricing explained","https://www.zhcustomhomes.com/custom-home-financing-and-pricing-explained/"],
+["CostToBuildHouse, Austin","https://www.costtobuildhouse.com/austin-tx"],
+["Block Renovation, Austin build cost","https://www.blockrenovation.com/guides/austin-tx-new-house-custom-build-cost-local"],
+["Starr Surveying pricing","https://www.starr-surveying.com/pricing"],
+["Angi, land survey cost Austin","https://www.angi.com/articles/how-much-does-land-survey-cost/tx/austin"],
+["James Luker Tree Service, arborist reports","https://jameslukertreeservice.com/austin/services/arborist-reports"],
+["City of Austin, tree reviews and permitting","https://www.austintexas.gov/page/tree-reviews-and-permitting"],
+["Angi, structural engineer cost Austin","https://www.angi.com/articles/how-much-does-structural-engineer-cost/tx/austin"],
+["J Fisher Interiors, designer cost Austin","https://jfisherinteriors.com/how-much-does-an-interior-designer-cost-in-austin-texas/"],
+["Etch Design Group, interior design cost Austin","https://etchinteriordesign.com/how-much-does-interior-design-cost-in-austin-texas/"],
+["JLC, charging for pre-construction services","https://www.jlconline.com/remodeling/charging-for-preconstruction-services/"],
+["City of Austin residential fee schedule (FY2025)","https://austintexas.gov/sites/default/files/files/Development_Services/Fees_Residential.pdf"],
+["Austin Water impact fee schedule FY2026","https://www.austintexas.gov/sites/default/files/files/Water/Taps/Impact-Fee-Schedule-FY2026-Updated.pdf"],
+["Travis County development review fee schedule","https://www.traviscountytx.gov/images/health_human_services/Docs/DR-Fee_Schedule-Effective-0127.pdf"],
+["Williamson County OSSF fees","https://www.wilcotx.gov/DocumentCenter/View/16734"],
+["Hillwood, Texas construction and mortgage rates","https://www.hillwoodcommunities.com/blog/texas-mortgage-rates-new-homes/"],
+["New Silver, construction loan rates","https://newsilver.com/construction-loan/construction-loan-rates/"],
+["Distinguished, builder's risk in Texas","https://distinguished.com/builders-risk-insurance-in-texas/"],
+["Harbert Group, Texas title insurance 2026","https://www.harbertgroup.com/blog/933/Texas+Title+Insurance+Costs+2026%3A+How+To+Save+%241%2C200%2B+At+Closing"],
+["Permit Place, Austin building permits","https://permitplace.com/city/austin-tx-building-permits/"]
+],
 preconRules: [
 {t:"Soft costs",p:"8 to 12% of total budget on a lean build; 20 to 25% on top of construction once architect, interiors and landscape are all counted."},
 {t:"Architect",p:"8 to 15% of construction, tapering to 5 to 6% above $2.5M."},
@@ -697,7 +723,8 @@ function preconView(){
   <div class="tiles">${D.preconTiles.map(t=>`<div class="pl-tile"><div class="k">${esc(t.k)}</div><div class="v">${esc(t.v)}</div><div class="s">${esc(t.s)}</div></div>`).join("")}</div>
   ${groups||'<div class="empty">Nothing matches</div>'}
   ${rules?`<h2 class="tblh">Rules of thumb Austin pros use</h2><div class="research-grid">${rules}</div>`:""}
-  <div class="blurb-card"><h2>Questions to ask a vendor before signing</h2><div class="research-blurb"><ul style="margin:0;padding-left:18px;">${qs}</ul></div></div>`;
+  <div class="blurb-card"><h2>Questions to ask a vendor before signing</h2><div class="research-blurb"><ul style="margin:0;padding-left:18px;">${qs}</ul></div></div>
+  <div class="blurb-card"><h2>Sources</h2><div class="research-blurb"><p>Research compiled Oct 29, 2026. City of Austin permit figures are the FY2025 schedule; FY2026-27 took effect Oct 1, 2026 and runs a few percent higher.</p><ul style="margin:0;padding-left:18px;">${D.preconSources.map(x=>`<li><a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a></li>`).join("")}</ul></div></div>`;
 }
 function render(){
   const el=document.getElementById("panel-"+panel);
