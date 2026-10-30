@@ -152,6 +152,12 @@
     .research-blurb p { margin: 0 0 12px; }
     .research-blurb b { color: var(--text); font-weight: 600; }
     .blurb-card { background: var(--panel); border: 1px solid var(--rule); padding: 20px 22px; margin-bottom: 14px; }
+    details.src-toggle { margin: 6px 0 14px; }
+    details.src-toggle > summary { list-style: none; cursor: pointer; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-muted); user-select: none; }
+    details.src-toggle > summary::-webkit-details-marker { display: none; }
+    details.src-toggle > summary::before { content: "+ "; }
+    details.src-toggle[open] > summary::before { content: "– "; }
+    details.src-toggle > .research-blurb { margin-top: 10px; font-size: 13px; }
     .blurb-card h2 { font-family: var(--font-display); font-size: 12.5px; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 400; margin: 0 0 12px; padding-bottom: 8px; border-bottom: 1px solid var(--rule); }
 
     /* Proforma */
@@ -724,7 +730,7 @@ function preconView(){
   ${groups||'<div class="empty">Nothing matches</div>'}
   ${rules?`<h2 class="tblh">Rules of thumb Austin pros use</h2><div class="research-grid">${rules}</div>`:""}
   <div class="blurb-card"><h2>Questions to ask a vendor before signing</h2><div class="research-blurb"><ul style="margin:0;padding-left:18px;">${qs}</ul></div></div>
-  <div class="blurb-card"><h2>Sources</h2><div class="research-blurb"><p>Research compiled Oct 29, 2026. City of Austin permit figures are the FY2025 schedule; FY2026-27 took effect Oct 1, 2026 and runs a few percent higher.</p><ul style="margin:0;padding-left:18px;">${D.preconSources.map(x=>`<li><a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a></li>`).join("")}</ul></div></div>`;
+  <details class="src-toggle"><summary>Sources (${D.preconSources.length}) · compiled Oct 29, 2026</summary><div class="research-blurb"><p>City of Austin permit figures are the FY2025 schedule; FY2026-27 took effect Oct 1, 2026 and runs a few percent higher.</p><ul style="margin:0;padding-left:18px;">${D.preconSources.map(x=>`<li><a href="${esc(x[1])}" target="_blank" rel="noopener">${esc(x[0])}</a></li>`).join("")}</ul></div></details>`;
 }
 function render(){
   const el=document.getElementById("panel-"+panel);
