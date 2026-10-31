@@ -5,15 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Services and Fee Schedule · Victory Formation Ventures</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
-<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#f6f2ea; --panel:#fbf9f4; --rule:#d9d0bf; --text:#111; --muted:#5a564e; --dim:#6f6a5f; --accent:#75663a; --tag-bg:#f5e9c9; --tag-fg:#6b5a1e; --btn:#111; --btn-fg:#fff; }
+  :root { --bg:#f6f2ea; --panel:#fbf9f4; --rule:#d9d0bf; --text:#111; --muted:#5a564e; --dim:#6f6a5f; --accent:#4E5A3E; --tag-bg:#f5e9c9; --tag-fg:#6b5a1e; --btn:#111; --btn-fg:#fff; }
   html[data-brand="stonehouse"] { --bg:#0a0a0a; --panel:#111; --rule:#2a2a2a; --text:#f5f2ec; --muted:#b4b4b4; --dim:#888; --accent:#eae2d3; --tag-bg:#231512; --tag-fg:#e0c98d; --btn:#eae2d3; --btn-fg:#111; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font-family:'Mulish',Helvetica,Arial,sans-serif; font-size:12.5px; line-height:1.55; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Montserrat',Helvetica,Arial,sans-serif; font-size:12.5px; line-height:1.55; }
   .topbar { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:14px; padding:14px 28px; background:var(--panel); border-bottom:1px solid var(--rule); }
   .topbar .name { font-family:'Aboreto',serif; font-size:14px; letter-spacing:.28em; text-transform:uppercase; }
-  .topbar .name small { display:block; font-family:'Mulish',sans-serif; font-size:8px; letter-spacing:.24em; color:var(--dim); font-weight:700; margin-top:2px; }
+  .topbar .name small { display:block; font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:.24em; color:var(--dim); font-weight:700; margin-top:2px; }
   .topbar .sp { flex:1; }
   .topbar a, .topbar button { font:inherit; font-size:10px; letter-spacing:.2em; text-transform:uppercase; padding:9px 14px; border:1px solid var(--rule); background:transparent; color:var(--text); cursor:pointer; text-decoration:none; }
   .topbar button.primary { background:var(--btn); color:var(--btn-fg); border-color:var(--btn); }
@@ -24,7 +24,7 @@
   .page { max-width:1040px; margin:14px auto 28px; background:var(--panel); border:1px solid var(--rule); padding:44px 48px; }
   .head { display:flex; justify-content:space-between; align-items:flex-end; border-bottom:1px solid var(--text); padding-bottom:16px; margin-bottom:22px; gap:24px; }
   .brand { font-family:'Aboreto',serif; font-size:18px; letter-spacing:.26em; text-transform:uppercase; line-height:1.35; }
-  .brand small { display:block; font-family:'Mulish',sans-serif; font-size:8.5px; letter-spacing:.24em; color:var(--accent); font-weight:700; margin-top:5px; }
+  .brand small { display:block; font-family:'Montserrat',sans-serif; font-size:8.5px; letter-spacing:.24em; color:var(--accent); font-weight:700; margin-top:5px; }
   .head .right { text-align:right; font-size:10.5px; color:var(--muted); line-height:1.6; }
   h1 { font-family:'Aboreto',serif; font-weight:400; font-size:26px; letter-spacing:.14em; text-transform:uppercase; margin:0 0 6px; }
   .lede { font-size:13.5px; color:var(--muted); max-width:820px; margin:0 0 22px; font-weight:300; }
@@ -52,6 +52,8 @@
   @media print { .topbar, .hint { display:none !important; } body { background:var(--panel); -webkit-print-color-adjust:exact; print-color-adjust:exact; } .page { margin:0; border:0; padding:0; max-width:none; } h2 { break-after:avoid; } tr, .box { break-inside:avoid; } }
   @media (max-width:720px) { .page { padding:24px 18px; } .head { flex-direction:column; align-items:flex-start; } .head .right { text-align:left; } .grid { grid-template-columns:1fr; } td.fee { white-space:normal; } .topbar { flex-wrap:wrap; } }
 </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
 <div class="topbar">
@@ -78,7 +80,7 @@
     <thead><tr><th>Service</th><th>Our fee</th><th>What's included</th><th class="internal-only">Industry reference</th></tr></thead>
     <tbody>
       <tr><td class="svc">Principal consulting<small class="internal-only">Gabe, Ryan</small></td><td class="fee">$275 / hour<small>2-hour minimum · billed in 15-min increments</small></td><td>Strategy, deal review, site walks, negotiation coaching, calls with your architect, builder, lender, or city staff.</td><td class="bench internal-only">Independent consultants average $150–$200/hr; senior and principal-level practitioners $200–$500/hr. Land-use attorneys $200–$600/hr.</td></tr>
-      <tr><td class="svc">Associate consulting<small class="internal-only">Vincent and team</small></td><td class="fee">$150 / hour</td><td>Research, comps, document assembly, permit and application tracking, site visits.</td><td class="bench internal-only">Mid-level consultants $100–$200/hr.</td></tr>
+      <tr><td class="svc">Associate consulting<small class="internal-only">Associates and team</small></td><td class="fee">$150 / hour</td><td>Research, comps, document assembly, permit and application tracking, site visits.</td><td class="bench internal-only">Mid-level consultants $100–$200/hr.</td></tr>
       <tr><td class="svc">Monthly retainer<small>For active owners, builders, investors</small></td><td class="fee">$2,000 / mo (8 hrs)<br>$4,500 / mo (20 hrs)<small>Unused hours roll one month · 15% below hourly</small></td><td>Standing access, priority scheduling, first look at our off-market land, monthly Market Pulse call.</td><td class="bench internal-only">Retainers are standard for ongoing advisory; discounts of 10–20% versus hourly are typical.</td></tr>
     </tbody>
   </table>

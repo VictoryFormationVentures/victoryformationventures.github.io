@@ -7,7 +7,7 @@
   <meta name="theme-color" content="#f6f2ea" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:              #f6f2ea;
@@ -19,10 +19,10 @@
       --text:            #111111;
       --text-muted:      #5a564e;
       --text-dim:        #6f6a5f;
-      --accent:          #75663a;
-      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --accent:          #4E5A3E;
+      --font-body:       'Montserrat', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
-      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --font-ui:         'Montserrat', 'Helvetica Neue', Arial, sans-serif;
       --tracking-wide:   0.18em;
     }
     *, *::before, *::after { box-sizing: border-box; }
@@ -295,7 +295,7 @@
       border: 1px solid var(--rule-strong);
       color: var(--text-muted);
     }
-    .uw-draw-table .status-pill.construction { color: #8a6a1f; border-color: rgba(232,192,104,0.3); }
+    .uw-draw-table .status-pill.construction { color: #4E5A3E; border-color: rgba(232,192,104,0.3); }
     .uw-draw-table .status-pill.sale         { color: #2f6f47; border-color: rgba(164,213,173,0.3); }
     .uw-sens-head {
       font-size: 12px;
@@ -350,14 +350,14 @@
     }
     .uw-sens-table td.cell.center { outline: 1px solid var(--text); outline-offset: -2px; }
     .uw-sens-table td.cell.neg { background: rgba(217,122,122,0.15); color: #f0a8a8; }
-    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #8a6a1f; }
+    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #4E5A3E; }
     .uw-sens-table td.cell.mid { background: rgba(164,213,173,0.08); color: #c6ddc8; }
     .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #2f6f47; }
     .uw-error-row {
       margin: 0 32px 12px;
       padding: 10px 14px;
       border: 1px solid #efe5cf;
-      color: #7a6220;
+      color: #3F4932;
       font-size: 12px;
     }
     .deal-empty, .deal-error {
@@ -385,7 +385,7 @@
       @page { size: letter portrait; margin: 0.6in 0.55in; }
       html, body {
         background: #f6f2ea !important; color: #111111 !important;
-        font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+        font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
         font-size: 10pt;
       }
       /* Hide chrome + inactive tabs */
@@ -401,7 +401,7 @@
 
       /* --- COVER HEADER — brand-forward slide banner --- */
       .modal-head {
-        border-bottom: 1px solid #75663a !important;
+        border-bottom: 1px solid #4E5A3E !important;
         padding: 0 0 16px !important;
         margin: 0 0 20px !important;
         display: flex !important;
@@ -411,7 +411,7 @@
       }
       .modal-title-group { text-align: center !important; }
       .modal-title-group .modal-eyebrow {
-        color: #75663a !important;
+        color: #4E5A3E !important;
         font-size: 8pt !important;
         letter-spacing: .32em !important;
         font-weight: 600;
@@ -429,7 +429,7 @@
       /* --- PROPERTY BANNER (address + neighborhood) — presentation-style hero --- */
       .uw-panel > .uw-section:first-child {
         background: #fbf9f4 !important;
-        border: 1px solid #75663a !important;
+        border: 1px solid #4E5A3E !important;
         padding: 16px 22px !important;
         margin-bottom: 22px !important;
         display: grid !important;
@@ -469,9 +469,9 @@
       .uw-section-head {
         font-family: 'Aboreto', 'Times New Roman', serif !important;
         font-weight: 400 !important; font-size: 13pt !important;
-        color: #75663a !important;
+        color: #4E5A3E !important;
         text-transform: uppercase; letter-spacing: .26em;
-        border-bottom: 1px solid #75663a !important;
+        border-bottom: 1px solid #4E5A3E !important;
         padding-bottom: 7px !important; margin-bottom: 12px !important;
       }
       .uw-section-grid {
@@ -498,7 +498,7 @@
       .uw-field input, .uw-field select {
         background: transparent !important; border: 0 !important; padding: 0 !important;
         color: #111111 !important;
-        font-family: 'Mulish', sans-serif !important;
+        font-family: 'Montserrat', sans-serif !important;
         font-size: 11pt !important; font-weight: 600 !important;
         text-align: right !important; width: auto !important; min-width: 0 !important;
         -webkit-appearance: none !important; appearance: none !important;
@@ -509,13 +509,13 @@
       .uw-field .prefix-dollar { display: inline !important; position: static !important; padding: 0 !important; }
       .uw-field .prefix-dollar::before {
         position: static !important; transform: none !important;
-        color: #75663a !important; font-size: 10pt !important; margin-right: 2px;
+        color: #4E5A3E !important; font-size: 10pt !important; margin-right: 2px;
       }
       .uw-field .prefix-dollar input { padding: 0 !important; display: inline !important; width: auto !important; }
       .uw-field .suffix { display: inline !important; position: static !important; padding: 0 !important; }
       .uw-field .suffix::after {
         position: static !important; transform: none !important;
-        color: #75663a !important; font-size: 9pt !important; margin-left: 2px;
+        color: #4E5A3E !important; font-size: 9pt !important; margin-left: 2px;
       }
       .uw-field .suffix input { padding: 0 !important; display: inline !important; width: auto !important; }
 
@@ -528,7 +528,7 @@
         border-bottom: 1px solid #d9d0bf !important;
       }
       #uw-cap-derived > div {
-        color: #75663a !important; font-size: 8.5pt !important;
+        color: #4E5A3E !important; font-size: 8.5pt !important;
         letter-spacing: .1em; line-height: 1.6 !important;
       }
 
@@ -548,14 +548,14 @@
          the content area is still on-brand and legible. */
       html { background: #f6f2ea !important; }
       .uw-outcard {
-        border: 1px solid #75663a !important;
+        border: 1px solid #4E5A3E !important;
         background: #fbf9f4 !important;
         margin-bottom: 16px !important;
         break-inside: avoid; page-break-inside: avoid;
         width: 100% !important;
       }
       .uw-outcard .out-head {
-        background: #75663a !important; color: #f6f2ea !important;
+        background: #4E5A3E !important; color: #f6f2ea !important;
         padding: 8px 16px !important;
         font-family: 'Aboreto', serif !important;
         font-size: 11pt !important; font-weight: 400 !important;
@@ -579,7 +579,7 @@
         font-weight: 500;
       }
       .uw-outcard .out-row .v {
-        font-family: 'Mulish', sans-serif !important;
+        font-family: 'Montserrat', sans-serif !important;
         font-size: 11pt !important; font-weight: 600 !important;
         color: #111111 !important; letter-spacing: .02em !important;
       }
@@ -588,10 +588,10 @@
         background: #14120e !important;
         margin: 6px -14px !important;
         padding: 10px 14px !important;
-        border-top: 1px solid #75663a !important;
-        border-bottom: 1px solid #75663a !important;
+        border-top: 1px solid #4E5A3E !important;
+        border-bottom: 1px solid #4E5A3E !important;
       }
-      .uw-outcard .out-row.hi .k { color: #75663a !important; font-weight: 700 !important; }
+      .uw-outcard .out-row.hi .k { color: #4E5A3E !important; font-weight: 700 !important; }
       .uw-outcard .out-row.hi .v {
         font-family: 'Aboreto', serif !important;
         font-size: 16pt !important; font-weight: 400 !important;
@@ -601,7 +601,7 @@
       /* --- DRAW SCHEDULE + SENSITIVITY (if printed while active) --- */
       .uw-draw-summary {
         background: #fbf9f4 !important;
-        border: 1px solid #75663a !important;
+        border: 1px solid #4E5A3E !important;
         padding: 14px 18px !important; margin-bottom: 14px !important;
         gap: 12px !important;
       }
@@ -618,12 +618,14 @@
         border-color: #d9d0bf !important;
       }
       .uw-draw-table th {
-        color: #75663a !important; font-size: 8pt !important;
+        color: #4E5A3E !important; font-size: 8pt !important;
         letter-spacing: .16em !important;
       }
       .uw-draw-table td { border-color: #d9d0bf !important; }
     }
   </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
   <!-- These two IDs (uw-modal-overlay, uw-modal) are required by the shared
@@ -1767,7 +1769,7 @@
       function toast(msg) {
         const t = document.createElement('div');
         t.textContent = msg;
-        t.style.cssText = 'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#75663a;color:#f6f2ea;font-family:Mulish,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:14px 22px;border:1px solid #f6f2ea;box-shadow:0 12px 40px rgba(0,0,0,.4);z-index:100000;max-width:520px;text-align:center;';
+        t.style.cssText = 'position:fixed;left:50%;bottom:32px;transform:translateX(-50%);background:#4E5A3E;color:#f6f2ea;font-family: Montserrat,Helvetica,Arial,sans-serif;font-size:13px;font-weight:600;letter-spacing:.04em;padding:14px 22px;border:1px solid #f6f2ea;box-shadow:0 12px 40px rgba(0,0,0,.4);z-index:100000;max-width:520px;text-align:center;';
         document.body.appendChild(t);
         setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; }, 5500);
         setTimeout(() => { try { document.body.removeChild(t); } catch(_){} }, 6000);
@@ -1842,7 +1844,7 @@
     const bits = [q.get('parcel') ? 'Parcel ' + q.get('parcel') : '', q.get('acres') ? q.get('acres') + ' ac' : '', q.get('zone') ? 'Zone ' + q.get('zone') : '', q.get('flood') ? 'FEMA ' + q.get('flood') : '', q.get('owner') ? 'Owner: ' + q.get('owner') : ''].filter(Boolean);
     if (bits.length) {
       const a = document.getElementById('uw-address');
-      if (a && a.parentElement) { const n = document.createElement('div'); n.style.cssText = 'font-size:11px;color:#75663a;margin-top:6px;line-height:1.5;'; n.textContent = 'From Property Lookup: ' + bits.join(' · ') + '. Lot cost is the CAD appraised land value; replace it with your offer.'; a.parentElement.appendChild(n); }
+      if (a && a.parentElement) { const n = document.createElement('div'); n.style.cssText = 'font-size:11px;color:#4E5A3E;margin-top:6px;line-height:1.5;'; n.textContent = 'From Property Lookup: ' + bits.join(' · ') + '. Lot cost is the CAD appraised land value; replace it with your offer.'; a.parentElement.appendChild(n); }
     }
   })();
   </script>

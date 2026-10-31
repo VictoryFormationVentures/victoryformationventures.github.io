@@ -14,7 +14,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -27,11 +27,11 @@
       --text:            #111111;
       --text-muted:      #5a564e;
       --text-dim:        #6f6a5f;
-      --accent:          #75663a;
+      --accent:          #4E5A3E;
 
-      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-body:       'Montserrat', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
-      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --font-ui:         'Montserrat', 'Helvetica Neue', Arial, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
@@ -442,6 +442,8 @@
     .mp .new { display: inline-block; font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; padding: 2px 6px; margin-left: 6px; background: #f5e9c9; color: #6b5a1e; }
     .mp .mp-status { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
   </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
 
@@ -637,7 +639,7 @@
           .ev-tag.DEVELOPERS       { background:#f3e3d6; color:#8a4a1f; }
           .ev-tag.INVESTORS        { background:#dae5f0; color:#2f5f9a; }
           .ev-tag.PLANNING         { background:#e9ddf0; color:#5e3a7a; }
-          .ev-tag.AGENTS           { background:#efe6cc; color:#7a6220; }
+          .ev-tag.AGENTS           { background:#efe6cc; color:#3F4932; }
           .ev-verified { font-size:10px; color:#3f7a3f; letter-spacing:.08em; }
           .ev-listed   { font-size:10px; color:var(--text-dim); letter-spacing:.08em; }
           .ev-host { font-size:12px; color:var(--text-muted); margin-bottom:8px; }
@@ -817,9 +819,8 @@
           <button type="button" class="agent-tab is-active" data-agent="Gabe Jeudy-Lally">
             <span class="initial">G</span>Gabe Jeudy-Lally
           </button>
-          <button type="button" class="agent-tab" data-agent="Vincent Zambito">
-            <span class="initial">V</span>Vincent Zambito
-          </button>
+          <!-- Vincent Zambito paused Oct 2026. To restore, uncomment:
+          <button type="button" class="agent-tab" data-agent="Vincent Zambito"><span class="initial">V</span>Vincent Zambito</button> -->
         </div>
 
         <!-- Lock screen — shown until agent enters correct passcode -->
@@ -1896,7 +1897,6 @@
                 <select id="ez-agent" required>
                   <option value="" disabled selected>Select…</option>
                   <option value="Gabe Jeudy-Lally">Gabe Jeudy-Lally</option>
-                  <option value="Vincent Zambito">Vincent Zambito</option>
                 </select>
               </label>
               <label class="mm-field"><span>Department *</span>
@@ -2149,8 +2149,8 @@
     // passcode column populated for that agent. Sheet always wins if it
     // has a value.
     let _teamPasscodes = {
-      'Gabe Jeudy-Lally': '5555',
-      'Vincent Zambito':  '7777'
+      'Gabe Jeudy-Lally': '5555'
+      // 'Vincent Zambito': '7777'  (paused Oct 2026)
     };
 
     async function _loadPasscodes() {
@@ -2831,7 +2831,7 @@
                : type === 'Custom Home Client' ? '#2a1c3a'
                : '#d9d0bf';
       const fg = type === 'Builder' ? '#2f5f9a'
-               : type === 'Developer' ? '#8a6a1f'
+               : type === 'Developer' ? '#4E5A3E'
                : type === 'Custom Home Client' ? '#c99fe8'
                : '#7a756a';
       return '<span style="display:inline-block; padding:2px 8px; margin-left:6px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + ';">' + esc(type) + '</span>';
@@ -3326,7 +3326,7 @@
           // Priority pill styling
           const pri = (r.priority || '').trim();
           const priBg = pri === 'High' ? '#3a1c1c' : pri === 'Medium' ? '#efe6cc' : pri === 'Low' ? '#dae5f0' : '';
-          const priFg = pri === 'High' ? '#b03030' : pri === 'Medium' ? '#8a6a1f' : pri === 'Low' ? '#2f5f9a' : '';
+          const priFg = pri === 'High' ? '#b03030' : pri === 'Medium' ? '#4E5A3E' : pri === 'Low' ? '#2f5f9a' : '';
           const priPill = pri ? `<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:${priBg}; color:${priFg};">${esc(pri)}</span>` : '';
 
           // Reusable row renderer for the labeled-detail section
@@ -3468,7 +3468,7 @@
       const heatPill = (h) => {
         if (!h) return '';
         const bg = h==='Hot'?'#3a1c1c':h==='Warm'?'#efe6cc':'#dae5f0';
-        const fg = h==='Hot'?'#b03030':h==='Warm'?'#8a6a1f':'#2f5f9a';
+        const fg = h==='Hot'?'#b03030':h==='Warm'?'#4E5A3E':'#2f5f9a';
         return '<span style="padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:'+bg+'; color:'+fg+';">'+esc(h)+'</span>';
       };
       listEl.innerHTML = mine.map(r => `
@@ -3812,7 +3812,7 @@
       if (info) {
         const bits = [];
         bits.push('<b>' + esc(c.label) + '</b>');
-        if (c.channel === 'portal') bits.push('<span style="color:#8a6a1f;">This department takes requests through a web portal' + (c.email ? '; the inbox is for questions.' : ', not email.') + '</span>');
+        if (c.channel === 'portal') bits.push('<span style="color:#4E5A3E;">This department takes requests through a web portal' + (c.email ? '; the inbox is for questions.' : ', not email.') + '</span>');
         if (c.phone) bits.push('Phone ' + esc(c.phone));
         if (c.url) bits.push('<a href="' + esc(c.url) + '" target="_blank" rel="noopener" style="color:var(--accent);">' + (c.channel === 'portal' ? 'Open portal ↗' : 'Department page ↗') + '</a>');
         if (c.note) bits.push('<span style="color:var(--text-dim);">' + esc(c.note) + '</span>');
@@ -3923,7 +3923,7 @@
     function _plSlopeScore(pct) {
       if (pct <= 2)  return { label: 'Very Flat',   color: '#2f6f47', note: 'Ideal build pad. Minimal grading required.' };
       if (pct <= 5)  return { label: 'Gentle',      color: '#3f7a3f', note: 'Standard grading. Easy site design.' };
-      if (pct <= 10) return { label: 'Moderate',    color: '#8a6a1f', note: 'Some retention or terracing. Manageable cost.' };
+      if (pct <= 10) return { label: 'Moderate',    color: '#4E5A3E', note: 'Some retention or terracing. Manageable cost.' };
       if (pct <= 15) return { label: 'Notable',     color: '#e29a4a', note: 'Walkout basement candidate. Engineered fill likely.' };
       if (pct <= 25) return { label: 'Steep',       color: '#a33333', note: 'Significant grading + retention. Costs add up.' };
       return           { label: 'Very Steep',   color: '#d64545', note: 'Geotech required. Expensive foundation + drainage.' };
@@ -4085,7 +4085,7 @@
         }
         if (link) rows += `<div style="grid-column:1/-1; font-size:11px; padding-top:6px;"><a href="${esc(link)}" target="_blank" rel="noopener" style="color:var(--accent);">Code section ↗</a></div>`;
         rows += meta.zoningCaveat
-          ? `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:#8a6a1f; padding:8px 10px; margin-top:6px; background:rgba(224,201,141,0.08); border-left:2px solid #8a6a1f;">⚠ ${esc(meta.zoningCaveat)}</div>`
+          ? `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:#4E5A3E; padding:8px 10px; margin-top:6px; background:rgba(224,201,141,0.08); border-left:2px solid #4E5A3E;">⚠ ${esc(meta.zoningCaveat)}</div>`
           : `<div style="grid-column:1/-1; font-size:11px; line-height:1.5; color:var(--text-muted); padding:6px 0 0;">Verify setbacks, overlays, and max height with the city — use the <b>Contact City Departments</b> button below.</div>`;
         cards.push(_plCard('Zoning (' + esc(meta.label) + ')', rows));
       } else {
@@ -4307,7 +4307,7 @@
       let t = document.getElementById('vfv-toast');
       if (!t) {
         t = document.createElement('div'); t.id = 'vfv-toast';
-        t.style.cssText = 'position:fixed; left:50%; bottom:28px; transform:translateX(-50%); max-width:min(560px, calc(100vw - 32px)); background:#101010; color:#fefefe; font:13px/1.5 var(--font-body, system-ui); padding:14px 18px; border:1px solid #75663a; box-shadow:0 12px 40px rgba(0,0,0,.35); z-index:99999; display:none;';
+        t.style.cssText = 'position:fixed; left:50%; bottom:28px; transform:translateX(-50%); max-width:min(560px, calc(100vw - 32px)); background:#101010; color:#fefefe; font:13px/1.5 var(--font-body, system-ui); padding:14px 18px; border:1px solid #4E5A3E; box-shadow:0 12px 40px rgba(0,0,0,.35); z-index:99999; display:none;';
         document.body.appendChild(t);
       }
       t.textContent = msg; t.style.display = 'block';
@@ -4358,7 +4358,7 @@
       const isFlood = fzone && !/^X/i.test(fzone);
       const s = slope || null;
       const div = document.createElement('div');
-      div.style.cssText = 'position:fixed; top:-10000px; left:0; width:800px; padding:56px 56px 48px; background:#f6f2ea; color:#111111; font-family:Mulish,Helvetica,Arial,sans-serif;';
+      div.style.cssText = 'position:fixed; top:-10000px; left:0; width:800px; padding:56px 56px 48px; background:#f6f2ea; color:#111111; font-family: Montserrat,Helvetica,Arial,sans-serif;';
       const row = (label, value) => value
         ? `<div style="display:grid; grid-template-columns:180px 1fr; gap:14px; padding:8px 0; border-bottom:1px solid #e6dfd2;">
              <div style="font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#6f6a5f; font-weight:700;">${label}</div>
@@ -4367,13 +4367,13 @@
         : '';
       const section = (title, body) => `
         <div style="margin-top:26px;">
-          <div style="font-family:Aboreto,serif; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#75663a; border-bottom:1px solid #75663a; padding-bottom:6px; margin-bottom:6px;">${title}</div>
+          <div style="font-family:Aboreto,serif; font-size:13px; letter-spacing:.22em; text-transform:uppercase; color:#4E5A3E; border-bottom:1px solid #4E5A3E; padding-bottom:6px; margin-bottom:6px;">${title}</div>
           ${body}
         </div>`;
       div.innerHTML = `
-        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; border-bottom:2px solid #75663a;">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; padding-bottom:16px; border-bottom:2px solid #4E5A3E;">
           <div>
-            <div style="font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:#75663a;">Land Acquisition · Research Report</div>
+            <div style="font-size:10px; letter-spacing:.26em; text-transform:uppercase; color:#4E5A3E;">Land Acquisition · Research Report</div>
             <div style="font-family:Aboreto,serif; font-size:22px; letter-spacing:.14em; color:#111111; margin-top:6px;">VICTORY FORMATION VENTURES</div>
           </div>
           <div style="text-align:right; font-size:10px; letter-spacing:.14em; color:#6f6a5f;">${today}</div>
@@ -4402,7 +4402,7 @@
           row('Elevation Range',  s.range.toFixed(1) + ' ft') +
           row('Low Point',        s.min.toFixed(1) + ' ft') +
           row('High Point',       s.max.toFixed(1) + ' ft') +
-          `<div style="font-size:11px; color:#75663a; padding-top:6px; line-height:1.5;">${s.score ? s.score.note : ''}</div>` +
+          `<div style="font-size:11px; color:#4E5A3E; padding-top:6px; line-height:1.5;">${s.score ? s.score.note : ''}</div>` +
           `<div style="font-size:10px; color:#6f6a5f; padding-top:4px;">Source: USGS 3DEP LiDAR (${s.sampleCount} sample points)</div>`
         ) : ''}
         ${section('FEMA Flood Zone',
@@ -4677,10 +4677,10 @@
         let intro, note = '';
         if (isRoundRock) {
           intro = 'Land buys inside Round Rock city limits within a target acreage range. Filters out home sales via price cap.';
-          note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Williamson County doesn't publish sale dates in the parcel service, so results are all-time (not date-filtered). Recent activity still surfaces via LLC-owner + low-improvement filters. Cross-check the deed via <a href="https://williamsonpropertyassessor.com/" target="_blank" rel="noopener" style="color:#75663a; border-bottom:1px solid #75663a;">Williamson Assessor</a> for actual sale date.</p>`;
+          note = `<p style="font-size:11px; color:#4E5A3E; margin:0 0 12px; line-height:1.5;">⚠ Williamson County doesn't publish sale dates in the parcel service, so results are all-time (not date-filtered). Recent activity still surfaces via LLC-owner + low-improvement filters. Cross-check the deed via <a href="https://williamsonpropertyassessor.com/" target="_blank" rel="noopener" style="color:#4E5A3E; border-bottom:1px solid #4E5A3E;">Williamson Assessor</a> for actual sale date.</p>`;
         } else if (city !== 'austin') {
           intro = 'Recent LLC-purchased lots in a ZIP within a target acreage range. Automatically filters out anything above the price cap (usually home sales, not land).';
-          note = `<p style="font-size:11px; color:#8a6a1f; margin:0 0 12px; line-height:1.5;">⚠ Note: ZIP ${esc(meta.zipHint)} covers parts of Austin and other satellite cities. Comps returned are from the entire ZIP — check the address column to confirm which city each is in.</p>`;
+          note = `<p style="font-size:11px; color:#4E5A3E; margin:0 0 12px; line-height:1.5;">⚠ Note: ZIP ${esc(meta.zipHint)} covers parts of Austin and other satellite cities. Comps returned are from the entire ZIP — check the address column to confirm which city each is in.</p>`;
         } else {
           intro = 'Recent LLC-purchased lots in a ZIP within a target acreage range. Automatically filters out anything above the price cap (usually home sales, not land).';
         }
@@ -4946,7 +4946,7 @@
         if (cell && r.acres) cell.innerHTML = fmtUSD(hit.price / r.acres) + '<br><small style="color:var(--text-dim)">' + (hit.url ? '<a href="' + esc(hit.url) + '" target="_blank" rel="noopener">MLS via Zillow</a>' : 'MLS via Zillow') + '</small>';
       });
       const note = box.querySelector('.la-zillow-note');
-      if (note) note.textContent = n ? n + ' of these sold through the MLS; Zillow prices filled in (gold outline). ' : 'None of these match a Zillow MLS sale, so they were off-market: type in prices as you learn them. ';
+      if (note) note.textContent = n ? n + ' of these sold through the MLS; Zillow prices filled in (green outline). ' : 'None of these match a Zillow MLS sale, so they were off-market: type in prices as you learn them. ';
       if (note && z.updatedAt) note.textContent += 'Feed refreshed ' + z.updatedAt.slice(0, 10) + '.';
       priceSummary(box);
     }
@@ -5106,7 +5106,7 @@
     const CONTACT_FORM = { URL: "https://docs.google.com/forms/d/e/1FAIpQLSdutPZUpzFycTRJ5rVx03PlPLKIrZNa88lhCBqhhdLEaQ-_4g/formResponse", MAP: {"category": "entry.1771585560", "name": "entry.1078339276", "company": "entry.1146685580", "role": "entry.2069875283", "email": "entry.1398486662", "phone": "entry.1534731784", "address": "entry.44461967", "specialties": "entry.1130927070", "last_touch": "entry.113288373", "next_action": "entry.2122278908", "notes": "entry.1551694035"} };
     const CONTACT_SHEET_ID = "1i8veSdGlPFxbiOgif3UxYSEcrdXAQRqd33gpdkI9gZE";
     const PULSE_DEFAULT = ["78702", "78721", "78723", "78724", "78745", "78617", "78653", "78660", "78641", "78613", "78628", "78610", "78640"];
-    const FIRM = { name: 'Victory Formation Ventures', legal: 'Victory Formations Ventures LLC', addr1: '3004 Webberville Rd #2', addr2: 'Austin, TX 78702', phone: '(737) 600-5101', email: 'gabe@victoryformationventures.com', site: 'victoryformationventures.com' };
+    const FIRM = { name: 'Victory Formation Ventures', legal: 'Victory Formation Ventures LLC', addr1: '3004 Webberville Rd #2', addr2: 'Austin, TX 78702', phone: '(737) 600-5101', email: 'gabe@victoryformationventures.com', site: 'victoryformationventures.com' };
     const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
     const usd = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
     const fmtUSD = n => (n && isFinite(n)) ? usd.format(n) : '';
@@ -5167,16 +5167,16 @@
         <p style="margin-top:28px;">With respect,</p>
         <p style="margin-top:34px;"><b>${esc(o.agent)}</b><br>${FIRM.name}<br>${esc(o.phone)} · ${esc(o.email)}<br>${FIRM.site}</p>`;
       return `<!doctype html><html><head><meta charset="utf-8"><title>Letter · ${esc(situs)}</title>
-        <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;600&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <style>
-          body { margin: 0; background: #e9e4da; font-family: 'Mulish', Georgia, serif; color: #101010; }
+          body { margin: 0; background: #e9e4da; font-family: 'Montserrat', Georgia, serif; color: #101010; }
           .bar { display: flex; gap: 10px; padding: 12px 18px; background: #101010; }
           .bar button { font: inherit; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; padding: 9px 16px; background: #f6f2ea; color: #101010; border: 0; cursor: pointer; }
           .bar span { color: #bdb5a4; font-size: 11px; align-self: center; margin-left: auto; }
           .page { width: 8.5in; min-height: 11in; margin: 24px auto; padding: 1in 1in 0.9in; background: #fefefe; box-sizing: border-box; box-shadow: 0 8px 30px rgba(0,0,0,.12); }
           .head { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 1px solid #101010; padding-bottom: 14px; margin-bottom: 28px; }
           .head .brand { font-family: 'Aboreto', serif; font-size: 17px; letter-spacing: .28em; text-transform: uppercase; line-height: 1.35; }
-          .head .brand small { display: block; font-family: 'Mulish', sans-serif; font-size: 8.5px; letter-spacing: .26em; color: #75663a; font-weight: 600; margin-top: 4px; }
+          .head .brand small { display: block; font-family: 'Montserrat', sans-serif; font-size: 8.5px; letter-spacing: .26em; color: #4E5A3E; font-weight: 600; margin-top: 4px; }
           .head .addr { font-size: 10.5px; line-height: 1.6; text-align: right; color: #454545; }
           .meta { font-size: 12px; line-height: 1.7; margin-bottom: 22px; }
           p, li { font-size: 12.5px; line-height: 1.75; font-weight: 300; }

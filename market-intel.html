@@ -11,16 +11,16 @@
   <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f6f2ea; --bg-elev: #fbf9f4; --panel: #fbf9f4; --panel-edge: #d9d0bf;
       --rule: #d9d0bf; --rule-strong: #c9bfab; --text: #111111; --text-muted: #5a564e;
-      --text-dim: #6f6a5f; --accent: #75663a; --soft: #f1ece2; --soft2: #ede7da;
+      --text-dim: #6f6a5f; --accent: #4E5A3E; --soft: #f1ece2; --soft2: #ede7da;
       --good: #3f7a3f; --bad: #b03030;
-      --font-body: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-body: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
       --font-display: 'Aboreto', 'Cormorant Garamond', serif;
-      --font-ui: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --font-ui: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
     }
     *, *::before, *::after { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); }
@@ -190,6 +190,8 @@
     .area-stats { font-size: 11.5px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
     .area-stats b { color: #111111; font-weight: 700; }
   </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
   <div class="topbar">
@@ -571,7 +573,7 @@ function card(o){
     ${links.length?`<div class="links">${links.join("")}</div>`:""}
   </article>`;
 }
-const NOTES={builders:"Ordered by spec activity, then custom pedigree. Gold-edged cards are the builders whose model overlaps most with an outside investor.",lots:"Who moves dirt. Gold-edged cards are the channels that actually touch $1M+ infill. Wholesaler cards are the volume shops: cheap to join, low odds of a Tarrytown lot.",developers:"Who controls the lots. Community developers decide which builders get approved, so they matter even if we never build in their subdivision.",capital:"Where the money comes from. Most of it is private, so the people on the Agents panel are also the capital introductions.",agents:"The agents who hold the $3M+ listings and the builder relationships, plus the two networks that gate the luxury circuit.",architects:"Architects set the tone and pick the builder on most $5M+ customs. Interior designers listed at the bottom stage the specs that photograph well."};
+const NOTES={builders:"Ordered by spec activity, then custom pedigree. Green-edged cards are the builders whose model overlaps most with an outside investor.",lots:"Who moves dirt. Green-edged cards are the channels that actually touch $1M+ infill. Wholesaler cards are the volume shops: cheap to join, low odds of a Tarrytown lot.",developers:"Who controls the lots. Community developers decide which builders get approved, so they matter even if we never build in their subdivision.",capital:"Where the money comes from. Most of it is private, so the people on the Agents panel are also the capital introductions.",agents:"The agents who hold the $3M+ listings and the builder relationships, plus the two networks that gate the luxury circuit.",architects:"Architects set the tone and pick the builder on most $5M+ customs. Interior designers listed at the bottom stage the specs that photograph well."};
 
 function listView(k){
   const ql=q.trim().toLowerCase();
@@ -585,7 +587,7 @@ function listView(k){
 function eventsView(){
   const ql=q.trim().toLowerCase();
   const rows=D.events.filter(e=>hit(e,ql)).map(e=>`<div class="ev${e.star?" star":""}"><div class="d">${esc(e.d)}<small>${esc(e.y)}</small></div><div><h3>${esc(e.n)}</h3><p>${esc(e.p)}</p></div></div>`).join("");
-  return `<p class="panel-intro">Gold-edged events are the ones worth flying in for. 2027 dates marked TBA follow the 2026 pattern. The weekly deal calendar on the Land Acquisition side covers the smaller meetups.</p>${rows||'<div class="empty">Nothing matches</div>'}`;
+  return `<p class="panel-intro">Green-edged events are the ones worth flying in for. 2027 dates marked TBA follow the 2026 pattern. The weekly deal calendar on the Land Acquisition side covers the smaller meetups.</p>${rows||'<div class="empty">Nothing matches</div>'}`;
 }
 function followView(){
   const ql=q.trim().toLowerCase();

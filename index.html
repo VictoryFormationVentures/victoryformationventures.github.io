@@ -21,7 +21,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
 
   <style>
     /* =========================================================
@@ -38,7 +38,7 @@
       --rule-strong: #d9d0bf;
 
       --font-display: 'Aboreto', 'Cormorant Garamond', serif;
-      --font-body:    'Mulish', 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+      --font-body:    'Montserrat', 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
       --tracking-wide:   0.25em;
       --tracking-x-wide: 0.35em;
@@ -670,7 +670,7 @@
     .form-status.show { display: block; }
     .form-status.ok  { color: #2f6f47; border-color: #1f3a2a; }
     .form-status.err { color: #a33333; border-color: #f3dada; }
-    .form-status.warn { color: #7a6220; border-color: #efe5cf; }
+    .form-status.warn { color: #3F4932; border-color: #efe5cf; }
 
     body.modal-open { overflow: hidden; }
 
@@ -900,7 +900,7 @@
       border: 1px solid var(--rule-strong);
       color: var(--text-muted);
     }
-    .uw-draw-table .status-pill.construction { color: #8a6a1f; border-color: rgba(232,192,104,0.3); }
+    .uw-draw-table .status-pill.construction { color: #4E5A3E; border-color: rgba(232,192,104,0.3); }
     .uw-draw-table .status-pill.sale         { color: #2f6f47; border-color: rgba(164,213,173,0.3); }
 
     /* Sensitivity grid */
@@ -957,7 +957,7 @@
     }
     .uw-sens-table td.cell.center { outline: 1px solid var(--text); outline-offset: -2px; }
     .uw-sens-table td.cell.neg { background: rgba(217,122,122,0.15); color: #f0a8a8; }
-    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #8a6a1f; }
+    .uw-sens-table td.cell.low { background: rgba(232,192,104,0.10); color: #4E5A3E; }
     .uw-sens-table td.cell.mid { background: rgba(164,213,173,0.08); color: #c6ddc8; }
     .uw-sens-table td.cell.hi  { background: rgba(164,213,173,0.20); color: #2f6f47; }
 
@@ -965,7 +965,7 @@
       margin: 0 32px 12px;
       padding: 10px 14px;
       border: 1px solid #efe5cf;
-      color: #7a6220;
+      color: #3F4932;
       font-size: 12px;
     }
 
@@ -1275,7 +1275,7 @@
       background: var(--text);
       transition: width .3s ease;
     }
-    .deal-bar.approaching .bar-fill { background: #8a6a1f; }
+    .deal-bar.approaching .bar-fill { background: #4E5A3E; }
     .deal-bar.past .bar-fill { background: #a33333; }
     .deal-bar.done .bar-fill { background: var(--text-dim); }
     .deal-bar .bar-status {
@@ -1286,7 +1286,7 @@
       white-space: nowrap;
       font-variant-numeric: tabular-nums;
     }
-    .deal-bar.approaching .bar-status { color: #8a6a1f; }
+    .deal-bar.approaching .bar-status { color: #4E5A3E; }
     .deal-bar.past .bar-status { color: #a33333; }
     .deal-bar.done .bar-status { color: var(--text-dim); }
     /* Per-milestone "complete" checkbox — visible on dark backgrounds */
@@ -3185,6 +3185,8 @@
       .nav-divider { display: none; }
     }
   </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
 
@@ -3222,9 +3224,7 @@
         </button>
         <button type="button" class="hub-card" data-target="telos">
           <div class="hub-avatar" data-slug="telos">
-            <img src="assets/telos-logo.png" alt=""
-                 onerror="this.onerror=null; this.src='assets/hub/telos.jpg';
-                          this.onerror=function(){this.style.display='none';};" />
+            <img src="assets/hub/telos.svg" alt="" onerror="this.style.display='none';" />
             <span class="hub-initial">A</span>
           </div>
           <div class="hub-name">Telos</div>
@@ -3232,15 +3232,15 @@
         </button>
         <button type="button" class="hub-card" data-target="liveoak">
           <div class="hub-avatar" data-slug="liveoak">
-            <img src="assets/telos-logo.png" alt="" onerror="this.style.display='none';" />
+            <img src="assets/hub/liveoak.webp" alt="" onerror="this.style.display='none';" />
             <span class="hub-initial">L</span>
           </div>
           <div class="hub-name">Live Oak Reserve</div>
-          <div class="hub-role">Private concept page</div>
+          <div class="hub-role">Private listings</div>
         </button>
         <button type="button" class="hub-card" data-target="land">
           <div class="hub-avatar" data-slug="land">
-            <img src="assets/icon-arch-transparent.png" alt="" onerror="this.style.display='none';" />
+            <img src="assets/hub/land.svg" alt="" onerror="this.style.display='none';" />
             <span class="hub-initial">L</span>
           </div>
           <div class="hub-name">Land Acquisition</div>
@@ -3248,7 +3248,7 @@
         </button>
         <button type="button" class="hub-card" data-target="marketintel">
           <div class="hub-avatar" data-slug="marketintel">
-            <img src="assets/icon-arch-transparent.png" alt="" onerror="this.style.display='none';" />
+            <img src="assets/hub/marketintel.svg" alt="" onerror="this.style.display='none';" />
             <span class="hub-initial">M</span>
           </div>
           <div class="hub-name">Market Intel</div>
@@ -3266,7 +3266,7 @@
       padding: 40px 20px;
       opacity: 0; pointer-events: none;
       transition: opacity .6s ease;
-      font-family: 'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif;
     }
     #division-hub[aria-hidden="false"] {
       opacity: 1; pointer-events: auto;
@@ -3469,7 +3469,7 @@
         font-size: 10px; letter-spacing: 0.32em; text-transform: uppercase;
         color: #5a564e; margin-bottom: 36px;">Internal Dashboard</div>
       <div style="
-        width: 60px; height: 1px; background: #75663a;
+        width: 60px; height: 1px; background: #4E5A3E;
         margin: 0 auto 36px;"></div>
       <label style="
         display: block;
@@ -3504,7 +3504,7 @@
     (function () {
       // Any agent's 4-digit code opens the dashboard. Gabe is master (0000);
       // Gabe (5555) and Partner (0101) get in with their own codes.
-      const ACCESS_CODES   = ['0000', '5555', '7777'];
+      const ACCESS_CODES   = ['0000', '5555']; // Vincent (7777) removed Oct 2026; add '7777' back here and below to restore
       const ACCESS_LEN     = 4;
       const ACCESS_VERSION = 4;                  // ← bump this to invalidate existing sessions
       const STORAGE_KEY    = 'vfv-employee-gate';
@@ -3565,17 +3565,17 @@
           overlay.setAttribute('aria-modal', 'true');
           overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.82);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:0;transition:opacity .2s ease;';
           const card = document.createElement('div');
-          card.style.cssText = 'background:#fbf9f4;border:1px solid #75663a;padding:38px 42px;max-width:440px;width:90%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(8px);transition:transform .25s ease;';
+          card.style.cssText = 'background:#fbf9f4;border:1px solid #4E5A3E;padding:38px 42px;max-width:440px;width:90%;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,0.7);transform:translateY(8px);transition:transform .25s ease;';
           card.innerHTML = ''
             + '<h2 style="font-family:\'Aboreto\',\'Times New Roman\',serif;font-size:22px;letter-spacing:.20em;text-transform:uppercase;color:#111111;margin:0 0 8px;font-weight:400;">' + title + '</h2>'
-            + '<p style="font-family:\'Mulish\',sans-serif;font-size:12px;letter-spacing:.05em;color:#6f6a5f;margin:0 0 26px;line-height:1.5;">' + subtitle + '</p>'
+            + '<p style="font-family:\'Montserrat\',sans-serif;font-size:12px;letter-spacing:.05em;color:#6f6a5f;margin:0 0 26px;line-height:1.5;">' + subtitle + '</p>'
             + '<div class="pc-row" style="display:flex;justify-content:center;gap:12px;margin-bottom:14px;"></div>'
-            + '<div class="pc-error" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#b03030;margin-bottom:20px;min-height:14px;"></div>'
-            + '<button class="pc-cancel" type="button" style="font-family:\'Mulish\',sans-serif;font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;padding:10px 24px;background:transparent;color:#6f6a5f;border:1px solid #d9d0bf;cursor:pointer;transition:color .15s,border-color .15s;">Cancel</button>';
+            + '<div class="pc-error" style="font-family:\'Montserrat\',sans-serif;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#b03030;margin-bottom:20px;min-height:14px;"></div>'
+            + '<button class="pc-cancel" type="button" style="font-family:\'Montserrat\',sans-serif;font-size:10.5px;letter-spacing:.20em;text-transform:uppercase;padding:10px 24px;background:transparent;color:#6f6a5f;border:1px solid #d9d0bf;cursor:pointer;transition:color .15s,border-color .15s;">Cancel</button>';
           const row       = card.querySelector('.pc-row');
           const errEl     = card.querySelector('.pc-error');
           const cancelBtn = card.querySelector('.pc-cancel');
-          cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.color = '#75663a'; cancelBtn.style.borderColor = '#75663a'; });
+          cancelBtn.addEventListener('mouseenter', () => { cancelBtn.style.color = '#4E5A3E'; cancelBtn.style.borderColor = '#4E5A3E'; });
           cancelBtn.addEventListener('mouseleave', () => { cancelBtn.style.color = '#6f6a5f'; cancelBtn.style.borderColor = '#d9d0bf'; });
           const inputs = [];
           for (let i = 0; i < 4; i++) {
@@ -3586,8 +3586,8 @@
             inp.maxLength = 1;
             inp.autocomplete = 'off';
             inp.setAttribute('aria-label', 'Passcode digit ' + (i + 1));
-            inp.style.cssText = 'width:52px;height:64px;background:#fbf9f4;color:#111111;border:1px solid #d9d0bf;font-family:Inter,Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;text-align:center;outline:none;caret-color:#75663a;transition:border-color .15s,background .15s;';
-            inp.addEventListener('focus', () => { inp.style.borderColor = '#75663a'; });
+            inp.style.cssText = 'width:52px;height:64px;background:#fbf9f4;color:#111111;border:1px solid #d9d0bf;font-family: Montserrat,Helvetica,Arial,sans-serif;font-size:28px;font-weight:500;text-align:center;outline:none;caret-color:#4E5A3E;transition:border-color .15s,background .15s;';
+            inp.addEventListener('focus', () => { inp.style.borderColor = '#4E5A3E'; });
             inp.addEventListener('blur',  () => { inp.style.borderColor = '#d9d0bf'; });
             row.appendChild(inp);
             inputs.push(inp);
@@ -3814,7 +3814,7 @@
           if (target === 'land') {
             const LAND_KEY = 'vfv.landUnlock';
             const ONE_DAY = 24 * 60 * 60 * 1000;
-            const LAND_CODES = ['0000', '5555', '7777']; // Admin / Gabe / Vincent
+            const LAND_CODES = ['0000', '5555']; // Admin / Gabe (Vincent 7777 paused)
             function landUnlocked() {
               try {
                 const raw = localStorage.getItem(LAND_KEY);
@@ -3839,7 +3839,7 @@
           if (target === 'marketintel') {
             const MI_KEY = 'vfv.marketIntelUnlock';
             const ONE_DAY = 24 * 60 * 60 * 1000;
-            const MI_CODES = ['0000', '5555', '7777']; // Admin / Gabe / Vincent
+            const MI_CODES = ['0000', '5555']; // Admin / Gabe (Vincent 7777 paused)
             function miUnlocked() {
               try {
                 const raw = localStorage.getItem(MI_KEY);
@@ -3907,14 +3907,14 @@
           'background: #fbf9f4', 'color: #111111',
           'border: 1px solid #d9d0bf',
           'border-radius: 2px',
-          'font-family: Inter, Helvetica Neue, Arial, sans-serif',
+          'font-family: Montserrat, Helvetica Neue, Arial, sans-serif',
           'font-size: 26px', 'font-weight: 500',
           'text-align: center',
           'outline: none',
-          'caret-color: #75663a',
+          'caret-color: #4E5A3E',
           'transition: border-color .15s, background .15s',
         ].join(';');
-        inp.addEventListener('focus', () => { inp.style.borderColor = '#75663a'; });
+        inp.addEventListener('focus', () => { inp.style.borderColor = '#4E5A3E'; });
         inp.addEventListener('blur',  () => { inp.style.borderColor = '#d9d0bf'; });
         row.appendChild(inp);
         inputs.push(inp);
@@ -4017,11 +4017,7 @@
   <!-- ========================= HEADER ========================= -->
   <header class="site-header">
     <div class="wrap row">
-      <div class="brand" aria-label="Victory Formation Ventures">
-        <span class="above">Victory</span>
-        <span class="mark">Formation</span>
-        <span class="below">Ventures</span>
-      </div>
+      <div class="brand vfv-brand" aria-label="Victory Formation Ventures"><img src="assets/icon-arch-black.png" alt="" /><span>Victory Formation Ventures</span></div>
       <div class="header-meta">
         <span>Internal Dashboard</span>
         <button type="button" class="switch-division-btn" id="btn-refresh" title="Fetch the latest version (bust cache)" style="margin-right:8px;">↻ Refresh</button>
@@ -4587,7 +4583,7 @@
               <span class="template-status">Ready</span>
             </div>
             <h3>Instagram Story · Open House</h3>
-            <p>1080×1920 Victory Formation-branded Open House story. Fill in the property, day, time, and agent, upload a hero photo — download a ready-to-post PNG. Arch logo + Aboreto display type + gold time accent.</p>
+            <p>1080×1920 Victory Formation Ventures branded Open House story. Fill in the property, day, time, and agent, upload a hero photo — download a ready-to-post PNG. Arch logo + Aboreto display type + oak green time accent.</p>
           </a>
         </div>
       </div>
@@ -5709,6 +5705,13 @@
         </article>
       </div>
 
+      <div class="vfv-week">
+        <div class="eyebrow" style="color:var(--text-muted);">Deal Calendar</div>
+        <h2>This Week</h2>
+        <div class="vfv-week-list" id="vfv-week-list"><div class="vfv-week-item"><div class="what">Loading…</div></div></div>
+        <a class="vfv-week-more" href="land.html">Open the full calendar →</a>
+      </div>
+
     </section>
 
     <!-- ========================= TOOLS LIBRARY PANEL ========================= -->
@@ -5793,7 +5796,7 @@
       <div class="home-grid">
         <article class="home-card">
           <span class="h-eyebrow">Legal Entity</span>
-          <div class="h-stat" style="font-size:18px; line-height:1.3;">Victory Formations Ventures LLC</div>
+          <div class="h-stat" style="font-size:18px; line-height:1.3;">Victory Formation Ventures LLC</div>
           <div class="h-label">DBA: Victory Formation Ventures</div>
           <div class="h-label" style="margin-top:6px;">3004 Webberville Rd #2<br>Austin, TX 78702</div>
         </article>
@@ -9769,7 +9772,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
       { id: 'cma-generator',       name: 'CMA Generator',           division: 'sales',       category: 'generator', href: '#sales',  external: false, desc: 'Comparative Market Analysis. Imports a Unlock MLS PDF to prefill comps.', status: 'live' },
       { id: 'comp-report',         name: 'Comp Report',             division: 'land',        category: 'generator', href: 'comp-report.html', external: true, desc: 'No-photo comparables report. Averages, medians, $ per sq ft ranges and a price guide from your comps.', status: 'live' },
       { id: 'offer-instructions',  name: 'Offer Instructions',      division: 'sales',       category: 'generator', href: 'offer-instructions.html', external: true, desc: 'Email-ready one-pager for buyer agents — utilities, conveyances, required docs, title block.', status: 'live' },
-      { id: 'instagram-story-openhouse', name: 'Instagram Story · Open House', division: 'sales', category: 'generator', href: 'story-generator.html', external: true, desc: '1080×1920 Victory Formation-branded Open House story PNG — arch logo, Aboreto display type, gold time accent.', status: 'live' },
+      { id: 'instagram-story-openhouse', name: 'Instagram Story · Open House', division: 'sales', category: 'generator', href: 'story-generator.html', external: true, desc: '1080×1920 Victory Formation Ventures branded Open House story PNG — arch logo, Aboreto display type, oak green time accent.', status: 'live' },
       { id: 'strategic-marketing-plan', name: 'Marketing Plan · New Construction', division: 'sales', category: 'generator', href: 'assets/marketing-templates/strategic-marketing-plan-new-construction.pdf', external: true, desc: 'Go-to-market strategy for spec builds and ground-up projects.', status: 'live' },
 
       // Sales · Operations
@@ -18644,7 +18647,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
         statusEl.style.color =
           level === 'err'  ? '#a33333' :
           level === 'ok'   ? '#2f6f47' :
-          level === 'warn' ? '#7a6220' :
+          level === 'warn' ? '#3F4932' :
                              'var(--text-muted)';
       }
 
@@ -19152,7 +19155,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const days = _adDaysBetween(p.lastTouch, today);
           if (days > 14) {
             staleClass = ' stale';
-            staleNote = ' &nbsp; <span style="color:#7a6220; font-size:9px; letter-spacing:.18em; text-transform:uppercase;">' + days + ' days since last touch</span>';
+            staleNote = ' &nbsp; <span style="color:#3F4932; font-size:9px; letter-spacing:.18em; text-transform:uppercase;">' + days + ' days since last touch</span>';
           }
         }
         const editKey = (p.client || '').trim();
@@ -21029,7 +21032,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const status = form.querySelector('.commissions-lock-status');
           const val = input ? (input.value || '').trim() : '';
           // Gabe's master (0000) always works; otherwise use his roster code
-          if (['0000', '5555', '7777'].indexOf(val) >= 0 || val === _ctExpectedCode()) {
+          if (['0000', '5555'].indexOf(val) >= 0 || val === _ctExpectedCode()) {
             _ctSetUnlocked();
             if (status) { status.className = 'commissions-lock-status ok'; status.textContent = '✓ Unlocked'; }
             if (input) input.value = '';
@@ -22187,7 +22190,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     function _hlHeatPill(h) {
       if (!h) return '';
       const bg = h === 'Hot' ? '#3a1c1c' : h === 'Warm' ? '#efe6cc' : '#dae5f0';
-      const fg = h === 'Hot' ? '#b03030' : h === 'Warm' ? '#8a6a1f' : '#2f5f9a';
+      const fg = h === 'Hot' ? '#b03030' : h === 'Warm' ? '#4E5A3E' : '#2f5f9a';
       return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _hlEsc(h) + '</span>';
     }
     function _hlStatusPill(s) {
@@ -22210,7 +22213,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
     function _hlCardHtml(r) {
       const daysSince = _hlDaysSince(r.lastTouch);
       const staleWarn = (daysSince != null && daysSince > 14)
-        ? '<span style="color:#8a6a1f; font-size:9px; letter-spacing:.14em; text-transform:uppercase; margin-left:6px;">' + daysSince + 'd stale</span>' : '';
+        ? '<span style="color:#4E5A3E; font-size:9px; letter-spacing:.14em; text-transform:uppercase; margin-left:6px;">' + daysSince + 'd stale</span>' : '';
       const phone = r.ownerPhone ? '<a href="tel:' + _hlEsc(r.ownerPhone.replace(/\D+/g,'')) + '" style="color:#2a2a2a;">' + _hlEsc(r.ownerPhone) + '</a>' : '';
       const email = r.ownerEmail ? '<a href="mailto:' + _hlEsc(r.ownerEmail) + '" style="color:#2a2a2a;">' + _hlEsc(r.ownerEmail) + '</a>' : '';
       const contactLine = [phone, email].filter(Boolean).join(' · ');
