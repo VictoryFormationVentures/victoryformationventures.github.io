@@ -1,0 +1,486 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Live Oak Reserve · Victory Formation Ventures</title>
+  <meta name="theme-color" content="#f6f2ea" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:#f6f2ea; --panel:#fbf9f4; --panel-edge:#d9d0bf; --rule:#d9d0bf; --rule-strong:#c9bfab;
+      --text:#111111; --text-muted:#5a564e; --text-dim:#6f6a5f; --accent:#4E5A3E; --soft:#f1ece2;
+      --font-body:'Montserrat','Helvetica Neue',Arial,sans-serif; --font-display:'Aboreto','Cormorant Garamond',serif;
+    }
+    *,*::before,*::after { box-sizing:border-box; }
+    html,body { margin:0; padding:0; background:var(--bg); color:var(--text); }
+    body { font-family:var(--font-body); -webkit-font-smoothing:antialiased; }
+    button { font:inherit; } a { color:inherit; text-decoration:none; }
+
+    .topbar { position:sticky; top:0; z-index:50; background:#f6f2ea; border-bottom:1px solid var(--panel-edge); display:flex; align-items:center; gap:22px; padding:20px 28px; }
+    .topbar .brand { display:flex; align-items:center; gap:20px; }
+    .topbar .brand img.arch { width:60px; height:60px; object-fit:cover; border-radius:50%; }
+    .topbar .brand .name { font-family:var(--font-display); font-size:22px; letter-spacing:.32em; text-transform:uppercase; color:#111; }
+    .topbar .brand .name small { display:block; font-family:var(--font-body); font-size:9px; letter-spacing:.28em; color:var(--text-dim); font-weight:600; margin-top:4px; }
+    .topbar .spacer { flex:1; }
+    .topbar .parent-link { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-muted); padding:6px 12px; border:1px solid var(--panel-edge); background:transparent; cursor:pointer; }
+    .topbar .parent-link:hover { color:#111; border-color:#111; }
+
+    .shell { display:grid; grid-template-columns:240px 1fr; min-height:calc(100vh - 100px); }
+    .sidenav { background:#fbf9f4; border-right:1px solid var(--panel-edge); padding:22px 18px; position:sticky; top:100px; height:calc(100vh - 100px); overflow-y:auto; }
+    .sidenav .section-label { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin:18px 0 8px; }
+    .sidenav .section-label:first-child { margin-top:4px; }
+    .sidenav .nav-item { display:block; width:100%; text-align:left; background:transparent; border:0; color:var(--text-muted); font-size:12px; letter-spacing:.16em; text-transform:uppercase; padding:10px 12px; margin:2px 0; cursor:pointer; }
+    .sidenav .nav-item:hover { color:#111; background:var(--soft); }
+    .sidenav .nav-item.is-active { color:#111; background:var(--soft); border-left:2px solid var(--accent); padding-left:10px; }
+    .sidenav .nav-item small { float:right; color:var(--text-dim); letter-spacing:0; }
+    .sidenav a.nav-item { text-decoration:none; }
+    @media (max-width:860px) {
+      .shell { grid-template-columns:1fr; }
+      .sidenav { position:static; height:auto; border-right:0; border-bottom:1px solid var(--panel-edge); display:flex; flex-wrap:wrap; gap:2px; padding:12px; }
+      .sidenav .section-label { display:none; }
+      .sidenav .nav-item { width:auto; padding:8px 10px; font-size:11px; }
+      .topbar { padding:14px 16px; gap:12px; } .topbar .brand .name { font-size:15px; letter-spacing:.2em; } .topbar .brand img.arch { width:42px; height:42px; }
+    }
+
+    .content { padding:40px 48px 80px; max-width:1500px; min-width:0; }
+    .shell > * { min-width:0; }
+    @media (max-width:860px) { .content { padding:24px 16px 60px; } }
+    .division-eyebrow { font-size:10px; letter-spacing:.32em; text-transform:uppercase; color:var(--text-dim); font-weight:600; margin-bottom:10px; }
+    h1.division-title { font-family:var(--font-display); font-size:48px; letter-spacing:.12em; text-transform:uppercase; margin:0 0 6px; font-weight:400; line-height:1.05; }
+    h1.division-title small { display:block; font-family:var(--font-body); font-size:12px; letter-spacing:.3em; color:var(--text-muted); font-weight:500; margin-top:14px; }
+    @media (max-width:860px) { h1.division-title { font-size:30px; } }
+    h2.sec { font-family:var(--font-display); font-weight:400; font-size:16px; letter-spacing:.2em; text-transform:uppercase; margin:34px 0 14px; }
+    .panel { display:none; margin-top:26px; } .panel.is-active { display:block; }
+    .intro { font-size:13px; line-height:1.65; color:var(--text-muted); max-width:760px; margin:0 0 22px; }
+
+    .toolrow { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 18px; }
+    .search { flex:1 1 240px; max-width:380px; font-size:13px; padding:10px 12px; background:var(--panel); border:1px solid var(--rule-strong); font-family:var(--font-body); }
+    select.f { font-size:12px; padding:9px 10px; background:var(--panel); border:1px solid var(--rule-strong); font-family:var(--font-body); }
+    .btn { font-size:11px; letter-spacing:.18em; text-transform:uppercase; font-weight:700; padding:10px 20px; cursor:pointer; background:var(--accent); color:#f6f2ea; border:1px solid var(--accent); }
+    .btn:hover { opacity:.88; } .btn.ghost { background:transparent; color:#111; border-color:var(--panel-edge); } .btn.ghost:hover { border-color:#111; }
+    .btn.sm { padding:6px 12px; font-size:9.5px; } .btn:disabled { opacity:.5; cursor:default; }
+
+    .tiles { display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px; margin-bottom:10px; }
+    .t { padding:20px 22px; background:var(--panel); border:1px solid var(--rule); cursor:pointer; }
+    .t:hover { border-color:var(--rule-strong); }
+    .t .k { font-size:9px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-dim); font-weight:700; }
+    .t .v { font-family:var(--font-display); font-size:30px; margin-top:6px; font-variant-numeric:tabular-nums; }
+    .t .s { font-size:11px; color:var(--text-muted); margin-top:4px; }
+
+    /* pipeline board */
+    .board { display:grid; grid-auto-flow:column; grid-auto-columns:minmax(230px,1fr); gap:12px; overflow-x:auto; padding-bottom:10px; }
+    .col { background:#efe9dd; border:1px solid var(--rule); min-height:200px; display:flex; flex-direction:column; }
+    .col h4 { margin:0; padding:12px 14px; font-size:9.5px; letter-spacing:.22em; text-transform:uppercase; color:var(--text-muted); font-weight:700; display:flex; justify-content:space-between; border-bottom:1px solid var(--rule); }
+    .col .list { padding:10px; display:grid; gap:8px; align-content:start; flex:1; }
+    .col.drop { outline:2px dashed var(--accent); outline-offset:-4px; }
+    .card { background:var(--panel); border:1px solid var(--rule); padding:12px 13px; cursor:pointer; font-size:12px; }
+    .card:hover { border-color:#111; }
+    .card b { display:block; font-size:13px; font-weight:600; margin-bottom:3px; }
+    .card .m { color:var(--text-muted); line-height:1.5; }
+    .card .due { margin-top:6px; font-size:10px; letter-spacing:.12em; text-transform:uppercase; font-weight:600; color:var(--accent); }
+    .card .due.late { color:#8E2B22; }
+
+    .pill { display:inline-block; padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; border-radius:2px; }
+    .p-green { background:#E3E7D9; color:#3F4932; } .p-gold { background:#EFE6CC; color:#6B5410; } .p-red { background:#F2DCD6; color:#8E2B22; }
+    .p-blue { background:#DCE6F0; color:#24497A; } .p-gray { background:#E6E0D4; color:#5F5A50; } .p-ink { background:#111; color:#f6f2ea; }
+
+    table.grid { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--rule); font-size:12.5px; }
+    table.grid th { text-align:left; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim); font-weight:700; padding:12px; border-bottom:1px solid var(--rule); }
+    table.grid td { padding:12px; border-bottom:1px solid #ece5d8; vertical-align:top; }
+    table.grid tr:hover td { background:#f7f3ea; cursor:pointer; }
+    .tw { overflow-x:auto; }
+
+    .lgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+    .listing { background:var(--panel); border:1px solid var(--rule); cursor:pointer; display:flex; flex-direction:column; }
+    .listing:hover { border-color:#111; }
+    .listing .ph { aspect-ratio:16/10; background:#2a2b26 center/cover; position:relative; }
+    .listing .ph.none { background:#2a2b26 url('assets/hub/liveoak.png') center/64px no-repeat; }
+    .listing .ph.none::after { content:''; position:absolute; inset:0; background:rgba(42,43,38,.55); }
+    .listing .ph .pill { z-index:2; }
+    .listing .ph .pill { position:absolute; left:12px; top:12px; }
+    .listing .bd { padding:14px 16px; }
+    .listing h3 { font-family:var(--font-display); font-weight:400; font-size:13px; letter-spacing:.16em; text-transform:uppercase; margin:0 0 6px; }
+    .listing .pr { font-family:var(--font-display); font-size:18px; }
+    .listing .m { font-size:12px; color:var(--text-muted); margin-top:4px; }
+    .bar { height:4px; background:#e6dfd2; margin-top:12px; } .bar i { display:block; height:100%; background:var(--accent); }
+
+    .tools { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:12px; }
+    .tool { background:var(--panel); border:1px solid var(--rule); padding:18px 20px; display:block; }
+    .tool:hover { border-color:#111; }
+    .tool b { font-family:var(--font-display); font-weight:400; font-size:12.5px; letter-spacing:.18em; text-transform:uppercase; display:block; margin-bottom:6px; }
+    .tool span { font-size:12px; color:var(--text-muted); line-height:1.55; }
+
+    .feed { background:var(--panel); border:1px solid var(--rule); }
+    .feed div { padding:11px 14px; border-bottom:1px solid #ece5d8; font-size:12.5px; display:flex; gap:14px; }
+    .feed div:last-child { border-bottom:0; }
+    .feed time { color:var(--text-dim); font-size:11px; min-width:110px; }
+
+    .notice { background:#fff8e6; border:1px solid #e4d29a; padding:16px 18px; font-size:12.5px; line-height:1.6; margin-bottom:22px; }
+    .notice.err { background:#F2DCD6; border-color:#d9a99e; }
+    .empty { color:var(--text-dim); padding:28px 0; text-align:center; font-size:11px; letter-spacing:.14em; text-transform:uppercase; }
+
+    /* drawer editor */
+    .scrim { position:fixed; inset:0; background:rgba(17,17,17,.35); z-index:80; display:none; }
+    .scrim.on { display:block; }
+    .editor { position:fixed; top:0; right:0; bottom:0; width:min(560px,100%); background:var(--bg); z-index:90; transform:translateX(100%); transition:transform .3s ease; display:flex; flex-direction:column; border-left:1px solid var(--rule); }
+    .editor.on { transform:none; }
+    .editor header { padding:20px 24px; border-bottom:1px solid var(--rule); display:flex; justify-content:space-between; align-items:center; }
+    .editor header h3 { margin:0; font-family:var(--font-display); font-weight:400; font-size:16px; letter-spacing:.2em; text-transform:uppercase; }
+    .editor .x { background:none; border:0; font-size:24px; cursor:pointer; }
+    .editor .body { padding:20px 24px; overflow-y:auto; flex:1; }
+    .editor footer { padding:16px 24px; border-top:1px solid var(--rule); display:flex; gap:10px; align-items:center; }
+    .fg { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .fg .full { grid-column:1/-1; }
+    .fg label { display:block; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--text-dim); font-weight:700; margin-bottom:5px; }
+    .fg input, .fg select, .fg textarea { width:100%; font-family:var(--font-body); font-size:13px; padding:9px 10px; background:var(--panel); border:1px solid var(--rule-strong); }
+    .fg textarea { min-height:80px; resize:vertical; }
+    .checks { display:grid; gap:4px; margin-top:6px; }
+    .checks label { display:flex; gap:10px; align-items:center; font-size:12.5px; letter-spacing:0; text-transform:none; color:var(--text); font-weight:400; padding:6px 0; border-bottom:1px solid #ece5d8; }
+    .checks .ph { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--accent); font-weight:700; margin-top:12px; border:0; }
+    .quick { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:16px; }
+    .quick a { font-size:10px; letter-spacing:.14em; text-transform:uppercase; font-weight:600; padding:6px 10px; border:1px solid var(--panel-edge); }
+    .quick a:hover { border-color:#111; }
+    .saved { font-size:11px; color:var(--text-dim); }
+  </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
+</head>
+<body>
+  <div class="topbar">
+    <a href="index.html?hub=1" class="brand" title="Back to hub">
+      <img class="arch" src="assets/hub/liveoak.png" alt="" />
+      <div class="name">Live Oak Reserve<small>Victory Formation Ventures</small></div>
+    </a>
+    <div class="spacer"></div>
+    <a href="https://www.victoryformationventures.com/liveoak/" target="_blank" rel="noopener" class="parent-link" style="margin-right:10px;">↗ Public site</a>
+    <a href="index.html?hub=1" class="parent-link">◫ Switch Division</a>
+  </div>
+  <script>
+    // Same 24h hub gate as Land and Market Intel (codes set in index.html).
+    (function(){ try { const t = JSON.parse(localStorage.getItem('vfv.liveoakUnlock') || 'null'); if (!(t && t.ok && (Date.now() - t.ts) < 86400000)) location.replace('index.html?hub=1'); } catch (_) { location.replace('index.html?hub=1'); } })();
+  </script>
+
+  <div class="shell">
+    <aside class="sidenav" role="tablist" aria-label="Live Oak sections">
+      <div class="section-label">Live Oak Reserve</div>
+      <button type="button" class="nav-item is-active" data-panel="overview">Overview</button>
+      <div class="section-label">Clients</div>
+      <button type="button" class="nav-item" data-panel="pipeline">Pipeline <small id="n-pipeline"></small></button>
+      <button type="button" class="nav-item" data-panel="leads">All Leads <small id="n-leads"></small></button>
+      <div class="section-label">Inventory</div>
+      <button type="button" class="nav-item" data-panel="collection"><span class="js-cshort">Collection</span> <small id="n-collection"></small></button>
+      <button type="button" class="nav-item" data-panel="members">Members <small id="n-members"></small></button>
+      <div class="section-label">Run it</div>
+      <button type="button" class="nav-item" data-panel="activity">Activity</button>
+      <button type="button" class="nav-item" data-panel="tools">Tools</button>
+      <button type="button" class="nav-item" data-panel="setup">Settings</button>
+    </aside>
+
+    <main class="content">
+      <div class="division-eyebrow">Division · Live Oak Reserve</div>
+      <h1 class="division-title">Live Oak Reserve<small>Private listings · clients · <span class="js-cname">The Collection</span></small></h1>
+      <div id="status"></div>
+
+      <!-- OVERVIEW -->
+      <section class="panel is-active" id="panel-overview">
+        <div class="tiles">
+          <div class="t" data-go="pipeline" data-filter="New"><div class="k">New leads</div><div class="v" id="s-new">0</div><div class="s">Waiting on first contact</div></div>
+          <div class="t" data-go="pipeline"><div class="k">Active clients</div><div class="v" id="s-active">0</div><div class="s">Consult booked through contract</div></div>
+          <div class="t" data-go="pipeline"><div class="k">Follow-ups due</div><div class="v" id="s-due">0</div><div class="s">Today or overdue</div></div>
+          <div class="t" data-go="collection"><div class="k">In the collection</div><div class="v" id="s-coll">0</div><div class="s">Private or coming soon</div></div>
+          <div class="t" data-go="members"><div class="k">Member requests</div><div class="v" id="s-mem">0</div><div class="s">Pending review</div></div>
+        </div>
+        <h2 class="sec">Follow-ups</h2>
+        <div id="ov-due"></div>
+        <h2 class="sec">Newest leads</h2>
+        <div id="ov-new"></div>
+        <h2 class="sec">Recent activity</h2>
+        <div id="ov-feed"></div>
+      </section>
+
+      <!-- PIPELINE -->
+      <section class="panel" id="panel-pipeline">
+        <p class="intro">Every buyer and seller from the website, Instagram, referrals and open houses. Drag a card to move it, or click to open it.</p>
+        <div class="toolrow">
+          <input class="search" id="q-pipe" type="search" placeholder="Search name, email, area" />
+          <select class="f" id="f-owner"><option value="">Everyone</option><option>Gabe</option><option>Ryan</option></select>
+          <button class="btn" onclick="openLead()">+ New lead</button>
+          <button class="btn ghost" onclick="load(true)">↻ Refresh</button>
+        </div>
+        <div class="board" id="board"></div>
+      </section>
+
+      <!-- ALL LEADS -->
+      <section class="panel" id="panel-leads">
+        <div class="toolrow">
+          <input class="search" id="q-leads" type="search" placeholder="Search name, email, phone, notes" />
+          <select class="f" id="f-stage"><option value="">All stages</option></select>
+          <button class="btn" onclick="openLead()">+ New lead</button>
+          <button class="btn ghost" onclick="exportCSV('leads')">Export CSV</button>
+        </div>
+        <div class="tw"><table class="grid" id="t-leads"></table></div>
+      </section>
+
+      <!-- COLLECTION -->
+      <section class="panel" id="panel-collection">
+        <p class="intro"><span class="js-cname">The Collection</span> is our private inventory: homes shared with members and our buyer network before the MLS. Each home runs the three-phase launch (Private, Coming Soon, Active) with its checklist.</p>
+        <div class="toolrow">
+          <select class="f" id="f-lstatus"><option value="">All statuses</option></select>
+          <button class="btn" onclick="openListing()">+ Add a home</button>
+          <button class="btn ghost" onclick="exportCSV('collection')">Export CSV</button>
+        </div>
+        <div class="lgrid" id="lgrid"></div>
+      </section>
+
+      <!-- MEMBERS -->
+      <section class="panel" id="panel-members">
+        <p class="intro">People who asked to join <span class="js-cname">The Collection</span> from the website or Instagram. Approve them before anything private is shared, the same way @theplatinumreserve approves followers.</p>
+        <div class="toolrow">
+          <select class="f" id="f-mstatus"><option value="">All</option><option>Pending review</option><option>Approved</option><option>Declined</option></select>
+          <button class="btn" onclick="openMember()">+ Add member</button>
+          <button class="btn ghost" onclick="copyApproved()">Copy approved emails</button>
+          <button class="btn ghost" onclick="exportCSV('members')">Export CSV</button>
+        </div>
+        <div class="tw"><table class="grid" id="t-members"></table></div>
+      </section>
+
+      <!-- ACTIVITY -->
+      <section class="panel" id="panel-activity"><div id="feed"></div></section>
+
+      <!-- TOOLS -->
+      <section class="panel" id="panel-tools">
+        <p class="intro">Everything we use to win and run a listing.</p>
+        <div class="tools">
+          <a class="tool" href="cma-sales.html"><b>Sales CMA</b><span>In-depth comps with photos for a listing presentation.</span></a>
+          <a class="tool" href="comp-report.html"><b>Quick Comp Report</b><span>Fast, no-photo comps to send first.</span></a>
+          <a class="tool" href="property-onepager.html"><b>Property One-Pager</b><span>A printable sheet for a home in the collection.</span></a>
+          <a class="tool" href="open-house-signin.html"><b>Open House Sign-In</b><span>Guests sign in on a tablet; add them here as leads.</span></a>
+          <a class="tool" href="story-generator.html"><b>Story Generator</b><span>Instagram stories for a new private listing.</span></a>
+          <a class="tool" href="newsletter-composer.html"><b>Newsletter Composer</b><span>The private email to approved members.</span></a>
+          <a class="tool" href="https://www.victoryformationventures.com/liveoak/" target="_blank" rel="noopener"><b>Public Live Oak site</b><span>Code: liveoak, until Texas licensing is active.</span></a>
+          <a class="tool" href="#" id="tool-sheet" target="_blank" rel="noopener"><b>The private sheet</b><span>The Google Sheet behind this page (VFV account only).</span></a>
+        </div>
+      </section>
+
+      <!-- SETTINGS -->
+      <section class="panel" id="panel-setup">
+        <p class="intro">This page talks to a private Google Sheet through a small script on the VFV Google account. The sheet is never public. Each device asks for the Live Oak key once.</p>
+        <div class="fg" style="max-width:640px">
+          <div class="full"><label>Back office web address</label><input id="set-api" placeholder="https://script.google.com/macros/s/…/exec" /></div>
+          <div class="full"><label>Live Oak key</label><input id="set-key" type="password" placeholder="oak-…" /></div>
+          <div class="full"><label>Your name (for the activity log)</label><select id="set-me"><option>Gabe</option><option>Ryan</option></select></div>
+          <div class="full"><button class="btn" onclick="saveSettings()">Save and connect</button> <button class="btn ghost" onclick="forgetKey()">Forget key on this device</button></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="scrim" id="scrim" onclick="closeEd()"></div>
+  <aside class="editor" id="ed" aria-hidden="true">
+    <header><h3 id="ed-title">Lead</h3><button class="x" onclick="closeEd()" aria-label="Close">&times;</button></header>
+    <div class="body" id="ed-body"></div>
+    <footer><button class="btn" id="ed-save">Save</button><button class="btn ghost" onclick="closeEd()">Cancel</button><span class="saved" id="ed-msg"></span></footer>
+  </aside>
+
+<script>
+/* ================= settings ================= */
+const COLLECTION_NAME = 'The Limestone Collection';
+const DEFAULT_API = 'https://script.google.com/macros/s/AKfycbxWJd7NmOrIyq-S0waYoBIN2ErTHaN__AOFV02-Gr8dt4NRdHrkXwfuYVES9PQ0pThK/exec';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1mpcfTxxc_-RSWaw5ZLBih0ZXxxxO4slodfiWWn1VyLM/edit';        
+const STAGES = ['New','Contacted','Consult booked','Touring','Active client','Under contract','Closed','Nurture','Lost'];
+const OPEN_STAGES = ['Consult booked','Touring','Active client','Under contract'];
+const STAGE_PILL = { 'New':'p-blue','Contacted':'p-gold','Consult booked':'p-gold','Touring':'p-green','Active client':'p-green','Under contract':'p-ink','Closed':'p-green','Nurture':'p-gray','Lost':'p-red' };
+const LSTATUS = ['Prospect','Private','Coming soon','Active','Pending','Sold','Withdrawn'];
+const LSTATUS_PILL = { 'Prospect':'p-gray','Private':'p-ink','Coming soon':'p-gold','Active':'p-green','Pending':'p-blue','Sold':'p-green','Withdrawn':'p-red' };
+const CHECKLIST = {
+  'Before launch': ['Listing agreement signed','Pricing underwritten (CMA + build cost)','Seller disclosure received','Pre-listing inspection','Staging plan','Photography + twilight','Film shot and edited','Drone and aerials','Floor plan'],
+  'Phase 1 · Private': ['Property page built','Email to approved members','Private Instagram post','Matched buyer agents called'],
+  'Phase 2 · Coming soon': ['Coming soon sign','Public Instagram + YouTube','Paid reach live','Property page public'],
+  'Phase 3 · Active': ['Live on MLS','Open house scheduled','Weekly seller update set','Review date set']
+};
+const ALL_CHECKS = Object.values(CHECKLIST).flat();
+
+document.querySelectorAll('.js-cname').forEach(e => e.textContent = COLLECTION_NAME);
+document.querySelectorAll('.js-cshort').forEach(e => e.textContent = COLLECTION_NAME.replace(/^The /, '').replace(/ Collection$/, ''));
+
+const S = { get api(){ return localStorage.getItem('lo.api') || DEFAULT_API; }, get key(){ return localStorage.getItem('lo.key') || ''; }, get me(){ return localStorage.getItem('lo.me') || 'Gabe'; } };
+let DB = { leads: [], collection: [], members: [], activity: [] };
+
+/* ================= helpers ================= */
+const $ = s => document.querySelector(s);
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+const pill = (t, map) => t ? `<span class="pill ${map[t] || 'p-gray'}">${esc(t)}</span>` : '';
+const fmt$ = n => { const v = Number(String(n).replace(/[^0-9.]/g, '')); return v ? '$' + v.toLocaleString() : (n || ''); };
+const day = d => { if (!d) return ''; const x = new Date(d); return isNaN(x) ? esc(d) : x.toLocaleDateString(undefined, { month:'short', day:'numeric' }); };
+const ago = d => { const x = new Date(d); if (isNaN(x)) return ''; const m = (Date.now() - x) / 60000; if (m < 60) return Math.max(1, Math.round(m)) + 'm ago'; if (m < 1440) return Math.round(m / 60) + 'h ago'; return Math.round(m / 1440) + 'd ago'; };
+const today0 = () => { const t = new Date(); t.setHours(0,0,0,0); return t; };
+const isDue = l => l.next_date && new Date(l.next_date) <= new Date(today0().getTime() + 86399999) && !['Closed','Lost'].includes(l.stage);
+
+function status(html, cls) { $('#status').innerHTML = html ? `<div class="notice ${cls || ''}">${html}</div>` : ''; }
+
+/* ================= data ================= */
+async function load(force) {
+  if (!S.api) { status('The Live Oak back office is built and ready. It goes live once the private Google sheet is connected in <a href="#" onclick="go(\'setup\');return false;"><u>Settings</u></a>.'); render(); return; }
+  if (!S.key) { askKey(); return; }
+  status('Loading clients from the private sheet…');
+  try {
+    const r = await fetch(S.api + '?key=' + encodeURIComponent(S.key) + '&t=' + Date.now());
+    const d = await r.json();
+    if (!d.ok) { if (d.error === 'locked') { status('That Live Oak key did not work. Re-enter it in <a href="#" onclick="go(\'setup\');return false;"><u>Settings</u></a>.', 'err'); return; } throw new Error(d.error); }
+    DB = d.data; status(''); render();
+  } catch (e) { status('Could not reach the private sheet. Check your connection and press Refresh.', 'err'); }
+}
+async function save(tab, row, note) {
+  const body = JSON.stringify({ key: S.key, tab, row, by: S.me, note });
+  const r = await fetch(S.api, { method:'POST', headers:{ 'Content-Type':'text/plain;charset=utf-8' }, body });
+  const d = await r.json(); if (!d.ok) throw new Error(d.error || 'save failed'); return d.id;
+}
+function askKey() {
+  const k = prompt('Live Oak key (ask Gabe). You only enter this once on this device.');
+  if (k) { localStorage.setItem('lo.key', k.trim()); load(); } else status('Enter the Live Oak key in <a href="#" onclick="go(\'setup\');return false;"><u>Settings</u></a> to load clients.');
+}
+
+/* ================= render ================= */
+function render() {
+  const L = DB.leads || [], C = DB.collection || [], M = DB.members || [];
+  $('#n-pipeline').textContent = L.filter(l => !['Closed','Lost'].includes(l.stage)).length || '';
+  $('#n-leads').textContent = L.length || ''; $('#n-collection').textContent = C.length || ''; $('#n-members').textContent = M.length || '';
+  $('#s-new').textContent = L.filter(l => (l.stage || 'New') === 'New').length;
+  $('#s-active').textContent = L.filter(l => OPEN_STAGES.includes(l.stage)).length;
+  $('#s-due').textContent = L.filter(isDue).length;
+  $('#s-coll').textContent = C.filter(c => ['Private','Coming soon'].includes(c.status)).length;
+  $('#s-mem').textContent = M.filter(m => (m.status || 'Pending review') === 'Pending review').length;
+  const tbl = (rows) => rows.length ? `<div class="tw"><table class="grid"><tr><th>Name</th><th>Stage</th><th>Next step</th><th>Due</th><th>Owner</th></tr>${rows.map(l => `<tr onclick="openLead('${esc(l.id)}')"><td><b>${esc(l.name)}</b><br><span style="color:var(--text-muted)">${esc(l.interest)} · ${esc(l.area)}</span></td><td>${pill(l.stage || 'New', STAGE_PILL)}</td><td>${esc(l.next_step)}</td><td>${day(l.next_date)}</td><td>${esc(l.owner)}</td></tr>`).join('')}</table></div>` : '<div class="empty">Nothing here yet</div>';
+  $('#ov-due').innerHTML = tbl(L.filter(isDue).sort((a, b) => new Date(a.next_date) - new Date(b.next_date)));
+  $('#ov-new').innerHTML = tbl(L.slice().sort((a, b) => new Date(b.created) - new Date(a.created)).slice(0, 6));
+  $('#ov-feed').innerHTML = feed((DB.activity || []).slice(-8).reverse());
+  $('#feed').innerHTML = feed((DB.activity || []).slice().reverse());
+  renderBoard(); renderLeads(); renderCollection(); renderMembers();
+  $('#tool-sheet').href = SHEET_URL;
+}
+function feed(a) { return a.length ? `<div class="feed">${a.map(x => `<div><time>${ago(x.ts)}</time><span><b>${esc(x.by || '')}</b> ${esc(x.text)}</span></div>`).join('')}</div>` : '<div class="empty">No activity yet</div>'; }
+
+function renderBoard() {
+  const q = ($('#q-pipe').value || '').toLowerCase(), who = $('#f-owner').value;
+  const L = (DB.leads || []).filter(l => (!q || [l.name, l.email, l.area, l.phone].join(' ').toLowerCase().includes(q)) && (!who || l.owner === who));
+  $('#board').innerHTML = STAGES.map(st => {
+    const items = L.filter(l => (l.stage || 'New') === st);
+    return `<div class="col" data-stage="${st}" ondragover="event.preventDefault();this.classList.add('drop')" ondragleave="this.classList.remove('drop')" ondrop="dropLead(event,'${st}')"><h4>${st}<span>${items.length}</span></h4><div class="list">${items.map(l => `<div class="card" draggable="true" ondragstart="event.dataTransfer.setData('text','${esc(l.id)}')" onclick="openLead('${esc(l.id)}')"><b>${esc(l.name || '(no name)')}</b><div class="m">${esc(l.interest || '')}${l.area ? ' · ' + esc(l.area) : ''}${l.budget ? '<br>' + esc(l.budget) : ''}</div>${l.next_step || l.next_date ? `<div class="due ${isDue(l) ? 'late' : ''}">${esc(l.next_step || 'Follow up')} ${day(l.next_date)}</div>` : ''}</div>`).join('')}</div></div>`;
+  }).join('');
+}
+async function dropLead(e, st) {
+  e.preventDefault(); document.querySelectorAll('.col').forEach(c => c.classList.remove('drop'));
+  const id = e.dataTransfer.getData('text'); const l = DB.leads.find(x => String(x.id) === id); if (!l || l.stage === st) return;
+  const prev = l.stage; l.stage = st; renderBoard();
+  try { await save('leads', { id, stage: st }, `moved ${l.name} to ${st}`); load(); } catch (_) { l.stage = prev; renderBoard(); alert('Could not save. Try again.'); }
+}
+function renderLeads() {
+  const q = ($('#q-leads').value || '').toLowerCase(), st = $('#f-stage').value;
+  const L = (DB.leads || []).filter(l => (!q || JSON.stringify(l).toLowerCase().includes(q)) && (!st || (l.stage || 'New') === st)).sort((a, b) => new Date(b.created) - new Date(a.created));
+  $('#t-leads').innerHTML = `<tr><th>Name</th><th>Contact</th><th>Looking for</th><th>Stage</th><th>Source</th><th>Added</th></tr>` + (L.length ? L.map(l => `<tr onclick="openLead('${esc(l.id)}')"><td><b>${esc(l.name)}</b></td><td>${esc(l.email)}<br>${esc(l.phone)}</td><td>${esc(l.interest)}<br><span style="color:var(--text-muted)">${esc(l.area)} ${esc(l.budget)}</span></td><td>${pill(l.stage || 'New', STAGE_PILL)}</td><td>${esc(l.source)}</td><td>${day(l.created)}</td></tr>`).join('') : `<tr><td colspan="6"><div class="empty">No leads yet</div></td></tr>`);
+}
+function progress(c) { let done = []; try { done = JSON.parse(c.checklist || '[]'); } catch (_) {} return Math.round(100 * done.filter(x => ALL_CHECKS.includes(x)).length / ALL_CHECKS.length); }
+function renderCollection() {
+  const st = $('#f-lstatus').value;
+  const C = (DB.collection || []).filter(c => !st || c.status === st);
+  $('#lgrid').innerHTML = C.length ? C.map(c => `<div class="listing" onclick="openListing('${esc(c.id)}')">${(() => { const img = c.photos && /^https?:/.test(c.photos) && /\.(jpe?g|png|webp)/i.test(c.photos); return `<div class="ph${img ? '' : ' none'}" style="${img ? `background-image:url('${esc(c.photos)}')` : ''}">`; })()}${pill(c.status || 'Prospect', LSTATUS_PILL)}</div><div class="bd"><h3>${esc(c.address || 'New home')}</h3><div class="pr">${fmt$(c.price)}</div><div class="m">${[c.beds && c.beds + ' bd', c.baths && c.baths + ' ba', c.sqft && Number(c.sqft).toLocaleString() + ' sf', c.acres && c.acres + ' ac'].filter(Boolean).join(' · ')}</div><div class="m">${esc(c.neighborhood || c.area || '')}</div><div class="bar"><i style="width:${progress(c)}%"></i></div><div class="m" style="font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;margin-top:6px">Launch ${progress(c)}% · ${esc(c.phase || 'Before launch')}</div></div></div>`).join('') : '<div class="empty">No homes yet. Add the first one.</div>';
+}
+function renderMembers() {
+  const st = $('#f-mstatus').value;
+  const M = (DB.members || []).filter(m => !st || (m.status || 'Pending review') === st).sort((a, b) => new Date(b.created) - new Date(a.created));
+  const mp = { 'Pending review':'p-gold', 'Approved':'p-green', 'Declined':'p-red' };
+  $('#t-members').innerHTML = `<tr><th>Email</th><th>Name</th><th>Status</th><th>Source</th><th>Requested</th><th></th></tr>` + (M.length ? M.map(m => `<tr onclick="openMember('${esc(m.id)}')"><td><b>${esc(m.email)}</b></td><td>${esc(m.name)}</td><td>${pill(m.status || 'Pending review', mp)}</td><td>${esc(m.source)}</td><td>${day(m.created)}</td><td onclick="event.stopPropagation()">${(m.status || 'Pending review') === 'Pending review' ? `<button class="btn sm" onclick="setMember('${esc(m.id)}','Approved')">Approve</button> <button class="btn sm ghost" onclick="setMember('${esc(m.id)}','Declined')">Decline</button>` : ''}</td></tr>`).join('') : `<tr><td colspan="6"><div class="empty">No requests yet</div></td></tr>`);
+}
+async function setMember(id, st) { try { const m = DB.members.find(x => String(x.id) === String(id)); await save('members', { id, status: st }, `${st.toLowerCase()} ${m ? m.email : ''} for ${COLLECTION_NAME}`); load(); } catch (_) { alert('Could not save.'); } }
+function copyApproved() { const e = (DB.members || []).filter(m => m.status === 'Approved').map(m => m.email).join(', '); navigator.clipboard.writeText(e).then(() => alert(e ? 'Copied ' + e.split(',').length + ' emails. Paste them in BCC.' : 'No approved members yet.')); }
+
+/* ================= editors ================= */
+const field = (k, label, v, type, opts, full) => `<div class="${full ? 'full' : ''}"><label>${label}</label>${opts ? `<select name="${k}">${opts.map(o => `<option${o === v ? ' selected' : ''}>${esc(o)}</option>`).join('')}</select>` : type === 'area' ? `<textarea name="${k}">${esc(v)}</textarea>` : `<input name="${k}" type="${type || 'text'}" value="${esc(v)}" />`}</div>`;
+function openEd(title, html, onSave) { $('#ed-title').textContent = title; $('#ed-body').innerHTML = html; $('#ed-msg').textContent = ''; $('#ed').classList.add('on'); $('#scrim').classList.add('on'); $('#ed-save').disabled = false; $('#ed-save').onclick = onSave; }
+function closeEd() { $('#ed').classList.remove('on'); $('#scrim').classList.remove('on'); }
+function formData() { const o = {}; $('#ed-body').querySelectorAll('[name]').forEach(i => { if (i.type === 'checkbox') return; o[i.name] = i.value; }); return o; }
+async function doSave(tab, obj, note) {
+  if (!S.api || !S.key) { $('#ed-msg').textContent = 'Connect the private sheet in Settings first.'; return; }
+  $('#ed-save').disabled = true; $('#ed-msg').textContent = 'Saving…';
+  try { await save(tab, obj, note); closeEd(); load(); } catch (_) { $('#ed-save').disabled = false; $('#ed-msg').textContent = 'Could not save. Try again.'; }
+}
+
+function openLead(id) {
+  const l = (DB.leads || []).find(x => String(x.id) === String(id)) || { stage: 'New', owner: S.me, source: 'Manual' };
+  const quick = l.id ? `<div class="quick">${l.phone ? `<a href="tel:${esc(l.phone)}">Call</a><a href="sms:${esc(l.phone)}">Text</a>` : ''}${l.email ? `<a href="mailto:${esc(l.email)}?subject=${encodeURIComponent('Live Oak Reserve')}">Email</a>` : ''}</div>` : '';
+  openEd(l.id ? l.name || 'Lead' : 'New lead', quick + `<div class="fg">
+    ${field('name','Name',l.name)}${field('phone','Phone',l.phone,'tel')}
+    ${field('email','Email',l.email,'email',null,true)}
+    ${field('stage','Stage',l.stage || 'New',null,STAGES)}${field('owner','Owner',l.owner,null,['Gabe','Ryan'])}
+    ${field('interest','Looking to',l.interest,null,['','Buying','Selling','Buying and selling','Building a custom home','A landowner','An investor or builder'])}${field('area','Area',l.area)}
+    ${field('budget','Budget',l.budget)}${field('timeline','Timing',l.timeline)}
+    ${field('next_step','Next step',l.next_step)}${field('next_date','Next step date',(l.next_date || '').slice(0,10),'date')}
+    ${field('source','Source',l.source,null,['','liveoak-consult','liveoak-site','Instagram','Referral','Open house','Sign call','Manual','website'])}
+    ${l.message ? `<div class="full"><label>Their message</label><div style="font-size:13px;line-height:1.6;background:var(--panel);border:1px solid var(--rule);padding:10px">${esc(l.message)}</div></div>` : ''}
+    ${field('notes','Notes',l.notes,'area',null,true)}
+  </div>`, () => { const o = formData(); if (l.id) o.id = l.id; doSave('leads', o, l.id ? `updated ${o.name}` : `added lead ${o.name}`); });
+}
+function openListing(id) {
+  const c = (DB.collection || []).find(x => String(x.id) === String(id)) || { status: 'Prospect', phase: 'Before launch' };
+  let done = []; try { done = JSON.parse(c.checklist || '[]'); } catch (_) {}
+  const checks = Object.entries(CHECKLIST).map(([ph, items]) => `<label class="ph">${ph}</label>` + items.map(it => `<label><input type="checkbox" data-check="${esc(it)}" ${done.includes(it) ? 'checked' : ''}/> ${esc(it)}</label>`).join('')).join('');
+  openEd(c.id ? c.address || 'Home' : 'Add a home', `<div class="fg">
+    ${field('address','Address',c.address,null,null,true)}
+    ${field('neighborhood','Neighborhood',c.neighborhood)}${field('area','County',c.area,null,['','Travis','Williamson','Hays'])}
+    ${field('price','Price',c.price)}${field('status','Status',c.status,null,LSTATUS)}
+    ${field('beds','Beds',c.beds)}${field('baths','Baths',c.baths)}
+    ${field('sqft','Square feet',c.sqft)}${field('acres','Acres',c.acres)}
+    ${field('seller','Seller',c.seller)}${field('seller_contact','Seller phone or email',c.seller_contact)}
+    ${field('phase','Launch phase',c.phase,null,Object.keys(CHECKLIST))}${field('ig_posted','Private Instagram',c.ig_posted,null,['','Not yet','Posted'])}
+    ${field('photos','Photo folder or cover image link',c.photos,'url',null,true)}
+    ${field('description','Description',c.description,'area',null,true)}
+    ${field('notes','Notes',c.notes,'area',null,true)}
+    <div class="full"><label>Launch checklist</label><div class="checks">${checks}</div></div>
+  </div>`, () => { const o = formData(); o.checklist = JSON.stringify([...$('#ed-body').querySelectorAll('[data-check]:checked')].map(i => i.dataset.check)); if (c.id) o.id = c.id; doSave('collection', o, c.id ? `updated ${o.address}` : `added ${o.address} to ${COLLECTION_NAME}`); });
+}
+function openMember(id) {
+  const m = (DB.members || []).find(x => String(x.id) === String(id)) || { status: 'Approved', source: 'Manual' };
+  openEd(m.id ? m.email : 'Add member', `<div class="fg">
+    ${field('email','Email',m.email,'email',null,true)}${field('name','Name',m.name)}${field('phone','Phone',m.phone,'tel')}
+    ${field('status','Status',m.status || 'Pending review',null,['Pending review','Approved','Declined'])}${field('source','Source',m.source,null,['','liveoak-site','Instagram','Referral','Manual'])}
+    ${field('notes','Notes',m.notes,'area',null,true)}
+  </div>`, () => { const o = formData(); if (m.id) o.id = m.id; doSave('members', o, m.id ? `updated member ${o.email}` : `added member ${o.email}`); });
+}
+
+/* ================= misc ================= */
+function exportCSV(tab) {
+  const rows = DB[tab] || []; if (!rows.length) return alert('Nothing to export yet.');
+  const cols = Object.keys(rows[0]); const q = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const csv = [cols.join(',')].concat(rows.map(r => cols.map(c => q(r[c])).join(','))).join('\n');
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type:'text/csv' })); a.download = 'live-oak-' + tab + '.csv'; a.click();
+}
+function saveSettings() {
+  const api = $('#set-api').value.trim(), key = $('#set-key').value.trim();
+  if (api) localStorage.setItem('lo.api', api); if (key) localStorage.setItem('lo.key', key); localStorage.setItem('lo.me', $('#set-me').value);
+  go('overview'); load(true);
+}
+function forgetKey() { localStorage.removeItem('lo.key'); $('#set-key').value = ''; DB = { leads: [], collection: [], members: [], activity: [] }; render(); status('Key removed from this device.'); }
+function go(p) {
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('is-active', b.dataset.panel === p));
+  document.querySelectorAll('.panel').forEach(s => s.classList.toggle('is-active', s.id === 'panel-' + p));
+  if (p === 'setup') { $('#set-api').value = S.api; $('#set-me').value = S.me; }
+  scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('.nav-item[data-panel]').forEach(b => b.addEventListener('click', () => go(b.dataset.panel)));
+document.querySelectorAll('.t[data-go]').forEach(t => t.addEventListener('click', () => go(t.dataset.go)));
+$('#f-stage').innerHTML += STAGES.map(s => `<option>${s}</option>`).join('');
+$('#f-lstatus').innerHTML += LSTATUS.map(s => `<option>${s}</option>`).join('');
+['#q-pipe','#f-owner'].forEach(s => $(s).addEventListener('input', renderBoard));
+['#q-leads','#f-stage'].forEach(s => $(s).addEventListener('input', renderLeads));
+$('#f-lstatus').addEventListener('input', renderCollection); $('#f-mstatus').addEventListener('input', renderMembers);
+addEventListener('keydown', e => { if (e.key === 'Escape') closeEd(); });
+load();
+</script>
+</body>
+</html>

@@ -3236,7 +3236,7 @@
             <span class="hub-initial">L</span>
           </div>
           <div class="hub-name">Live Oak Reserve</div>
-          <div class="hub-role">Private listings</div>
+          <div class="hub-role">Clients · private listings</div>
         </button>
         <button type="button" class="hub-card" data-target="land">
           <div class="hub-avatar" data-slug="land">
@@ -3781,9 +3781,18 @@
             }, 600);
             return;
           }
-          // Live Oak Reserve — the private concept page on the public site (it has its own access code)
+          // Live Oak Reserve back office: clients, the private collection, members (same 24h gate as Land)
           if (target === 'liveoak') {
-            window.location.href = 'https://www.victoryformationventures.com/liveoak/';
+            const LO_KEY = 'vfv.liveoakUnlock';
+            const LO_CODES = ['0000', '5555']; // Admin / Gabe (Vincent 7777 paused)
+            let ok = false;
+            try { const t = JSON.parse(localStorage.getItem(LO_KEY) || 'null'); ok = !!(t && t.ok && (Date.now() - t.ts) < 86400000); } catch (_) {}
+            if (!ok) {
+              const code = await window.askPasscode({ title: 'Live Oak Reserve', subtitle: 'Enter your 4-digit passcode.', validate: (c) => LO_CODES.indexOf(c) >= 0 });
+              if (code == null) return;
+              try { localStorage.setItem(LO_KEY, JSON.stringify({ ok: true, ts: Date.now() })); } catch (_) {}
+            }
+            window.location.href = 'liveoak.html';
             return;
           }
           // Telos is Gabe-only — same gate pattern as Admin
