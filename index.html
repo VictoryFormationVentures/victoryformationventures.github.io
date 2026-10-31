@@ -3271,6 +3271,18 @@
     #division-hub[aria-hidden="false"] {
       opacity: 1; pointer-events: auto;
     }
+    /* Let phones scroll to every division (the hub is fixed and taller than the screen) */
+    #division-hub { overflow-y: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; }
+    @media (max-width: 640px), (max-height: 760px) {
+      #division-hub { align-items: flex-start; padding: 28px 16px 56px; }
+      .hub-sub { margin-bottom: 28px; }
+    }
+    @media (max-width: 640px) {
+      #division-hub .hub-grid { grid-template-columns: 1fr 1fr; gap: 18px 10px; }
+      #division-hub .hub-avatar { width: 112px; height: 112px; }
+      #division-hub .hub-card { padding: 8px 4px; gap: 8px; }
+      #division-hub .hub-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+    }
     #division-hub.is-leaving { opacity: 0; }
     .hub-inner {
       max-width: 1000px; width: 100%; text-align: center;

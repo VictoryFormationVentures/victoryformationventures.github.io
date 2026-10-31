@@ -441,7 +441,20 @@
     .mp td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
     .mp .new { display: inline-block; font-size: 8.5px; letter-spacing: .16em; text-transform: uppercase; padding: 2px 6px; margin-left: 6px; background: #f5e9c9; color: #6b5a1e; }
     .mp .mp-status { font-size: 11px; color: var(--text-dim); margin-top: 8px; }
-  </style>
+  
+    /* ===== Phone layout (Oct 2026): one swipeable row with every section ===== */
+    @media (max-width: 860px) {
+      .shell { grid-template-columns: 1fr !important; }
+      .shell > .sidenav { display: none !important; }
+      .m-nav { position: sticky; top: 0; z-index: 40; display: flex; gap: 6px; overflow-x: auto; padding: 10px 12px; background: #fbf9f4; border-bottom: 1px solid var(--panel-edge, #e6dfd2); -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+      .m-nav::-webkit-scrollbar { display: none; }
+      .m-nav button { flex: none; white-space: nowrap; background: transparent; border: 1px solid #e0d7c6; color: #5a564e; font: 500 10.5px/1 var(--font-body, Montserrat, sans-serif); letter-spacing: .16em; text-transform: uppercase; padding: 10px 12px; cursor: pointer; }
+      .m-nav button.is-active { background: #111111; border-color: #111111; color: #f6f2ea; }
+      .m-nav small { display: none; }
+      .content { padding: 22px 16px 70px !important; }
+    }
+    @media (min-width: 861px) { .m-nav { display: none; } }
+</style>
   <link rel="stylesheet" href="assets/vfv-brand.css" />
   <script src="assets/vfv-mobile.js" defer></script>
 </head>
@@ -5370,6 +5383,26 @@
     window.vfvTools = { hotLeadFromLookup, hotLeadFromTransfer, ownerLetterFromLookup, ownerLetter, addBuilderContact, addAllBuilders, copySummary, underwritingURL };
     mountMaps();
     mountPulse();
+  })();
+  </script>
+<script>
+  /* Phone menu: mirror every side-menu item (including ones inside collapsed groups) into one swipeable row */
+  (function(){
+    const side = document.querySelector('.shell > .sidenav'); if (!side) return;
+    const bar = document.createElement('nav'); bar.className = 'm-nav'; bar.setAttribute('aria-label', 'Sections');
+    const items = [...side.querySelectorAll('.nav-item')];
+    items.forEach(function(orig){
+      const b = document.createElement('button'); b.type = 'button'; b.innerHTML = orig.innerHTML;
+      b.onclick = function(){ orig.click(); sync(); b.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+        const c = document.querySelector('.content'); if (c) window.scrollTo({ top: c.getBoundingClientRect().top + window.scrollY - (bar.offsetTop + bar.offsetHeight + 8), behavior: 'smooth' }); };
+      b._orig = orig; bar.appendChild(b);
+    });
+    function sync(){ [...bar.children].forEach(function(b){ b.classList.toggle('is-active', b._orig.classList.contains('is-active')); }); }
+    side.parentNode.insertBefore(bar, side);
+    function pin(){ const tb = document.querySelector('.topbar'); const ps = tb && getComputedStyle(tb).position; bar.style.top = (tb && (ps === 'sticky' || ps === 'fixed')) ? tb.offsetHeight + 'px' : '0px'; }
+    pin(); addEventListener('resize', pin);
+    new MutationObserver(sync).observe(side, { subtree: true, attributes: true, attributeFilter: ['class'] });
+    sync();
   })();
   </script>
 </body>
