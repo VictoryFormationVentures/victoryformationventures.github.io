@@ -56,3 +56,7 @@ body { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
 .vfv-week-item .where { font-size:12px; color:#6f6a5f; margin-top:3px; }
 .vfv-week-more { display:inline-block; margin-top:14px; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#4E5A3E; border-bottom:1px solid #4E5A3E; }
 @media (max-width: 600px) { .vfv-week-item { grid-template-columns:1fr; gap:4px; } }
+@media (max-width: 700px) {
+  .ev-card { grid-template-columns: 1fr !important; gap: 10px !important; padding: 18px 16px !important; }
+  .ev-title { font-size: 18px !important; }
+}
