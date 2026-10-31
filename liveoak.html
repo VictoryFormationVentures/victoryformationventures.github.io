@@ -291,7 +291,8 @@
 <script>
 /* ================= settings ================= */
 const COLLECTION_NAME = 'The Limestone Collection';
-const DEFAULT_API = '';          // filled in once the Apps Script web app is deployed
+const DEFAULT_API = 'https://script.google.com/macros/s/AKfycbxWJd7NmOrIyq-S0waYoBIN2ErTHaN__AOFV02-Gr8dt4NRdHrkXwfuYVES9PQ0pThK/exec';
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1mpcfTxxc_-RSWaw5ZLBih0ZXxxxO4slodfiWWn1VyLM/edit';        
 const STAGES = ['New','Contacted','Consult booked','Touring','Active client','Under contract','Closed','Nurture','Lost'];
 const OPEN_STAGES = ['Consult booked','Touring','Active client','Under contract'];
 const STAGE_PILL = { 'New':'p-blue','Contacted':'p-gold','Consult booked':'p-gold','Touring':'p-green','Active client':'p-green','Under contract':'p-ink','Closed':'p-green','Nurture':'p-gray','Lost':'p-red' };
@@ -360,7 +361,7 @@ function render() {
   $('#ov-feed').innerHTML = feed((DB.activity || []).slice(-8).reverse());
   $('#feed').innerHTML = feed((DB.activity || []).slice().reverse());
   renderBoard(); renderLeads(); renderCollection(); renderMembers();
-  const sid = localStorage.getItem('lo.sheet'); if (sid) $('#tool-sheet').href = sid;
+  $('#tool-sheet').href = SHEET_URL;
 }
 function feed(a) { return a.length ? `<div class="feed">${a.map(x => `<div><time>${ago(x.ts)}</time><span><b>${esc(x.by || '')}</b> ${esc(x.text)}</span></div>`).join('')}</div>` : '<div class="empty">No activity yet</div>'; }
 
