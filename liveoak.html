@@ -328,6 +328,7 @@ function status(html, cls) { $('#status').innerHTML = html ? `<div class="notice
 async function load(force) {
   if (!S.api) { status('The Live Oak back office is built and ready. It goes live once the private Google sheet is connected in <a href="#" onclick="go(\'setup\');return false;"><u>Settings</u></a>.'); render(); return; }
   if (!S.key) { askKey(); return; }
+  status('Loading clients from the private sheet…');
   try {
     const r = await fetch(S.api + '?key=' + encodeURIComponent(S.key) + '&t=' + Date.now());
     const d = await r.json();
