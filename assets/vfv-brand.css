@@ -9,9 +9,9 @@ body { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
 
 /* Hub marks */
 .hub-avatar img[src*="assets/hub/"] { object-fit:contain; }
-.hub-avatar[data-slug="liveoak"] img { padding:0 !important; object-fit:cover !important; }
-.hub-avatar[data-slug="telos"] img, .hub-avatar[data-slug="land"] img, .hub-avatar[data-slug="marketintel"] img { padding:40px !important; }
-@media (max-width:640px){ .hub-avatar[data-slug="telos"] img, .hub-avatar[data-slug="land"] img, .hub-avatar[data-slug="marketintel"] img { padding:28px !important; } }
+.hub-avatar[data-slug="liveoak"] img, .hub-avatar[data-slug="land"] img, .hub-avatar[data-slug="marketintel"] img { padding:0 !important; object-fit:cover !important; }
+.hub-avatar[data-slug="telos"] img { padding:40px !important; }
+@media (max-width:640px){ .hub-avatar[data-slug="telos"] img { padding:28px !important; } }
 
 /* Phone menu button (injected by vfv-mobile.js) */
 .vfv-menu-btn { display:none; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:.22em; text-transform:uppercase; background:transparent; border:1px solid #d9d0bf; color:#111; padding:8px 12px; cursor:pointer; }
