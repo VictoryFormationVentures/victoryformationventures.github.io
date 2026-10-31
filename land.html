@@ -2826,14 +2826,14 @@
     // Small colored pill for the client type — reused on Buy Box + Hot Lead cards.
     function _clientTypePill(type) {
       if (!type) return '';
-      const bg = type === 'Builder' ? '#dae5f0'
+      const bg = type === 'Builder' ? '#DCE6F0'
                : type === 'Developer' ? '#efe6cc'
                : type === 'Custom Home Client' ? '#2a1c3a'
                : '#d9d0bf';
-      const fg = type === 'Builder' ? '#2f5f9a'
+      const fg = type === 'Builder' ? '#24497A'
                : type === 'Developer' ? '#4E5A3E'
                : type === 'Custom Home Client' ? '#c99fe8'
-               : '#7a756a';
+               : '#5F5A50';
       return '<span style="display:inline-block; padding:2px 8px; margin-left:6px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + ';">' + esc(type) + '</span>';
     }
     const bbAddBtn = document.getElementById('bb-add-btn');
@@ -3325,9 +3325,9 @@
           const depth = range(r.minDepth, r.maxDepth, 'ft');
           // Priority pill styling
           const pri = (r.priority || '').trim();
-          const priBg = pri === 'High' ? '#3a1c1c' : pri === 'Medium' ? '#efe6cc' : pri === 'Low' ? '#dae5f0' : '';
-          const priFg = pri === 'High' ? '#b03030' : pri === 'Medium' ? '#4E5A3E' : pri === 'Low' ? '#2f5f9a' : '';
-          const priPill = pri ? `<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:${priBg}; color:${priFg};">${esc(pri)}</span>` : '';
+          const priBg = pri === 'High' ? '#F2DCD6' : pri === 'Medium' ? '#efe6cc' : pri === 'Low' ? '#DCE6F0' : '';
+          const priFg = pri === 'High' ? '#8E2B22' : pri === 'Medium' ? '#6B5410' : pri === 'Low' ? '#24497A' : '';
+          const priPill = pri ? `<span style="display:inline-block; padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; background:${priBg}; color:${priFg};">${esc(pri)}</span>` : '';
 
           // Reusable row renderer for the labeled-detail section
           const detailRow = (label, value) => value
@@ -3467,9 +3467,9 @@
       });
       const heatPill = (h) => {
         if (!h) return '';
-        const bg = h==='Hot'?'#3a1c1c':h==='Warm'?'#efe6cc':'#dae5f0';
-        const fg = h==='Hot'?'#b03030':h==='Warm'?'#4E5A3E':'#2f5f9a';
-        return '<span style="padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:'+bg+'; color:'+fg+';">'+esc(h)+'</span>';
+        const bg = h==='Hot'?'#F2DCD6':h==='Warm'?'#efe6cc':'#DCE6F0';
+        const fg = h==='Hot'?'#8E2B22':h==='Warm'?'#6B5410':'#24497A';
+        return '<span style="padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; background:'+bg+'; color:'+fg+';">'+esc(h)+'</span>';
       };
       listEl.innerHTML = mine.map(r => `
         <article style="background:var(--panel); border:1px solid var(--rule); padding:14px 16px; position:relative;">
@@ -3922,7 +3922,7 @@
     // Score a slope percentage — label, color, and build-note guidance.
     function _plSlopeScore(pct) {
       if (pct <= 2)  return { label: 'Very Flat',   color: '#2f6f47', note: 'Ideal build pad. Minimal grading required.' };
-      if (pct <= 5)  return { label: 'Gentle',      color: '#3f7a3f', note: 'Standard grading. Easy site design.' };
+      if (pct <= 5)  return { label: 'Gentle',      color: '#3F4932', note: 'Standard grading. Easy site design.' };
       if (pct <= 10) return { label: 'Moderate',    color: '#4E5A3E', note: 'Some retention or terracing. Manageable cost.' };
       if (pct <= 15) return { label: 'Notable',     color: '#e29a4a', note: 'Walkout basement candidate. Engineered fill likely.' };
       if (pct <= 25) return { label: 'Steep',       color: '#a33333', note: 'Significant grading + retention. Costs add up.' };
@@ -4000,7 +4000,7 @@
       const slope  = await _plComputeSlope(geo.location.x, geo.location.y, acres)
         .catch(err => { console.warn('Slope analysis failed:', err); return null; });
 
-      statusEl.style.color = '#3f7a3f';
+      statusEl.style.color = '#3F4932';
       statusEl.textContent = '✓ Loaded — ' + (geo.address || address);
       resultsEl.innerHTML = _plRenderHTML(geo, { raw: parcel, parsed, svc: psvc }, flood, slope, city, { zoning, fdf, watershed });
       // Hand the parsed bundle to the action bar (Hot Lead, owner letter, underwriting).
@@ -4213,7 +4213,7 @@
             await _plLookup(container, address);
           } catch (err) {
             console.error(err);
-            statusEl.style.color = '#b03030';
+            statusEl.style.color = '#8E2B22';
             statusEl.textContent = 'Error: ' + (err.message || err);
             resultsEl.hidden = true;
           }
@@ -4763,12 +4763,12 @@
           try {
             const rows = await _lcFindComps(ctx);
             _lcRender(container, rows, ctx);
-            status.style.color = '#3f7a3f';
+            status.style.color = '#3F4932';
             status.textContent = '✓ Found ' + rows.length + ' comp' + (rows.length === 1 ? '' : 's') + ' · cap $' + ctx.cap.toLocaleString();
             results.hidden = false;
           } catch (err) {
             console.error(err);
-            status.style.color = '#b03030';
+            status.style.color = '#8E2B22';
             status.textContent = 'Error: ' + (err.message || err);
           }
         });

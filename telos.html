@@ -213,8 +213,8 @@
       font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
       background: #f1ece2; color: var(--text-dim); font-weight: 700;
     }
-    .tl-phase.state-progress .tl-phase-badge { background: #efe6cc; color: #4E5A3E; }
-    .tl-phase.state-complete .tl-phase-badge { background: #1c3a1c; color: #3f7a3f; }
+    .tl-phase.state-progress .tl-phase-badge { background: #EFE6CC; color: #6B5410; }
+    .tl-phase.state-complete .tl-phase-badge { background: #E3E7D9; color: #3F4932; }
 
     .tl-items {
       list-style: none; padding: 6px 0 0; margin: 0;
@@ -1275,10 +1275,10 @@
           };
           _docSaveState(projectId, st);
           _renderDocCard(card, projectId, st);
-          if (statusEl) { statusEl.textContent = '✓ Uploaded ' + file.name; statusEl.style.color = '#3f7a3f'; }
+          if (statusEl) { statusEl.textContent = '✓ Uploaded ' + file.name; statusEl.style.color = '#3F4932'; }
         } catch (err) {
           console.error(err);
-          if (statusEl) { statusEl.textContent = 'Upload failed: ' + (err.message || err); statusEl.style.color = '#b03030'; }
+          if (statusEl) { statusEl.textContent = 'Upload failed: ' + (err.message || err); statusEl.style.color = '#8E2B22'; }
           btns.forEach(b => b.classList.remove('busy'));
         }
       });
