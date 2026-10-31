@@ -20352,7 +20352,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
 
       function _flash(msg, ok = true) {
         statusEl.textContent = msg;
-        statusEl.style.color = ok ? '#3f7a3f' : '#b03030';
+        statusEl.style.color = ok ? '#3F4932' : '#8E2B22';
         setTimeout(() => { statusEl.textContent = ''; }, 3500);
       }
       async function _copy(text) {
@@ -21303,7 +21303,7 @@ It has become a major relocation center for large companies like Amazon, Oracle,
           const fill = bar.querySelector('.bar-fill');
           if (fill) fill.style.width = '100%';
           const span = statusEl.querySelector('span:not([class])');
-          if (span) { span.textContent = '✓ Complete'; span.style.color = '#3f7a3f'; }
+          if (span) { span.textContent = '✓ Complete'; span.style.color = '#3F4932'; }
         } else {
           // Uncheck → row goes back to its natural countdown state. Simplest
           // way to get accurate text back is to trigger a reload. Both Land
@@ -21791,19 +21791,19 @@ It has become a major relocation center for large companies like Amazon, Oracle,
 
     function _bbStatusPill(s) {
       const st = (s || 'Active').trim();
-      const bg = st === 'Active' ? '#1c3a1c' :
+      const bg = st === 'Active' ? '#E3E7D9' :
                  st === 'On Hold' ? '#efe6cc' :
                  st === 'Archived' ? '#d9d0bf' : '#d9d0bf';
-      const fg = st === 'Active' ? '#3f7a3f' :
-                 st === 'On Hold' ? '#d9c580' :
-                 st === 'Archived' ? '#7a756a' : '#7a756a';
-      return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _bbEsc(st) + '</span>';
+      const fg = st === 'Active' ? '#3F4932' :
+                 st === 'On Hold' ? '#6B5410' :
+                 st === 'Archived' ? '#5F5A50' : '#5F5A50';
+      return '<span style="display:inline-block; padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _bbEsc(st) + '</span>';
     }
     function _bbPriorityPill(p) {
       if (!p) return '';
-      const bg = p === 'High' ? '#3a1c1c' : p === 'Medium' ? '#efe6cc' : '#dae5f0';
-      const fg = p === 'High' ? '#b03030' : p === 'Medium' ? '#d9c580' : '#2f5f9a';
-      return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px; margin-left:6px;">' + _bbEsc(p) + '</span>';
+      const bg = p === 'High' ? '#F2DCD6' : p === 'Medium' ? '#efe6cc' : '#DCE6F0';
+      const fg = p === 'High' ? '#8E2B22' : p === 'Medium' ? '#6B5410' : '#24497A';
+      return '<span style="display:inline-block; padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px; margin-left:6px;">' + _bbEsc(p) + '</span>';
     }
 
     function _bbCardHtml(r) {
@@ -22189,21 +22189,21 @@ It has become a major relocation center for large companies like Amazon, Oracle,
 
     function _hlHeatPill(h) {
       if (!h) return '';
-      const bg = h === 'Hot' ? '#3a1c1c' : h === 'Warm' ? '#efe6cc' : '#dae5f0';
-      const fg = h === 'Hot' ? '#b03030' : h === 'Warm' ? '#4E5A3E' : '#2f5f9a';
-      return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _hlEsc(h) + '</span>';
+      const bg = h === 'Hot' ? '#F2DCD6' : h === 'Warm' ? '#efe6cc' : '#DCE6F0';
+      const fg = h === 'Hot' ? '#8E2B22' : h === 'Warm' ? '#6B5410' : '#24497A';
+      return '<span style="display:inline-block; padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px;">' + _hlEsc(h) + '</span>';
     }
     function _hlStatusPill(s) {
       const st = (s || 'Active').trim();
-      const bg = st === 'Active' ? '#1c3a1c' :
-                 st === 'Under Contract' ? '#dae5f0' :
+      const bg = st === 'Active' ? '#E3E7D9' :
+                 st === 'Under Contract' ? '#DCE6F0' :
                  st === 'Passed' ? '#d9d0bf' :
-                 st === 'Lost' ? '#3a1c1c' : '#d9d0bf';
-      const fg = st === 'Active' ? '#3f7a3f' :
-                 st === 'Under Contract' ? '#2f5f9a' :
-                 st === 'Passed' ? '#7a756a' :
-                 st === 'Lost' ? '#b03030' : '#7a756a';
-      return '<span style="display:inline-block; padding:2px 8px; font-size:9px; letter-spacing:.14em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px; margin-left:6px;">' + _hlEsc(st) + '</span>';
+                 st === 'Lost' ? '#F2DCD6' : '#d9d0bf';
+      const fg = st === 'Active' ? '#3F4932' :
+                 st === 'Under Contract' ? '#24497A' :
+                 st === 'Passed' ? '#5F5A50' :
+                 st === 'Lost' ? '#8E2B22' : '#5F5A50';
+      return '<span style="display:inline-block; padding:3px 9px; font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; background:' + bg + '; color:' + fg + '; border-radius:2px; margin-left:6px;">' + _hlEsc(st) + '</span>';
     }
     function _hlDaysSince(d) {
       if (!(d instanceof Date) || isNaN(d)) return null;
