@@ -16,6 +16,7 @@ body { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
 /* Phone menu button (injected by vfv-mobile.js) */
 .vfv-menu-btn { display:none; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:.22em; text-transform:uppercase; background:transparent; border:1px solid #d9d0bf; color:#111; padding:8px 12px; cursor:pointer; }
 
+@media (max-width: 900px) { .site-header .vfv-menu-btn { display:inline-block; } }
 @media (max-width: 860px) {
   .vfv-menu-btn { display:inline-block; }
   .shell { grid-template-columns: 1fr !important; }
@@ -60,4 +61,16 @@ body { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
 @media (max-width: 700px) {
   .ev-card { grid-template-columns: 1fr !important; gap: 10px !important; padding: 18px 16px !important; }
   .ev-title { font-size: 18px !important; }
+}
+
+/* Admin shell on phones: sidebar behind a Menu button, normal vertical list */
+@media (max-width: 900px) {
+  .app-shell > .app-sidebar { display:none; white-space:normal !important; overflow:visible !important; padding:8px 16px 14px !important; }
+  body.vfv-nav-open .app-shell > .app-sidebar { display:block; }
+  .app-shell .nav-group { display:block !important; margin:0 !important; }
+  .app-shell .nav-item { border-bottom:0 !important; padding:10px 6px !important; }
+  .app-shell .nav-item[aria-selected="true"] { border-left:2px solid #111 !important; }
+  .app-main { padding-left:16px !important; padding-right:16px !important; }
+  .site-header .header-meta { gap:8px !important; }
+  .site-header #btn-refresh { display:none !important; }
 }

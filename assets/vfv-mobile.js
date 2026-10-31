@@ -16,6 +16,20 @@
         if (t && window.innerWidth <= 860) { document.body.classList.remove('vfv-nav-open'); b.textContent = 'Menu'; }
       });
     }
+    // Admin shell menu
+    var hdr = document.querySelector('.site-header .header-meta'), aside = document.querySelector('.app-shell > .app-sidebar');
+    if (hdr && aside && !document.querySelector('.vfv-menu-btn')) {
+      var m = document.createElement('button');
+      m.type = 'button'; m.className = 'vfv-menu-btn switch-division-btn'; m.textContent = 'Menu';
+      m.addEventListener('click', function () {
+        document.body.classList.toggle('vfv-nav-open');
+        m.textContent = document.body.classList.contains('vfv-nav-open') ? 'Close' : 'Menu';
+      });
+      hdr.appendChild(m);
+      aside.addEventListener('click', function (e) {
+        if (e.target.closest('.nav-item') && window.innerWidth <= 900) { document.body.classList.remove('vfv-nav-open'); m.textContent = 'Menu'; }
+      });
+    }
     // Deal calendar: month view toggle on phones
     var cal = document.getElementById('team-cal');
     if (cal && !document.querySelector('.vfv-month-toggle')) {
