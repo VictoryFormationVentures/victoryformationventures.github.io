@@ -1,0 +1,75 @@
+/* VFV brand + phone layer. Loaded last on every dashboard page. */
+:root { --vfv-ink:#1A1A18; --vfv-lime:#F3EBDD; --vfv-sand:#D8CAB2; --vfv-oak:#4E5A3E; --accent:#4E5A3E; }
+body { font-family: 'Montserrat', 'Helvetica Neue', Arial, sans-serif; }
+
+/* Admin header wordmark */
+.site-header .brand.vfv-brand { display:flex; align-items:center; gap:14px; text-transform:none; }
+.site-header .brand.vfv-brand img { height:34px; width:auto; }
+.site-header .brand.vfv-brand span { font-family:'Aboreto', serif; font-size:16px; letter-spacing:.28em; text-transform:uppercase; color:#111; white-space:nowrap; }
+
+/* Hub marks */
+.hub-avatar img[src*="assets/hub/"] { object-fit:contain; }
+.hub-avatar img[src*="assets/hub/"] { padding:0 !important; object-fit:cover !important; }
+.hub-avatar { background:#7C7870; border-color:#5a5750; }
+
+/* Phone menu button (injected by vfv-mobile.js) */
+.vfv-menu-btn { display:none; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:.22em; text-transform:uppercase; background:transparent; border:1px solid #d9d0bf; color:#111; padding:8px 12px; cursor:pointer; }
+
+@media (max-width: 900px) { .site-header .vfv-menu-btn { display:inline-block; } }
+@media (max-width: 860px) {
+  .vfv-menu-btn { display:inline-block; }
+  .shell { grid-template-columns: 1fr !important; }
+  .shell > .sidenav { position:static !important; top:auto !important; height:auto !important; border-right:0 !important; border-bottom:1px solid #d9d0bf; display:none; }
+  body.vfv-nav-open .shell > .sidenav { display:block; }
+  .topbar { flex-wrap:wrap; padding:12px 16px !important; gap:10px !important; }
+  .topbar .brand { gap:12px !important; }
+  .topbar .brand img.arch { width:38px !important; height:38px !important; }
+  .topbar .brand .name { font-size:15px !important; letter-spacing:.2em !important; }
+  .topbar .spacer { display:none; }
+  .topbar .brand { flex:1 1 100%; }
+  .topbar #btn-refresh { display:none !important; }
+  .topbar .parent-link, .topbar .vfv-menu-btn { font-size:9px !important; padding:7px 10px !important; letter-spacing:.18em !important; }
+  .topbar .vfv-menu-btn { margin-left:auto; }
+  .content, main.content { padding:22px 16px 60px !important; }
+  h1.division-title { font-size:30px !important; }
+  /* Admin header */
+  .site-header .row { height:auto !important; padding:12px 0; flex-wrap:wrap; gap:10px; }
+  .site-header .brand.vfv-brand span { font-size:12px; letter-spacing:.2em; }
+  .header-meta > span { display:none; }
+}
+
+/* Deal calendar: list first on phones */
+.vfv-month-toggle { display:none; margin:0 0 14px; font-family:'Montserrat',sans-serif; font-size:10px; letter-spacing:.22em; text-transform:uppercase; background:transparent; border:1px solid #d9d0bf; color:#111; padding:8px 12px; cursor:pointer; }
+@media (max-width: 700px) {
+  .vfv-month-toggle { display:inline-block; }
+  #team-cal { display:none; }
+  body.vfv-show-month #team-cal { display:block; }
+}
+
+/* Home: This week */
+.vfv-week { margin-top:56px; padding-top:24px; border-top:1px solid #e6dfd2; }
+.vfv-week h2 { font-family:'Aboreto',serif; font-size:22px; letter-spacing:.04em; text-transform:uppercase; margin:10px 0 20px; font-weight:400; }
+.vfv-week-list { display:grid; gap:10px; }
+.vfv-week-item { display:grid; grid-template-columns:150px 1fr; gap:16px; padding:14px 16px; background:#fbf9f4; border:1px solid #e6dfd2; border-left:3px solid #e6dfd2; }
+.vfv-week-item.verified { border-left-color:#4E5A3E; }
+.vfv-week-item .when { font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#5a564e; font-weight:600; }
+.vfv-week-item .what { font-size:14px; color:#111; }
+.vfv-week-item .where { font-size:12px; color:#6f6a5f; margin-top:3px; }
+.vfv-week-more { display:inline-block; margin-top:14px; font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:#4E5A3E; border-bottom:1px solid #4E5A3E; }
+@media (max-width: 600px) { .vfv-week-item { grid-template-columns:1fr; gap:4px; } }
+@media (max-width: 700px) {
+  .ev-card { grid-template-columns: 1fr !important; gap: 10px !important; padding: 18px 16px !important; }
+  .ev-title { font-size: 18px !important; }
+}
+
+/* Admin shell on phones: sidebar behind a Menu button, normal vertical list */
+@media (max-width: 900px) {
+  .app-shell > .app-sidebar { display:none; white-space:normal !important; overflow:visible !important; padding:8px 16px 14px !important; }
+  body.vfv-nav-open .app-shell > .app-sidebar { display:block; }
+  .app-shell .nav-group { display:block !important; margin:0 !important; }
+  .app-shell .nav-item { border-bottom:0 !important; padding:10px 6px !important; }
+  .app-shell .nav-item[aria-selected="true"] { border-left:2px solid #111 !important; }
+  .app-main { padding-left:16px !important; padding-right:16px !important; }
+  .site-header .header-meta { gap:8px !important; }
+  .site-header #btn-refresh { display:none !important; }
+}

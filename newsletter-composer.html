@@ -6,7 +6,7 @@
   <title>Newsletter Composer · Victory Formation Ventures</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     /* =========================================================
        COMPOSER UI (the editor — separate from the email it builds)
@@ -19,11 +19,11 @@
       --text: #111111;
       --text-muted: #5a564e;
       --text-dim: #6e6e6e;
-      --gold: #75663a;
+      --gold: #4E5A3E;
       --green: #3f7a3f;
       --red: #b03030;
       --font-display: 'Aboreto', 'Cormorant Garamond', Georgia, serif;
-      --font-body: 'Mulish', 'Inter', Helvetica, Arial, sans-serif;
+      --font-body: 'Montserrat', 'Montserrat', Helvetica, Arial, sans-serif;
     }
     * { box-sizing: border-box; }
     html, body { margin: 0; padding: 0; }
@@ -206,6 +206,8 @@
       .preview-pane { max-height: unset; }
     }
   </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
 
@@ -527,10 +529,10 @@
               <tr>
                 <td style="padding:16px 18px;" align="left">
                   <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:14px; letter-spacing:0.14em; text-transform:uppercase; color:${COLORS.text};">${escape(label)} · ${escape(editionLabel)}</div>
-                  <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; letter-spacing:0.06em; color:${COLORS.dim}; margin-top:4px;">Monthly market report (PDF)</div>
+                  <div style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:11px; letter-spacing:0.06em; color:${COLORS.dim}; margin-top:4px;">Monthly market report (PDF)</div>
                 </td>
                 <td style="padding:16px 18px;" align="right">
-                  <a href="${escape(cfg.url)}" target="_blank" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:${COLORS.text}; text-decoration:none; border:1px solid ${COLORS.ruleSoft}; padding:8px 14px;">View PDF →</a>
+                  <a href="${escape(cfg.url)}" target="_blank" style="display:inline-block; font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:${COLORS.text}; text-decoration:none; border:1px solid ${COLORS.ruleSoft}; padding:8px 14px;">View PDF →</a>
                 </td>
               </tr>
             </table>
@@ -564,7 +566,7 @@
             <td align="center" style="padding:44px 36px 18px;">
               <img src="${archUrl}" width="56" height="56" alt="Victory Formation Ventures" style="display:block; border:0; outline:0; max-width:56px; margin:0 auto 18px;" />
               <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:18px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.text};">Victory Formation Ventures</div>
-              <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.dim}; margin-top:10px;">${escape(editionLabel)} · Monthly Update</div>
+              <div style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:10px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.dim}; margin-top:10px;">${escape(editionLabel)} · Monthly Update</div>
               <div style="height:1px; background:${COLORS.ruleSoft}; width:48px; margin:22px auto 0;"></div>
             </td>
           </tr>
@@ -572,7 +574,7 @@
           ${sectionHeader('A Note From Gabe')}
           <tr>
             <td style="padding:0 36px 24px;" align="left">
-              <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.65;">
+              <div style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.65;">
                 ${paraify(state.note)}
                 <p style="margin:14px 0 0; font-family:'Aboreto','Cormorant Garamond',Georgia,serif; letter-spacing:0.14em; text-transform:uppercase; font-size:11px; color:${COLORS.muted};">— Gabe</p>
               </div>
@@ -582,8 +584,8 @@
           ${sectionHeader('Our Listings')}
           <tr>
             <td style="padding:0 36px 28px;" align="left">
-              <p style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.6; margin:0 0 16px;">${escape(state.listingsBlurb || "See what's active and coming soon →")}</p>
-              <a href="${escape(state.listingsUrl)}" target="_blank" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.btnText}; background:${COLORS.btnBg}; padding:14px 28px; text-decoration:none; border:1px solid ${COLORS.btnBg};">Browse Listings</a>
+              <p style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.6; margin:0 0 16px;">${escape(state.listingsBlurb || "See what's active and coming soon →")}</p>
+              <a href="${escape(state.listingsUrl)}" target="_blank" style="display:inline-block; font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.btnText}; background:${COLORS.btnBg}; padding:14px 28px; text-decoration:none; border:1px solid ${COLORS.btnBg};">Browse Listings</a>
             </td>
           </tr>
 
@@ -594,8 +596,8 @@
                 <tr>
                   <td style="padding:22px 22px;" align="center">
                     <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:36px; letter-spacing:0.08em; color:${COLORS.text}; margin:0 0 6px;">${state.premierCount}</div>
-                    <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:${COLORS.muted}; margin:0 0 18px;">${state.premierCount === 1 ? 'New property' : 'New properties'} this month</div>
-                    <a href="${escape(state.premierUrl)}" target="_blank" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.text}; border:1px solid ${COLORS.ruleSoft}; padding:10px 22px; text-decoration:none;">Browse Premier Listings →</a>
+                    <div style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:10px; letter-spacing:0.28em; text-transform:uppercase; color:${COLORS.muted}; margin:0 0 18px;">${state.premierCount === 1 ? 'New property' : 'New properties'} this month</div>
+                    <a href="${escape(state.premierUrl)}" target="_blank" style="display:inline-block; font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:10px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.text}; border:1px solid ${COLORS.ruleSoft}; padding:10px 22px; text-decoration:none;">Browse Premier Listings →</a>
                   </td>
                 </tr>
               </table>
@@ -607,8 +609,8 @@
           ${sectionHeader('What is your home worth?')}
           <tr>
             <td style="padding:0 36px 36px;" align="left">
-              <p style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.6; margin:0 0 16px;">Curious about your home's current market value? Click below and we'll send you a complimentary CMA within 48 hours.</p>
-              <a href="${cmaHref}" style="display:inline-block; font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.btnText}; background:${COLORS.btnBg}; padding:14px 28px; text-decoration:none; border:1px solid ${COLORS.btnBg};">Get My CMA →</a>
+              <p style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:14px; color:${COLORS.text}; line-height:1.6; margin:0 0 16px;">Curious about your home's current market value? Click below and we'll send you a complimentary CMA within 48 hours.</p>
+              <a href="${cmaHref}" style="display:inline-block; font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:11px; font-weight:600; letter-spacing:0.22em; text-transform:uppercase; color:${COLORS.btnText}; background:${COLORS.btnBg}; padding:14px 28px; text-decoration:none; border:1px solid ${COLORS.btnBg};">Get My CMA →</a>
             </td>
           </tr>
 
@@ -616,7 +618,7 @@
           <tr>
             <td style="padding:32px 36px 44px; border-top:1px solid ${COLORS.rule};" align="center">
               <div style="font-family:'Aboreto','Cormorant Garamond',Georgia,serif; font-size:12px; letter-spacing:0.32em; text-transform:uppercase; color:${COLORS.muted}; margin-bottom:14px;">Victory Formation Ventures</div>
-              <div style="font-family:Mulish,Helvetica,Arial,sans-serif; font-size:11px; color:${COLORS.dim}; line-height:1.7;">
+              <div style="font-family: Montserrat,Helvetica,Arial,sans-serif; font-size:11px; color:${COLORS.dim}; line-height:1.7;">
                 <a href="https://www.victoryformationventures.com" target="_blank" style="color:${COLORS.muted}; text-decoration:none;">victoryformationventures.com</a><br>
                 <a href="mailto:${escape(state.cmaTo)}" style="color:${COLORS.muted}; text-decoration:none;">${escape(state.cmaTo)}</a><br>
                 3004 Webberville Rd #2, Austin, TX 78702

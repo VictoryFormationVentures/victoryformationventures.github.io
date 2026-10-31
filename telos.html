@@ -13,7 +13,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@200;300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -26,11 +26,11 @@
       --text:            #111111;
       --text-muted:      #5a564e;
       --text-dim:        #6f6a5f;
-      --accent:          #75663a;   /* warm ivory — matches Victory Formation story color */
+      --accent:          #4E5A3E;   /* warm ivory — matches Victory Formation story color */
 
-      --font-body:       'Mulish', 'Helvetica Neue', Arial, sans-serif;
+      --font-body:       'Montserrat', 'Helvetica Neue', Arial, sans-serif;
       --font-display:    'Aboreto', 'Cormorant Garamond', serif;
-      --font-ui:         'Inter', 'Helvetica Neue', Arial, sans-serif;
+      --font-ui:         'Montserrat', 'Helvetica Neue', Arial, sans-serif;
 
       --tracking-wide:   0.18em;
       --tracking-x-wide: 0.28em;
@@ -186,7 +186,7 @@
       z-index: 2;
       transition: background .2s, border-color .2s, color .2s;
     }
-    .tl-phase.state-progress .tl-num { border-color: var(--warn-c, #8a6a1f); color: var(--warn-c, #8a6a1f); }
+    .tl-phase.state-progress .tl-num { border-color: var(--warn-c, #4E5A3E); color: var(--warn-c, #4E5A3E); }
     .tl-phase.state-complete .tl-num {
       background: #dcebd8; border-color: #dcebd8; color: #111111;
     }
@@ -213,7 +213,7 @@
       font-size: 9px; letter-spacing: .16em; text-transform: uppercase;
       background: #f1ece2; color: var(--text-dim); font-weight: 700;
     }
-    .tl-phase.state-progress .tl-phase-badge { background: #efe6cc; color: #8a6a1f; }
+    .tl-phase.state-progress .tl-phase-badge { background: #efe6cc; color: #4E5A3E; }
     .tl-phase.state-complete .tl-phase-badge { background: #1c3a1c; color: #3f7a3f; }
 
     .tl-items {
@@ -246,7 +246,7 @@
       transform: rotate(45deg);
     }
     .tl-item.progress .tl-check {
-      background: #8a6a1f; border-color: #8a6a1f;
+      background: #4E5A3E; border-color: #4E5A3E;
     }
     .tl-item.progress .tl-check::after {
       content: '';
@@ -265,7 +265,7 @@
       color: var(--text-dim); margin-top: 2px;
     }
     .tl-item.done .tl-item-meta { color: #3f7a3f; }
-    .tl-item.progress .tl-item-meta { color: #8a6a1f; }
+    .tl-item.progress .tl-item-meta { color: #4E5A3E; }
 
     /* Progress bar summarizing overall phase completion */
     .tl-summary {
@@ -290,7 +290,7 @@
     .tl-legend .dot {
       width: 12px; height: 12px; border-radius: 3px; border: 1.5px solid #6f6a5f; background: #fbf9f4;
     }
-    .tl-legend .dot.progress { background: #8a6a1f; border-color: #8a6a1f; }
+    .tl-legend .dot.progress { background: #4E5A3E; border-color: #4E5A3E; }
     .tl-legend .dot.done { background: #3f7a3f; border-color: #3f7a3f; }
 
     /* ==================== Document cards ==================== */
@@ -458,6 +458,8 @@
       max-width: 520px; margin: 0 auto;
     }
   </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
 

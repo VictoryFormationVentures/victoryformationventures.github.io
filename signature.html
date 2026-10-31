@@ -5,14 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Email Signatures · Victory Formation Ventures</title>
 <link rel="icon" type="image/png" sizes="32x32" href="assets/icon-arch-transparent.png" />
-<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Mulish:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Aboreto&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root { --bg:#f6f2ea; --panel:#fbf9f4; --rule:#d9d0bf; --text:#111; --muted:#5a564e; --dim:#6f6a5f; --accent:#75663a; }
+  :root { --bg:#f6f2ea; --panel:#fbf9f4; --rule:#d9d0bf; --text:#111; --muted:#5a564e; --dim:#6f6a5f; --accent:#4E5A3E; }
   * { box-sizing:border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font-family:'Mulish',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.55; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Montserrat',Helvetica,Arial,sans-serif; font-size:13px; line-height:1.55; }
   .topbar { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:14px; padding:14px 28px; background:var(--panel); border-bottom:1px solid var(--rule); }
   .topbar .name { font-family:'Aboreto',serif; font-size:14px; letter-spacing:.28em; text-transform:uppercase; }
-  .topbar .name small { display:block; font-family:'Mulish',sans-serif; font-size:8px; letter-spacing:.24em; color:var(--dim); font-weight:700; margin-top:2px; }
+  .topbar .name small { display:block; font-family:'Montserrat',sans-serif; font-size:8px; letter-spacing:.24em; color:var(--dim); font-weight:700; margin-top:2px; }
   .topbar .sp { flex:1; }
   .topbar a { font:inherit; font-size:10px; letter-spacing:.2em; text-transform:uppercase; padding:9px 14px; border:1px solid var(--rule); color:var(--text); text-decoration:none; }
   .wrap { max-width:1100px; margin:24px auto; padding:0 20px; display:grid; grid-template-columns:320px 1fr; gap:22px; }
@@ -33,6 +33,8 @@
   .steps b { color:var(--text); }
   textarea { width:100%; height:140px; font:11px/1.4 Menlo, monospace; border:1px solid var(--rule); background:#fefefe; color:var(--muted); padding:8px; }
 </style>
+  <link rel="stylesheet" href="assets/vfv-brand.css" />
+  <script src="assets/vfv-mobile.js" defer></script>
 </head>
 <body>
 <div class="topbar">
@@ -106,9 +108,9 @@
         '<td style="padding:0 18px 0 0;vertical-align:middle;"><a href="' + SITE + '"><img src="' + LOGO + '" width="96" alt="' + FIRM.name + '" style="display:block;width:96px;height:auto;border:0;"></a></td>' +
         '<td style="padding:0 0 0 18px;border-left:1px solid #d9d0bf;vertical-align:middle;">' +
           '<div style="font-family:Georgia,\'Times New Roman\',serif;font-size:17px;letter-spacing:1.5px;text-transform:uppercase;color:#111111;line-height:1.3;">' + esc(d.name || 'Your Name') + '</div>' +
-          (d.title ? '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#75663a;font-weight:bold;margin-top:3px;">' + esc(d.title) + '</div>' : '') +
+          (d.title ? '<div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#4E5A3E;font-weight:bold;margin-top:3px;">' + esc(d.title) + '</div>' : '') +
           '<div style="font-size:12px;color:#111111;margin-top:9px;line-height:1.6;">' + contact + '</div>' +
-          (d.cal ? '<div style="font-size:12px;margin-top:2px;"><a href="' + esc(d.cal) + '" style="color:#75663a;text-decoration:none;">Book a time &rarr;</a></div>' : '') +
+          (d.cal ? '<div style="font-size:12px;margin-top:2px;"><a href="' + esc(d.cal) + '" style="color:#4E5A3E;text-decoration:none;">Book a time &rarr;</a></div>' : '') +
           '<div style="font-size:11px;color:#5a564e;margin-top:9px;line-height:1.5;"><b style="color:#111111;">' + FIRM.name + '</b><br>' + FIRM.tagline + '<br>' + FIRM.addr + '</div>' +
           (d.license ? '<div style="font-size:10px;color:#6f6a5f;margin-top:6px;">Texas real estate license ' + esc(d.license) + '</div>' : '') +
         '</td>' +
