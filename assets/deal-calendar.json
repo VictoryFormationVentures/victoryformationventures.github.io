@@ -1,576 +1,11 @@
 {
-  "updatedAt": "2026-11-09T07:54:52-06:00",
+  "updatedAt": "2026-11-16T07:10:00-06:00",
   "_note": "Austin-area real estate events (Travis, Williamson, Hays). Refreshed weekly by the 'refresh-austin-deal-events' scheduled task; verified:false entries are recurring public meetings inferred from posted schedules, confirm before attending.",
   "events": [
     {
-      "title": "The Real Estate MIXR - Austin",
-      "start": "2026-11-09T18:00:00-06:00",
-      "end": "2026-11-09T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "AGENTS",
-        "INVESTORS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Fox & Muse Austin",
-      "location": "Hotel Viata, 320 S Capital of Texas Hwy, West Lake Hills, TX 78746",
-      "description": "Professional networking mixer for local real estate professionals to share market insights, discuss projects and form partnerships. Launch event for the Fox & Muse app.",
-      "whosThere": "Real estate professionals, agents, investors",
-      "cost": "Paid ticket via Eventbrite; first drink free with app download",
-      "link": "https://www.meetup.com/fox-and-muse-austin/events/316958389/",
-      "linkLabel": "Meetup event"
-    },
-    {
-      "title": "Hays County Commissioners Court",
-      "start": "2026-11-10T09:00:00-06:00",
-      "end": "2026-11-10T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Hays County",
-      "location": "Hays County Historic Courthouse, 111 E San Antonio St, San Marcos, TX 78666",
-      "description": "Regular Hays County Commissioners Court meeting on the county's posted meeting date list. Start time and room not listed on that page; confirm agenda before attending.",
-      "whosThere": "County Judge, Commissioners, development services staff, developers",
-      "cost": "free",
-      "link": "https://www.hayscountytx.gov/886/Commissioners-Court-Meeting-Dates",
-      "linkLabel": "Commissioners Court meeting dates"
-    },
-    {
-      "title": "Travis County Commissioners Court - Voting Session",
-      "start": "2026-11-10T09:00:00-06:00",
-      "end": "2026-11-10T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Travis County Commissioners Court",
-      "location": "Travis County Commissioners Courtroom, 700 Lavaca St, 1st Floor, Austin, TX 78701",
-      "description": "Weekly Tuesday voting session: subdivision plats, road and development items in unincorporated Travis County, budget and contracts. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "County commissioners, County Judge, Transportation and Natural Resources staff, developers, engineers",
-      "cost": "free",
-      "link": "https://traviscountytx.gov/commissioners-court",
-      "linkLabel": "Travis County Commissioners Court"
-    },
-    {
-      "title": "Hays County Commissioners Court - Regular Meeting",
-      "start": "2026-11-10T09:00:00-06:00",
-      "end": "2026-11-10T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Hays County",
-      "location": "111 E San Antonio St, San Marcos, TX",
-      "description": "County states the court meets Tuesdays at 9 a.m. unless otherwise posted. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
-      "linkLabel": "Meeting dates"
-    },
-    {
-      "title": "Williamson County Commissioners Court",
-      "start": "2026-11-10T09:30:00-06:00",
-      "end": "2026-11-10T12:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Williamson County Commissioners Court",
-      "location": "Williamson County Historic Courthouse, 710 S Main St, Georgetown, TX 78626",
-      "description": "Regular Commissioners Court meeting (most Tuesdays, 9:30 a.m.): subdivision plats, road bonds, infrastructure and development agreements. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "County commissioners, County Judge, county engineering staff, developers",
-      "cost": "free",
-      "link": "https://www.wilcotx.gov/Calendar.aspx",
-      "linkLabel": "Williamson County calendar"
-    },
-    {
-      "title": "Williamson County Commissioners Court - Regular Meeting",
-      "start": "2026-11-10T09:30:00-06:00",
-      "end": "2026-11-10T11:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Williamson County",
-      "location": "710 S Main St, Georgetown, TX (Commissioners Courtroom)",
-      "description": "Court met Tuesdays at 9:30 a.m. in April 2026 agendas (Apr 14, Apr 21); weekly pattern assumed. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://public.destinyhosted.com/94526/agenda/agenda.cfm",
-      "linkLabel": "Agenda portal"
-    },
-    {
-      "title": "NAIOP Austin November Luncheon",
-      "start": "2026-11-10T11:15:00-06:00",
-      "end": "2026-11-10T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS",
-        "INVESTORS"
-      ],
-      "verified": true,
-      "priority": true,
-      "host": "NAIOP Austin",
-      "location": "The Austin Club, 110 E. 9th Street, Austin, TX 78701",
-      "description": "NAIOP's monthly commercial development luncheon (topic pending). Core gathering of Austin's industrial, office and mixed-use developers and their capital partners. Topic still listed as pending.",
-      "whosThere": "Commercial developers, owners, brokers, lenders, equity sources",
-      "cost": "",
-      "link": "https://naiopaustin.wildapricot.org/event-6479762",
-      "linkLabel": "NAIOP Austin"
-    },
-    {
-      "title": "Georgetown Chamber Business Network Lunch (sponsored by TRS Build)",
-      "start": "2026-11-10T11:30:00-06:00",
-      "end": "2026-11-10T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS",
-        "BUILDERS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Georgetown Chamber of Commerce",
-      "location": "Georgetown Chamber of Commerce, 1 Chamber Way, Georgetown, TX 78626",
-      "description": "Georgetown's largest monthly networking lunch, this month sponsored by design-build firm TRS Build, with City and GISD updates. Members only.",
-      "whosThere": "Georgetown business owners, builders, remodelers, city staff",
-      "cost": "$20-25 members",
-      "link": "https://business.georgetownchamber.org/events/details/business-network-lunch-november-9659",
-      "linkLabel": "Georgetown Chamber"
-    },
-    {
-      "categories": [
-        "DEVELOPERS",
-        "INVESTORS"
-      ],
-      "priority": false,
-      "host": "Linda Pedersen, Real Estate Investing For The Win",
-      "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
-      "whosThere": "Commercial real estate investors and developers",
-      "cost": "No admission listed; lunch purchased individually",
-      "link": "https://www.meetup.com/reiftw/events/316961607/",
-      "linkLabel": "Meetup event page",
-      "allDay": false,
-      "title": "LIVE Commercial Real Estate Development Case Studies",
-      "start": "2026-11-10T11:30:00-06:00",
-      "end": "2026-11-10T13:30:00-06:00",
-      "verified": true,
-      "description": "Two live case studies of active Central Texas commercial developments (RV park in Bastrop, retail in Buda). Lunch and networking 11:30, presentations noon to 1:00."
-    },
-    {
-      "title": "Austin Planning Commission - Regular Meeting",
-      "start": "2026-11-10T18:00:00-06:00",
-      "end": "2026-11-10T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": true,
-      "priority": true,
-      "host": "City of Austin Planning Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
-      "description": "Regular Planning Commission hearing on zoning cases, site plans and subdivisions. Date listed on the city's 2026 schedule; confirm posted agenda.",
-      "whosThere": "Commissioners, city planning staff, zoning attorneys, developers",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/planning-commission",
-      "linkLabel": "austintexas.gov"
-    },
-    {
-      "title": "San Marcos Planning & Zoning Commission Meeting",
-      "start": "2026-11-10T18:00:00-06:00",
-      "end": "2026-11-10T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS",
-        "BUILDERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of San Marcos",
-      "location": "City Council Chambers, 630 E Hopkins St, San Marcos, TX 78666",
-      "description": "Regular Planning and Zoning Commission meeting (2nd and 4th Tuesdays). 4th-Tuesday meetings in late Nov/Dec often shift for holidays. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "P&Z commissioners, San Marcos planning staff, developers, residents",
-      "cost": "free",
-      "link": "https://san-marcos-tx.legistar.com/DepartmentDetail.aspx?ID=24891&GUID=17D0DC51-F882-40E7-9E53-268427025AB1",
-      "linkLabel": "San Marcos P&Z on Legistar"
-    },
-    {
-      "title": "Round Rock Planning and Zoning Commission - Regular Meeting",
-      "start": "2026-11-10T18:00:00-06:00",
-      "end": "2026-11-10T20:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Round Rock",
-      "location": "City Council Chambers, 221 E Main St, Round Rock, TX",
-      "description": "Listed as a first available P&Z meeting date on the city's P&Z schedule (approved 11/04/26), meetings begin 6 p.m. Meetings are sometimes canceled if no cases are filed; confirm on the agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
-      "linkLabel": "P&Z schedule"
-    },
-    {
-      "title": "Austin Community Development Commission - Regular Meeting",
-      "start": "2026-11-10T18:30:00-06:00",
-      "end": "2026-11-10T20:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "City of Austin Community Development Commission",
-      "location": "Austin City Hall, Board and Commission Room 1101, 301 W 2nd St, Austin, TX 78701",
-      "description": "Monthly meeting advising Council on affordable housing funding and programs. Hybrid format; relevant for developers seeking city housing partnerships.",
-      "whosThere": "Commissioners, Housing Department staff, affordable housing developers",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/community-development-commission",
-      "linkLabel": "austintexas.gov"
-    },
-    {
-      "title": "Buda Planning & Zoning Commission Meeting",
-      "start": "2026-11-10T18:30:00-06:00",
-      "end": "2026-11-10T20:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Buda",
-      "location": "Buda City Hall, 405 E Loop St, Buda, TX 78610",
-      "description": "Buda P&Z hears zoning, SUP and plat cases in northern Hays County. Recurring schedule (2nd and 4th Tuesdays) inferred from posted Sept 8, 2026 hearing notice; confirm date and time on the city's agenda center.",
-      "whosThere": "Commissioners, planning staff, developers",
-      "cost": "free",
-      "link": "https://www.budatx.gov/DocumentCenter/View/17301/2026-09-08---SUP-26-03---Planning-and-Zoning-Commission",
-      "linkLabel": "budatx.gov"
-    },
-    {
-      "title": "Kyle Planning & Zoning Commission Meeting",
-      "start": "2026-11-10T18:30:00-06:00",
-      "end": "2026-11-10T21:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS",
-        "BUILDERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Kyle",
-      "location": "Kyle City Hall, Council Chambers, 100 W Center St, Kyle, TX 78640",
-      "description": "Regular Planning and Zoning Commission meeting (2nd and 4th Tuesdays, 6:30 p.m.): zoning, plats, site plans. Holiday-week meetings (Nov 24, Dec 22) not added. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "P&Z commissioners, Kyle planning staff, developers, homebuilders",
-      "cost": "free",
-      "link": "https://www.cityofkyle.gov/bc-pzc",
-      "linkLabel": "Kyle P&Z Commission"
-    },
-    {
-      "title": "Five Points Board of REALTORS Affiliate Appreciation Brunch",
-      "start": "2026-11-11T00:00:00-06:00",
-      "end": "2026-11-12T00:00:00-06:00",
-      "allDay": true,
-      "categories": [
-        "AGENTS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Five Points Board of REALTORS",
-      "location": "Five Points Board of REALTORS, Round Rock, TX",
-      "description": "Brunch honoring the board's affiliate members - lenders, title companies, inspectors and builders who sponsor Williamson County REALTOR events. Time not posted.",
-      "whosThere": "Lenders, title reps, builders, REALTOR leadership",
-      "cost": "",
-      "link": "https://fivepointsrealtors.com/wp-content/uploads/2026/01/2026-Events-Schedule-3-1.pdf",
-      "linkLabel": "Five Points REALTORS"
-    },
-    {
-      "title": "ACRES November Luncheon: Texas Legislature and Austin Land Development Code Updates",
-      "start": "2026-11-11T11:30:00-06:00",
-      "end": "2026-11-11T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS",
-        "PLANNING",
-        "INVESTORS"
-      ],
-      "verified": true,
-      "priority": true,
-      "host": "Austin Commercial Real Estate Society (ACRES)",
-      "location": "County Line on the Hill, 6500 W Bee Cave Rd, Austin, TX",
-      "description": "Luncheon talk by David Hartman (DuBois Bryant & Campbell) on zoning, entitlements and recent legislative and Land Development Code changes. Register by Nov 9 at noon.",
-      "whosThere": "Commercial real estate brokers, owners, developers, attorneys",
-      "cost": "Members (price not listed); guests of members $50",
-      "link": "https://austin-acres.com/event-6457431",
-      "linkLabel": "ACRES event page"
-    },
-    {
-      "title": "Trades Together - Construction Business Networking (Round Rock)",
-      "start": "2026-11-11T11:30:00-06:00",
-      "end": "2026-11-11T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "BUILDERS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "NetworkingATX (Justin K.)",
-      "location": "Anchor Bar, 2702 Parker Dr Ste B, Round Rock, TX",
-      "description": "Monthly construction owners mastermind in Round Rock. Good for meeting small builders and trade contractors.",
-      "whosThere": "Construction and trades business owners",
-      "cost": "$10 GA",
-      "link": "https://www.meetup.com/networkingatx/events/315585307/",
-      "linkLabel": "Meetup event"
-    },
-    {
-      "title": "ULI Austin Why ULI? Info Session (November)",
-      "start": "2026-11-12T08:30:00-06:00",
-      "end": "2026-11-12T09:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS",
-        "PLANNING"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "ULI Austin",
-      "location": "Not listed (likely virtual)",
-      "description": "Short orientation on ULI Austin councils and committees. Helpful for deciding which ULI groups put you in regular contact with developers and capital.",
-      "whosThere": "Prospective and new ULI members, ULI staff and leaders",
-      "cost": "Not listed",
-      "link": "https://austin.uli.org/events/detail/437B3BBA-EEC7-4E45-BD75-503ED4738251",
-      "linkLabel": "ULI Austin"
-    },
-    {
-      "title": "WCR Austin New Member Mingle",
-      "start": "2026-11-12T11:00:00-06:00",
-      "end": "2026-11-12T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "AGENTS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Women's Council of REALTORS Austin",
-      "location": "1608 W 5th St, Austin, TX 78703",
-      "description": "Meet-and-greet for new Women's Council of REALTORS Austin members and prospective members.",
-      "whosThere": "Women real estate professionals and agents",
-      "cost": "Free",
-      "link": "https://www.unlockmls.com/event/wcr-austin-new-member-mingle",
-      "linkLabel": "Unlock MLS event page"
-    },
-    {
-      "title": "CTCAR November Property & Education Exchange",
-      "start": "2026-11-12T11:30:00-06:00",
-      "end": "2026-11-12T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "INVESTORS",
-        "DEVELOPERS",
-        "AGENTS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Central Texas Commercial Association of REALTORS (CTCAR)",
-      "location": "Austin, TX",
-      "description": "Monthly commercial property marketing session where brokers present listings, haves and wants, plus an education segment. Early look at land and commercial listings.",
-      "whosThere": "Commercial and land brokers, investors, developers",
-      "cost": "",
-      "link": "https://members.ctcaronline.com/event-calendar/Details/november-property-education-exchange-1577944?sourceTypeId=Website",
-      "linkLabel": "CTCAR"
-    },
-    {
-      "title": "Real Estate Investor Masterminds - Thursday Lunch",
-      "start": "2026-11-12T11:30:00-06:00",
-      "end": "2026-11-12T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "INVESTORS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Real Estate Investor Masterminds",
-      "location": "Casa Chapala, 9041 Research Blvd, Suite 100, Austin, TX 78758",
-      "description": "Weekly free investor lunch with deal pitching and open Q&A. Recurring every Thursday; date inferred from posted cadence, confirm on Meetup.",
-      "whosThere": "Active investors, wholesalers, lenders, agents",
-      "cost": "free (buy your own lunch)",
-      "link": "https://www.meetup.com/realestateinvestormasterminds/",
-      "linkLabel": "Meetup"
-    },
-    {
-      "title": "Austin Apartment Association EXPO & EdgeCon 2026",
-      "start": "2026-11-12T13:00:00-06:00",
-      "end": "2026-11-12T20:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "INVESTORS",
-        "DEVELOPERS",
-        "BUILDERS"
-      ],
-      "verified": true,
-      "priority": true,
-      "host": "Austin Apartment Association",
-      "location": "Palmer Events Center, 900 Barton Springs Rd, Austin, TX",
-      "description": "AAA's annual trade show and education day (prom theme this year) drawing 1,000+ multifamily personnel, managers and owners plus every vendor in the market. Best single day to meet apartment operators and their contractors.",
-      "whosThere": "Multifamily owners, regional managers, suppliers, contractors, lenders",
-      "cost": "",
-      "link": "https://www.austinaptassoc.com/events/2026-expo-and-edgecon-",
-      "linkLabel": "Austin Apartment Assoc."
-    },
-    {
-      "title": "Georgetown Chamber Business After Hours at Field of Honor",
-      "start": "2026-11-12T16:30:00-06:00",
-      "end": "2026-11-12T18:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Georgetown Chamber of Commerce / Rotary Club of Georgetown",
-      "location": "Field of Honor, San Gabriel Park, 445 E Morrow St, Georgetown, TX 78626",
-      "description": "Free after-hours mixer open to members and non-members at the Rotary Field of Honor flag display. Casual way to meet Georgetown business and civic leaders.",
-      "whosThere": "Georgetown business owners, Rotary members, civic leaders",
-      "cost": "free",
-      "link": "https://business.georgetownchamber.org/events/details/business-after-hours-november-9808",
-      "linkLabel": "Georgetown Chamber"
-    },
-    {
-      "title": "NAIOP Austin Developing Leaders Backyard Bonanza",
-      "start": "2026-11-12T16:30:00-06:00",
-      "end": "2026-11-12T18:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "NAIOP Austin",
-      "location": "Pins Mechanical, 4323 South Congress, Austin, TX",
-      "description": "Casual social for NAIOP Developing Leaders at Pins Mechanical. Easy networking with younger development and brokerage professionals.",
-      "whosThere": "Young CRE developers, brokers, lenders",
-      "cost": "",
-      "link": "https://naiopaustin.wildapricot.org/event-6479912",
-      "linkLabel": "NAIOP Austin"
-    },
-    {
-      "title": "Leander Planning & Zoning Commission Meeting",
-      "start": "2026-11-12T18:00:00-06:00",
-      "end": "2026-11-12T20:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS",
-        "BUILDERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Leander",
-      "location": "Pat Bryson Municipal Hall, Council Chambers, 201 N Brushy St, Leander, TX 78641",
-      "description": "Regular Planning and Zoning Commission meeting (2nd and 4th Thursdays, 6 p.m.): PUD amendments, plats, rezonings. 4th-Thursday dates Nov 26 and Dec 24 fall on holidays and were not added. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "P&Z commissioners, Leander planning staff, developers, homebuilders",
-      "cost": "free",
-      "link": "https://www.leandertx.gov/564/Planning-Zoning-Commission",
-      "linkLabel": "Leander P&Z Commission"
-    },
-    {
-      "title": "Curative Investor Meetup: Investors Who See What Others Miss",
-      "start": "2026-11-12T18:00:00-06:00",
-      "end": "2026-11-12T20:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "INVESTORS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "ATX Curative Investor (Rob L.)",
-      "location": "Curative Investor Office, 8701 S 1st St, Bldg 2, Suite 215, Austin, TX",
-      "description": "Small in-person session on curative deals: title defects, deceased owners, heirs and liens. Guest speaker McKlane Bobbitt shares how he built his business on these deals. Not aimed at brand-new investors.",
-      "whosThere": "Active real estate investors",
-      "cost": "Not listed; RSVP required, limited space",
-      "link": "https://www.meetup.com/atx-curative-investor/events/317194899/",
-      "linkLabel": "Meetup RSVP"
-    },
-    {
-      "title": "Austin Investor Social Hour",
-      "start": "2026-11-12T18:30:00-06:00",
-      "end": "2026-11-12T20:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "INVESTORS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Austin Real Estate Investors (Meetup)",
-      "location": "The Austin Beer Garden Brewing Co., 1305 W Oltorf St, Austin, TX 78704",
-      "description": "Casual no-pitch investor social, 2nd Thursday of every month.",
-      "whosThere": "Buy-and-hold investors, flippers, lenders, agents who invest",
-      "cost": "free (buy your own drinks)",
-      "link": "https://www.meetup.com/meetup-group-yvkzijtj/events/vmjcvtyjcqbnb/",
-      "linkLabel": "Meetup"
-    },
-    {
-      "title": "San Marcos Chamber Coffee & Commerce at Texas Regional Bank",
-      "start": "2026-11-13T08:30:00-06:00",
-      "end": "2026-11-13T10:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS",
-        "AGENTS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "San Marcos Area Chamber of Commerce",
-      "location": "Texas Regional Bank, San Marcos, TX",
-      "description": "Monthly morning networking hosted at a local bank; every attendee pitches and swaps cards. Good spot to meet a Hays County commercial lender.",
-      "whosThere": "Bankers, San Marcos business owners, agents",
-      "cost": "free members / $20 non-members",
-      "link": "https://business.sanmarcostexas.com/events/details/coffee-commerce-at-texas-regional-bank-5162655",
-      "linkLabel": "San Marcos Chamber"
-    },
-    {
-      "title": "ULI Austin UrbanPlan Workshop",
-      "start": "2026-11-13T08:45:00-06:00",
-      "end": "2026-11-13T13:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "DEVELOPERS",
-        "PLANNING"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "ULI Austin",
-      "location": "ULI Austin Office, 4315 Guadalupe St #301-B, Austin, TX 78751",
-      "description": "Hands-on workshop on development pro formas and land use tradeoffs, run by ULI volunteers. Good way to get involved with ULI and work side by side with developers.",
-      "whosThere": "ULI members and volunteer facilitators from development, design and finance",
-      "cost": "Not listed",
-      "link": "https://austin.uli.org/events/detail/91BCEC10-8037-44E9-A0B3-7A38F432EFCE",
-      "linkLabel": "ULI Austin"
-    },
-    {
       "title": "Dripping Springs Planning & Zoning Commission Meeting",
       "start": "2026-11-16T18:00:00-06:00",
-      "end": "2026-11-16T20:00:00-06:00",
+      "end": "2026-11-16T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -583,9 +18,27 @@
       "location": "Dripping Springs City Hall, 511 Mercer St, Dripping Springs, TX 78620",
       "description": "Planning and Zoning Commission meeting (Monday; moved from usual 4th Tuesday): subdivisions, development agreements, zoning. Date listed on the City's official P&Z events calendar.",
       "whosThere": "P&Z commissioners, City planning staff, developers, residents",
-      "cost": "free",
-      "link": "https://www.drippingspringstx.gov/node/23191/events/year",
-      "linkLabel": "Dripping Springs P&Z calendar"
+      "cost": "Free",
+      "link": "https://drippingsprings-tx.municodemeetings.com/node/3003",
+      "linkLabel": "Dripping Springs P&Z"
+    },
+    {
+      "title": "Real Estate Investing Deal Analyzing",
+      "start": "2026-11-16T18:00:00-06:00",
+      "end": "2026-11-16T19:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "CenTexReig, Inc. (Ryan Dodge)",
+      "location": "Austin, TX 78704 (venue shared on registration; listing also mentions a Zoom option)",
+      "description": "Hands-on session on how to identify and analyze strong real estate investment deals, open to new and experienced investors. Includes Q&A and networking time.",
+      "whosThere": "New and experienced investors",
+      "cost": "",
+      "link": "https://www.eventbrite.com/e/real-estate-investing-deal-analyzing-tickets-1991724273919",
+      "linkLabel": "CenTexReig"
     },
     {
       "title": "Position Before Year-End (Texas Multi-Family Investor Meetup)",
@@ -606,59 +59,42 @@
       "linkLabel": "Meetup event"
     },
     {
-      "title": "Travis County Commissioners Court - Voting Session",
-      "start": "2026-11-17T09:00:00-06:00",
-      "end": "2026-11-17T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Travis County",
-      "location": "Commissioners Courtroom, 700 Lavaca St, 1st Floor, Austin, TX 78701",
-      "description": "Full voting session where the Court acts on subdivision plats, development agreements, road and drainage items in unincorporated Travis County. Date listed as a Court voting session on the official 2026 Commissioners Court calendar; confirm agenda.",
-      "whosThere": "County Judge and Commissioners, TNR staff, developers, engineers",
-      "cost": "free",
-      "link": "https://www.traviscountytx.gov/images/commissioners_court/Doc/2026_Comm_Ct_Calendar.pdf",
-      "linkLabel": "2026 Court calendar (PDF)"
-    },
-    {
-      "title": "Hays County Commissioners Court - Regular Meeting",
+      "title": "Hays County Commissioners Court - Regular Session",
       "start": "2026-11-17T09:00:00-06:00",
       "end": "2026-11-17T12:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "Hays County",
-      "location": "111 E San Antonio St, San Marcos, TX",
-      "description": "County states the court meets Tuesdays at 9 a.m. unless otherwise posted. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
+      "host": "Hays County Commissioners Court",
+      "location": "Hays County Historic Courthouse, Room 301, 111 E San Antonio St, San Marcos, TX 78666",
+      "description": "Regular session listed on the county's Commissioners Court meeting dates page. Two special sessions are also posted for the same day, including one at 8 a.m., so check the agenda portal for details.",
+      "whosThere": "County Judge and four county commissioners, county department staff, subdivision and development applicants, and residents",
+      "cost": "Free",
       "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
-      "linkLabel": "Meeting dates"
+      "linkLabel": "Hays County Commissioners Court"
     },
     {
-      "title": "Williamson County Commissioners Court",
-      "start": "2026-11-17T09:30:00-06:00",
+      "title": "Travis County Commissioners Court - Voting Session",
+      "start": "2026-11-17T09:00:00-06:00",
       "end": "2026-11-17T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "Williamson County",
-      "location": "Historic Courthouse, 710 S Main St, Georgetown, TX 78626",
-      "description": "County governing body acting on plats, road bonds, development and infrastructure in unincorporated Williamson County. Held most Tuesdays at 9:30 am; recurring schedule, confirm on agenda.wilcotx.gov.",
-      "whosThere": "County Judge, Commissioners, county engineers, developers",
-      "cost": "free",
-      "link": "https://www.wilcotx.gov/Calendar.aspx?EID=648",
-      "linkLabel": "wilcotx.gov"
+      "host": "Travis County",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
+      "description": "Full voting session where the Court acts on subdivision plats, development agreements, road and drainage items in unincorporated Travis County. Date listed as a Court voting session on the official 2026 Commissioners Court calendar; confirm agenda.",
+      "whosThere": "County Judge and Commissioners, TNR staff, developers, engineers",
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
     },
     {
       "title": "Williamson County Commissioners Court - Regular Meeting",
@@ -667,7 +103,7 @@
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -678,6 +114,24 @@
       "cost": "Free, open to the public",
       "link": "https://public.destinyhosted.com/94526/agenda/agenda.cfm",
       "linkLabel": "Agenda portal"
+    },
+    {
+      "title": "You Mean Real Estate Contracts Must Be Written? (3 CE)",
+      "start": "2026-11-17T10:00:00-06:00",
+      "end": "2026-11-17T13:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "2992 Dynasty Drive, Leander, TX 78641",
+      "description": "Three hour TREC CE contracts class offered at a Leander location.",
+      "whosThere": "Residential REALTORS and MLS subscribers",
+      "cost": "Free",
+      "link": "https://www.unlockmls.com/class/you-mean-real-estate-contracts-must-be-written",
+      "linkLabel": "ABoR / Unlock MLS"
     },
     {
       "title": "Austin Commercial Real Estate Investing Discussion - Tuesday Lunch",
@@ -717,29 +171,9 @@
       "linkLabel": "CFMA event page"
     },
     {
-      "title": "Austin Planning Commission - Regular Meeting",
-      "start": "2026-11-17T18:00:00-06:00",
-      "end": "2026-11-17T22:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS",
-        "BUILDERS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "City of Austin Planning Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
-      "description": "Regular Planning Commission meeting: zoning cases, neighborhood plan amendments, and land development code items. Date listed on the City's official 2026 Planning Commission meeting schedule (shifted from the usual 4th Tuesday for the holidays). Check the posted agenda for case list.",
-      "whosThere": "Planning commissioners, City planning staff, developers, land use attorneys, neighborhood groups",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/planning-commission",
-      "linkLabel": "Planning Commission page"
-    },
-    {
       "title": "Austin Zoning & Platting Commission - Regular Meeting",
       "start": "2026-11-17T18:00:00-06:00",
-      "end": "2026-11-17T22:00:00-06:00",
+      "end": "2026-11-17T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -747,14 +181,14 @@
         "BUILDERS"
       ],
       "verified": true,
-      "priority": false,
+      "priority": true,
       "host": "City of Austin Zoning and Platting Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
-      "description": "Regular Zoning and Platting Commission meeting: rezonings, subdivisions/plats, and site plan items outside neighborhood plan areas. Date listed on the City's official 2026 ZAP meeting schedule.",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
+      "description": "Regular meeting listed on the city's Zoning and Platting Commission page. Posted agenda includes rezoning cases C14-2026-0054 Park 290 Logistics Center (District 1), C14-2026-0065 Primm Residence (District 6) and C14-2026-0071 Glenlake Dr to Narrow Ridge Dr Connector (District 10).",
       "whosThere": "ZAP commissioners, City planning staff, developers, engineers, land use attorneys",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/zoning-and-platting-commission",
-      "linkLabel": "Zoning and Platting Commission page"
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
+      "linkLabel": "Austin ZAP Commission"
     },
     {
       "title": "Georgetown Planning & Zoning Commission Meeting",
@@ -777,50 +211,12 @@
       "linkLabel": "Georgetown boards and commissions"
     },
     {
-      "title": "Austin Zoning and Platting Commission - Regular Meeting",
-      "start": "2026-11-17T18:00:00-06:00",
-      "end": "2026-11-17T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "City of Austin",
-      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
-      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
-      "linkLabel": "ZAP page"
-    },
-    {
-      "title": "Cedar Park Planning & Zoning Commission Meeting",
-      "start": "2026-11-17T18:30:00-06:00",
-      "end": "2026-11-17T20:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Cedar Park",
-      "location": "Cedar Park City Hall Council Chambers, 450 Cypress Creek Rd, Building 4, Cedar Park, TX 78613",
-      "description": "Cedar Park P&Z regular meeting on zoning, PUD and plat cases. Normally the 3rd Tuesday at 6:30 pm; recurring schedule, confirm on posted agenda.",
-      "whosThere": "Commissioners, planning staff, developers, engineers",
-      "cost": "free",
-      "link": "https://www.cedarparktexas.gov/507/Public-Notices",
-      "linkLabel": "cedarparktexas.gov"
-    },
-    {
       "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
       "start": "2026-11-17T18:30:00-06:00",
       "end": "2026-11-17T20:30:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING",
-        "GOVERNMENT"
+        "PLANNING"
       ],
       "verified": false,
       "priority": false,
@@ -910,6 +306,60 @@
       "cost": "$129 members / $149 non-members",
       "link": "https://fourriversrealtors.com/calendar/events-calendar/22-association-classes/11934-new-home-construction-and-buyer-representation-nhc-in-person-offsite",
       "linkLabel": "Four Rivers calendar"
+    },
+    {
+      "title": "Know Boundary, No Deal: Survey Class with Capital Title of Texas",
+      "start": "2026-11-18T09:30:00-06:00",
+      "end": "2026-11-18T11:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Four Rivers Association of REALTORS",
+      "location": "Four Rivers Association of REALTORS, San Marcos, TX",
+      "description": "Survey-focused class hosted by Capital Title of Texas at the Four Rivers office. RSVP to Jill Dunnavant.",
+      "whosThere": "Hays County REALTORS",
+      "cost": "",
+      "link": "https://fourriversrealtors.com/hidden-calendar-dashboard/35-facility-rental/11936-know-boundary-no-deal-capital-title-of-tx",
+      "linkLabel": "Four Rivers REALTORS"
+    },
+    {
+      "title": "Real Talk for REALTORS Brunch Series: When Deals Get Complicated",
+      "start": "2026-11-18T10:00:00-06:00",
+      "end": "2026-11-18T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Five Points Board of REALTORS (formerly Williamson County Association of REALTORS)",
+      "location": "Five Points Board of REALTORS, 123 E Old Settlers Blvd, Round Rock, TX 78664",
+      "description": "Inaugural small-group brunch where State Farm agent Stephanie Featherstone and Tanya Pullin of Corridor Title discuss insurance, title and unexpected transaction problems, with live Q&A.",
+      "whosThere": "Williamson County REALTORS and affiliates",
+      "cost": "$10 members / $20 non-members",
+      "link": "https://www.eventbrite.com/e/real-talk-for-realtors-brunch-series-tickets-2004377913295",
+      "linkLabel": "Five Points REALTORS"
+    },
+    {
+      "title": "TREC Legal Update II (4 CE)",
+      "start": "2026-11-18T10:00:00-06:00",
+      "end": "2026-11-18T14:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "150 Timber Valley Trail, Hutto, TX 78634",
+      "description": "Required TREC Legal Update II continuing education class held in Hutto.",
+      "whosThere": "Residential REALTORS and MLS subscribers",
+      "cost": "Free",
+      "link": "https://www.unlockmls.com/class/trec-legal-update-ii",
+      "linkLabel": "ABoR / Unlock MLS"
     },
     {
       "title": "CCIM Central Texas November Luncheon",
@@ -1009,6 +459,24 @@
       "linkLabel": "Round Rock P&Z meeting schedule"
     },
     {
+      "title": "The Co-Living Advantage: Turning Austin Homes Into High-Performing Rentals",
+      "start": "2026-11-18T18:00:00-06:00",
+      "end": "2026-11-18T20:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Co-living investing seminar (organizer not named on listing)",
+      "location": "7427 North Lamar Boulevard, Austin, TX 78752 (doors 5:45 PM)",
+      "description": "Free in-person seminar where four local experts cover co-living rental returns, tax strategy and financing for Austin houses, followed by live Q&A.",
+      "whosThere": "Rental investors, house hackers, landlords",
+      "cost": "Free",
+      "link": "https://www.eventbrite.com/e/the-co-living-advantage-turning-austin-homes-into-high-performing-rentals-tickets-2004392612260",
+      "linkLabel": "Eventbrite"
+    },
+    {
       "title": "Cedar Park Coffee with Council",
       "start": "2026-11-19T08:00:00-06:00",
       "end": "2026-11-19T09:00:00-06:00",
@@ -1026,6 +494,24 @@
       "cost": "free (registration required)",
       "link": "https://business.cedarparkchamber.org/events/details/coffee-with-council-november-2026-21903",
       "linkLabel": "Cedar Park Chamber"
+    },
+    {
+      "title": "TREC Legal Update II (Five Points)",
+      "start": "2026-11-19T09:00:00-06:00",
+      "end": "2026-11-19T13:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Five Points Board of REALTORS (formerly Williamson County Association of REALTORS)",
+      "location": "Five Points Board of REALTORS, 123 E Old Settlers Blvd, Round Rock, TX 78664",
+      "description": "Four hour TREC Legal Update II continuing education class. End time assumed from the standard four hour course length.",
+      "whosThere": "Williamson County REALTORS",
+      "cost": "Free",
+      "link": "https://www.eventbrite.com/e/trec-legal-ii-tickets-2004328967898",
+      "linkLabel": "Five Points REALTORS"
     },
     {
       "title": "Travis County Commissioners Court Meeting",
@@ -1047,6 +533,61 @@
       "cost": "Free, open to the public",
       "link": "https://countyclerk.traviscountytx.gov/wp-content/uploads/commissioners_court/2026CommissionersCourtCalendar.pdf",
       "linkLabel": "Travis County 2026 calendar"
+    },
+    {
+      "title": "Buda/Hays County Commercial Property Information Exchange",
+      "start": "2026-11-19T09:30:00-06:00",
+      "end": "2026-11-19T11:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS",
+        "DEVELOPERS"
+      ],
+      "verified": true,
+      "priority": true,
+      "host": "Frontier Bank",
+      "location": "Cabela's (2nd floor), 15570 South Interstate 35 Frontage Road, Buda, TX 78610",
+      "description": "Monthly morning networking exchange for commercial real estate professionals covering current Buda and Hays County property trends and opportunities. Attendees can submit a top need and have for a shared slide deck.",
+      "whosThere": "Commercial investors, developers, brokers, lenders in Hays County",
+      "cost": "",
+      "link": "https://www.eventbrite.com/e/budahays-county-commercial-property-information-exchange-tickets-1979759521021",
+      "linkLabel": "Frontier Bank"
+    },
+    {
+      "title": "Broker + Sales Manager Forum",
+      "start": "2026-11-19T10:00:00-06:00",
+      "end": "2026-11-19T11:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Austin Board of REALTORS Headquarters, 4800 Spicewood Springs Rd, Austin, TX 78759",
+      "description": "Monthly forum for brokers and sales managers on brokerage operations and market issues.",
+      "whosThere": "Brokers, sales managers and team leaders",
+      "cost": "Free",
+      "link": "https://www.unlockmls.com/event/broker-sales-manager-forum",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "TREC Legal Update I (4 CE)",
+      "start": "2026-11-19T10:00:00-06:00",
+      "end": "2026-11-19T14:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "9400 Petrichor Blvd, Manor, TX 78653",
+      "description": "Required TREC Legal Update I continuing education class held in Manor.",
+      "whosThere": "Residential REALTORS and MLS subscribers",
+      "cost": "Free",
+      "link": "https://www.unlockmls.com/class/trec-legal-update-i-4",
+      "linkLabel": "ABoR / Unlock MLS"
     },
     {
       "title": "ABoR GBA Network Hour",
@@ -1086,6 +627,42 @@
       "linkLabel": "Unlock MLS event page"
     },
     {
+      "title": "Do You Know What You DON'T Know About Leasing (1 CE)",
+      "start": "2026-11-20T10:00:00-06:00",
+      "end": "2026-11-20T11:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "One hour CE class on residential leasing pitfalls and best practices.",
+      "whosThere": "Residential REALTORS and MLS subscribers",
+      "cost": "$13 subscribers / $17 non-subscribers",
+      "link": "https://www.unlockmls.com/class/do-you-know-what-you-dont-know-about-leasing-1",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "NAHREP Austin: Year End Market Update",
+      "start": "2026-11-20T11:00:00-06:00",
+      "end": "2026-11-20T15:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Austin Board of REALTORS Headquarters, 4800 Spicewood Springs Rd, Austin, TX 78759",
+      "description": "NAHREP Austin year end market update hosted at ABoR headquarters. Free and open to members and non-members.",
+      "whosThere": "Hispanic real estate professionals, agents and lenders",
+      "cost": "Free",
+      "link": "https://www.unlockmls.com/event/nahrep-austin-nahrep-year-end-market-update",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
       "title": "Amplify REI - Commercial Real Estate Investor Brunch",
       "start": "2026-11-21T11:00:00-06:00",
       "end": "2026-11-21T14:00:00-06:00",
@@ -1105,22 +682,40 @@
       "linkLabel": "Meetup event"
     },
     {
-      "title": "Travis County Commissioners Court - Voting Session",
-      "start": "2026-11-24T09:00:00-06:00",
-      "end": "2026-11-24T12:00:00-06:00",
+      "title": "The 2026 Real Estate Market Wrap Up Event (Austin RENC)",
+      "start": "2026-11-23T18:00:00-06:00",
+      "end": "2026-11-23T19:30:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "INVESTORS"
       ],
       "verified": true,
-      "priority": false,
-      "host": "Travis County",
-      "location": "Commissioners Courtroom, 700 Lavaca St, 1st Floor, Austin, TX 78701",
-      "description": "Full voting session where the Court acts on subdivision plats, development agreements, road and drainage items in unincorporated Travis County. Date listed as a Court voting session on the official 2026 Commissioners Court calendar; confirm agenda.",
-      "whosThere": "County Judge and Commissioners, TNR staff, developers, engineers",
-      "cost": "free",
-      "link": "https://www.traviscountytx.gov/images/commissioners_court/Doc/2026_Comm_Ct_Calendar.pdf",
-      "linkLabel": "2026 Court calendar (PDF)"
+      "host": "Austin Real Estate Networking Club (Shenoah Grove)",
+      "location": "Embassy Suites Austin Arboretum, 9505 Stonelake Blvd, Austin, TX 78759",
+      "description": "Final live REIA event of the year reviewing 2026 Texas and local market data, the 2027 outlook, and the wholesale, fix and flip and rental markets. Attendees receive the Texas Real Estate Investing Starter Kit; pre-registration required at austinrenc.com/north-event.",
+      "whosThere": "New and active investors, wholesalers, flippers, rental investors",
+      "cost": "First live meeting free for new guests; membership-based otherwise",
+      "link": "https://www.meetup.com/austinrenc/events/317162994/",
+      "linkLabel": "Austin RENC",
+      "priority": true
+    },
+    {
+      "title": "The 2026 Real Estate Market Wrap Up Event (REIA Austin, Round Rock)",
+      "start": "2026-11-23T18:00:00-06:00",
+      "end": "2026-11-23T19:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS"
+      ],
+      "verified": true,
+      "host": "Real Estate Investment Association of Austin (Shenoah Grove)",
+      "location": "SpringHill Suites, 2960 Hoppe Trail, Round Rock, TX 78665",
+      "description": "Round Rock session of the year-end market review covering 2026 Texas data, what to watch for 2027 and strategy implications for wholesalers, flippers and rental investors. Pre-registration required.",
+      "whosThere": "New and active investors, wholesalers, flippers, rental investors",
+      "cost": "Free for members and first-time guests; non-member fee may apply",
+      "link": "https://www.meetup.com/reiaaustin/events/317162993/",
+      "linkLabel": "REIA Austin",
+      "priority": false
     },
     {
       "title": "Williamson County Commissioners Court",
@@ -1141,6 +736,24 @@
       "linkLabel": "wilcotx.gov"
     },
     {
+      "title": "Community First! Village Thanksgiving Lunch (ABoR Foundation)",
+      "start": "2026-11-24T11:00:00-06:00",
+      "end": "2026-11-24T15:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Community First! Village, 9301 Hog Eye Rd, Austin, TX 78724",
+      "description": "ABoR Foundation volunteer Thanksgiving lunch at Community First! Village.",
+      "whosThere": "REALTOR volunteers and affiliates",
+      "cost": "Free",
+      "link": "https://www.unlockmls.com/event/community-first-village-thanksgiving-lunch",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
       "title": "San Marcos Planning & Zoning Commission Meeting",
       "start": "2026-11-24T18:00:00-06:00",
       "end": "2026-11-24T21:00:00-06:00",
@@ -1158,6 +771,24 @@
       "cost": "Free",
       "link": "https://www.sanmarcostx.gov/585/Planning-Zoning-Commission",
       "linkLabel": "P&Z Commission page"
+    },
+    {
+      "title": "Kyle Planning and Zoning Commission - Regular Meeting",
+      "start": "2026-11-24T18:30:00-06:00",
+      "end": "2026-11-24T21:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Kyle Planning and Zoning Commission",
+      "location": "Kyle City Hall, Council Chambers, 100 W Center St, Kyle, TX 78640",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. The city's agendas page states P&Z meets the second and fourth Tuesdays at 6:30 p.m. at City Hall; agendas post three business days ahead on the city's Granicus portal.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.cityofkyle.gov/city-hall/city-secretarys-office/agendas-and-minutes/",
+      "linkLabel": "Kyle P&Z"
     },
     {
       "title": "Austin Real Estate & Construction Pitch & Networking",
@@ -1180,12 +811,31 @@
       "linkLabel": "Meetup event"
     },
     {
+      "title": "Broker Responsibility (6 CE)",
+      "start": "2026-12-01T09:00:00-06:00",
+      "end": "2026-12-01T16:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "Six hour TREC required Broker Responsibility course.",
+      "whosThere": "Brokers and supervising license holders",
+      "cost": "Free members / $102 non-members",
+      "link": "https://www.unlockmls.com/class/broker-responsibility-5",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
       "title": "Hays County Commissioners Court",
       "start": "2026-12-01T09:00:00-06:00",
       "end": "2026-12-01T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
       "priority": false,
@@ -1198,59 +848,23 @@
       "linkLabel": "Commissioners Court meeting dates"
     },
     {
-      "title": "Travis County Commissioners Court - Voting Session",
-      "start": "2026-12-01T09:00:00-06:00",
-      "end": "2026-12-01T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Travis County Commissioners Court",
-      "location": "Travis County Administration Building, Commissioners Courtroom, 700 Lavaca Street, 1st Floor, Austin, TX 78701",
-      "description": "Weekly voting session of the Travis County Commissioners Court, including land use, subdivision, and infrastructure items. Date inferred from the posted regular schedule (Tuesdays, 9 a.m.); confirm agenda before attending.",
-      "whosThere": "County commissioners, county judge, county staff, consultants, developers, and residents",
-      "cost": "Free",
-      "link": "https://countyclerk.traviscountytx.gov/wp-content/uploads/commissioners_court/2026CommissionersCourtCalendar.pdf",
-      "linkLabel": "2026 Commissioners Court calendar"
-    },
-    {
-      "title": "Hays County Commissioners Court - Regular Meeting",
+      "title": "Travis County Commissioners Court - Regular Meeting",
       "start": "2026-12-01T09:00:00-06:00",
       "end": "2026-12-01T12:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "Hays County",
-      "location": "111 E San Antonio St, San Marcos, TX",
-      "description": "County states the court meets Tuesdays at 9 a.m. unless otherwise posted. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
-      "linkLabel": "Meeting dates"
-    },
-    {
-      "title": "Williamson County Commissioners Court",
-      "start": "2026-12-01T09:30:00-06:00",
-      "end": "2026-12-01T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Williamson County",
-      "location": "Historic Courthouse, 710 S Main St, Georgetown, TX 78626",
-      "description": "County governing body acting on plats, road bonds, development and infrastructure in unincorporated Williamson County. Held most Tuesdays at 9:30 am; recurring schedule, confirm on agenda.wilcotx.gov.",
-      "whosThere": "County Judge, Commissioners, county engineers, developers",
-      "cost": "free",
-      "link": "https://www.wilcotx.gov/Calendar.aspx?EID=648",
-      "linkLabel": "wilcotx.gov"
+      "host": "Travis County Commissioners Court",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
+      "description": "Voting session listed on the approved 2026 Travis County Commissioners Court calendar. The agenda posts on the county's interactive agenda portal the week before and typically includes subdivision plats, road and drainage items, and county contracts.",
+      "whosThere": "County Judge and four county commissioners, county department heads, Transportation and Natural Resources staff, developers with subdivision and platting items, and residents",
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
     },
     {
       "title": "Williamson County Commissioners Court - Regular Meeting",
@@ -1259,7 +873,7 @@
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -1277,17 +891,36 @@
       "end": "2026-12-01T21:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
       "priority": false,
       "host": "City of Austin Zoning and Platting Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
       "description": "Zoning and subdivision hearings for Austin areas without neighborhood plans. Recurring 1st and 3rd Tuesdays at 6 pm; confirm posted agenda.",
       "whosThere": "Commissioners, planning staff, developers, engineers",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/zoning-and-platting-commission",
-      "linkLabel": "austintexas.gov"
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
+      "linkLabel": "Austin ZAP Commission"
+    },
+    {
+      "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
+      "start": "2026-12-01T18:00:00-06:00",
+      "end": "2026-12-01T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Cedar Park Planning and Zoning Commission",
+      "location": "Cedar Park City Hall, Council Chambers, 450 Cypress Creek Rd, Building 1, Cedar Park, TX 78613",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the first and third Tuesdays; start time assumed 6 p.m. and the city site could not be reached to confirm.",
+      "whosThere": "Planning and Zoning commissioners, Development Services staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.cedarparktexas.gov/government/boards-and-commissions/planning-and-zoning-commission",
+      "linkLabel": "Cedar Park P&Z"
     },
     {
       "title": "Georgetown Planning & Zoning Commission Meeting",
@@ -1310,25 +943,6 @@
       "linkLabel": "Georgetown boards and commissions"
     },
     {
-      "title": "Austin Zoning and Platting Commission - Regular Meeting",
-      "start": "2026-12-01T18:00:00-06:00",
-      "end": "2026-12-01T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "City of Austin",
-      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
-      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
-      "linkLabel": "ZAP page"
-    },
-    {
       "title": "Hutto Planning & Zoning Commission Meeting",
       "start": "2026-12-01T19:00:00-06:00",
       "end": "2026-12-01T21:00:00-06:00",
@@ -1349,6 +963,61 @@
       "linkLabel": "Hutto P&Z Commission"
     },
     {
+      "title": "A Review of the One to Four Family Contract (3 CE)",
+      "start": "2026-12-02T09:00:00-06:00",
+      "end": "2026-12-02T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "Three hour contracts CE class reviewing the TREC One to Four Family Residential Contract.",
+      "whosThere": "Residential REALTORS and MLS subscribers",
+      "cost": "$39 members / $51 non-members",
+      "link": "https://www.unlockmls.com/class/a-review-of-the-one-to-four-family-contract",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "Code of Ethics Powered by ABoR (3 CE)",
+      "start": "2026-12-02T09:00:00-06:00",
+      "end": "2026-12-02T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Austin Board of REALTORS Headquarters, 4800 Spicewood Springs Rd, Austin, TX 78759",
+      "description": "NAR Code of Ethics training that satisfies the triennial REALTOR ethics requirement.",
+      "whosThere": "Residential REALTORS and MLS subscribers",
+      "cost": "Free members / $51 non-members",
+      "link": "https://www.unlockmls.com/class/code-of-ethics-powered-by-abor-13",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "Cribs Over Coffee (Round Rock real estate coffee meetup)",
+      "start": "2026-12-02T09:00:00-06:00",
+      "end": "2026-12-02T10:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS",
+        "INVESTORS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Ashley Schmidt and Caleb Davis",
+      "location": "Purely Provisions, 212 West Main Street, Round Rock, TX 78664",
+      "description": "Relaxed morning coffee meetup for Central Texas real estate professionals to reconnect and share ideas. Listed as a recurring series on Eventbrite.",
+      "whosThere": "Williamson County real estate agents, lenders and investors",
+      "cost": "",
+      "link": "https://www.eventbrite.com/e/cribs-over-coffee-tickets-1997794030725",
+      "linkLabel": "Eventbrite"
+    },
+    {
       "title": "Round Rock Planning & Zoning Commission Meeting",
       "start": "2026-12-02T18:00:00-06:00",
       "end": "2026-12-02T20:00:00-06:00",
@@ -1361,30 +1030,12 @@
       "verified": true,
       "priority": false,
       "host": "City of Round Rock",
-      "location": "City Council Chambers, 221 E Main St, Round Rock, TX 78664",
+      "location": "Round Rock City Council Chambers, 221 E Main St, Round Rock, TX 78664",
       "description": "Regular Planning and Zoning Commission meeting: zoning, PUD amendments, plats and subdivision items. Date listed on the City's official 2026 P&Z meeting schedule.",
       "whosThere": "P&Z commissioners, Round Rock planning staff, developers, engineers",
-      "cost": "free",
+      "cost": "Free",
       "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
-      "linkLabel": "Round Rock P&Z meeting schedule"
-    },
-    {
-      "title": "Five Points Board of REALTORS Installation & Awards Banquet",
-      "start": "2026-12-03T00:00:00-06:00",
-      "end": "2026-12-04T00:00:00-06:00",
-      "allDay": true,
-      "categories": [
-        "AGENTS"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "Five Points Board of REALTORS",
-      "location": "Round Rock, TX (venue TBA)",
-      "description": "Year-end banquet installing the 2027 board and honoring top Williamson County REALTORS and affiliates. Time not posted.",
-      "whosThere": "Williamson County REALTOR leadership, top producers, lenders, title",
-      "cost": "",
-      "link": "https://fivepointsrealtors.com/wp-content/uploads/2026/01/2026-Events-Schedule-3-1.pdf",
-      "linkLabel": "Five Points REALTORS"
+      "linkLabel": "Round Rock P&Z"
     },
     {
       "title": "Travis County Commissioners Court Meeting",
@@ -1408,8 +1059,26 @@
       "linkLabel": "Travis County 2026 calendar"
     },
     {
+      "title": "Jingle & Mingle Holiday Fundraiser",
+      "start": "2026-12-03T16:30:00-06:00",
+      "end": "2026-12-03T19:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Five Points Board of REALTORS (formerly Williamson County Association of REALTORS)",
+      "location": "Fairway Independent Mortgage, The Wood Group, 104 1/2 W 8th St, Georgetown, TX 78626",
+      "description": "Holiday evening with live music, drinks and raffles benefiting the Williamson County Children's Advocacy Center. Registration required; the listing shows both Dec 3 and Dec 2 so confirm with the organizer.",
+      "whosThere": "Williamson County REALTORS, lenders and industry partners",
+      "cost": "Free admission; raffle tickets $5 or 6 for $20",
+      "link": "https://www.eventbrite.com/e/jingle-mingle-tickets-2004380358609",
+      "linkLabel": "Five Points REALTORS"
+    },
+    {
       "title": "Amplify REI Real Estate Investor Networking",
-      "start": "2026-12-03T18:00:00-06:00",
+      "start": "2026-12-03T18:30:00-06:00",
       "end": "2026-12-03T20:30:00-06:00",
       "allDay": false,
       "categories": [
@@ -1421,9 +1090,27 @@
       "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
       "description": "Fun, in-person Thursday investor social for all experience levels, run by a group with a 5.0 rating. Relationship-focused, no pitch-fest.",
       "whosThere": "Investors, syndicators, lenders, agents, new investors",
-      "cost": "buy food or $10 fee",
-      "link": "https://www.eventbrite.com/e/amplify-rei-real-estate-investor-networking-tickets-1995695174991",
-      "linkLabel": "Meetup"
+      "cost": "Free",
+      "link": "https://www.meetup.com/amplify-rei/events/313042034/",
+      "linkLabel": "Amplify REI"
+    },
+    {
+      "title": "AAA Annual Meeting & Election",
+      "start": "2026-12-04T18:00:00-06:00",
+      "end": "2026-12-04T19:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Apartment Association",
+      "location": "Hyatt Regency Austin, 208 Barton Springs Rd, Austin, TX 78704",
+      "description": "Annual membership meeting recapping the fiscal year and announcing the 2027 Board of Directors election results. Held at the start of the APEX Awards.",
+      "whosThere": "AAA member owners, managers and suppliers",
+      "cost": "Requires APEX Awards registration",
+      "link": "https://www.austinaptassoc.com/events/2026-annual-meeting-and-election",
+      "linkLabel": "Austin Apartment Assoc."
     },
     {
       "title": "Austin Apartment Association APEX Awards",
@@ -1465,51 +1152,13 @@
       "linkLabel": "Pflugerville Legistar calendar"
     },
     {
-      "title": "Pflugerville Planning and Zoning Commission - Regular Meeting",
-      "start": "2026-12-07T19:00:00-06:00",
-      "end": "2026-12-07T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Pflugerville",
-      "location": "Pflugerville City Hall, 100 E Main St, Pflugerville, TX",
-      "description": "First Monday pattern seen in Apr 6, Jun 1, Aug 3, Oct 5 2026 meetings. Start time unconfirmed; January date may shift for the holiday. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.pflugervilletx.gov",
-      "linkLabel": "City of Pflugerville"
-    },
-    {
-      "title": "Travis County Commissioners Court - Voting Session",
-      "start": "2026-12-08T09:00:00-06:00",
-      "end": "2026-12-08T13:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "DEVELOPERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Travis County Commissioners Court",
-      "location": "Travis County Commissioners Courtroom, 700 Lavaca St, 1st Floor, Austin, TX 78701",
-      "description": "Weekly Tuesday voting session: subdivision plats, road and development items in unincorporated Travis County, budget and contracts. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "County commissioners, County Judge, Transportation and Natural Resources staff, developers, engineers",
-      "cost": "free",
-      "link": "https://traviscountytx.gov/commissioners-court",
-      "linkLabel": "Travis County Commissioners Court"
-    },
-    {
       "title": "Hays County Commissioners Court - Regular Meeting",
       "start": "2026-12-08T09:00:00-06:00",
       "end": "2026-12-08T12:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -1522,23 +1171,41 @@
       "linkLabel": "Meeting dates"
     },
     {
-      "title": "Williamson County Commissioners Court",
-      "start": "2026-12-08T09:30:00-06:00",
-      "end": "2026-12-08T12:30:00-06:00",
+      "title": "TRPM: The Business and Its Assets",
+      "start": "2026-12-08T09:00:00-06:00",
+      "end": "2026-12-08T16:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "Texas Residential Property Manager certification course on running a property management business.",
+      "whosThere": "Property managers and leasing agents",
+      "cost": "",
+      "link": "https://www.unlockmls.com/class/trpm-the-business-and-its-assets",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "Travis County Commissioners Court - Regular Meeting",
+      "start": "2026-12-08T09:00:00-06:00",
+      "end": "2026-12-08T12:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
         "DEVELOPERS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "Williamson County Commissioners Court",
-      "location": "Williamson County Historic Courthouse, 710 S Main St, Georgetown, TX 78626",
-      "description": "Regular Commissioners Court meeting (most Tuesdays, 9:30 a.m.): subdivision plats, road bonds, infrastructure and development agreements. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "County commissioners, County Judge, county engineering staff, developers",
-      "cost": "free",
-      "link": "https://www.wilcotx.gov/Calendar.aspx",
-      "linkLabel": "Williamson County calendar"
+      "host": "Travis County Commissioners Court",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
+      "description": "Voting session listed on the approved 2026 Travis County Commissioners Court calendar. The agenda posts on the county's interactive agenda portal the week before and typically includes subdivision plats, road and drainage items, and county contracts.",
+      "whosThere": "County Judge and four county commissioners, county department heads, Transportation and Natural Resources staff, developers with subdivision and platting items, and residents",
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
     },
     {
       "title": "Williamson County Commissioners Court - Regular Meeting",
@@ -1547,7 +1214,7 @@
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -1560,23 +1227,23 @@
       "linkLabel": "Agenda portal"
     },
     {
-      "categories": [
-        "DEVELOPERS",
-        "INVESTORS"
-      ],
-      "priority": false,
-      "host": "Linda Pedersen, Real Estate Investing For The Win",
-      "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
-      "whosThere": "Commercial real estate investors and developers",
-      "cost": "No admission listed; lunch purchased individually",
-      "link": "https://www.meetup.com/reiftw/events/316961607/",
-      "linkLabel": "Meetup event page",
-      "allDay": false,
-      "title": "Behind the Deal: Commercial Development Case Studies (monthly)",
+      "title": "Behind the Deal: LIVE Commercial Real Estate Development Case Studies",
       "start": "2026-12-08T11:30:00-06:00",
       "end": "2026-12-08T13:30:00-06:00",
-      "verified": false,
-      "description": "Monthly second-Tuesday series per the Oct 27 event page. Date inferred from that pattern; confirm on Meetup."
+      "allDay": false,
+      "categories": [
+        "INVESTORS",
+        "DEVELOPERS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Real Estate Investing For The Win (Linda Pedersen) with Austin Commercial Real Estate Investing Discussion",
+      "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
+      "description": "Monthly second-Tuesday lunch series following two active Central Texas developments, an RV resort at McKinney Roughs and a retail project in Buda, through real numbers and decisions. No paid program; buy lunch to support the venue.",
+      "whosThere": "Commercial investors, developers, residential investors moving into larger deals",
+      "cost": "Free; purchase lunch",
+      "link": "https://www.meetup.com/reiftw/events/fzdqbvyjcqblb/",
+      "linkLabel": "REIFTW"
     },
     {
       "title": "Austin Planning Commission - Regular Meeting",
@@ -1584,17 +1251,36 @@
       "end": "2026-12-08T21:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
-      "priority": false,
+      "priority": true,
       "host": "City of Austin Planning Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
       "description": "Regular Planning Commission hearing on zoning cases, site plans and subdivisions. Date listed on the city's 2026 schedule; confirm posted agenda.",
       "whosThere": "Commissioners, city planning staff, zoning attorneys, developers",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/planning-commission",
-      "linkLabel": "austintexas.gov"
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/planning-commission",
+      "linkLabel": "Austin Planning Commission"
+    },
+    {
+      "title": "Round Rock Planning and Zoning Commission - Regular Meeting",
+      "start": "2026-12-08T18:00:00-06:00",
+      "end": "2026-12-08T20:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Round Rock",
+      "location": "City Council Chambers, 221 E Main St, Round Rock, TX",
+      "description": "Listed as a first available P&Z meeting date on the city's P&Z schedule (approved 11/04/26), meetings begin 6 p.m. Meetings are sometimes canceled if no cases are filed; confirm on the agenda.",
+      "whosThere": "Commissioners, city staff, applicants, public",
+      "cost": "Free, open to the public",
+      "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
+      "linkLabel": "P&Z schedule"
     },
     {
       "title": "San Marcos Planning & Zoning Commission Meeting",
@@ -1615,25 +1301,6 @@
       "cost": "free",
       "link": "https://san-marcos-tx.legistar.com/DepartmentDetail.aspx?ID=24891&GUID=17D0DC51-F882-40E7-9E53-268427025AB1",
       "linkLabel": "San Marcos P&Z on Legistar"
-    },
-    {
-      "title": "Round Rock Planning and Zoning Commission - Regular Meeting",
-      "start": "2026-12-08T18:00:00-06:00",
-      "end": "2026-12-08T20:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Round Rock",
-      "location": "City Council Chambers, 221 E Main St, Round Rock, TX",
-      "description": "Listed as a first available P&Z meeting date on the city's P&Z schedule (approved 11/04/26), meetings begin 6 p.m. Meetings are sometimes canceled if no cases are filed; confirm on the agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
-      "linkLabel": "P&Z schedule"
     },
     {
       "title": "Buda Planning & Zoning Commission Meeting",
@@ -1714,6 +1381,24 @@
       "linkLabel": "Kyle Chamber"
     },
     {
+      "title": "TRPM: Residential Property Management Agreement",
+      "start": "2026-12-09T09:00:00-06:00",
+      "end": "2026-12-09T13:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "TRPM certification course on the residential property management agreement.",
+      "whosThere": "Property managers and leasing agents",
+      "cost": "",
+      "link": "https://www.unlockmls.com/class/trpm-residential-property-management-agreement",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
       "title": "Trades Together: Construction Business Networking",
       "start": "2026-12-09T11:30:00-06:00",
       "end": "2026-12-09T13:00:00-06:00",
@@ -1732,24 +1417,22 @@
       "linkLabel": "Meetup (prior session)"
     },
     {
-      "title": "Downtown Austin's Next Chapter (Bisnow)",
-      "start": "2026-12-10T00:00:00-06:00",
-      "end": "2026-12-10T23:59:00-06:00",
-      "allDay": true,
+      "title": "TRPM: Residential Evictions",
+      "start": "2026-12-09T14:00:00-06:00",
+      "end": "2026-12-09T16:00:00-06:00",
+      "allDay": false,
       "categories": [
-        "DEVELOPERS",
-        "INVESTORS",
-        "PLANNING"
+        "AGENTS"
       ],
       "verified": true,
       "priority": false,
-      "host": "Bisnow Austin",
-      "location": "Downtown Austin, TX (venue not listed)",
-      "description": "Bisnow event on the next wave of downtown development and the amenities and retail driving tenant demand.",
-      "whosThere": "Commercial real estate developers, investors, brokers",
-      "cost": "$135 general; $120 per ticket for groups of 4+",
-      "link": "https://www.bisnow.com/checkout/v2/20228",
-      "linkLabel": "Bisnow tickets"
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "TRPM certification course on the Texas residential eviction process.",
+      "whosThere": "Property managers and leasing agents",
+      "cost": "",
+      "link": "https://www.unlockmls.com/class/trpm-residential-evictions",
+      "linkLabel": "ABoR / Unlock MLS"
     },
     {
       "title": "Bisnow: Downtown Austin's Next Chapter",
@@ -1758,15 +1441,16 @@
       "allDay": false,
       "categories": [
         "DEVELOPERS",
-        "INVESTORS"
+        "INVESTORS",
+        "PLANNING"
       ],
       "verified": true,
       "priority": true,
       "host": "Bisnow",
-      "location": "Austin, TX (venue TBA)",
+      "location": "The Royal Sonesta Austin (Stephen F. Austin), Capital Ballroom, 701 Congress Ave, Austin, TX 78701",
       "description": "Panels on how developers are reshaping Austin's urban core through site acquisitions, deal structuring and major projects, with 3.19M SF under construction downtown. Direct access to active site buyers and their capital.",
       "whosThere": "Developers, owners, investors, brokers, lenders, architects, government officials",
-      "cost": "$105 (super early bird)",
+      "cost": "$135 general / $120 groups of 4+",
       "link": "https://www.bisnow.com/events/austin/commercial-real-estate/downtown-austin-10095",
       "linkLabel": "Bisnow"
     },
@@ -1790,6 +1474,42 @@
       "linkLabel": "ULI Austin"
     },
     {
+      "title": "TRPM: Maintenance and Relationships",
+      "start": "2026-12-10T09:00:00-06:00",
+      "end": "2026-12-10T16:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Not listed",
+      "description": "TRPM certification course on maintenance and owner and tenant relationships.",
+      "whosThere": "Property managers and leasing agents",
+      "cost": "",
+      "link": "https://www.unlockmls.com/class/trpm-maintenance-and-relationships",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "Real Estate Networking | REAL Cafe Austin",
+      "start": "2026-12-10T10:00:00-06:00",
+      "end": "2026-12-10T11:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "@ianofAustin | Community Real Estate Events",
+      "location": "Hank's Austin, 5811 Berkman Drive, Austin, TX 78723",
+      "description": "Informal monthly coffee meetup for Greater Austin real estate professionals with no agenda, typically 10 to 70 attendees. Mostly agents and real estate-adjacent professionals.",
+      "whosThere": "Real estate agents, lenders, title and other real estate-adjacent professionals",
+      "cost": "",
+      "link": "https://www.eventbrite.com/e/real-estate-networking-real-cafe-tickets-1998118453081",
+      "linkLabel": "REAL Cafe"
+    },
+    {
       "title": "Real Estate Investor Masterminds - Thursday Lunch",
       "start": "2026-12-10T11:30:00-06:00",
       "end": "2026-12-10T13:00:00-06:00",
@@ -1806,6 +1526,25 @@
       "cost": "free (buy your own lunch)",
       "link": "https://www.meetup.com/realestateinvestormasterminds/",
       "linkLabel": "Meetup"
+    },
+    {
+      "title": "What's Ahead: The 90th Texas Legislative Session",
+      "start": "2026-12-10T15:30:00-06:00",
+      "end": "2026-12-10T18:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Chamber of Commerce",
+      "location": "Renaissance Austin Downtown, Austin, TX",
+      "description": "Bipartisan panel of Texas legislators previews priorities for the 90th Legislative Session that convenes January 12, 2027. Program 3:30 to 5:00 followed by a reception; typically sells out.",
+      "whosThere": "Business leaders, developers, public affairs and policy professionals",
+      "cost": "",
+      "link": "https://www.austinchamber.com/events/legislative-preview-2026",
+      "linkLabel": "Austin Chamber"
     },
     {
       "title": "2026 AAA Winter Maintenance Huddle",
@@ -1876,12 +1615,12 @@
       "verified": true,
       "priority": false,
       "host": "Austin Real Estate Investors (Meetup)",
-      "location": "The Austin Beer Garden Brewing Co., 1305 W Oltorf St, Austin, TX 78704",
+      "location": "Draught House Pub & Brewery, 4112 Medical Pkwy, Austin, TX 78756 (dedicated tent to the left of the building)",
       "description": "Casual no-pitch investor social, 2nd Thursday of every month.",
       "whosThere": "Buy-and-hold investors, flippers, lenders, agents who invest",
-      "cost": "free (buy your own drinks)",
-      "link": "https://www.meetup.com/meetup-group-yvkzijtj/events/vmjcvtyjcqbnb/",
-      "linkLabel": "Meetup"
+      "cost": "Free",
+      "link": "https://www.meetup.com/meetup-group-yvkzijtj/events/316364079/",
+      "linkLabel": "Austin Investor Social Hour"
     },
     {
       "title": "HBA President's Awards & Board Installation",
@@ -1908,7 +1647,8 @@
       "end": "2026-12-15T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
       "priority": false,
@@ -1926,54 +1666,18 @@
       "end": "2026-12-15T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
       "priority": false,
       "host": "Travis County",
-      "location": "Commissioners Courtroom, 700 Lavaca St, 1st Floor, Austin, TX 78701",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
       "description": "Full voting session where the Court acts on subdivision plats, development agreements, road and drainage items in unincorporated Travis County. Date listed as a Court voting session on the official 2026 Commissioners Court calendar; confirm agenda.",
       "whosThere": "County Judge and Commissioners, TNR staff, developers, engineers",
-      "cost": "free",
-      "link": "https://www.traviscountytx.gov/images/commissioners_court/Doc/2026_Comm_Ct_Calendar.pdf",
-      "linkLabel": "2026 Court calendar (PDF)"
-    },
-    {
-      "title": "Hays County Commissioners Court - Regular Meeting",
-      "start": "2026-12-15T09:00:00-06:00",
-      "end": "2026-12-15T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Hays County",
-      "location": "111 E San Antonio St, San Marcos, TX",
-      "description": "County states the court meets Tuesdays at 9 a.m. unless otherwise posted. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
-      "linkLabel": "Meeting dates"
-    },
-    {
-      "title": "Williamson County Commissioners Court",
-      "start": "2026-12-15T09:30:00-06:00",
-      "end": "2026-12-15T12:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "Williamson County",
-      "location": "Historic Courthouse, 710 S Main St, Georgetown, TX 78626",
-      "description": "County governing body acting on plats, road bonds, development and infrastructure in unincorporated Williamson County. Held most Tuesdays at 9:30 am; recurring schedule, confirm on agenda.wilcotx.gov.",
-      "whosThere": "County Judge, Commissioners, county engineers, developers",
-      "cost": "free",
-      "link": "https://www.wilcotx.gov/Calendar.aspx?EID=648",
-      "linkLabel": "wilcotx.gov"
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
     },
     {
       "title": "Williamson County Commissioners Court - Regular Meeting",
@@ -1982,7 +1686,7 @@
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2015,7 +1719,7 @@
     {
       "title": "Austin Planning Commission - Regular Meeting",
       "start": "2026-12-15T18:00:00-06:00",
-      "end": "2026-12-15T22:00:00-06:00",
+      "end": "2026-12-15T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -2025,17 +1729,17 @@
       "verified": true,
       "priority": false,
       "host": "City of Austin Planning Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
       "description": "Regular Planning Commission meeting: zoning cases, neighborhood plan amendments, and land development code items. Date listed on the City's official 2026 Planning Commission meeting schedule (shifted from the usual 4th Tuesday for the holidays). Check the posted agenda for case list.",
       "whosThere": "Planning commissioners, City planning staff, developers, land use attorneys, neighborhood groups",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/planning-commission",
-      "linkLabel": "Planning Commission page"
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/planning-commission",
+      "linkLabel": "Austin Planning Commission"
     },
     {
       "title": "Austin Zoning & Platting Commission - Regular Meeting",
       "start": "2026-12-15T18:00:00-06:00",
-      "end": "2026-12-15T22:00:00-06:00",
+      "end": "2026-12-15T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -2045,12 +1749,12 @@
       "verified": true,
       "priority": false,
       "host": "City of Austin Zoning and Platting Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
       "description": "Regular Zoning and Platting Commission meeting: rezonings, subdivisions/plats, and site plan items outside neighborhood plan areas. Date listed on the City's official 2026 ZAP meeting schedule.",
       "whosThere": "ZAP commissioners, City planning staff, developers, engineers, land use attorneys",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/zoning-and-platting-commission",
-      "linkLabel": "Zoning and Platting Commission page"
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
+      "linkLabel": "Austin ZAP Commission"
     },
     {
       "title": "Georgetown Planning & Zoning Commission Meeting",
@@ -2073,26 +1777,7 @@
       "linkLabel": "Georgetown boards and commissions"
     },
     {
-      "title": "Austin Zoning and Platting Commission - Regular Meeting",
-      "start": "2026-12-15T18:00:00-06:00",
-      "end": "2026-12-15T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": true,
-      "priority": false,
-      "host": "City of Austin",
-      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
-      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
-      "linkLabel": "ZAP page"
-    },
-    {
-      "title": "Cedar Park Planning & Zoning Commission Meeting",
+      "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
       "start": "2026-12-15T18:30:00-06:00",
       "end": "2026-12-15T20:30:00-06:00",
       "allDay": false,
@@ -2100,25 +1785,6 @@
         "PLANNING",
         "DEVELOPERS",
         "BUILDERS"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Cedar Park",
-      "location": "Cedar Park City Hall, Council Chambers, 450 Cypress Creek Rd, Building 4, Cedar Park, TX 78613",
-      "description": "Regular Planning and Zoning Commission meeting (3rd Tuesday, 6:30 p.m.); dates can shift for holiday conflicts. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "P&Z commissioners, Cedar Park planning staff, developers",
-      "cost": "free",
-      "link": "https://www.cedarparktexas.gov/507/Public-Notices",
-      "linkLabel": "Cedar Park public notices"
-    },
-    {
-      "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
-      "start": "2026-12-15T18:30:00-06:00",
-      "end": "2026-12-15T20:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
       ],
       "verified": false,
       "priority": false,
@@ -2143,12 +1809,12 @@
       "verified": true,
       "priority": false,
       "host": "City of Round Rock",
-      "location": "City Council Chambers, 221 E Main St, Round Rock, TX 78664",
+      "location": "Round Rock City Council Chambers, 221 E Main St, Round Rock, TX 78664",
       "description": "Regular Planning and Zoning Commission meeting: zoning, PUD amendments, plats and subdivision items. Date listed on the City's official 2026 P&Z meeting schedule.",
       "whosThere": "P&Z commissioners, Round Rock planning staff, developers, engineers",
-      "cost": "free",
+      "cost": "Free",
       "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
-      "linkLabel": "Round Rock P&Z meeting schedule"
+      "linkLabel": "Round Rock P&Z"
     },
     {
       "title": "ABoR GBA Network Hour (December)",
@@ -2162,12 +1828,12 @@
       "verified": true,
       "priority": false,
       "host": "Austin Board of REALTORS Global Business Alliance",
-      "location": "ABoR, 4800 Spicewood Springs Rd, Austin, TX 78759",
+      "location": "Austin Board of REALTORS Headquarters, Auditorium C, 4800 Spicewood Springs Rd, Austin, TX 78759",
       "description": "Monthly networking hour for agents serving international buyers and investors. Can surface foreign capital interested in Austin land.",
       "whosThere": "Global-focused agents, affiliates, international investors",
-      "cost": "Free members; $10 non-members",
+      "cost": "Free members / $10 non-members",
       "link": "https://www.unlockmls.com/event/abor-gba-network-hour-6",
-      "linkLabel": "Unlock MLS / ABoR"
+      "linkLabel": "ABoR / Unlock MLS"
     },
     {
       "title": "Austin Chamber Economic Outlook: Trends, Forecasts, & the Forces Behind Them",
@@ -2176,12 +1842,13 @@
       "allDay": false,
       "categories": [
         "DEVELOPERS",
-        "INVESTORS"
+        "INVESTORS",
+        "PLANNING"
       ],
       "verified": true,
-      "priority": false,
+      "priority": true,
       "host": "Austin Chamber of Commerce",
-      "location": "Austin, TX (venue TBA)",
+      "location": "Fairmont Austin, 101 Red River St, Austin, TX 78701",
       "description": "Chamber's year-end economic forecast luncheon. Regional business, banking and economic development leadership in one room.",
       "whosThere": "Executives, bankers, economic development staff, developers",
       "cost": "",
@@ -2191,7 +1858,7 @@
     {
       "title": "Dripping Springs Planning & Zoning Commission Meeting",
       "start": "2026-12-17T18:00:00-06:00",
-      "end": "2026-12-17T20:00:00-06:00",
+      "end": "2026-12-17T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -2204,9 +1871,9 @@
       "location": "Dripping Springs City Hall, 511 Mercer St, Dripping Springs, TX 78620",
       "description": "Planning and Zoning Commission meeting (Thursday; moved from usual 4th Tuesday): subdivisions, development agreements, zoning. Date listed on the City's official P&Z events calendar.",
       "whosThere": "P&Z commissioners, City planning staff, developers, residents",
-      "cost": "free",
-      "link": "https://www.drippingspringstx.gov/node/23191/events/year",
-      "linkLabel": "Dripping Springs P&Z calendar"
+      "cost": "Free",
+      "link": "https://drippingsprings-tx.municodemeetings.com/node/3003",
+      "linkLabel": "Dripping Springs P&Z"
     },
     {
       "title": "Travis County Commissioners Court - Consent Agenda Session",
@@ -2214,36 +1881,37 @@
       "end": "2026-12-18T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
       "priority": false,
       "host": "Travis County Commissioners Court",
-      "location": "Travis County Administration Building, 700 Lavaca St, Austin, TX",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
       "description": "The 2026 Commissioners Court calendar lists Friday Dec 18 as a consent agenda day for year-end business. Start time not stated on the calendar; check the posted agenda.",
       "whosThere": "Travis County commissioners and county judge, county staff",
-      "cost": "free",
-      "link": "https://countyclerk.traviscountytx.gov/wp-content/uploads/commissioners_court/2026CommissionersCourtCalendar.pdf",
-      "linkLabel": "2026 Court calendar (PDF)"
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
     },
     {
-      "title": "Pflugerville Planning & Zoning Commission Meeting",
-      "start": "2027-01-04T19:00:00-06:00",
-      "end": "2027-01-04T21:00:00-06:00",
+      "title": "Real Estate and Business Networking | Elevating Your Potential - Austin",
+      "start": "2026-12-23T18:00:00-06:00",
+      "end": "2026-12-23T20:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING",
-        "DEVELOPERS"
+        "INVESTORS",
+        "AGENTS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "City of Pflugerville",
-      "location": "City Hall, 1611 Pfennig Lane, Pflugerville, TX",
-      "description": "Inferred from the commission's first-Monday 7:00 pm pattern; not yet confirmed by a posted agenda and could shift for the New Year holiday. Zoning, plats and development items.",
-      "whosThere": "P&Z commissioners, city planning staff, developers and applicants",
-      "cost": "free",
-      "link": "https://pflugerville.legistar.com/Calendar.aspx",
-      "linkLabel": "Pflugerville meeting calendar"
+      "host": "Strive Networking",
+      "location": "Parlor & Yard, 601 West 6th Street, Austin, TX 78701",
+      "description": "Multi-industry networking evening in downtown Austin for residential and commercial real estate professionals alongside finance, tech and other fields. Bring business cards; 21+.",
+      "whosThere": "Brokers, lenders, investors, mortgage brokers, contractors and cross-industry professionals",
+      "cost": "",
+      "link": "https://www.eventbrite.com/e/real-estate-and-business-networking-elevating-your-potential-austin-tickets-2001887727081",
+      "linkLabel": "Strive Networking"
     },
     {
       "title": "Pflugerville Planning and Zoning Commission - Regular Meeting",
@@ -2252,7 +1920,7 @@
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2270,7 +1938,8 @@
       "end": "2027-01-05T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": true,
       "priority": false,
@@ -2288,7 +1957,8 @@
       "end": "2027-01-05T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2306,7 +1976,8 @@
       "end": "2027-01-05T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2319,9 +1990,9 @@
       "linkLabel": "Williamson County calendar"
     },
     {
-      "title": "Austin Zoning & Platting Commission - Regular Meeting",
+      "title": "Austin Zoning and Platting Commission - Regular Meeting",
       "start": "2027-01-05T18:00:00-06:00",
-      "end": "2027-01-05T22:00:00-06:00",
+      "end": "2027-01-05T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -2330,13 +2001,31 @@
       ],
       "verified": false,
       "priority": false,
-      "host": "City of Austin Zoning and Platting Commission",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
-      "description": "Regular Zoning and Platting Commission meeting (1st Tuesday). 2027 schedule not yet posted. Inferred from regular schedule; confirm agenda before attending.",
-      "whosThere": "ZAP commissioners, City planning staff, developers, engineers, land use attorneys",
-      "cost": "free",
-      "link": "https://www.austintexas.gov/content/zoning-and-platting-commission",
-      "linkLabel": "Zoning and Platting Commission page"
+      "host": "City of Austin",
+      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
+      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
+      "whosThere": "Commissioners, city staff, applicants, public",
+      "cost": "Free, open to the public",
+      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
+      "linkLabel": "ZAP page"
+    },
+    {
+      "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-01-05T18:00:00-06:00",
+      "end": "2027-01-05T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Cedar Park Planning and Zoning Commission",
+      "location": "Cedar Park City Hall, Council Chambers, 450 Cypress Creek Rd, Building 1, Cedar Park, TX 78613",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the first and third Tuesdays; start time assumed 6 p.m. and the city site could not be reached to confirm.",
+      "whosThere": "Planning and Zoning commissioners, Development Services staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.cedarparktexas.gov/government/boards-and-commissions/planning-and-zoning-commission",
+      "linkLabel": "Cedar Park P&Z"
     },
     {
       "title": "Georgetown Planning & Zoning Commission Meeting",
@@ -2359,25 +2048,6 @@
       "linkLabel": "Georgetown boards and commissions"
     },
     {
-      "title": "Austin Zoning and Platting Commission - Regular Meeting",
-      "start": "2027-01-05T18:00:00-06:00",
-      "end": "2027-01-05T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Austin",
-      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
-      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
-      "linkLabel": "ZAP page"
-    },
-    {
       "title": "Hutto Planning & Zoning Commission Meeting",
       "start": "2027-01-05T19:00:00-06:00",
       "end": "2027-01-05T21:00:00-06:00",
@@ -2398,12 +2068,32 @@
       "linkLabel": "Hutto P&Z Commission"
     },
     {
+      "title": "Hays County Commissioners Court - Regular Session",
+      "start": "2027-01-12T09:00:00-06:00",
+      "end": "2027-01-12T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Hays County Commissioners Court",
+      "location": "Hays County Historic Courthouse, Room 301, 111 E San Antonio St, San Marcos, TX 78666",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court meets each Tuesday at 9 a.m. unless otherwise posted, and the final agenda posts the Friday before.",
+      "whosThere": "County Judge and four county commissioners, county department staff, subdivision and development applicants, and residents",
+      "cost": "Free",
+      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
+      "linkLabel": "Hays County Commissioners Court"
+    },
+    {
       "title": "Travis County Commissioners Court - Voting Session",
       "start": "2027-01-12T09:00:00-06:00",
       "end": "2027-01-12T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2421,7 +2111,8 @@
       "end": "2027-01-12T12:30:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2434,23 +2125,23 @@
       "linkLabel": "County calendar"
     },
     {
-      "categories": [
-        "DEVELOPERS",
-        "INVESTORS"
-      ],
-      "priority": false,
-      "host": "Linda Pedersen, Real Estate Investing For The Win",
-      "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
-      "whosThere": "Commercial real estate investors and developers",
-      "cost": "No admission listed; lunch purchased individually",
-      "link": "https://www.meetup.com/reiftw/events/316961607/",
-      "linkLabel": "Meetup event page",
-      "allDay": false,
-      "title": "Behind the Deal: Commercial Development Case Studies (monthly)",
+      "title": "Behind the Deal: LIVE Commercial Real Estate Development Case Studies",
       "start": "2027-01-12T11:30:00-06:00",
       "end": "2027-01-12T13:30:00-06:00",
-      "verified": false,
-      "description": "Monthly second-Tuesday series per the Oct 27 event page. Date inferred from that pattern; confirm on Meetup."
+      "allDay": false,
+      "categories": [
+        "INVESTORS",
+        "DEVELOPERS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Real Estate Investing For The Win (Linda Pedersen) with Austin Commercial Real Estate Investing Discussion",
+      "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
+      "description": "Monthly second-Tuesday lunch series following two active Central Texas developments, an RV resort at McKinney Roughs and a retail project in Buda, through real numbers and decisions. No paid program; buy lunch to support the venue.",
+      "whosThere": "Commercial investors, developers, residential investors moving into larger deals",
+      "cost": "Free; purchase lunch",
+      "link": "https://www.meetup.com/reiftw/events/fzdqbvykccbqb/",
+      "linkLabel": "REIFTW"
     },
     {
       "title": "Austin Planning Commission - Regular Meeting",
@@ -2470,6 +2161,24 @@
       "cost": "Free",
       "link": "https://austintexas.gov/content/planning-commission",
       "linkLabel": "Planning Commission page"
+    },
+    {
+      "title": "Buda Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-01-12T18:00:00-06:00",
+      "end": "2027-01-12T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Buda Planning and Zoning Commission",
+      "location": "Buda City Hall, Council Chambers, 405 E Loop St, Buda, TX 78610",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. The city calendar shows the November 24, 2026 P&Z meeting as canceled; December through February dates were not yet posted.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.budatx.gov/Calendar.aspx",
+      "linkLabel": "Buda P&Z"
     },
     {
       "title": "San Marcos Planning & Zoning Commission Meeting",
@@ -2531,7 +2240,7 @@
     {
       "title": "Round Rock Planning & Zoning Commission Meeting",
       "start": "2027-01-13T18:00:00-06:00",
-      "end": "2027-01-13T21:00:00-06:00",
+      "end": "2027-01-13T20:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
@@ -2540,31 +2249,12 @@
       "verified": true,
       "priority": false,
       "host": "City of Round Rock",
-      "location": "City Council Chambers, 221 East Main Street, Round Rock, TX 78664",
+      "location": "Round Rock City Council Chambers, 221 E Main St, Round Rock, TX 78664",
       "description": "Regular Planning and Zoning Commission meeting on the city's posted P&Z schedule, reviewing zoning, plats, and development cases.",
       "whosThere": "Planning commissioners, city planning staff, developers, land use attorneys, and residents",
       "cost": "Free",
       "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
-      "linkLabel": "P&Z meeting schedule"
-    },
-    {
-      "title": "Round Rock Planning and Zoning Commission - Regular Meeting",
-      "start": "2027-01-13T18:00:00-06:00",
-      "end": "2027-01-13T20:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Round Rock",
-      "location": "City Council Chambers, 221 E Main St, Round Rock, TX",
-      "description": "Listed as a first available P&Z meeting date on the city's P&Z schedule (approved 11/04/26), meetings begin 6 p.m. Meetings are sometimes canceled if no cases are filed; confirm on the agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.roundrocktexas.gov/city-departments/planning-and-development-services/pz-meeting-schedule",
-      "linkLabel": "P&Z schedule"
+      "linkLabel": "Round Rock P&Z"
     },
     {
       "title": "Why ULI? Info Session (January)",
@@ -2612,33 +2302,33 @@
       "categories": [
         "INVESTORS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "Austin Real Estate Investors (Meetup), hosts Jordan M. and Tarl Y.",
-      "location": "The Austin Beer Garden, 1305 W Oltorf St, Austin, TX 78704 (venue has varied; confirm)",
-      "description": "Recurring second-Thursday investor social. Date inferred from the recurrence; not shown on a fetched page.",
-      "whosThere": "Real estate investors and professionals",
-      "cost": "Not listed (likely free)",
-      "link": "https://www.meetup.com/meetup-group-yvkzijtj/events/",
-      "linkLabel": "Meetup group events"
+      "host": "Austin Real Estate Investors (Jordan Moorhead, The Moorhead Team)",
+      "location": "Draught House Pub & Brewery, 4112 Medical Pkwy, Austin, TX 78756 (dedicated tent to the left of the building)",
+      "description": "Casual pitch-free second-Thursday get-together to talk real estate over food and drinks. House hackers, BRRRR, buy and hold, flippers and commercial investors all welcome.",
+      "whosThere": "House hackers, BRRRR and buy-and-hold investors, flippers, commercial investors",
+      "cost": "Free",
+      "link": "https://www.meetup.com/meetup-group-yvkzijtj/events/316598585/",
+      "linkLabel": "Austin Investor Social Hour"
     },
     {
-      "title": "Travis County Commissioners Court - Voting Session",
-      "start": "2027-01-19T09:00:00-06:00",
-      "end": "2027-01-19T12:00:00-06:00",
+      "title": "Five Points Installation & Awards Banquet",
+      "start": "2027-01-14T18:30:00-06:00",
+      "end": "2027-01-14T22:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "AGENTS"
       ],
-      "verified": false,
+      "verified": true,
       "priority": false,
-      "host": "Travis County",
-      "location": "700 Lavaca St, Austin, TX 78701",
-      "description": "INFERRED: Tuesday voting sessions pattern seen in Nov and Dec 2026; January 2027 calendar not fetched. Confirm on the court calendar.",
-      "whosThere": "County Judge, Commissioners, county staff",
-      "cost": "free",
-      "link": "https://countyclerk.traviscountytx.gov/departments/commissioners-court/",
-      "linkLabel": "Commissioners Court agendas"
+      "host": "Five Points Board of REALTORS (formerly Williamson County Association of REALTORS)",
+      "location": "Wish Well House, 511 S Main St, Georgetown, TX 78626",
+      "description": "Evening banquet installing the 2027 leadership team and presenting member awards, with cocktails and a three-course Southern dinner. Attire is Western elegance.",
+      "whosThere": "Williamson County REALTORS, brokers and affiliate partners",
+      "cost": "$75",
+      "link": "https://www.eventbrite.com/e/installation-awards-banquet-tickets-2004390553101",
+      "linkLabel": "Five Points REALTORS"
     },
     {
       "title": "Hays County Commissioners Court",
@@ -2646,7 +2336,8 @@
       "end": "2027-01-19T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2659,12 +2350,32 @@
       "linkLabel": "Commissioners Court meeting dates"
     },
     {
+      "title": "Travis County Commissioners Court - Voting Session",
+      "start": "2027-01-19T09:00:00-06:00",
+      "end": "2027-01-19T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Travis County",
+      "location": "700 Lavaca St, Austin, TX 78701",
+      "description": "INFERRED: Tuesday voting sessions pattern seen in Nov and Dec 2026; January 2027 calendar not fetched. Confirm on the court calendar.",
+      "whosThere": "County Judge, Commissioners, county staff",
+      "cost": "free",
+      "link": "https://countyclerk.traviscountytx.gov/departments/commissioners-court/",
+      "linkLabel": "Commissioners Court agendas"
+    },
+    {
       "title": "Williamson County Commissioners Court",
       "start": "2027-01-19T09:30:00-06:00",
       "end": "2027-01-19T12:30:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2677,22 +2388,23 @@
       "linkLabel": "Commissioners Court"
     },
     {
-      "title": "Austin Zoning & Platting Commission - Regular Meeting",
+      "title": "Austin Zoning and Platting Commission - Regular Meeting",
       "start": "2027-01-19T18:00:00-06:00",
       "end": "2027-01-19T21:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
       "host": "City of Austin",
-      "location": "Austin City Hall, Council Chambers, 301 W 2nd St, Austin, TX 78701",
-      "description": "INFERRED: no January 2027 dates posted yet on the city board page; based on the first and third Tuesday pattern. Confirm before attending.",
-      "whosThere": "Commissioners, city staff, applicants, developers",
-      "cost": "free",
+      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
+      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
+      "whosThere": "Commissioners, city staff, applicants, public",
+      "cost": "Free, open to the public",
       "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
-      "linkLabel": "ZAP board page"
+      "linkLabel": "ZAP page"
     },
     {
       "title": "Georgetown Planning & Zoning Commission Meeting",
@@ -2713,53 +2425,15 @@
       "linkLabel": "City of Georgetown"
     },
     {
-      "title": "Austin Zoning and Platting Commission - Regular Meeting",
-      "start": "2027-01-19T18:00:00-06:00",
-      "end": "2027-01-19T21:00:00-06:00",
-      "allDay": false,
-      "categories": [
-        "PLANNING",
-        "GOVERNMENT"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Austin",
-      "location": "Austin City Hall, Council Chamber, 301 W 2nd St, Austin, TX",
-      "description": "Regular meeting of the Zoning and Platting Commission, usually 6 p.m. on the first and third Tuesday. Date inferred from a posted recurring schedule or past meeting pattern, not confirmed for this exact date. Check the posted agenda.",
-      "whosThere": "Commissioners, city staff, applicants, public",
-      "cost": "Free, open to the public",
-      "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
-      "linkLabel": "ZAP page"
-    },
-    {
-      "title": "Cedar Park Planning & Zoning Commission Meeting",
-      "start": "2027-01-19T18:30:00-06:00",
-      "end": "2027-01-19T20:30:00-06:00",
-      "allDay": false,
-      "categories": [
-        "BUILDERS",
-        "DEVELOPERS",
-        "INVESTORS",
-        "PLANNING"
-      ],
-      "verified": false,
-      "priority": false,
-      "host": "City of Cedar Park",
-      "location": "Council Chambers, 450 Cypress Creek Rd, Bldg 4, Cedar Park, TX",
-      "description": "Inferred: 2026 meetings found on Jun 16, Jul 21, Aug 18 and Sep 15 (third Tuesdays, 6:30 p.m.). Full schedule not found. End time is an estimate.",
-      "whosThere": "Commissioners, city staff, applicants, residents",
-      "cost": "Free, open to the public",
-      "link": "https://www.cedarparktexas.gov/Calendar.aspx",
-      "linkLabel": "Cedar Park calendar"
-    },
-    {
       "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
       "start": "2027-01-19T18:30:00-06:00",
       "end": "2027-01-19T20:30:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "BUILDERS",
+        "DEVELOPERS",
+        "INVESTORS"
       ],
       "verified": false,
       "priority": false,
@@ -2772,23 +2446,60 @@
       "linkLabel": "City of Cedar Park"
     },
     {
-      "title": "ABoR GBA Network Hour (January)",
+      "title": "Real Estate Investor Networking Austin (Property Deal Network)",
+      "start": "2027-01-19T19:00:00-06:00",
+      "end": "2027-01-19T22:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Property Deal Network (PDN)",
+      "location": "Parlor & Yard, 601 West 6th Street, Austin, TX 78701",
+      "description": "Free monthly one-on-one investor networking held the third Tuesday of each month except December, no presentations or pitches from the front. Inferred from posted recurring schedule, confirm before attending.",
+      "whosThere": "Investors, developers, brokers, lenders, architects, accountants",
+      "cost": "Free (venue asks that you buy a drink)",
+      "link": "https://www.eventbrite.co.uk/e/real-estate-investor-networking-austin-property-deal-network-pdn-tickets-1998958079426",
+      "linkLabel": "Property Deal Network"
+    },
+    {
+      "title": "ABoR GBA Network Hour",
       "start": "2027-01-21T11:00:00-06:00",
       "end": "2027-01-21T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "AGENTS",
-        "INVESTORS"
+        "AGENTS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Board of REALTORS / Unlock MLS",
+      "location": "Austin Board of REALTORS Headquarters, Auditorium C, 4800 Spicewood Springs Rd, Austin, TX 78759",
+      "description": "Monthly Global Business Alliance networking hour exploring a different international real estate market, hosted by ABoR Global Advisory and Global Ambassadors. Walk-ins welcome.",
+      "whosThere": "Globally minded agents building cross-border referral business",
+      "cost": "Free members / $10 non-members",
+      "link": "https://www.unlockmls.com/event/abor-gba-network-hour-7",
+      "linkLabel": "ABoR / Unlock MLS"
+    },
+    {
+      "title": "Hays County Commissioners Court - Regular Session",
+      "start": "2027-01-26T09:00:00-06:00",
+      "end": "2027-01-26T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
-      "host": "Austin Board of REALTORS Global Advisory and Global Ambassadors",
-      "location": "Austin Board of REALTORS HQ, 4800 Spicewood Springs Rd, Austin, TX 78759 (location assumed same as prior sessions; confirm)",
-      "description": "Monthly networking hour for globally minded real estate professionals building cross-border business. Date inferred from calendar grid position; confirm on the event page.",
-      "whosThere": "Agents and brokers with international clients",
-      "cost": "See event page",
-      "link": "https://www.unlockmls.com/event/abor-gba-network-hour-7",
-      "linkLabel": "Unlock MLS event page"
+      "host": "Hays County Commissioners Court",
+      "location": "Hays County Historic Courthouse, Room 301, 111 E San Antonio St, San Marcos, TX 78666",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court meets each Tuesday at 9 a.m. unless otherwise posted, and the final agenda posts the Friday before.",
+      "whosThere": "County Judge and four county commissioners, county department staff, subdivision and development applicants, and residents",
+      "cost": "Free",
+      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
+      "linkLabel": "Hays County Commissioners Court"
     },
     {
       "title": "Travis County Commissioners Court - Voting Session",
@@ -2796,7 +2507,8 @@
       "end": "2027-01-26T12:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2814,7 +2526,8 @@
       "end": "2027-01-26T12:30:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING"
+        "PLANNING",
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2825,6 +2538,43 @@
       "cost": "free",
       "link": "https://www.wilcotx.gov/1",
       "linkLabel": "Commissioners Court"
+    },
+    {
+      "title": "Austin Planning Commission - Regular Meeting",
+      "start": "2027-01-26T18:00:00-06:00",
+      "end": "2027-01-26T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Austin Planning Commission",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the second and fourth Tuesdays at 6 p.m.",
+      "whosThere": "Planning commissioners, Planning Department staff, zoning case applicants and agents, neighborhood representatives, developers and land use attorneys",
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/planning-commission",
+      "linkLabel": "Austin Planning Commission"
+    },
+    {
+      "title": "Dripping Springs Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-01-26T18:00:00-06:00",
+      "end": "2027-01-26T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "City of Dripping Springs Planning and Zoning Commission",
+      "location": "Dripping Springs City Hall, 511 Mercer St, Dripping Springs, TX 78620",
+      "description": "Regular meeting listed on the city's Municode meetings portal. The city lists the commission's normal schedule as the fourth Tuesday at 6 p.m.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, plat and zoning applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://drippingsprings-tx.municodemeetings.com/node/3003",
+      "linkLabel": "Dripping Springs P&Z"
     },
     {
       "title": "San Marcos Planning & Zoning Commission Meeting",
@@ -2845,13 +2595,48 @@
       "linkLabel": "City of San Marcos"
     },
     {
+      "title": "Kyle Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-01-26T18:30:00-06:00",
+      "end": "2027-01-26T21:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Kyle Planning and Zoning Commission",
+      "location": "Kyle City Hall, Council Chambers, 100 W Center St, Kyle, TX 78640",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. The city's agendas page states P&Z meets the second and fourth Tuesdays at 6:30 p.m. at City Hall; agendas post three business days ahead on the city's Granicus portal.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.cityofkyle.gov/city-hall/city-secretarys-office/agendas-and-minutes/",
+      "linkLabel": "Kyle P&Z"
+    },
+    {
+      "title": "Leander Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-01-28T18:00:00-06:00",
+      "end": "2027-01-28T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Leander Planning and Zoning Commission",
+      "location": "Pat Bryson Municipal Hall, 201 N Brushy St, Leander, TX 78641",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the second and fourth Thursdays; start time assumed 6 p.m. Thanksgiving (Nov 26) and Christmas Eve (Dec 24) dates omitted as likely cancelled.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.leandertx.gov/planning-zoning-commission",
+      "linkLabel": "Leander P&Z"
+    },
+    {
       "title": "Pflugerville Planning and Zoning Commission - Regular Meeting",
       "start": "2027-02-01T19:00:00-06:00",
       "end": "2027-02-01T21:00:00-06:00",
       "allDay": false,
       "categories": [
-        "PLANNING",
-        "GOVERNMENT"
+        "PLANNING"
       ],
       "verified": false,
       "priority": false,
@@ -2864,13 +2649,70 @@
       "linkLabel": "City of Pflugerville"
     },
     {
+      "title": "Hays County Commissioners Court - Regular Session",
+      "start": "2027-02-02T09:00:00-06:00",
+      "end": "2027-02-02T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Hays County Commissioners Court",
+      "location": "Hays County Historic Courthouse, Room 301, 111 E San Antonio St, San Marcos, TX 78666",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court meets each Tuesday at 9 a.m. unless otherwise posted, and the final agenda posts the Friday before.",
+      "whosThere": "County Judge and four county commissioners, county department staff, subdivision and development applicants, and residents",
+      "cost": "Free",
+      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
+      "linkLabel": "Hays County Commissioners Court"
+    },
+    {
+      "title": "Travis County Commissioners Court - Regular Meeting",
+      "start": "2027-02-02T09:00:00-06:00",
+      "end": "2027-02-02T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Travis County Commissioners Court",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court normally meets Tuesdays at 9 a.m., and the 2027 calendar had not been posted as of mid November 2026.",
+      "whosThere": "County Judge and four county commissioners, county department heads, Transportation and Natural Resources staff, developers with subdivision and platting items, and residents",
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
+    },
+    {
+      "title": "Williamson County Commissioners Court - Regular Meeting",
+      "start": "2027-02-02T09:30:00-06:00",
+      "end": "2027-02-02T12:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Williamson County Commissioners Court",
+      "location": "Williamson County Courthouse, Commissioners Courtroom, 710 S Main St, Georgetown, TX 78626",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court meets Tuesdays at 9:30 a.m., and agendas post on the county's Destiny agenda portal.",
+      "whosThere": "County Judge and four county commissioners, county department staff, road and bridge and subdivision applicants, contractors, and residents",
+      "cost": "Free",
+      "link": "https://www.wilcotx.gov/331/Commissioners-Court",
+      "linkLabel": "Williamson County Commissioners Court"
+    },
+    {
       "title": "Austin Zoning and Platting Commission - Regular Meeting",
       "start": "2027-02-02T18:00:00-06:00",
       "end": "2027-02-02T21:00:00-06:00",
       "allDay": false,
       "categories": [
         "PLANNING",
-        "GOVERNMENT"
+        "DEVELOPERS"
       ],
       "verified": false,
       "priority": false,
@@ -2881,6 +2723,320 @@
       "cost": "Free, open to the public",
       "link": "https://www.austintexas.gov/boards-commissions/board/zoning-and-platting-commission",
       "linkLabel": "ZAP page"
+    },
+    {
+      "title": "Cedar Park Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-02T18:00:00-06:00",
+      "end": "2027-02-02T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Cedar Park Planning and Zoning Commission",
+      "location": "Cedar Park City Hall, Council Chambers, 450 Cypress Creek Rd, Building 1, Cedar Park, TX 78613",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the first and third Tuesdays; start time assumed 6 p.m. and the city site could not be reached to confirm.",
+      "whosThere": "Planning and Zoning commissioners, Development Services staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.cedarparktexas.gov/government/boards-and-commissions/planning-and-zoning-commission",
+      "linkLabel": "Cedar Park P&Z"
+    },
+    {
+      "title": "Georgetown Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-02T18:00:00-06:00",
+      "end": "2027-02-02T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Georgetown Planning and Zoning Commission",
+      "location": "Georgetown Council and Court Building, 510 W 9th St, Georgetown, TX 78626",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the first and third Tuesdays at 6 p.m.; the city site could not be reached to confirm holiday changes.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://georgetown.org/planning-and-zoning-commission/",
+      "linkLabel": "Georgetown P&Z"
+    },
+    {
+      "title": "Hutto Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-02T18:30:00-06:00",
+      "end": "2027-02-02T21:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Hutto Planning and Zoning Commission",
+      "location": "Hutto City Hall, Council Chambers, 500 W Live Oak St, Hutto, TX 78634",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the first Tuesday; start time assumed 6:30 p.m. and the city site could not be reached to confirm.",
+      "whosThere": "Planning and Zoning commissioners, Development Services staff, plat and rezoning applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.huttotx.gov/planning-zoning-commission",
+      "linkLabel": "Hutto P&Z"
+    },
+    {
+      "title": "TAA Day at the Capitol",
+      "start": "2027-02-03T00:00:00-06:00",
+      "end": "2027-02-03T23:59:00-06:00",
+      "allDay": true,
+      "categories": [
+        "INVESTORS",
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Texas Apartment Association",
+      "location": "AT&T Hotel and Conference Center, 1900 University Ave, Austin, TX 78705",
+      "description": "Statewide rental housing advocacy day where apartment industry members meet with lawmakers at the Texas Capitol during the 90th Legislative Session. Date from TAA calendar search result; confirm time.",
+      "whosThere": "Apartment owners, operators and local association members including AAA",
+      "cost": "Free",
+      "link": "https://www.taa.org/events/category/local-association-events/list",
+      "linkLabel": "Texas Apartment Assoc."
+    },
+    {
+      "title": "Bisnow: Austin Industrial Summit 2027",
+      "start": "2027-02-04T08:00:00-06:00",
+      "end": "2027-02-04T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "DEVELOPERS",
+        "INVESTORS"
+      ],
+      "verified": true,
+      "priority": true,
+      "host": "Bisnow",
+      "location": "Austin, TX (venue to be announced)",
+      "description": "Half-day summit on Austin's 2027 industrial market: which submarkets recover first, advanced manufacturing demand, leasing terms, financing and the next development wave. Speakers from Prologis, Stream, Titan Development, United Properties, Sansone Group and Headwater.",
+      "whosThere": "Industrial owners and developers, manufacturers and occupiers, institutional investors, lenders, brokers and GCs",
+      "cost": "$115 current tier",
+      "link": "https://www.bisnow.com/events/austin/industrial/austin-industrial-10550",
+      "linkLabel": "Bisnow"
+    },
+    {
+      "title": "Five Points Super Bowl of Builders",
+      "start": "2027-02-05T00:00:00-06:00",
+      "end": "2027-02-05T23:59:00-06:00",
+      "allDay": true,
+      "categories": [
+        "BUILDERS",
+        "AGENTS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Five Points Board of REALTORS (formerly Williamson County Association of REALTORS)",
+      "location": "Not listed",
+      "description": "Annual builder showcase connecting Williamson County REALTORS with area home builders. Listed in the 2026 Events Schedule PDF; year inferred and time not posted.",
+      "whosThere": "REALTORS and new home builder sales teams",
+      "cost": "",
+      "link": "https://fivepointsrealtors.com/calendar/",
+      "linkLabel": "Five Points REALTORS"
+    },
+    {
+      "title": "Hays County Commissioners Court - Regular Session",
+      "start": "2027-02-09T09:00:00-06:00",
+      "end": "2027-02-09T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Hays County Commissioners Court",
+      "location": "Hays County Historic Courthouse, Room 301, 111 E San Antonio St, San Marcos, TX 78666",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court meets each Tuesday at 9 a.m. unless otherwise posted, and the final agenda posts the Friday before.",
+      "whosThere": "County Judge and four county commissioners, county department staff, subdivision and development applicants, and residents",
+      "cost": "Free",
+      "link": "https://www.hayscountytx.gov/commissioners-court-meeting-dates",
+      "linkLabel": "Hays County Commissioners Court"
+    },
+    {
+      "title": "Travis County Commissioners Court - Regular Meeting",
+      "start": "2027-02-09T09:00:00-06:00",
+      "end": "2027-02-09T12:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Travis County Commissioners Court",
+      "location": "Travis County Administration Building, Commissioners Courtroom, 1st Floor, 700 Lavaca St, Austin, TX 78701",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court normally meets Tuesdays at 9 a.m., and the 2027 calendar had not been posted as of mid November 2026.",
+      "whosThere": "County Judge and four county commissioners, county department heads, Transportation and Natural Resources staff, developers with subdivision and platting items, and residents",
+      "cost": "Free",
+      "link": "https://www.traviscountytx.gov/commissioners-court",
+      "linkLabel": "Travis County Commissioners Court"
+    },
+    {
+      "title": "Williamson County Commissioners Court - Regular Meeting",
+      "start": "2027-02-09T09:30:00-06:00",
+      "end": "2027-02-09T12:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Williamson County Commissioners Court",
+      "location": "Williamson County Courthouse, Commissioners Courtroom, 710 S Main St, Georgetown, TX 78626",
+      "description": "Inferred from posted recurring schedule, confirm on the county calendar before attending. The court meets Tuesdays at 9:30 a.m., and agendas post on the county's Destiny agenda portal.",
+      "whosThere": "County Judge and four county commissioners, county department staff, road and bridge and subdivision applicants, contractors, and residents",
+      "cost": "Free",
+      "link": "https://www.wilcotx.gov/331/Commissioners-Court",
+      "linkLabel": "Williamson County Commissioners Court"
+    },
+    {
+      "title": "Behind the Deal: LIVE Commercial Real Estate Development Case Studies",
+      "start": "2027-02-09T11:30:00-06:00",
+      "end": "2027-02-09T13:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS",
+        "DEVELOPERS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Real Estate Investing For The Win (Linda Pedersen) with Austin Commercial Real Estate Investing Discussion",
+      "location": "Casa Chapala, 9041 Research Blvd #100, Austin, TX 78759",
+      "description": "Monthly second-Tuesday lunch series following two active Central Texas developments, an RV resort at McKinney Roughs and a retail project in Buda, through real numbers and decisions. No paid program; buy lunch to support the venue.",
+      "whosThere": "Commercial investors, developers, residential investors moving into larger deals",
+      "cost": "Free; purchase lunch",
+      "link": "https://www.meetup.com/reiftw/events/fzdqbvykcdbmb/",
+      "linkLabel": "REIFTW"
+    },
+    {
+      "title": "Austin Planning Commission - Regular Meeting",
+      "start": "2027-02-09T18:00:00-06:00",
+      "end": "2027-02-09T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING",
+        "DEVELOPERS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Austin Planning Commission",
+      "location": "Austin City Hall, Council Chambers Room 1001, 301 W 2nd St, Austin, TX 78701",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the second and fourth Tuesdays at 6 p.m.",
+      "whosThere": "Planning commissioners, Planning Department staff, zoning case applicants and agents, neighborhood representatives, developers and land use attorneys",
+      "cost": "Free",
+      "link": "https://www.austintexas.gov/boards-commissions/board/planning-commission",
+      "linkLabel": "Austin Planning Commission"
+    },
+    {
+      "title": "Buda Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-09T18:00:00-06:00",
+      "end": "2027-02-09T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Buda Planning and Zoning Commission",
+      "location": "Buda City Hall, Council Chambers, 405 E Loop St, Buda, TX 78610",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. The city calendar shows the November 24, 2026 P&Z meeting as canceled; December through February dates were not yet posted.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.budatx.gov/Calendar.aspx",
+      "linkLabel": "Buda P&Z"
+    },
+    {
+      "title": "San Marcos Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-09T18:00:00-06:00",
+      "end": "2027-02-09T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of San Marcos Planning and Zoning Commission",
+      "location": "San Marcos City Hall, Council Chambers, 630 E Hopkins St, San Marcos, TX 78666",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the second and fourth Tuesdays at 6 p.m. (hybrid in person and virtual); the Legistar calendar listed only the November 10 meeting as of mid November.",
+      "whosThere": "Planning and Zoning commissioners, Planning and Development Services staff, zoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://san-marcos-tx.legistar.com/Calendar.aspx",
+      "linkLabel": "San Marcos P&Z"
+    },
+    {
+      "title": "Kyle Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-09T18:30:00-06:00",
+      "end": "2027-02-09T21:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Kyle Planning and Zoning Commission",
+      "location": "Kyle City Hall, Council Chambers, 100 W Center St, Kyle, TX 78640",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. The city's agendas page states P&Z meets the second and fourth Tuesdays at 6:30 p.m. at City Hall; agendas post three business days ahead on the city's Granicus portal.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.cityofkyle.gov/city-hall/city-secretarys-office/agendas-and-minutes/",
+      "linkLabel": "Kyle P&Z"
+    },
+    {
+      "title": "Leander Planning and Zoning Commission - Regular Meeting",
+      "start": "2027-02-11T18:00:00-06:00",
+      "end": "2027-02-11T21:00:00-06:00",
+      "allDay": false,
+      "categories": [
+        "PLANNING"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "City of Leander Planning and Zoning Commission",
+      "location": "Pat Bryson Municipal Hall, 201 N Brushy St, Leander, TX 78641",
+      "description": "Inferred from posted recurring schedule, confirm on the city calendar before attending. Regular meetings are the second and fourth Thursdays; start time assumed 6 p.m. Thanksgiving (Nov 26) and Christmas Eve (Dec 24) dates omitted as likely cancelled.",
+      "whosThere": "Planning and Zoning commissioners, Planning Department staff, rezoning and plat applicants, developers, and residents",
+      "cost": "Free",
+      "link": "https://www.leandertx.gov/planning-zoning-commission",
+      "linkLabel": "Leander P&Z"
+    },
+    {
+      "title": "Austin Investor Social Hour",
+      "start": "2027-02-11T18:30:00-06:00",
+      "end": "2027-02-11T20:30:00-06:00",
+      "allDay": false,
+      "categories": [
+        "INVESTORS"
+      ],
+      "verified": true,
+      "priority": false,
+      "host": "Austin Real Estate Investors (Jordan Moorhead, The Moorhead Team)",
+      "location": "Draught House Pub & Brewery, 4112 Medical Pkwy, Austin, TX 78756 (dedicated tent to the left of the building)",
+      "description": "Casual pitch-free second-Thursday get-together to talk real estate over food and drinks. House hackers, BRRRR, buy and hold, flippers and commercial investors all welcome.",
+      "whosThere": "House hackers, BRRRR and buy-and-hold investors, flippers, commercial investors",
+      "cost": "Free",
+      "link": "https://www.meetup.com/meetup-group-yvkzijtj/events/316598586/",
+      "linkLabel": "Austin Investor Social Hour"
+    },
+    {
+      "title": "Five Points D.I.Y. Pop-By Workshop",
+      "start": "2027-02-12T00:00:00-06:00",
+      "end": "2027-02-12T23:59:00-06:00",
+      "allDay": true,
+      "categories": [
+        "AGENTS"
+      ],
+      "verified": false,
+      "priority": false,
+      "host": "Five Points Board of REALTORS (formerly Williamson County Association of REALTORS)",
+      "location": "Not listed",
+      "description": "Member workshop on making client pop-by gifts. Listed in the 2026 Events Schedule PDF; year inferred and time not posted.",
+      "whosThere": "Williamson County REALTORS",
+      "cost": "",
+      "link": "https://fivepointsrealtors.com/calendar/",
+      "linkLabel": "Five Points REALTORS"
     }
   ]
 }
